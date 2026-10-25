@@ -2,7 +2,7 @@
 
 ## Release完整封包、大小与SHA256
 
-发布前：以下为目标地址，尚未实际上传或下载验收。真实状态见publish-state.json。
+已发布并验收：七个完整原包均已从GitHub实际下载，大小与SHA256逐包匹配；仓库仍为private。验收记录见[publish-state.json](publish-state.json)。
 
 | 批次/用途 | 下载文件 | 大小（bytes / MiB） | SHA256 |
 |---|---|---:|---|

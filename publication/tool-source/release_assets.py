@@ -13,6 +13,7 @@ WORK = Path(__file__).resolve().parent
 ROOT = WORK.parents[1]
 TAG = 'experiments-2026-10-25'
 STATE = WORK / 'release-state.json'
+UPLOAD_CONNECTION = http.client.HTTPSConnection
 
 
 def sha(path):
@@ -34,7 +35,7 @@ class SafeRedirect(urllib.request.HTTPRedirectHandler):
         return next_request
 
 
-def download_digest(asset):
+def download_digest(asset, output=None):
     assert asset['url'] == 'https://api.github.com/repos/' + REPO + '/releases/assets/' + str(asset['id'])
     request = urllib.request.Request(asset['url'],
         headers={'Authorization': 'Bearer ' + token(), 'Accept': 'application/octet-stream',
@@ -44,6 +45,8 @@ def download_digest(asset):
         while block := response.read(1024**2):
             digest.update(block)
             size += len(block)
+            if output is not None:
+                output.write(block)
     return size, digest.hexdigest()
 
 
@@ -85,7 +88,7 @@ def run(action, commit=None):
                 assert len(existing) == 1 and existing[0]['size'] == item['bytes'] and existing[0].get('digest') == 'sha256:' + item['sha256'], 'existing asset differs; do not overwrite'
                 asset = existing[0]
             else:
-                connection = http.client.HTTPSConnection('uploads.github.com', timeout=300)
+                connection = UPLOAD_CONNECTION('uploads.github.com', timeout=300)
                 location = '/repos/' + REPO + '/releases/' + str(release['id']) + '/assets?name=' + urllib.parse.quote(item['name'])
                 connection.putrequest('POST', location)
                 for key, value in {'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/octet-stream',

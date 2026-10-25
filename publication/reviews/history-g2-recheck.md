@@ -1,0 +1,1 @@
+Reviewer /root/profile_instrument_review: G2 APPROVE; BLOCKING 0. Actual lines 4-5 reject -O before parameter reads and upload/run. Prior blocker closed; ROOT/STATE, isolated WORK and original historical-seven scope unchanged. Static read-only review.

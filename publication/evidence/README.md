@@ -1,0 +1,1 @@
+验收在2026-10-26实际完成。download-verified-draft记录draft时下载；正式发布后URL由untagged变为固定tag，因此再次完整下载七包，download-verified记录正式资产ID、URL与实际SHA。remote-published-check核对首提交的远端树/README/PNG、固定tag、正式七包及private。最终main仅追加真实验收元数据，最终commit与复核记录见项目外置交付回执。分卷计划在原完整包成功后取消，15个本地派生卷未上传，七原包完整保留。

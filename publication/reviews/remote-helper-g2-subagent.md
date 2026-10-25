@@ -1,0 +1,1 @@
+Reviewer /root/profile_instrument_review: G2 APPROVE; BLOCKING 0. Actual lines 42-45 bind proof repo/release_id/tag/commit and three exact-seven sets of name/ID/bytes/SHA-digest/URL. Initial one blocker closed. Two-stage main metadata descendant of immutable tag verified via merge-base; outputs distinguish both SHAs. Static read-only review; no network/credentials/execution.
