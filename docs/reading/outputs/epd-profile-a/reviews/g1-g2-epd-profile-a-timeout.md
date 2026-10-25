@@ -1,0 +1,3 @@
+> GitHub阅读副本：仅修正链接；[封存原文](../../../../../outputs/epd-profile-a/reviews/g1-g2-epd-profile-a-timeout.md) SHA256 8fe3b9ba7b75374fdcc306f5778e46b40a7d7c76187b3eb0c40e734bc5b3da9f。原数字及解释不变。
+
+Claude G1/G2 combined review started 2026-10-23 14:31:13 Asia/Shanghai. At 14:46:24 it was still live with no JSON result. Stopped owned CLI PID 74528 due to the 15-minute review ceiling; detection/stop exceeded ceiling by approximately 15 seconds. No approval obtained. This is a timeout, not quota exhaustion; no fallback quota authorization inferred. Split plan and code into narrower reviews next. No GPU experiment started.

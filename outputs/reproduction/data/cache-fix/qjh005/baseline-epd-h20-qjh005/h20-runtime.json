@@ -1,0 +1,75 @@
+{
+  "captured_utc": "2026-10-23T04:19:43.905484+00:00",
+  "boot_id": "5feba829-36fe-49cb-9551-655d740d229a",
+  "packages": {
+    "torch": "2.4.0",
+    "vllm": "0.6.1.post2",
+    "transformers": "4.44.2",
+    "nvidia-cublas-cu12": "12.4.5.8"
+  },
+  "workers": [
+    {
+      "gpu_uuid": "GPU-38d1a512-7410-d702-1c9c-f678b03209a8",
+      "pid": 638925,
+      "command": [
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/bin/python",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/scripts/baseline_server.py",
+        "--model",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/dataset",
+        "--port",
+        "18500",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "cuda_visible_devices": "0",
+      "loaded_cublas_libraries": [
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+      ]
+    },
+    {
+      "gpu_uuid": "GPU-e1628b9d-7e34-ac0e-0a93-6ae31db5fe17",
+      "pid": 640047,
+      "command": [
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/bin/python",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/scripts/baseline_server.py",
+        "--model",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/dataset",
+        "--port",
+        "18501",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "cuda_visible_devices": "1",
+      "loaded_cublas_libraries": [
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+      ]
+    },
+    {
+      "gpu_uuid": "GPU-b7e82c38-f808-c893-a8f0-995c8484b53f",
+      "pid": 640707,
+      "command": [
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/bin/python",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/scripts/baseline_server.py",
+        "--model",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/dataset",
+        "--port",
+        "18502",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "cuda_visible_devices": "2",
+      "loaded_cublas_libraries": [
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+        "/local/boyjiang/spaceserve-epd-qjh005-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+      ]
+    }
+  ]
+}

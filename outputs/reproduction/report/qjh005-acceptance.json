@@ -1,0 +1,70 @@
+{
+  "host": "qjh005",
+  "boot_id": "5feba829-36fe-49cb-9551-655d740d229a",
+  "passed": true,
+  "peer_directions": 6,
+  "native_kv_copies": 39,
+  "actual_kv_cache_blocks": 60553,
+  "embedding_copies": 3,
+  "blas_shapes": 4,
+  "correctness_cases": 45,
+  "formal_requests": 1200,
+  "matrices": [
+    {
+      "audited_utc": "2026-10-23T01:21:09.024060+00:00",
+      "directory": "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\reproduction\\data\\raw\\qjh005\\epd-h20-qjh005",
+      "audit_scope": "Request completion, protocol coverage, and data format; not peer-copy correctness or performance validity",
+      "passed": true,
+      "cases": [
+        {
+          "images": 1,
+          "concurrency": 1,
+          "warmup_requests": 20,
+          "measured_requests": 300,
+          "repetitions": 3,
+          "output_tokens_per_request": 128,
+          "visual_tokens_per_request": 64
+        },
+        {
+          "images": 4,
+          "concurrency": 8,
+          "warmup_requests": 20,
+          "measured_requests": 300,
+          "repetitions": 3,
+          "output_tokens_per_request": 128,
+          "visual_tokens_per_request": 256
+        }
+      ],
+      "measured_requests": 600,
+      "gpu_memory_samples": 4308
+    },
+    {
+      "audited_utc": "2026-10-23T01:21:09.100619+00:00",
+      "directory": "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\reproduction\\data\\raw\\qjh005\\baseline-epd-h20-qjh005",
+      "audit_scope": "Request completion, protocol coverage, and data format; not peer-copy correctness or performance validity",
+      "passed": true,
+      "cases": [
+        {
+          "images": 1,
+          "concurrency": 1,
+          "warmup_requests": 20,
+          "measured_requests": 300,
+          "repetitions": 3,
+          "output_tokens_per_request": 128,
+          "visual_tokens_per_request": 64
+        },
+        {
+          "images": 4,
+          "concurrency": 8,
+          "warmup_requests": 20,
+          "measured_requests": 300,
+          "repetitions": 3,
+          "output_tokens_per_request": 128,
+          "visual_tokens_per_request": 256
+        }
+      ],
+      "measured_requests": 600,
+      "gpu_memory_samples": 3942
+    }
+  ]
+}

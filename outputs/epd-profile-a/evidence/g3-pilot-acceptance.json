@@ -1,0 +1,2628 @@
+{
+  "passed": true,
+  "trials": [
+    {
+      "trial": "pilot-metadata",
+      "system": "epd",
+      "correctness_cases": 15,
+      "runtime": {
+        "captured_utc": "2026-10-23T07:34:15.744436+00:00",
+        "boot_id": "1702fb5b-4b05-4070-bff9-8defb7af0c1d",
+        "packages": {
+          "torch": "2.4.0",
+          "vllm": "0.6.1.post2",
+          "transformers": "4.44.2",
+          "nvidia-cublas-cu12": "12.4.5.8"
+        },
+        "workers": [
+          {
+            "gpu_uuid": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+            "pid": 3497666,
+            "command": [
+              "ray::Worker"
+            ],
+            "cuda_visible_devices": "0,1,2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+            "pid": 3497667,
+            "command": [
+              "ray::Worker"
+            ],
+            "cuda_visible_devices": "0,1,2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75",
+            "pid": 3497668,
+            "command": [
+              "ray::Worker"
+            ],
+            "cuda_visible_devices": "0,1,2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          }
+        ]
+      },
+      "traces": [
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata/on-epd-images4-c8/traces/epd.sqlite",
+          "capture": [
+            {
+              "start": 21929555,
+              "end": 9466909120
+            }
+          ],
+          "kernels_by_pid": {
+            "3497666": 8690,
+            "3497667": 4725,
+            "3497668": 56636
+          },
+          "worker_kernel_launch_links": {
+            "E": 8690,
+            "P": 4725,
+            "D": 56636
+          },
+          "worker_memcpy_launch_links": {
+            "E": 314,
+            "migrate_blocks_encoding": 21,
+            "P": 315,
+            "migrate_blocks_context": 7336,
+            "D": 2822
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "lifetime": 645,
+            "engine.batch": 196,
+            "_remote_call_all_workers_async": 241,
+            "step_encoding": 15,
+            "_migrate_blocks_encoding": 15,
+            "migrate_blocks_encoding": 15,
+            "step_llm": 181,
+            "api.disconnect": 480,
+            "api.output": 480,
+            "_migrate_blocks_context": 15,
+            "migrate_blocks_context": 15
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:E": {
+              "label": {
+                "name": "step_encoding",
+                "pid": 3497666,
+                "perf_ns": 598605759821450,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "encoding"
+              },
+              "nvtx_start": 2287145564,
+              "nvtx_end": 2993956120,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 2484076137,
+              "api_end": 2484152406,
+              "gpu_start": 2484150422,
+              "gpu_end": 2484151510,
+              "correlation_id": 49,
+              "global_pid": 340156074688512
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:P": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3497667,
+                "perf_ns": 598606473896226,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "context"
+              },
+              "nvtx_start": 3001087652,
+              "nvtx_end": 3562189337,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 3002330153,
+              "api_end": 3002379704,
+              "gpu_start": 3002379358,
+              "gpu_end": 3002380126,
+              "correlation_id": 150,
+              "global_pid": 340156091465728
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:D": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3497668,
+                "perf_ns": 598607052409833,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "decoding"
+              },
+              "nvtx_start": 3579599788,
+              "nvtx_end": 3803037016,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 3581727579,
+              "api_end": 3581787939,
+              "gpu_start": 3581787260,
+              "gpu_end": 3581788028,
+              "correlation_id": 535,
+              "global_pid": 340156108242944
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:E": {
+              "label": {
+                "name": "step_encoding",
+                "pid": 3497666,
+                "perf_ns": 598605759821450,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "encoding"
+              },
+              "nvtx_start": 2287145564,
+              "nvtx_end": 2993956120,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 2296294644,
+              "api_end": 2296550654,
+              "gpu_start": 2296425054,
+              "gpu_end": 2296555390,
+              "correlation_id": 10,
+              "global_pid": 340156074688512
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_encoding": {
+              "label": {
+                "name": "migrate_blocks_encoding",
+                "pid": 3497667,
+                "perf_ns": 598606471155853,
+                "component": "Worker",
+                "blocks": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "context"
+              },
+              "nvtx_start": 2998477467,
+              "nvtx_end": 2998691514,
+              "api": "cudaMemcpy2DAsync_v3020",
+              "api_start": 2998652181,
+              "api_end": 2998683568,
+              "gpu_start": 2998686208,
+              "gpu_end": 2998862144,
+              "correlation_id": 2,
+              "global_pid": 340156091465728
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:P": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3497667,
+                "perf_ns": 598606473896226,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "context"
+              },
+              "nvtx_start": 3001087652,
+              "nvtx_end": 3562189337,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 3001967967,
+              "api_end": 3001987751,
+              "gpu_start": 3002051711,
+              "gpu_end": 3002052831,
+              "correlation_id": 19,
+              "global_pid": 340156091465728
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_context": {
+              "label": {
+                "name": "migrate_blocks_context",
+                "pid": 3497668,
+                "perf_ns": 598607049302383,
+                "component": "Worker",
+                "blocks": [
+                  "0",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6"
+                ],
+                "batch": 7,
+                "stage": "decoding"
+              },
+              "nvtx_start": 3576607815,
+              "nvtx_end": 3577960992,
+              "api": "cudaMemcpy2DAsync_v3020",
+              "api_start": 3576799452,
+              "api_end": 3576834914,
+              "gpu_start": 3576837337,
+              "gpu_end": 3576933914,
+              "correlation_id": 2,
+              "global_pid": 340156108242944
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:D": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3497668,
+                "perf_ns": 598607052409833,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "decoding"
+              },
+              "nvtx_start": 3579599788,
+              "nvtx_end": 3803037016,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 3581360329,
+              "api_end": 3581382185,
+              "gpu_start": 3581446169,
+              "gpu_end": 3581447257,
+              "correlation_id": 410,
+              "global_pid": 340156108242944
+            }
+          },
+          "request_stage_samples": {
+            "0": [
+              "D",
+              "E",
+              "P"
+            ],
+            "1": [
+              "D",
+              "E",
+              "P"
+            ],
+            "2": [
+              "D",
+              "E",
+              "P"
+            ],
+            "3": [
+              "D",
+              "E",
+              "P"
+            ],
+            "4": [
+              "D",
+              "E",
+              "P"
+            ],
+            "5": [
+              "D",
+              "E",
+              "P"
+            ],
+            "6": [
+              "D",
+              "E",
+              "P"
+            ],
+            "7": [
+              "D",
+              "E",
+              "P"
+            ]
+          },
+          "lifetime_samples": [
+            {
+              "start": 1665730761,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605138515824,
+                "request_id": "0",
+                "event": "issued",
+                "event_stamp": 598605.138499726
+              }
+            },
+            {
+              "start": 2269735012,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605742499148,
+                "request_id": "0",
+                "event": "preprocessed",
+                "event_stamp": 598605.742468405
+              }
+            },
+            {
+              "start": 2273381069,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605746184765,
+                "request_id": "1",
+                "event": "issued",
+                "event_stamp": 598605.746175902
+              }
+            },
+            {
+              "start": 2273932203,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605746748667,
+                "request_id": "1",
+                "event": "preprocessed",
+                "event_stamp": 598605.74674429
+              }
+            },
+            {
+              "start": 2275890515,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605748704547,
+                "request_id": "2",
+                "event": "issued",
+                "event_stamp": 598605.74870008
+              }
+            },
+            {
+              "start": 2276321504,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605749140302,
+                "request_id": "2",
+                "event": "preprocessed",
+                "event_stamp": 598605.749136826
+              }
+            },
+            {
+              "start": 2278410261,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605751228254,
+                "request_id": "3",
+                "event": "issued",
+                "event_stamp": 598605.751224589
+              }
+            },
+            {
+              "start": 2278807941,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605751626833,
+                "request_id": "3",
+                "event": "preprocessed",
+                "event_stamp": 598605.751623528
+              }
+            },
+            {
+              "start": 2282970492,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598605755777581,
+                "request_id": "0",
+                "event": "encoding_begin",
+                "event_stamp": 598605.75577082
+              }
+            },
+            {
+              "start": 2995388710,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598606468169005,
+                "request_id": "0",
+                "event": "encoding_end",
+                "event_stamp": 598606.468154147
+              }
+            },
+            {
+              "start": 2995533824,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598606468353824,
+                "request_id": "1",
+                "event": "encoding_begin",
+                "event_stamp": 598606.468350272
+              }
+            },
+            {
+              "start": 2997344527,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3487081,
+                "perf_ns": 598606470164743,
+                "request_id": "0",
+                "event": "encoding_migration_begin",
+                "event_stamp": 598606.470152613
+              }
+            }
+          ],
+          "api_samples": [
+            {
+              "start": 3574553930,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3487081,
+                "perf_ns": 598607047360453,
+                "rid": "0",
+                "token": 1,
+                "api_stamp": 598607.047353644,
+                "callback_stamp": 598607.036349918
+              }
+            },
+            {
+              "start": 3601172764,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3487081,
+                "perf_ns": 598607073991528,
+                "rid": "1",
+                "token": 1,
+                "api_stamp": 598607.073988211,
+                "callback_stamp": 598607.073172964
+              }
+            },
+            {
+              "start": 3622139134,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3487081,
+                "perf_ns": 598607094959471,
+                "rid": "2",
+                "token": 1,
+                "api_stamp": 598607.094956561,
+                "callback_stamp": 598607.094182697
+              }
+            },
+            {
+              "start": 3642272630,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3487081,
+                "perf_ns": 598607115094873,
+                "rid": "3",
+                "token": 1,
+                "api_stamp": 598607.115092581,
+                "callback_stamp": 598607.114923646
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trial": "pilot-metadata",
+      "system": "baseline-epd",
+      "correctness_cases": 45,
+      "runtime": {
+        "captured_utc": "2026-10-23T07:35:20.510068+00:00",
+        "boot_id": "1702fb5b-4b05-4070-bff9-8defb7af0c1d",
+        "packages": {
+          "torch": "2.4.0",
+          "vllm": "0.6.1.post2",
+          "transformers": "4.44.2",
+          "nvidia-cublas-cu12": "12.4.5.8"
+        },
+        "workers": [
+          {
+            "gpu_uuid": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+            "pid": 3507903,
+            "command": [
+              "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+              "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+              "--model",
+              "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+              "--dataset",
+              "/local/boyjiang/epd-profile-a-20261023/dataset",
+              "--port",
+              "19500",
+              "--gpu-memory-utilization",
+              "0.65"
+            ],
+            "cuda_visible_devices": "0",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+            "pid": 3508976,
+            "command": [
+              "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+              "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+              "--model",
+              "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+              "--dataset",
+              "/local/boyjiang/epd-profile-a-20261023/dataset",
+              "--port",
+              "19501",
+              "--gpu-memory-utilization",
+              "0.65"
+            ],
+            "cuda_visible_devices": "1",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75",
+            "pid": 3509557,
+            "command": [
+              "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+              "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+              "--model",
+              "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+              "--dataset",
+              "/local/boyjiang/epd-profile-a-20261023/dataset",
+              "--port",
+              "19502",
+              "--gpu-memory-utilization",
+              "0.65"
+            ],
+            "cuda_visible_devices": "2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          }
+        ]
+      },
+      "traces": [
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata/on-baseline-epd-images4-c8/traces/baseline-0.sqlite",
+          "capture": [
+            {
+              "start": 57761020,
+              "end": 22084034526
+            }
+          ],
+          "kernels_by_pid": {
+            "3507903": 57619
+          },
+          "worker_kernel_launch_links": {
+            "baseline.prefill": 4877,
+            "baseline.decode": 52742
+          },
+          "worker_memcpy_launch_links": {
+            "baseline.prefill": 294,
+            "baseline.decode": 2635
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "baseline.execute_model": 160,
+            "api.output": 480
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3507903,
+                "perf_ns": 598671559257555,
+                "component": "Worker",
+                "ids": [
+                  "f6476719336742a1a1e3c81ab9624bc5",
+                  "41cc66f134414bac830ab350024281c4",
+                  "2c9e811573aa4001a70d5359ba70a00c",
+                  "42f30909e0bc4075be6d5e326edfe76f"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 3395954702,
+              "nvtx_end": 3552894274,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 3418147939,
+              "api_end": 3418190414,
+              "gpu_start": 3418189420,
+              "gpu_end": 3418190092,
+              "correlation_id": 133,
+              "global_pid": 340327823048704
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3507903,
+                "perf_ns": 598671717803449,
+                "component": "Worker",
+                "ids": [
+                  "f6476719336742a1a1e3c81ab9624bc5",
+                  "41cc66f134414bac830ab350024281c4",
+                  "2c9e811573aa4001a70d5359ba70a00c",
+                  "42f30909e0bc4075be6d5e326edfe76f"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 3554426629,
+              "nvtx_end": 3574500157,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 3554914866,
+              "api_end": 3554928988,
+              "gpu_start": 3554929056,
+              "gpu_end": 3554929856,
+              "correlation_id": 22198,
+              "global_pid": 340327823048704
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3507903,
+                "perf_ns": 598671559257555,
+                "component": "Worker",
+                "ids": [
+                  "f6476719336742a1a1e3c81ab9624bc5",
+                  "41cc66f134414bac830ab350024281c4",
+                  "2c9e811573aa4001a70d5359ba70a00c",
+                  "42f30909e0bc4075be6d5e326edfe76f"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 3395954702,
+              "nvtx_end": 3552894274,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 3417762448,
+              "api_end": 3417819224,
+              "gpu_start": 3417813996,
+              "gpu_end": 3417815628,
+              "correlation_id": 18,
+              "global_pid": 340327823048704
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3507903,
+                "perf_ns": 598671717803449,
+                "component": "Worker",
+                "ids": [
+                  "f6476719336742a1a1e3c81ab9624bc5",
+                  "41cc66f134414bac830ab350024281c4",
+                  "2c9e811573aa4001a70d5359ba70a00c",
+                  "42f30909e0bc4075be6d5e326edfe76f"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 3554426629,
+              "nvtx_end": 3574500157,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 3554654456,
+              "api_end": 3554664379,
+              "gpu_start": 3554665888,
+              "gpu_end": 3554666688,
+              "correlation_id": 22077,
+              "global_pid": 340327823048704
+            }
+          },
+          "request_stage_samples": {
+            "f6476719336742a1a1e3c81ab9624bc5": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "41cc66f134414bac830ab350024281c4": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "2c9e811573aa4001a70d5359ba70a00c": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "42f30909e0bc4075be6d5e326edfe76f": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "de1206421e6847ccbb92fc8b2f9e4e26": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "f582cf8c93ae4b82a277eb5c68c0e630": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "fdd49554d1854d888b9b3ca8e8448a7e": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "fa271d771bd84ca3b35381baa487bad8": [
+              "baseline.decode",
+              "baseline.prefill"
+            ]
+          },
+          "lifetime_samples": [],
+          "api_samples": [
+            {
+              "start": 3553990042,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3507903,
+                "perf_ns": 598671717363452,
+                "rid": "f6476719336742a1a1e3c81ab9624bc5",
+                "token": 1,
+                "api_stamp": 598671.71735713
+              }
+            },
+            {
+              "start": 3554027631,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3507903,
+                "perf_ns": 598671717427785,
+                "rid": "41cc66f134414bac830ab350024281c4",
+                "token": 1,
+                "api_stamp": 598671.717426101
+              }
+            },
+            {
+              "start": 3554044595,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3507903,
+                "perf_ns": 598671717447889,
+                "rid": "2c9e811573aa4001a70d5359ba70a00c",
+                "token": 1,
+                "api_stamp": 598671.71744685
+              }
+            },
+            {
+              "start": 3554058826,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3507903,
+                "perf_ns": 598671717462711,
+                "rid": "42f30909e0bc4075be6d5e326edfe76f",
+                "token": 1,
+                "api_stamp": 598671.717461712
+              }
+            }
+          ]
+        },
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata/on-baseline-epd-images4-c8/traces/baseline-1.sqlite",
+          "capture": [
+            {
+              "start": 84679943,
+              "end": 25352792027
+            }
+          ],
+          "kernels_by_pid": {
+            "3508976": 57619
+          },
+          "worker_kernel_launch_links": {
+            "baseline.prefill": 4877,
+            "baseline.decode": 52742
+          },
+          "worker_memcpy_launch_links": {
+            "baseline.prefill": 294,
+            "baseline.decode": 2635
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "baseline.execute_model": 160,
+            "api.output": 480
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3508976,
+                "perf_ns": 598678310699974,
+                "component": "Worker",
+                "ids": [
+                  "bbea8c53e542450c9214ed2e2f7c3f93",
+                  "f94bec3658e04a58b66ebf32f9d653ee",
+                  "94aeb3c7fe1a47e7a35544ce18ddb4e4",
+                  "a36ae32359cb4cdc8dc5af889781e6e7"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9436740881,
+              "nvtx_end": 9593733476,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 9458820342,
+              "api_end": 9458861209,
+              "gpu_start": 9458856827,
+              "gpu_end": 9458857531,
+              "correlation_id": 133,
+              "global_pid": 340345825001472
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3508976,
+                "perf_ns": 598678469484303,
+                "component": "Worker",
+                "ids": [
+                  "bbea8c53e542450c9214ed2e2f7c3f93",
+                  "f94bec3658e04a58b66ebf32f9d653ee",
+                  "94aeb3c7fe1a47e7a35544ce18ddb4e4",
+                  "a36ae32359cb4cdc8dc5af889781e6e7"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9595446921,
+              "nvtx_end": 9621719240,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 9596018260,
+              "api_end": 9596037558,
+              "gpu_start": 9596036513,
+              "gpu_end": 9596037185,
+              "correlation_id": 22198,
+              "global_pid": 340345825001472
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3508976,
+                "perf_ns": 598678310699974,
+                "component": "Worker",
+                "ids": [
+                  "bbea8c53e542450c9214ed2e2f7c3f93",
+                  "f94bec3658e04a58b66ebf32f9d653ee",
+                  "94aeb3c7fe1a47e7a35544ce18ddb4e4",
+                  "a36ae32359cb4cdc8dc5af889781e6e7"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9436740881,
+              "nvtx_end": 9593733476,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 9458412501,
+              "api_end": 9458475572,
+              "gpu_start": 9458464315,
+              "gpu_end": 9458465851,
+              "correlation_id": 18,
+              "global_pid": 340345825001472
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3508976,
+                "perf_ns": 598678469484303,
+                "component": "Worker",
+                "ids": [
+                  "bbea8c53e542450c9214ed2e2f7c3f93",
+                  "f94bec3658e04a58b66ebf32f9d653ee",
+                  "94aeb3c7fe1a47e7a35544ce18ddb4e4",
+                  "a36ae32359cb4cdc8dc5af889781e6e7"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9595446921,
+              "nvtx_end": 9621719240,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 9595723252,
+              "api_end": 9595741066,
+              "gpu_start": 9595741185,
+              "gpu_end": 9595742017,
+              "correlation_id": 22077,
+              "global_pid": 340345825001472
+            }
+          },
+          "request_stage_samples": {
+            "bbea8c53e542450c9214ed2e2f7c3f93": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "f94bec3658e04a58b66ebf32f9d653ee": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "94aeb3c7fe1a47e7a35544ce18ddb4e4": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "a36ae32359cb4cdc8dc5af889781e6e7": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "8880f78241f24b79a506ddefd6192a51": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "74905d9b9019435c95998501c94ee840": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "a10e708af09c4774bf7bb553d3fd8df2": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "944c25c68a3f47af8f414c3126f421ce": [
+              "baseline.decode",
+              "baseline.prefill"
+            ]
+          },
+          "lifetime_samples": [],
+          "api_samples": [
+            {
+              "start": 9594974411,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3508976,
+                "perf_ns": 598678469010111,
+                "rid": "bbea8c53e542450c9214ed2e2f7c3f93",
+                "token": 1,
+                "api_stamp": 598678.469003706
+              }
+            },
+            {
+              "start": 9595012982,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3508976,
+                "perf_ns": 598678469076310,
+                "rid": "f94bec3658e04a58b66ebf32f9d653ee",
+                "token": 1,
+                "api_stamp": 598678.469074634
+              }
+            },
+            {
+              "start": 9595028871,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3508976,
+                "perf_ns": 598678469095144,
+                "rid": "94aeb3c7fe1a47e7a35544ce18ddb4e4",
+                "token": 1,
+                "api_stamp": 598678.469094145
+              }
+            },
+            {
+              "start": 9595042035,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3508976,
+                "perf_ns": 598678469108987,
+                "rid": "a36ae32359cb4cdc8dc5af889781e6e7",
+                "token": 1,
+                "api_stamp": 598678.469108156
+              }
+            }
+          ]
+        },
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata/on-baseline-epd-images4-c8/traces/baseline-2.sqlite",
+          "capture": [
+            {
+              "start": 311344119,
+              "end": 28573922901
+            }
+          ],
+          "kernels_by_pid": {
+            "3509557": 57619
+          },
+          "worker_kernel_launch_links": {
+            "baseline.prefill": 4877,
+            "baseline.decode": 52742
+          },
+          "worker_memcpy_launch_links": {
+            "baseline.prefill": 294,
+            "baseline.decode": 2635
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "baseline.execute_model": 160,
+            "api.output": 480
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3509557,
+                "perf_ns": 598684977825831,
+                "component": "Worker",
+                "ids": [
+                  "923d0ef7b3e545e2bf9daec78f4d1867",
+                  "d58dbf8fd50e4c669885e39d69c294f6",
+                  "b40cf441ba14483c89ccbc187a5d67b7",
+                  "ab2ffb064c7246bd8298941a9fa885fe"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15318644933,
+              "nvtx_end": 15475440792,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 15340902607,
+              "api_end": 15340948036,
+              "gpu_start": 15340945850,
+              "gpu_end": 15340946490,
+              "correlation_id": 133,
+              "global_pid": 340355572563968
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3509557,
+                "perf_ns": 598685136259522,
+                "component": "Worker",
+                "ids": [
+                  "923d0ef7b3e545e2bf9daec78f4d1867",
+                  "d58dbf8fd50e4c669885e39d69c294f6",
+                  "b40cf441ba14483c89ccbc187a5d67b7",
+                  "ab2ffb064c7246bd8298941a9fa885fe"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15476997575,
+              "nvtx_end": 15503903398,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 15477522098,
+              "api_end": 15477538265,
+              "gpu_start": 15477538490,
+              "gpu_end": 15477539258,
+              "correlation_id": 22198,
+              "global_pid": 340355572563968
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3509557,
+                "perf_ns": 598684977825831,
+                "component": "Worker",
+                "ids": [
+                  "923d0ef7b3e545e2bf9daec78f4d1867",
+                  "d58dbf8fd50e4c669885e39d69c294f6",
+                  "b40cf441ba14483c89ccbc187a5d67b7",
+                  "ab2ffb064c7246bd8298941a9fa885fe"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15318644933,
+              "nvtx_end": 15475440792,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 15340450506,
+              "api_end": 15340527246,
+              "gpu_start": 15340516471,
+              "gpu_end": 15340518007,
+              "correlation_id": 18,
+              "global_pid": 340355572563968
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3509557,
+                "perf_ns": 598685136259522,
+                "component": "Worker",
+                "ids": [
+                  "923d0ef7b3e545e2bf9daec78f4d1867",
+                  "d58dbf8fd50e4c669885e39d69c294f6",
+                  "b40cf441ba14483c89ccbc187a5d67b7",
+                  "ab2ffb064c7246bd8298941a9fa885fe"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15476997575,
+              "nvtx_end": 15503903398,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 15477251514,
+              "api_end": 15477267637,
+              "gpu_start": 15477268568,
+              "gpu_end": 15477269400,
+              "correlation_id": 22077,
+              "global_pid": 340355572563968
+            }
+          },
+          "request_stage_samples": {
+            "923d0ef7b3e545e2bf9daec78f4d1867": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "d58dbf8fd50e4c669885e39d69c294f6": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "b40cf441ba14483c89ccbc187a5d67b7": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "ab2ffb064c7246bd8298941a9fa885fe": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "0739c34a69c04eea808e831276375f91": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "9a125f388843461d9f2e92b988c28011": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "a14cc479518742e286350f99c01857d0": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "f9ac06e5922c48ab86f8efa2435a56f6": [
+              "baseline.decode",
+              "baseline.prefill"
+            ]
+          },
+          "lifetime_samples": [],
+          "api_samples": [
+            {
+              "start": 15476523579,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3509557,
+                "perf_ns": 598685135787454,
+                "rid": "923d0ef7b3e545e2bf9daec78f4d1867",
+                "token": 1,
+                "api_stamp": 598685.135781664
+              }
+            },
+            {
+              "start": 15476562685,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3509557,
+                "perf_ns": 598685135849824,
+                "rid": "d58dbf8fd50e4c669885e39d69c294f6",
+                "token": 1,
+                "api_stamp": 598685.135848164
+              }
+            },
+            {
+              "start": 15476579278,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3509557,
+                "perf_ns": 598685135869206,
+                "rid": "b40cf441ba14483c89ccbc187a5d67b7",
+                "token": 1,
+                "api_stamp": 598685.135868013
+              }
+            },
+            {
+              "start": 15476592700,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3509557,
+                "perf_ns": 598685135883365,
+                "rid": "ab2ffb064c7246bd8298941a9fa885fe",
+                "token": 1,
+                "api_stamp": 598685.135882427
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trial": "pilot-metadata-restart",
+      "system": "epd",
+      "correctness_cases": 15,
+      "runtime": {
+        "captured_utc": "2026-10-23T07:39:54.389446+00:00",
+        "boot_id": "1702fb5b-4b05-4070-bff9-8defb7af0c1d",
+        "packages": {
+          "torch": "2.4.0",
+          "vllm": "0.6.1.post2",
+          "transformers": "4.44.2",
+          "nvidia-cublas-cu12": "12.4.5.8"
+        },
+        "workers": [
+          {
+            "gpu_uuid": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+            "pid": 3532118,
+            "command": [
+              "ray::Worker"
+            ],
+            "cuda_visible_devices": "0,1,2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+            "pid": 3532119,
+            "command": [
+              "ray::Worker"
+            ],
+            "cuda_visible_devices": "0,1,2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75",
+            "pid": 3532120,
+            "command": [
+              "ray::Worker"
+            ],
+            "cuda_visible_devices": "0,1,2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          }
+        ]
+      },
+      "traces": [
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata-restart/on-epd-images4-c8/traces/epd.sqlite",
+          "capture": [
+            {
+              "start": 21725282,
+              "end": 9482779890
+            }
+          ],
+          "kernels_by_pid": {
+            "3532118": 8690,
+            "3532119": 4725,
+            "3532120": 56990
+          },
+          "worker_kernel_launch_links": {
+            "E": 8690,
+            "P": 4725,
+            "D": 56990
+          },
+          "worker_memcpy_launch_links": {
+            "E": 314,
+            "migrate_blocks_encoding": 21,
+            "P": 315,
+            "migrate_blocks_context": 7336,
+            "D": 2839
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "lifetime": 645,
+            "engine.batch": 197,
+            "_remote_call_all_workers_async": 242,
+            "step_encoding": 15,
+            "_migrate_blocks_encoding": 15,
+            "migrate_blocks_encoding": 15,
+            "step_llm": 182,
+            "api.disconnect": 480,
+            "_migrate_blocks_context": 15,
+            "api.output": 480,
+            "migrate_blocks_context": 15
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:E": {
+              "label": {
+                "name": "step_encoding",
+                "pid": 3532118,
+                "perf_ns": 598944385784694,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "encoding"
+              },
+              "nvtx_start": 2274420807,
+              "nvtx_end": 2950758147,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 2451087412,
+              "api_end": 2451162798,
+              "gpu_start": 2451161135,
+              "gpu_end": 2451162255,
+              "correlation_id": 49,
+              "global_pid": 340734083334144
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:P": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3532119,
+                "perf_ns": 598945069520249,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "context"
+              },
+              "nvtx_start": 2958037238,
+              "nvtx_end": 3575930505,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 2959255623,
+              "api_end": 2959310559,
+              "gpu_start": 2959310001,
+              "gpu_end": 2959310737,
+              "correlation_id": 150,
+              "global_pid": 340734100111360
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:D": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3532120,
+                "perf_ns": 598945704484087,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "decoding"
+              },
+              "nvtx_start": 3593002716,
+              "nvtx_end": 3823714140,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 3595453710,
+              "api_end": 3595527279,
+              "gpu_start": 3595525077,
+              "gpu_end": 3595525845,
+              "correlation_id": 535,
+              "global_pid": 340734116888576
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:E": {
+              "label": {
+                "name": "step_encoding",
+                "pid": 3532118,
+                "perf_ns": 598944385784694,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "encoding"
+              },
+              "nvtx_start": 2274420807,
+              "nvtx_end": 2950758147,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 2284666413,
+              "api_end": 2284911227,
+              "gpu_start": 2284797889,
+              "gpu_end": 2284916225,
+              "correlation_id": 10,
+              "global_pid": 340734083334144
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_encoding": {
+              "label": {
+                "name": "migrate_blocks_encoding",
+                "pid": 3532119,
+                "perf_ns": 598945067267915,
+                "component": "Worker",
+                "blocks": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "context"
+              },
+              "nvtx_start": 2955906856,
+              "nvtx_end": 2956129949,
+              "api": "cudaMemcpy2DAsync_v3020",
+              "api_start": 2956093140,
+              "api_end": 2956122295,
+              "gpu_start": 2956125042,
+              "gpu_end": 2956301746,
+              "correlation_id": 2,
+              "global_pid": 340734100111360
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:P": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3532119,
+                "perf_ns": 598945069520249,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "context"
+              },
+              "nvtx_start": 2958037238,
+              "nvtx_end": 3575930505,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 2958904703,
+              "api_end": 2958924817,
+              "gpu_start": 2958988945,
+              "gpu_end": 2958990033,
+              "correlation_id": 19,
+              "global_pid": 340734100111360
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_context": {
+              "label": {
+                "name": "migrate_blocks_context",
+                "pid": 3532120,
+                "perf_ns": 598945700674608,
+                "component": "Worker",
+                "blocks": [
+                  "0",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6"
+                ],
+                "batch": 7,
+                "stage": "decoding"
+              },
+              "nvtx_start": 3589345516,
+              "nvtx_end": 3590681194,
+              "api": "cudaMemcpy2DAsync_v3020",
+              "api_start": 3589583200,
+              "api_end": 3589630530,
+              "gpu_start": 3589630891,
+              "gpu_end": 3589733227,
+              "correlation_id": 2,
+              "global_pid": 340734116888576
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:D": {
+              "label": {
+                "name": "step_llm",
+                "pid": 3532120,
+                "perf_ns": 598945704484087,
+                "component": "Worker",
+                "request_ids": [
+                  "0"
+                ],
+                "batch": 1,
+                "stage": "decoding"
+              },
+              "nvtx_start": 3593002716,
+              "nvtx_end": 3823714140,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 3595049744,
+              "api_end": 3595072003,
+              "gpu_start": 3595136210,
+              "gpu_end": 3595137298,
+              "correlation_id": 410,
+              "global_pid": 340734116888576
+            }
+          },
+          "request_stage_samples": {
+            "0": [
+              "D",
+              "E",
+              "P"
+            ],
+            "1": [
+              "D",
+              "E",
+              "P"
+            ],
+            "2": [
+              "D",
+              "E",
+              "P"
+            ],
+            "3": [
+              "D",
+              "E",
+              "P"
+            ],
+            "4": [
+              "D",
+              "E",
+              "P"
+            ],
+            "5": [
+              "D",
+              "E",
+              "P"
+            ],
+            "6": [
+              "D",
+              "E",
+              "P"
+            ],
+            "7": [
+              "D",
+              "E",
+              "P"
+            ]
+          },
+          "lifetime_samples": [
+            {
+              "start": 1650905167,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598943762366389,
+                "request_id": "0",
+                "event": "issued",
+                "event_stamp": 598943.762348076
+              }
+            },
+            {
+              "start": 2258969217,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944370437719,
+                "request_id": "0",
+                "event": "preprocessed",
+                "event_stamp": 598944.370423227
+              }
+            },
+            {
+              "start": 2261968148,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944373448519,
+                "request_id": "1",
+                "event": "issued",
+                "event_stamp": 598944.373440931
+              }
+            },
+            {
+              "start": 2262503530,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944373995041,
+                "request_id": "1",
+                "event": "preprocessed",
+                "event_stamp": 598944.373990971
+              }
+            },
+            {
+              "start": 2264399188,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944375888464,
+                "request_id": "2",
+                "event": "issued",
+                "event_stamp": 598944.375884058
+              }
+            },
+            {
+              "start": 2264848421,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944376340992,
+                "request_id": "2",
+                "event": "preprocessed",
+                "event_stamp": 598944.376337288
+              }
+            },
+            {
+              "start": 2266998582,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944378490714,
+                "request_id": "3",
+                "event": "issued",
+                "event_stamp": 598944.378486854
+              }
+            },
+            {
+              "start": 2267392070,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944378886552,
+                "request_id": "3",
+                "event": "preprocessed",
+                "event_stamp": 598944.378883327
+              }
+            },
+            {
+              "start": 2270448846,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598944381932726,
+                "request_id": "0",
+                "event": "encoding_begin",
+                "event_stamp": 598944.381925222
+              }
+            },
+            {
+              "start": 2951798607,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598945063258152,
+                "request_id": "0",
+                "event": "encoding_end",
+                "event_stamp": 598945.063242709
+              }
+            },
+            {
+              "start": 2951932307,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598945063427473,
+                "request_id": "1",
+                "event": "encoding_begin",
+                "event_stamp": 598945.063423932
+              }
+            },
+            {
+              "start": 2954774433,
+              "end": null,
+              "label": {
+                "name": "lifetime",
+                "pid": 3521464,
+                "perf_ns": 598945066270887,
+                "request_id": "0",
+                "event": "encoding_migration_begin",
+                "event_stamp": 598945.066264175
+              }
+            }
+          ],
+          "api_samples": [
+            {
+              "start": 3588897040,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3521464,
+                "perf_ns": 598945700379871,
+                "rid": "0",
+                "token": 1,
+                "api_stamp": 598945.700374716,
+                "callback_stamp": 598945.688527886
+              }
+            },
+            {
+              "start": 3612882930,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3521464,
+                "perf_ns": 598945724375504,
+                "rid": "1",
+                "token": 1,
+                "api_stamp": 598945.724372207,
+                "callback_stamp": 598945.723510274
+              }
+            },
+            {
+              "start": 3633662665,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3521464,
+                "perf_ns": 598945745156156,
+                "rid": "2",
+                "token": 1,
+                "api_stamp": 598945.745153194,
+                "callback_stamp": 598945.744324533
+              }
+            },
+            {
+              "start": 3654001305,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3521464,
+                "perf_ns": 598945765495664,
+                "rid": "3",
+                "token": 1,
+                "api_stamp": 598945.765492928,
+                "callback_stamp": 598945.765283218
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trial": "pilot-metadata-restart",
+      "system": "baseline-epd",
+      "correctness_cases": 45,
+      "runtime": {
+        "captured_utc": "2026-10-23T07:40:59.246540+00:00",
+        "boot_id": "1702fb5b-4b05-4070-bff9-8defb7af0c1d",
+        "packages": {
+          "torch": "2.4.0",
+          "vllm": "0.6.1.post2",
+          "transformers": "4.44.2",
+          "nvidia-cublas-cu12": "12.4.5.8"
+        },
+        "workers": [
+          {
+            "gpu_uuid": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+            "pid": 3542717,
+            "command": [
+              "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+              "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+              "--model",
+              "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+              "--dataset",
+              "/local/boyjiang/epd-profile-a-20261023/dataset",
+              "--port",
+              "19500",
+              "--gpu-memory-utilization",
+              "0.65"
+            ],
+            "cuda_visible_devices": "0",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+            "pid": 3543540,
+            "command": [
+              "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+              "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+              "--model",
+              "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+              "--dataset",
+              "/local/boyjiang/epd-profile-a-20261023/dataset",
+              "--port",
+              "19501",
+              "--gpu-memory-utilization",
+              "0.65"
+            ],
+            "cuda_visible_devices": "1",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          },
+          {
+            "gpu_uuid": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75",
+            "pid": 3544098,
+            "command": [
+              "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+              "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+              "--model",
+              "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+              "--dataset",
+              "/local/boyjiang/epd-profile-a-20261023/dataset",
+              "--port",
+              "19502",
+              "--gpu-memory-utilization",
+              "0.65"
+            ],
+            "cuda_visible_devices": "2",
+            "loaded_cublas_libraries": [
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+              "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+            ]
+          }
+        ]
+      },
+      "traces": [
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata-restart/on-baseline-epd-images4-c8/traces/baseline-0.sqlite",
+          "capture": [
+            {
+              "start": 52170174,
+              "end": 21795115111
+            }
+          ],
+          "kernels_by_pid": {
+            "3542717": 57619
+          },
+          "worker_kernel_launch_links": {
+            "baseline.prefill": 4877,
+            "baseline.decode": 52742
+          },
+          "worker_memcpy_launch_links": {
+            "baseline.prefill": 294,
+            "baseline.decode": 2635
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "baseline.execute_model": 160,
+            "api.output": 480
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3542717,
+                "perf_ns": 599009884684716,
+                "component": "Worker",
+                "ids": [
+                  "5b329485a34240e3b43fdd667577418c",
+                  "09e7b592f3014421942f1c4de58cb8c7",
+                  "c649dd5a05d24d429259f33702e007c9",
+                  "78b1ba2eff27452daf25128d70d52908"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 2989619669,
+              "nvtx_end": 3151162567,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 3013439057,
+              "api_end": 3013488391,
+              "gpu_start": 3013485796,
+              "gpu_end": 3013486468,
+              "correlation_id": 133,
+              "global_pid": 340911905046528
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3542717,
+                "perf_ns": 599010048021297,
+                "component": "Worker",
+                "ids": [
+                  "5b329485a34240e3b43fdd667577418c",
+                  "09e7b592f3014421942f1c4de58cb8c7",
+                  "c649dd5a05d24d429259f33702e007c9",
+                  "78b1ba2eff27452daf25128d70d52908"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 3152880393,
+              "nvtx_end": 3173870632,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 3153449482,
+              "api_end": 3153471833,
+              "gpu_start": 3153471740,
+              "gpu_end": 3153472764,
+              "correlation_id": 22198,
+              "global_pid": 340911905046528
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3542717,
+                "perf_ns": 599009884684716,
+                "component": "Worker",
+                "ids": [
+                  "5b329485a34240e3b43fdd667577418c",
+                  "09e7b592f3014421942f1c4de58cb8c7",
+                  "c649dd5a05d24d429259f33702e007c9",
+                  "78b1ba2eff27452daf25128d70d52908"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 2989619669,
+              "nvtx_end": 3151162567,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 3012923074,
+              "api_end": 3013011438,
+              "gpu_start": 3012994628,
+              "gpu_end": 3012996228,
+              "correlation_id": 18,
+              "global_pid": 340911905046528
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3542717,
+                "perf_ns": 599010048021297,
+                "component": "Worker",
+                "ids": [
+                  "5b329485a34240e3b43fdd667577418c",
+                  "09e7b592f3014421942f1c4de58cb8c7",
+                  "c649dd5a05d24d429259f33702e007c9",
+                  "78b1ba2eff27452daf25128d70d52908"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 3152880393,
+              "nvtx_end": 3173870632,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 3153161204,
+              "api_end": 3153177980,
+              "gpu_start": 3153178556,
+              "gpu_end": 3153179356,
+              "correlation_id": 22077,
+              "global_pid": 340911905046528
+            }
+          },
+          "request_stage_samples": {
+            "5b329485a34240e3b43fdd667577418c": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "09e7b592f3014421942f1c4de58cb8c7": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "c649dd5a05d24d429259f33702e007c9": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "78b1ba2eff27452daf25128d70d52908": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "d79d2143829a4541bd95397d2b8b3cd8": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "328bc56087ad434fac03f9dbff14bb34": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "21cbfa016dd24c1aa6dbbe43847ddb10": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "2b17814fd41540218ad4c82f19a5450d": [
+              "baseline.decode",
+              "baseline.prefill"
+            ]
+          },
+          "lifetime_samples": [],
+          "api_samples": [
+            {
+              "start": 3152385435,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3542717,
+                "perf_ns": 599010047522991,
+                "rid": "5b329485a34240e3b43fdd667577418c",
+                "token": 1,
+                "api_stamp": 599010.047516059
+              }
+            },
+            {
+              "start": 3152425890,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3542717,
+                "perf_ns": 599010047591476,
+                "rid": "09e7b592f3014421942f1c4de58cb8c7",
+                "token": 1,
+                "api_stamp": 599010.047589882
+              }
+            },
+            {
+              "start": 3152443222,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3542717,
+                "perf_ns": 599010047611568,
+                "rid": "c649dd5a05d24d429259f33702e007c9",
+                "token": 1,
+                "api_stamp": 599010.047610538
+              }
+            },
+            {
+              "start": 3152458528,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3542717,
+                "perf_ns": 599010047627941,
+                "rid": "78b1ba2eff27452daf25128d70d52908",
+                "token": 1,
+                "api_stamp": 599010.04762698
+              }
+            }
+          ]
+        },
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata-restart/on-baseline-epd-images4-c8/traces/baseline-1.sqlite",
+          "capture": [
+            {
+              "start": 57603784,
+              "end": 24977280119
+            }
+          ],
+          "kernels_by_pid": {
+            "3543540": 57619
+          },
+          "worker_kernel_launch_links": {
+            "baseline.prefill": 4877,
+            "baseline.decode": 52742
+          },
+          "worker_memcpy_launch_links": {
+            "baseline.prefill": 294,
+            "baseline.decode": 2635
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "baseline.execute_model": 160,
+            "api.output": 480
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3543540,
+                "perf_ns": 599016652471676,
+                "component": "Worker",
+                "ids": [
+                  "df21a634a5f34208a78d34019231a381",
+                  "a100291cb60144b5b172b26649d182e9",
+                  "c6ff3f84b0044ac1b3bfdf31b9058cb3",
+                  "377e27c2abfc4a689721721e29fb4b10"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9059621369,
+              "nvtx_end": 9215832782,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 9081621562,
+              "api_end": 9081655831,
+              "gpu_start": 9081654539,
+              "gpu_end": 9081655243,
+              "correlation_id": 133,
+              "global_pid": 340925712695296
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3543540,
+                "perf_ns": 599016810414387,
+                "component": "Worker",
+                "ids": [
+                  "df21a634a5f34208a78d34019231a381",
+                  "a100291cb60144b5b172b26649d182e9",
+                  "c6ff3f84b0044ac1b3bfdf31b9058cb3",
+                  "377e27c2abfc4a689721721e29fb4b10"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9217488393,
+              "nvtx_end": 9237689178,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 9218017656,
+              "api_end": 9218034404,
+              "gpu_start": 9218034583,
+              "gpu_end": 9218035287,
+              "correlation_id": 22198,
+              "global_pid": 340925712695296
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3543540,
+                "perf_ns": 599016652471676,
+                "component": "Worker",
+                "ids": [
+                  "df21a634a5f34208a78d34019231a381",
+                  "a100291cb60144b5b172b26649d182e9",
+                  "c6ff3f84b0044ac1b3bfdf31b9058cb3",
+                  "377e27c2abfc4a689721721e29fb4b10"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9059621369,
+              "nvtx_end": 9215832782,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 9081231450,
+              "api_end": 9081290991,
+              "gpu_start": 9081285611,
+              "gpu_end": 9081287115,
+              "correlation_id": 18,
+              "global_pid": 340925712695296
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3543540,
+                "perf_ns": 599016810414387,
+                "component": "Worker",
+                "ids": [
+                  "df21a634a5f34208a78d34019231a381",
+                  "a100291cb60144b5b172b26649d182e9",
+                  "c6ff3f84b0044ac1b3bfdf31b9058cb3",
+                  "377e27c2abfc4a689721721e29fb4b10"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 9217488393,
+              "nvtx_end": 9237689178,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 9217744869,
+              "api_end": 9217760474,
+              "gpu_start": 9217761399,
+              "gpu_end": 9217762199,
+              "correlation_id": 22077,
+              "global_pid": 340925712695296
+            }
+          },
+          "request_stage_samples": {
+            "df21a634a5f34208a78d34019231a381": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "a100291cb60144b5b172b26649d182e9": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "c6ff3f84b0044ac1b3bfdf31b9058cb3": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "377e27c2abfc4a689721721e29fb4b10": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "db0f4a5d96744d018164ed52c80eae22": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "bded60b91093499481a9e5750d476d54": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "fe798f4e9312455ba245b572053f60ea": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "4b3bef0535204013a4a3155c32c7fa16": [
+              "baseline.decode",
+              "baseline.prefill"
+            ]
+          },
+          "lifetime_samples": [],
+          "api_samples": [
+            {
+              "start": 9217008308,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3543540,
+                "perf_ns": 599016809931955,
+                "rid": "df21a634a5f34208a78d34019231a381",
+                "token": 1,
+                "api_stamp": 599016.80992519
+              }
+            },
+            {
+              "start": 9217052138,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3543540,
+                "perf_ns": 599016810002740,
+                "rid": "a100291cb60144b5b172b26649d182e9",
+                "token": 1,
+                "api_stamp": 599016.810001162
+              }
+            },
+            {
+              "start": 9217070450,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3543540,
+                "perf_ns": 599016810024100,
+                "rid": "c6ff3f84b0044ac1b3bfdf31b9058cb3",
+                "token": 1,
+                "api_stamp": 599016.81002299
+              }
+            },
+            {
+              "start": 9217085600,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3543540,
+                "perf_ns": 599016810040362,
+                "rid": "377e27c2abfc4a689721721e29fb4b10",
+                "token": 1,
+                "api_stamp": 599016.810039431
+              }
+            }
+          ]
+        },
+        {
+          "file": "/local/boyjiang/epd-profile-a-20261023/results/pilot-metadata-restart/on-baseline-epd-images4-c8/traces/baseline-2.sqlite",
+          "capture": [
+            {
+              "start": 51344149,
+              "end": 28189211572
+            }
+          ],
+          "kernels_by_pid": {
+            "3544098": 57619
+          },
+          "worker_kernel_launch_links": {
+            "baseline.prefill": 4877,
+            "baseline.decode": 52742
+          },
+          "worker_memcpy_launch_links": {
+            "baseline.prefill": 294,
+            "baseline.decode": 2635
+          },
+          "nvtx_name_counts": {
+            "capture.anchor": 1,
+            "baseline.execute_model": 160,
+            "api.output": 480
+          },
+          "association_samples": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3544098,
+                "perf_ns": 599023472386257,
+                "component": "Worker",
+                "ids": [
+                  "6c23227b920149589585805476493560",
+                  "2082daf86037460a80ad92989f316242",
+                  "6b0e5b874f494ba59ddd98ac76024d36",
+                  "aedaae50d6e948cb9fa62d5857fd54f7"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15185277153,
+              "nvtx_end": 15343699467,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 15208323177,
+              "api_end": 15208364716,
+              "gpu_start": 15208362842,
+              "gpu_end": 15208363514,
+              "correlation_id": 133,
+              "global_pid": 340935074381824
+            },
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3544098,
+                "perf_ns": 599023632619947,
+                "component": "Worker",
+                "ids": [
+                  "6c23227b920149589585805476493560",
+                  "2082daf86037460a80ad92989f316242",
+                  "6b0e5b874f494ba59ddd98ac76024d36",
+                  "aedaae50d6e948cb9fa62d5857fd54f7"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15345434479,
+              "nvtx_end": 15365874040,
+              "api": "cudaLaunchKernel_v7000",
+              "api_start": 15346012474,
+              "api_end": 15346030064,
+              "gpu_start": 15346029926,
+              "gpu_end": 15346030662,
+              "correlation_id": 22198,
+              "global_pid": 340935074381824
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3544098,
+                "perf_ns": 599023472386257,
+                "component": "Worker",
+                "ids": [
+                  "6c23227b920149589585805476493560",
+                  "2082daf86037460a80ad92989f316242",
+                  "6b0e5b874f494ba59ddd98ac76024d36",
+                  "aedaae50d6e948cb9fa62d5857fd54f7"
+                ],
+                "prompt": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15185277153,
+              "nvtx_end": 15343699467,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 15207907510,
+              "api_end": 15207970516,
+              "gpu_start": 15207961271,
+              "gpu_end": 15207962775,
+              "correlation_id": 18,
+              "global_pid": 340935074381824
+            },
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": {
+              "label": {
+                "name": "baseline.execute_model",
+                "pid": 3544098,
+                "perf_ns": 599023632619947,
+                "component": "Worker",
+                "ids": [
+                  "6c23227b920149589585805476493560",
+                  "2082daf86037460a80ad92989f316242",
+                  "6b0e5b874f494ba59ddd98ac76024d36",
+                  "aedaae50d6e948cb9fa62d5857fd54f7"
+                ],
+                "prompt": [
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                "batch": 4,
+                "stage": "baseline"
+              },
+              "nvtx_start": 15345434479,
+              "nvtx_end": 15365874040,
+              "api": "cudaMemcpyAsync_v3020",
+              "api_start": 15345717698,
+              "api_end": 15345733009,
+              "gpu_start": 15345734083,
+              "gpu_end": 15345734883,
+              "correlation_id": 22077,
+              "global_pid": 340935074381824
+            }
+          },
+          "request_stage_samples": {
+            "6c23227b920149589585805476493560": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "2082daf86037460a80ad92989f316242": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "6b0e5b874f494ba59ddd98ac76024d36": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "aedaae50d6e948cb9fa62d5857fd54f7": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "9de7b8afe28b49c9ae62cf86fac0b160": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "a7c49587e2d84bd38712953b915a8d86": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "a3aa594668904a8294deb97f68592ba5": [
+              "baseline.decode",
+              "baseline.prefill"
+            ],
+            "0728bb5ba2b34747a141681228050328": [
+              "baseline.decode",
+              "baseline.prefill"
+            ]
+          },
+          "lifetime_samples": [],
+          "api_samples": [
+            {
+              "start": 15344951584,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3544098,
+                "perf_ns": 599023632133958,
+                "rid": "6c23227b920149589585805476493560",
+                "token": 1,
+                "api_stamp": 599023.632126957
+              }
+            },
+            {
+              "start": 15344990556,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3544098,
+                "perf_ns": 599023632201674,
+                "rid": "2082daf86037460a80ad92989f316242",
+                "token": 1,
+                "api_stamp": 599023.632200038
+              }
+            },
+            {
+              "start": 15345009404,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3544098,
+                "perf_ns": 599023632223278,
+                "rid": "6b0e5b874f494ba59ddd98ac76024d36",
+                "token": 1,
+                "api_stamp": 599023.632222055
+              }
+            },
+            {
+              "start": 15345024672,
+              "end": null,
+              "label": {
+                "name": "api.output",
+                "pid": 3544098,
+                "perf_ns": 599023632239292,
+                "rid": "aedaae50d6e948cb9fa62d5857fd54f7",
+                "token": 1,
+                "api_stamp": 599023.632238116
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "association_rule": "same process and correlationId; CUDA runtime API on same thread wholly inside synchronous worker NVTX range; GPU activity may finish after CPU range"
+}

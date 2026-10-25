@@ -1,0 +1,11 @@
+--- a/epdserve/api_server.py
++++ b/epdserve/api_server.py
+@@ -108,7 +108,7 @@
+     # mm_data["image"]= [Image.open(p).convert("RGB") for p in ps ]
+     # mm_data["image"] = [Image.open(ps[0]).convert("RGB")] * len(ps)
+     # mm_data["image"] = [load_image_cache(p) for p in ps ]
+-    mm_data["image"] = [load_image_cache(ps[0])] * len(ps)
++    mm_data["image"] = [load_image_cache(path) for path in ps]
+     # images = [utils.base64_to_image(image) for image in mm_data['images']]
+     # mm_data["image"] = images
+     # print(f'Time taken in reading images {time.perf_counter() - start_time}')

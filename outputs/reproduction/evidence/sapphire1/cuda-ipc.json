@@ -1,0 +1,7 @@
+{
+  "cuda_visible_devices": "2,3",
+  "peer_access": false,
+  "child_returncode": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/mnt/data/boyjiang-spaceserve-epd/scripts/probe_cuda_ipc.py\", line 66, in <module>\n    main()\n  File \"/mnt/data/boyjiang-spaceserve-epd/scripts/probe_cuda_ipc.py\", line 33, in main\n    check(cuda.cudaIpcOpenMemHandle(C.byref(pointer), handle, 1), \"cudaIpcOpenMemHandle\")\n  File \"/mnt/data/boyjiang-spaceserve-epd/scripts/probe_cuda_ipc.py\", line 20, in check\n    raise RuntimeError(f\"{operation}: {code}: {cuda.cudaGetErrorString(code).decode()}\")\nRuntimeError: cudaIpcOpenMemHandle: 217: peer access is not supported between these two devices\n"
+}

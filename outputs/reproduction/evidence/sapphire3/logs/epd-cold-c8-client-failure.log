@@ -1,0 +1,96 @@
+{
+  "audited_utc": "2026-10-22T20:07:57.847935+00:00",
+  "directory": "/mnt/data3/boyjiang-spaceserve-epd/results/formal/baseline-epd-l20",
+  "passed": true,
+  "cases": [
+    {
+      "images": 1,
+      "concurrency": 1,
+      "warmup_requests": 20,
+      "measured_requests": 300,
+      "repetitions": 3,
+      "output_tokens_per_request": 128,
+      "visual_tokens_per_request": 64
+    },
+    {
+      "images": 1,
+      "concurrency": 4,
+      "warmup_requests": 20,
+      "measured_requests": 300,
+      "repetitions": 3,
+      "output_tokens_per_request": 128,
+      "visual_tokens_per_request": 64
+    },
+    {
+      "images": 1,
+      "concurrency": 8,
+      "warmup_requests": 20,
+      "measured_requests": 300,
+      "repetitions": 3,
+      "output_tokens_per_request": 128,
+      "visual_tokens_per_request": 64
+    },
+    {
+      "images": 4,
+      "concurrency": 1,
+      "warmup_requests": 20,
+      "measured_requests": 300,
+      "repetitions": 3,
+      "output_tokens_per_request": 128,
+      "visual_tokens_per_request": 256
+    },
+    {
+      "images": 4,
+      "concurrency": 4,
+      "warmup_requests": 20,
+      "measured_requests": 300,
+      "repetitions": 3,
+      "output_tokens_per_request": 128,
+      "visual_tokens_per_request": 256
+    },
+    {
+      "images": 4,
+      "concurrency": 8,
+      "warmup_requests": 20,
+      "measured_requests": 300,
+      "repetitions": 3,
+      "output_tokens_per_request": 128,
+      "visual_tokens_per_request": 256
+    }
+  ],
+  "measured_requests": 1800,
+  "gpu_memory_samples": 13365
+}
+Traceback (most recent call last):
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/aiohttp/client_reqrep.py", line 745, in start
+    message, payload = await protocol.read()  # type: ignore[union-attr]
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/aiohttp/streams.py", line 716, in read
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/data3/boyjiang-spaceserve-epd/scripts/check_correctness.py", line 119, in <module>
+    asyncio.run(run(parser.parse_args()))
+  File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/mnt/data3/boyjiang-spaceserve-epd/scripts/check_correctness.py", line 50, in run
+    targets = await asyncio.gather(*(request(args.url, case) for case in cases[:concurrent_count]))
+  File "/mnt/data3/boyjiang-spaceserve-epd/scripts/check_correctness.py", line 42, in request
+    async with session.post(url + "/generate", json=body) as response:
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/aiohttp/client.py", line 878, in _connect_and_send_request
+    await resp.start(conn)
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/aiohttp/client_reqrep.py", line 740, in start
+    with self._timer:
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/aiohttp/helpers.py", line 759, in __exit__
+    raise asyncio.TimeoutError from exc_val
+asyncio.exceptions.TimeoutError
+stopping [(2645371, 'gcs_server'), (2645565, 'python'), (2645566, 'python'), (2645645, 'raylet'), (2645723, 'python'), (2645872, 'python'), (2645874, 'python'), (2645920, 'ray::IDLE'), (2645921, 'ray::IDLE'), (2645922, 'ray::IDLE'), (2645923, 'ray::IDLE'), (2645924, 'ray::IDLE'), (2645925, 'ray::IDLE'), (2645926, 'ray::IDLE'), (2645927, 'ray::IDLE'), (2645928, 'ray::IDLE'), (2645929, 'ray::IDLE'), (2645930, 'ray::IDLE'), (2645931, 'ray::IDLE'), (2645932, 'ray::IDLE'), (2645933, 'ray::IDLE'), (2645934, 'ray::IDLE'), (2645935, 'ray::IDLE'), (2645936, 'ray::IDLE'), (2645937, 'ray::IDLE'), (2645938, 'ray::IDLE'), (2645939, 'ray::IDLE'), (2645940, 'ray::IDLE'), (2645941, 'ray::IDLE'), (2645942, 'ray::IDLE'), (2645943, 'ray::IDLE'), (2645944, 'ray::IDLE'), (2645945, 'ray::IDLE'), (2645946, 'ray::IDLE'), (2645947, 'ray::IDLE'), (2645948, 'ray::IDLE'), (2645949, 'ray::IDLE'), (2645950, 'ray::IDLE'), (2645951, 'ray::IDLE'), (2645952, 'ray::IDLE'), (2645953, 'ray::IDLE'), (2645954, 'ray::IDLE'), (2645955, 'ray::IDLE'), (2645956, 'ray::IDLE'), (2645957, 'ray::IDLE'), (2645958, 'ray::IDLE'), (2645959, 'ray::IDLE'), (2645960, 'ray::IDLE'), (2645961, 'ray::IDLE'), (2645962, 'ray::IDLE'), (2645963, 'ray::IDLE'), (2645964, 'ray::IDLE'), (2645965, 'ray::IDLE'), (2645966, 'ray::IDLE'), (2645967, 'ray::IDLE'), (2645968, 'ray::IDLE'), (2645969, 'ray::IDLE'), (2645970, 'ray::IDLE'), (2645971, 'ray::IDLE'), (2645972, 'ray::IDLE'), (2645973, 'ray::IDLE'), (2645974, 'ray::IDLE'), (2645975, 'ray::IDLE'), (2645976, 'ray::IDLE'), (2645977, 'ray::IDLE'), (2645978, 'ray::IDLE'), (2645979, 'ray::IDLE'), (2645980, 'ray::IDLE'), (2645981, 'ray::IDLE'), (2645982, 'ray::IDLE'), (2645983, 'ray::IDLE'), (2645984, 'ray::IDLE'), (2645985, 'ray::IDLE'), (2645986, 'ray::IDLE'), (2645987, 'ray::IDLE'), (2645988, 'ray::IDLE'), (2645989, 'ray::IDLE'), (2645991, 'ray::IDLE'), (2645997, 'ray::IDLE'), (2646001, 'ray::IDLE'), (2646006, 'ray::IDLE'), (2646010, 'ray::IDLE'), (2646011, 'ray::IDLE'), (2646012, 'ray::IDLE'), (2646013, 'ray::IDLE'), (2646014, 'ray::IDLE'), (2646016, 'ray::IDLE'), (2646018, 'ray::IDLE'), (2646019, 'ray::IDLE'), (2646021, 'ray::IDLE'), (2646023, 'ray::IDLE'), (2646024, 'ray::IDLE'), (2646025, 'ray::IDLE'), (2646027, 'ray::IDLE'), (2646028, 'ray::IDLE'), (2646029, 'ray::IDLE'), (2646030, 'ray::IDLE'), (2646031, 'ray::IDLE'), (2646033, 'ray::IDLE'), (2646034, 'ray::IDLE'), (2646055, 'ray::IDLE'), (2646056, 'ray::IDLE'), (2646057, 'ray::IDLE'), (2646058, 'ray::IDLE'), (2646059, 'ray::IDLE'), (2646060, 'ray::IDLE'), (2646061, 'ray::IDLE'), (2646063, 'ray::IDLE'), (2646066, 'ray::IDLE'), (2646068, 'ray::IDLE'), (2646090, 'ray::IDLE'), (2646091, 'ray::IDLE'), (2646114, 'ray::IDLE'), (2646117, 'ray::IDLE'), (2646161, 'ray::IDLE'), (2646170, 'ray::IDLE'), (2646186, 'ray::IDLE'), (2646211, 'ray::IDLE'), (2646244, 'ray::IDLE'), (2646274, 'ray::IDLE'), (2646308, 'ray::IDLE'), (2646314, 'ray::IDLE'), (2646345, 'ray::IDLE'), (2646367, 'ray::IDLE'), (2646398, 'ray::IDLE'), (2646457, 'ray::IDLE'), (2646480, 'ray::IDLE'), (2646504, 'ray::IDLE'), (2646519, 'ray::IDLE'), (2646554, 'ray::IDLE'), (2646556, 'ray::IDLE'), (2646579, 'ray::IDLE'), (2646622, 'ray::IDLE'), (2646625, 'ray::IDLE'), (2646652, 'ray::IDLE'), (2652692, 'ray::Worker'), (2652693, 'ray::Worker'), (2652694, 'ray::Worker.migrate_blocks_context'), (2644741, 'pt_main_thread')]
+/mnt/data3/boyjiang-spaceserve-epd/scripts/finalize_epd.sh: line 1: 2644741 Killed                  bash "$p/scripts/start_server.sh" epd 0,1,2 18400 > "$p/logs/server-epd-final-c8-check.log" 2>&1

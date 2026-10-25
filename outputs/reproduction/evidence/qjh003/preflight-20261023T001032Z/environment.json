@@ -1,0 +1,70 @@
+{
+  "captured_utc": "2026-10-23T00:10:32.845503+00:00",
+  "hostname": "qjh003",
+  "kernel": "5.15.0-91-generic",
+  "python": "3.10.12",
+  "packages": {
+    "vllm": "0.6.1.post2",
+    "torch": "2.4.0",
+    "transformers": "4.44.2"
+  },
+  "gpus": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,uuid,name,memory.total,driver_version,pci.bus_id",
+      "--format=csv"
+    ],
+    "exit_code": 0,
+    "stdout": "index, uuid, name, memory.total [MiB], driver_version, pci.bus_id\n0, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:65:02.0\n1, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:65:03.0\n2, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:67:02.0\n3, GPU-6186aa04-e2e2-84c4-0c50-a8d1bb260e32, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:67:03.0\n4, GPU-213a6f90-a615-1676-93e0-acac2f658536, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:69:02.0\n5, GPU-e914a227-4661-029d-5557-466bb6c9eb1d, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:69:03.0\n6, GPU-fbcdff06-6b3f-f74a-e44a-b020575ccffa, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:6B:02.0\n7, GPU-c55f4c67-87ef-7eb4-8308-ecf9570c7713, NVIDIA H20, 97871 MiB, 580.126.20, 00000000:6B:03.0\n",
+    "stderr": ""
+  },
+  "topology": {
+    "command": [
+      "nvidia-smi",
+      "topo",
+      "-m"
+    ],
+    "exit_code": 0,
+    "stdout": "\t\u001b[4mGPU0\tGPU1\tGPU2\tGPU3\tGPU4\tGPU5\tGPU6\tGPU7\tNIC0\tNIC1\tNIC2\tNIC3\tNIC4\tCPU Affinity\tNUMA Affinity\tGPU NUMA ID\u001b[0m\nGPU0\t X \tNV18\tNV18\tNV18\tNV18\tNV18\tNV18\tNV18\tSYS\tPIX\tNODE\tSYS\tSYS\t0-89\t0\t\tN/A\nGPU1\tNV18\t X \tNV18\tNV18\tNV18\tNV18\tNV18\tNV18\tSYS\tPIX\tNODE\tSYS\tSYS\t0-89\t0\t\tN/A\nGPU2\tNV18\tNV18\t X \tNV18\tNV18\tNV18\tNV18\tNV18\tSYS\tNODE\tPIX\tSYS\tSYS\t0-89\t0\t\tN/A\nGPU3\tNV18\tNV18\tNV18\t X \tNV18\tNV18\tNV18\tNV18\tSYS\tNODE\tPIX\tSYS\tSYS\t0-89\t0\t\tN/A\nGPU4\tNV18\tNV18\tNV18\tNV18\t X \tNV18\tNV18\tNV18\tSYS\tSYS\tSYS\tPIX\tNODE\t90-179\t1\t\tN/A\nGPU5\tNV18\tNV18\tNV18\tNV18\tNV18\t X \tNV18\tNV18\tSYS\tSYS\tSYS\tPIX\tNODE\t90-179\t1\t\tN/A\nGPU6\tNV18\tNV18\tNV18\tNV18\tNV18\tNV18\t X \tNV18\tSYS\tSYS\tSYS\tNODE\tPIX\t90-179\t1\t\tN/A\nGPU7\tNV18\tNV18\tNV18\tNV18\tNV18\tNV18\tNV18\t X \tSYS\tSYS\tSYS\tNODE\tPIX\t90-179\t1\t\tN/A\nNIC0\tSYS\tSYS\tSYS\tSYS\tSYS\tSYS\tSYS\tSYS\t X \tSYS\tSYS\tSYS\tSYS\t\t\t\t\nNIC1\tPIX\tPIX\tNODE\tNODE\tSYS\tSYS\tSYS\tSYS\tSYS\t X \tNODE\tSYS\tSYS\t\t\t\t\nNIC2\tNODE\tNODE\tPIX\tPIX\tSYS\tSYS\tSYS\tSYS\tSYS\tNODE\t X \tSYS\tSYS\t\t\t\t\nNIC3\tSYS\tSYS\tSYS\tSYS\tPIX\tPIX\tNODE\tNODE\tSYS\tSYS\tSYS\t X \tNODE\t\t\t\t\nNIC4\tSYS\tSYS\tSYS\tSYS\tNODE\tNODE\tPIX\tPIX\tSYS\tSYS\tSYS\tNODE\t X \t\t\t\t\n\nLegend:\n\n  X    = Self\n  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)\n  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node\n  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)\n  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)\n  PIX  = Connection traversing at most a single PCIe bridge\n  NV#  = Connection traversing a bonded set of # NVLinks\n\nNIC Legend:\n\n  NIC0: mlx5_0\n  NIC1: mlx5_1\n  NIC2: mlx5_2\n  NIC3: mlx5_3\n  NIC4: mlx5_4\n\n",
+    "stderr": ""
+  },
+  "p2p_read": {
+    "command": [
+      "nvidia-smi",
+      "topo",
+      "-p2p",
+      "r"
+    ],
+    "exit_code": 0,
+    "stdout": " \t\u001b[4mGPU0\tGPU1\tGPU2\tGPU3\tGPU4\tGPU5\tGPU6\tGPU7\t\u001b[0m\n GPU0\tX\tOK\tOK\tOK\tOK\tOK\tOK\tOK\t\n GPU1\tOK\tX\tOK\tOK\tOK\tOK\tOK\tOK\t\n GPU2\tOK\tOK\tX\tOK\tOK\tOK\tOK\tOK\t\n GPU3\tOK\tOK\tOK\tX\tOK\tOK\tOK\tOK\t\n GPU4\tOK\tOK\tOK\tOK\tX\tOK\tOK\tOK\t\n GPU5\tOK\tOK\tOK\tOK\tOK\tX\tOK\tOK\t\n GPU6\tOK\tOK\tOK\tOK\tOK\tOK\tX\tOK\t\n GPU7\tOK\tOK\tOK\tOK\tOK\tOK\tOK\tX\t\n\nLegend:\n\n  X    = Self\n  OK   = Status Ok\n  CNS  = Chipset not supported\n  GNS  = GPU not supported\n  TNS  = Topology not supported\n  NS   = Not supported\n  U    = Unknown\n",
+    "stderr": ""
+  },
+  "cpu": {
+    "command": [
+      "lscpu"
+    ],
+    "exit_code": 0,
+    "stdout": "Architecture:                       x86_64\nCPU op-mode(s):                     32-bit, 64-bit\nAddress sizes:                      52 bits physical, 57 bits virtual\nByte Order:                         Little Endian\nCPU(s):                             180\nOn-line CPU(s) list:                0-179\nVendor ID:                          GenuineIntel\nModel name:                         Intel(R) Xeon(R) Platinum 8457C\nCPU family:                         6\nModel:                              143\nThread(s) per core:                 2\nCore(s) per socket:                 45\nSocket(s):                          2\nStepping:                           8\nBogoMIPS:                           5200.00\nFlags:                              fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid cldemote movdiri movdir64b fsrm md_clear serialize tsxldtrk arch_lbr amx_bf16 avx512_fp16 amx_tile amx_int8 arch_capabilities\nHypervisor vendor:                  KVM\nVirtualization type:                full\nL1d cache:                          4.2 MiB (90 instances)\nL1i cache:                          2.8 MiB (90 instances)\nL2 cache:                           180 MiB (90 instances)\nL3 cache:                           195 MiB (2 instances)\nNUMA node(s):                       2\nNUMA node0 CPU(s):                  0-89\nNUMA node1 CPU(s):                  90-179\nVulnerability Gather data sampling: Not affected\nVulnerability Itlb multihit:        Not affected\nVulnerability L1tf:                 Not affected\nVulnerability Mds:                  Not affected\nVulnerability Meltdown:             Not affected\nVulnerability Mmio stale data:      Unknown: No mitigations\nVulnerability Retbleed:             Not affected\nVulnerability Spec rstack overflow: Not affected\nVulnerability Spec store bypass:    Mitigation; Speculative Store Bypass disabled via prctl and seccomp\nVulnerability Spectre v1:           Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:           Mitigation; Enhanced IBRS, IBPB conditional, RSB filling, PBRSB-eIBRS SW sequence\nVulnerability Srbds:                Not affected\nVulnerability Tsx async abort:      Mitigation; TSX disabled\n",
+    "stderr": ""
+  },
+  "storage": {
+    "command": [
+      "df",
+      "-h",
+      "/local/boyjiang/spaceserve-epd-qjh003-20261023"
+    ],
+    "exit_code": 0,
+    "stdout": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/md0         14T  5.8T  8.2T  42% /local\n",
+    "stderr": ""
+  },
+  "cuda_toolkit": {
+    "command": [
+      "/usr/local/cuda/bin/nvcc",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stdout": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Fri_Feb_21_20:23:50_PST_2025\nCuda compilation tools, release 12.8, V12.8.93\nBuild cuda_12.8.r12.8/compiler.35583870_0\n",
+    "stderr": ""
+  },
+  "epdserve_commit": "9b111f710dfb4724072b603d626a1e4dad93ef1f"
+}

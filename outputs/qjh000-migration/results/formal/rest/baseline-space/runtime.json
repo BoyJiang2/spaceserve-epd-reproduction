@@ -1,0 +1,36 @@
+{
+  "captured_utc": "2026-10-23T13:52:41.238813+00:00",
+  "capture_note": "Formal 7B single-H20 run; profiler disabled",
+  "devices": "0",
+  "servers": [
+    {
+      "pid": 433657,
+      "created_epoch_seconds": 1792763533.75,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/baseline_server.py",
+        "--model",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/models/Qwen2-VL-7B-Instruct",
+        "--dataset",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/dataset",
+        "--port",
+        "19770",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+        "CUDA_MPS_PIPE_DIRECTORY": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts",
+        "VLLM_LIBSMCTRL_PATH": null,
+        "CUDA_IPC_LIB_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  }
+}

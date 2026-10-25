@@ -1,0 +1,44 @@
+{
+  "offline_dry_run_exit": 0,
+  "command": [
+    "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/uv-sapphire",
+    "pip",
+    "install",
+    "--offline",
+    "--no-deps",
+    "--dry-run",
+    "--python",
+    "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/offline-check/bin/python",
+    "--index-url",
+    "https://pypi.tuna.tsinghua.edu.cn/simple",
+    "-r",
+    "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/configs/space-freeze.txt"
+  ],
+  "fixed_freeze_sha256": "12cc7ae16e15cb32a58d197b10c139df7d715a8c3eeb4246b77eebe5d4814b0f",
+  "stopped": [
+    {
+      "pid": 3361334,
+      "create_time": 1792747924.77,
+      "command": [
+        "bash",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/prepare_environment.sh"
+      ]
+    },
+    {
+      "pid": 3363327,
+      "create_time": 1792747956.27,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/uv",
+        "pip",
+        "install",
+        "--python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "--index-url",
+        "https://pypi.tuna.tsinghua.edu.cn/simple",
+        "-r",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/configs/space-freeze.txt"
+      ]
+    }
+  ],
+  "owned_cpu_installer_stopped": true
+}

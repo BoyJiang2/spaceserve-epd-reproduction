@@ -1,0 +1,34 @@
+{
+  "started_utc": "2026-10-22T19:05:30.174226+00:00",
+  "devices": "3",
+  "servers": [
+    {
+      "pid": 2562151,
+      "command": [
+        "/mnt/data/boyjiang-spaceserve-epd/envs/space/bin/python",
+        "/mnt/data/boyjiang-spaceserve-epd/scripts/baseline_server.py",
+        "--model",
+        "/mnt/data/boyjiang-spaceserve-epd/models/Qwen2-VL-2B-Instruct",
+        "--dataset",
+        "/mnt/data/boyjiang-spaceserve-epd/dataset",
+        "--port",
+        "17778",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-c71b0d94-bc7e-6b3c-488e-8f9a4451affd",
+        "CUDA_MPS_PIPE_DIRECTORY": "/mnt/data/boyjiang-spaceserve-epd/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": null,
+        "VLLM_LIBSMCTRL_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  },
+  "gpu_memory_sampling_interval_s": 0.1
+}

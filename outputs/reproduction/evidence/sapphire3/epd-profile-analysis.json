@@ -1,0 +1,220 @@
+{
+  "trace": "2745297.json",
+  "top_kernels": [
+    {
+      "name": "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __half, __half, __half, float, false, true, true, false, 7, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half>, float>)",
+      "total_ms": 64.35384599999996,
+      "calls": 340
+    },
+    {
+      "name": "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __half, __half, __half, float, false, true, true, false, 6, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half const>, cublasGemvTensorStridedBatched<__half>, float>)",
+      "total_ms": 3.7484340000000023,
+      "calls": 112
+    },
+    {
+      "name": "void vllm::act_and_mul_kernel<c10::Half, &(c10::Half vllm::silu_kernel<c10::Half>(c10::Half const&))>(c10::Half*, c10::Half const*, int)",
+      "total_ms": 0.7811780000000004,
+      "calls": 112
+    },
+    {
+      "name": "void flash_fwd_splitkv_kernel<Flash_fwd_kernel_traits<128, 64, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<128, 64, 128, 4, cutlass::half_t> >, false, false, false, false, true, false, false, false>(Flash_fwd_params)",
+      "total_ms": 0.7523749999999997,
+      "calls": 112
+    },
+    {
+      "name": "std::enable_if<(((8)>(0)))&&vllm::_typeConvert<c10::Half>::exists, void>::type vllm::fused_add_rms_norm_kernel<c10::Half, 8>(c10::Half*, c10::Half*, c10::Half const*, float, int, int)",
+      "total_ms": 0.447522,
+      "calls": 224
+    },
+    {
+      "name": "void vllm::rotary_embedding_kernel<c10::Half, true>(long const*, c10::Half*, c10::Half*, c10::Half const*, int, long, long, int, int, int)",
+      "total_ms": 0.2378839999999999,
+      "calls": 112
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::cunn_SoftMaxForward<4, float, float, float, at::native::(anonymous namespace)::SoftMaxForwardEpilogue>(float*, float const*, int)",
+      "total_ms": 0.183711,
+      "calls": 4
+    },
+    {
+      "name": "void vllm::reshape_and_cache_flash_kernel<unsigned short, unsigned short, (vllm::Fp8KVCacheDataType)0>(unsigned short const*, unsigned short const*, unsigned short*, unsigned short*, long const*, int, int, int, int, int, int, float, float)",
+      "total_ms": 0.14707200000000012,
+      "calls": 112
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::cunn_SoftMaxForward<4, float, float, float, at::native::(anonymous namespace)::LogSoftMaxForwardEpilogue>(float*, float const*, int)",
+      "total_ms": 0.11087999999999999,
+      "calls": 4
+    },
+    {
+      "name": "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::ArgMaxOps<float>, unsigned int, long, 4> >(at::native::ReduceOp<float, at::native::ArgMaxOps<float>, unsigned int, long, 4>)",
+      "total_ms": 0.022112,
+      "calls": 4
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::indexSelectSmallIndex<c10::Half, long, unsigned int, 2, 2, -2>(at::cuda::detail::TensorInfo<c10::Half, unsigned int>, at::cuda::detail::TensorInfo<c10::Half const, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, int, int, unsigned int, long)",
+      "total_ms": 0.014495,
+      "calls": 8
+    },
+    {
+      "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&)::{lambda(int)#1})",
+      "total_ms": 0.013312,
+      "calls": 4
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1})",
+      "total_ms": 0.013215,
+      "calls": 4
+    },
+    {
+      "name": "void at_cuda_detail::cub::DeviceScanKernel<at_cuda_detail::cub::DeviceScanPolicy<int>::Policy600, int const*, int*, at_cuda_detail::cub::ScanTileState<int, true>, std::plus<int>, at_cuda_detail::cub::NullType, int, int>(int const*, int*, at_cuda_detail::cub::ScanTileState<int, true>, int, std::plus<int>, at_cuda_detail::cub::NullType, int)",
+      "total_ms": 0.012029999999999997,
+      "calls": 8
+    },
+    {
+      "name": "void vllm::rms_norm_kernel<c10::Half>(c10::Half*, c10::Half const*, c10::Half const*, float, int, int)",
+      "total_ms": 0.009727,
+      "calls": 4
+    }
+  ],
+  "top_runtime_calls": [
+    {
+      "name": "cudaLaunchKernel",
+      "total_ms": 96.83251100000003,
+      "calls": 1192
+    },
+    {
+      "name": "cudaFuncSetAttribute",
+      "total_ms": 62.17723699999992,
+      "calls": 460
+    },
+    {
+      "name": "cudaMemcpyAsync",
+      "total_ms": 18.511454,
+      "calls": 68
+    },
+    {
+      "name": "cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags",
+      "total_ms": 17.350698000000005,
+      "calls": 13
+    },
+    {
+      "name": "cudaFree",
+      "total_ms": 13.590214,
+      "calls": 2
+    },
+    {
+      "name": "cudaFuncGetAttributes",
+      "total_ms": 2.830812,
+      "calls": 1
+    },
+    {
+      "name": "cudaHostAlloc",
+      "total_ms": 1.3447500000000003,
+      "calls": 7
+    },
+    {
+      "name": "cudaMalloc",
+      "total_ms": 1.171406,
+      "calls": 5
+    },
+    {
+      "name": "cudaDeviceSynchronize",
+      "total_ms": 0.12406199999999999,
+      "calls": 1
+    },
+    {
+      "name": "cudaGetSymbolAddress",
+      "total_ms": 0.114468,
+      "calls": 1
+    },
+    {
+      "name": "cudaEventRecord",
+      "total_ms": 0.09605400000000001,
+      "calls": 60
+    },
+    {
+      "name": "cudaEventQuery",
+      "total_ms": 0.09600500000000003,
+      "calls": 53
+    },
+    {
+      "name": "cudaMemsetAsync",
+      "total_ms": 0.035540999999999996,
+      "calls": 4
+    },
+    {
+      "name": "cudaStreamSynchronize",
+      "total_ms": 0.033323,
+      "calls": 8
+    },
+    {
+      "name": "cudaDeviceGetAttribute",
+      "total_ms": 0.013928999999999999,
+      "calls": 23
+    }
+  ],
+  "span_ms": 289.8864270019531,
+  "top_cpu_ops": [
+    {
+      "name": "aten::linear",
+      "total_ms": 100.28564100000013,
+      "calls": 452
+    },
+    {
+      "name": "aten::addmm",
+      "total_ms": 92.52699399999996,
+      "calls": 112
+    },
+    {
+      "name": "aten::index_select",
+      "total_ms": 57.66254699999999,
+      "calls": 8
+    },
+    {
+      "name": "aten::embedding",
+      "total_ms": 57.557952,
+      "calls": 4
+    },
+    {
+      "name": "aten::to",
+      "total_ms": 20.625326,
+      "calls": 316
+    },
+    {
+      "name": "aten::_to_copy",
+      "total_ms": 20.417427999999997,
+      "calls": 100
+    },
+    {
+      "name": "aten::copy_",
+      "total_ms": 19.594775000000002,
+      "calls": 100
+    },
+    {
+      "name": "aten::index",
+      "total_ms": 13.967037000000001,
+      "calls": 4
+    },
+    {
+      "name": "aten::softmax",
+      "total_ms": 10.955836000000001,
+      "calls": 4
+    },
+    {
+      "name": "aten::_softmax",
+      "total_ms": 10.929896999999999,
+      "calls": 4
+    },
+    {
+      "name": "vllm::reshape_and_cache_flash",
+      "total_ms": 9.936457999999998,
+      "calls": 112
+    },
+    {
+      "name": "vllm::flash_attn_with_kvcache",
+      "total_ms": 9.678784000000006,
+      "calls": 112
+    }
+  ]
+}

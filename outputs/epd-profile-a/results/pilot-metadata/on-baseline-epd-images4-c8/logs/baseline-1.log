@@ -1,0 +1,58 @@
+WARNING 10-23 15:34:55 config.py:1657] Casting torch.bfloat16 to torch.float16.
+WARNING 10-23 15:34:55 config.py:383] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+INFO 10-23 15:34:55 llm_engine.py:223] Initializing an LLM engine (v0.6.1.post2) with config: model='/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6', speculative_config=None, tokenizer='/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=4096, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6, use_v2_block_manager=False, num_scheduler_steps=1, enable_prefix_caching=False, use_async_output_proc=False)
+INFO 10-23 15:34:55 model_runner.py:997] Starting to load model /local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6...
+/local/boyjiang/epd-profile-a-20261023/envs/epd/lib/python3.10/site-packages/xformers/ops/fmha/flash.py:211: FutureWarning: `torch.library.impl_abstract` was renamed to `torch.library.register_fake`. Please use that instead; we will remove `torch.library.impl_abstract` in a future version of PyTorch.
+  @torch.library.impl_abstract("xformers_flash::flash_fwd")
+/local/boyjiang/epd-profile-a-20261023/envs/epd/lib/python3.10/site-packages/xformers/ops/fmha/flash.py:344: FutureWarning: `torch.library.impl_abstract` was renamed to `torch.library.register_fake`. Please use that instead; we will remove `torch.library.impl_abstract` in a future version of PyTorch.
+  @torch.library.impl_abstract("xformers_flash::flash_bwd")
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:01<00:03,  1.15s/it]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:02<00:02,  1.18s/it]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:03<00:01,  1.22s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.01it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.07s/it]
+
+INFO 10-23 15:35:00 model_runner.py:1008] Loading model weights took 15.1935 GB
+/local/boyjiang/epd-profile-a-20261023/envs/epd/lib/python3.10/site-packages/transformers/models/auto/image_processing_auto.py:513: FutureWarning: The image_processor_class argument is deprecated and will be removed in v4.42. Please use `slow_image_processor_class`, or `fast_image_processor_class` instead
+  warnings.warn(
+INFO 10-23 15:35:02 gpu_executor.py:122] # GPU blocks: 48898, # CPU blocks: 4681
+{"model": "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6", "dataset": "/local/boyjiang/epd-profile-a-20261023/dataset", "port": 19501, "gpu_memory_utilization": 0.65}
+INFO 10-23 15:35:31 async_llm_engine.py:201] Added request bbea8c53e542450c9214ed2e2f7c3f93.
+INFO 10-23 15:35:31 async_llm_engine.py:201] Added request f94bec3658e04a58b66ebf32f9d653ee.
+INFO 10-23 15:35:31 async_llm_engine.py:201] Added request 94aeb3c7fe1a47e7a35544ce18ddb4e4.
+INFO 10-23 15:35:31 async_llm_engine.py:201] Added request a36ae32359cb4cdc8dc5af889781e6e7.
+INFO 10-23 15:35:31 metrics.py:351] Avg prompt throughput: 15.7 tokens/s, Avg generation throughput: 0.2 tokens/s, Running: 4 reqs, Swapped: 0 reqs, Pending: 0 reqs, GPU KV cache usage: 0.1%, CPU KV cache usage: 0.0%.
+INFO 10-23 15:35:31 async_llm_engine.py:169] Finished request bbea8c53e542450c9214ed2e2f7c3f93.
+INFO 10-23 15:35:31 async_llm_engine.py:169] Finished request f94bec3658e04a58b66ebf32f9d653ee.
+INFO 10-23 15:35:31 async_llm_engine.py:169] Finished request 94aeb3c7fe1a47e7a35544ce18ddb4e4.
+INFO 10-23 15:35:31 async_llm_engine.py:169] Finished request a36ae32359cb4cdc8dc5af889781e6e7.
+INFO 10-23 15:35:31 async_llm_engine.py:201] Added request 8880f78241f24b79a506ddefd6192a51.
+INFO 10-23 15:35:32 async_llm_engine.py:169] Finished request 8880f78241f24b79a506ddefd6192a51.
+INFO 10-23 15:35:32 async_llm_engine.py:201] Added request 74905d9b9019435c95998501c94ee840.
+INFO 10-23 15:35:33 async_llm_engine.py:169] Finished request 74905d9b9019435c95998501c94ee840.
+INFO 10-23 15:35:33 async_llm_engine.py:201] Added request a10e708af09c4774bf7bb553d3fd8df2.
+INFO 10-23 15:35:33 async_llm_engine.py:169] Finished request a10e708af09c4774bf7bb553d3fd8df2.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request 944c25c68a3f47af8f414c3126f421ce.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request 8cd74bfad4a748b6a07f4e4a1738d5a6.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request ceabf1286bb04cfc93a894938f27cffe.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request f05d44caf8db4e4f9b8491a683c52298.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request d4f141e39ace4196976e107c660b49f2.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request 1196597e2f904e04b39588fcc2f7355e.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request f4ebde8a5b6e4045a65f963010cfcece.
+INFO 10-23 15:35:35 async_llm_engine.py:201] Added request 4058c9a3f1464a408f2948e738f25e19.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request 944c25c68a3f47af8f414c3126f421ce.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request 8cd74bfad4a748b6a07f4e4a1738d5a6.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request ceabf1286bb04cfc93a894938f27cffe.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request f05d44caf8db4e4f9b8491a683c52298.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request d4f141e39ace4196976e107c660b49f2.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request 1196597e2f904e04b39588fcc2f7355e.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request f4ebde8a5b6e4045a65f963010cfcece.
+INFO 10-23 15:35:36 async_llm_engine.py:169] Finished request 4058c9a3f1464a408f2948e738f25e19.
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/local/boyjiang/epd-profile-a-20261023/tmp/nsys-report-3d98.qdstrm'
+[1/1] [0%                          ] baseline-1.nsys-repProcessing events...
+[1/1] [0%                          ] baseline-1.nsys-rep[1/1] [0%                          ] baseline-1.nsys-rep[1/1] [5%                          ] baseline-1.nsys-rep[1/1] [6%                          ] baseline-1.nsys-rep[1/1] [7%                          ] baseline-1.nsys-rep[1/1] [=15%                        ] baseline-1.nsys-rep[1/1] [===24%                      ] baseline-1.nsys-rep[1/1] [======33%                   ] baseline-1.nsys-rep[1/1] [========42%                 ] baseline-1.nsys-rep[1/1] [===========50%              ] baseline-1.nsys-rep[1/1] [=============59%            ] baseline-1.nsys-rep[1/1] [================68%         ] baseline-1.nsys-rep[1/1] [==================77%       ] baseline-1.nsys-rep[1/1] [==================78%       ] baseline-1.nsys-rep[1/1] [===================79%      ] baseline-1.nsys-rep[1/1] [========================100%] baseline-1.nsys-rep[1/1] [========================100%] baseline-1.nsys-rep
+Generated:
+    /local/boyjiang/epd-profile-a-20261023/results/pilot-metadata/on-baseline-epd-images4-c8/traces/baseline-1.nsys-rep

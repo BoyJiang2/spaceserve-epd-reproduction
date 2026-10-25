@@ -1,0 +1,238 @@
+--- archive/baseline_server.py
++++ canonical/baseline_server.py
+@@ -6,6 +6,7 @@
+ import argparse
+ import inspect
+ import json
++import os
+ import pathlib
+ import time
+ import uuid
+@@ -14,6 +15,7 @@
+ from fastapi.responses import JSONResponse
+ import uvicorn
+ from vllm import AsyncEngineArgs, AsyncLLMEngine, SamplingParams
++from rgb_cache import cache_snapshot, dataset_paths
+ 
+ 
+ def main():
+@@ -42,6 +44,17 @@
+     engine = AsyncLLMEngine.from_engine_args(engine_args)
+     app = FastAPI()
+     image_cache = {}
++    rgb_manifest = os.environ.get('REPRO_RGB_MANIFEST')
++    if rgb_manifest:
++        for path in dataset_paths(rgb_manifest):
++            with Image.open(path) as image:
++                image_cache[path] = image.convert('RGB')
++
++    @app.get('/repro/rgb-cache')
++    async def rgb_cache():
++        if not rgb_manifest:
++            raise HTTPException(400, 'RGB preload is not enabled')
++        return cache_snapshot(rgb_manifest, {path.name: image for path, image in image_cache.items()})
+ 
+     @app.get("/health")
+     async def health():
+--- archive/run_matrix.sh
++++ canonical/run_matrix.sh
+@@ -15,14 +15,14 @@
+     PYTHON="$EXP_ROOT/envs/space/bin/python"
+     MODEL="$EXP_ROOT/models/Qwen2-VL-2B-Instruct"
+ fi
+-DESTINATION="$EXP_ROOT/results/formal/$ROLE"
++DESTINATION="${REPRO_MATRIX_ROOT:-$EXP_ROOT/results/formal}/$ROLE"
+ mkdir -p "$DESTINATION"
+ [[ ! -e "$DESTINATION/gpu-memory.jsonl" ]] || { echo "Existing run; choose a new role label" >&2; exit 2; }
+ "$PYTHON" - "$EXP_ROOT" "$DESTINATION" "$DEVICES" "$SERVER_PIDS" <<'PY'
+ import datetime, hashlib, importlib.metadata, json, pathlib, subprocess, sys
+ import psutil
+ root, destination = map(pathlib.Path, sys.argv[1:3])
+-keys = ["CUDA_VISIBLE_DEVICES", "CUDA_MPS_PIPE_DIRECTORY", "VLLM_USE_V1", "PYTHONPATH", "VLLM_LIBSMCTRL_PATH"]
++keys = ["CUDA_VISIBLE_DEVICES", "CUDA_MPS_PIPE_DIRECTORY", "VLLM_USE_V1", "PYTHONPATH", "VLLM_LIBSMCTRL_PATH", "REPRO_RGB_MANIFEST"]
+ servers = []
+ for pid in map(int, sys.argv[4].split(",")):
+     process = psutil.Process(pid)
+@@ -38,6 +38,9 @@
+ trap 'kill -TERM "$MONITOR_PID" 2>/dev/null || true; wait "$MONITOR_PID" 2>/dev/null || true' EXIT
+ for IMAGES in 1 4; do
+     for CONCURRENCY in 1 4 8; do
++        if [[ ${LOW_LOAD_ONLY:-0} == 1 ]]; then
++            [[ "$IMAGES:$CONCURRENCY" == 1:1 ]] || continue
++        fi
+         if [[ ${VALIDATION_ONLY:-0} == 1 ]]; then
+             [[ "$IMAGES:$CONCURRENCY" == 1:1 || "$IMAGES:$CONCURRENCY" == 4:8 ]] || continue
+         fi
+--- archive/start_server.sh
++++ canonical/start_server.sh
+@@ -11,6 +11,10 @@
+ PORT=${3:?Port}
+ export VLLM_USE_V1=0
+ unset PYTHONPATH VLLM_LIBSMCTRL_PATH
++unset REPRO_RGB_MANIFEST
++if [[ "$ROLE" == epd || "$ROLE" == baseline-epd ]]; then
++    export REPRO_RGB_MANIFEST="$EXP_ROOT/dataset/manifest.json"
++fi
+ if [[ "$ROLE" == baseline-space || "$ROLE" == space || "$ROLE" == space-mask ]]; then
+     PYTHON="$EXP_ROOT/envs/space/bin/python"
+     MODEL="$EXP_ROOT/models/Qwen2-VL-2B-Instruct"
+@@ -37,7 +41,7 @@
+     export CUDA_IPC_LIB_PATH="$EXP_ROOT/build/epd-cuda/libcuda_ipc_utils.so"
+     SITE="$EXP_ROOT/envs/epd/lib/python3.10/site-packages"
+     export LD_LIBRARY_PATH="$SITE/torch/lib:$SITE/nvidia/nccl/lib:${LD_LIBRARY_PATH:-}"
+-    export PYTHONPATH="$EXP_ROOT/src/epdserve"
++    export PYTHONPATH="$EXP_ROOT/src/epdserve:$SCRIPT_DIR"
+     cd "$EXP_ROOT/src/epdserve"
+     exec "$EXP_ROOT/envs/epd/bin/python" -u -m epdserve.api_server \
+         --host 127.0.0.1 --port "$PORT" --model "$EXP_ROOT/models/MiniCPM-V-2_6" \
+--- archive/apply_epd_compat.py
++++ canonical/apply_epd_compat.py
+@@ -64,8 +64,7 @@
+ ]:
+     path = root / "src/epdserve" / relative
+     before = path.read_text()
+-    if old_text not in before:
+-        assert new_text in before, relative
++    if new_text in before:
+         continue
+     assert before.count(old_text) == 1, relative
+     after = before.replace(old_text, new_text, 1)
+@@ -74,3 +73,27 @@
+     (patches / (path.stem + "-" + str(len(old_text)) + "-compat.patch")).write_text("".join(difflib.unified_diff(
+         before.splitlines(True), after.splitlines(True), fromfile="a/" + relative, tofile="b/" + relative)))
+ print("IRP command-line setting is forwarded to request creation")
++
++before = server.read_text()
++rgb_fix = '''from rgb_cache import cache_snapshot, dataset_paths
++
++rgb_manifest = os.environ.get('REPRO_RGB_MANIFEST')
++if rgb_manifest:
++    for rgb_path in dataset_paths(rgb_manifest):
++        load_image_cache(str(rgb_path))
++
++@app.get('/repro/rgb-cache')
++async def rgb_cache():
++    assert rgb_manifest, 'RGB preload is not enabled'
++    return cache_snapshot(rgb_manifest, image_cache)
++
++'''
++if rgb_fix not in before:
++    anchor = '@app.post("/generate")'
++    assert before.count(anchor) == 1
++    after = before.replace(anchor, rgb_fix + anchor, 1)
++    ast.parse(after)
++    server.write_text(after)
++    (patches / 'epd-rgb-cache.patch').write_text(''.join(difflib.unified_diff(
++        before.splitlines(True), after.splitlines(True), fromfile='a/epdserve/api_server.py', tofile='b/epdserve/api_server.py')))
++print('RGB-only preload and cache evidence route installed; no inference is performed')
+--- archive/fix_h20_cublas.sh
++++ canonical/fix_h20_cublas.sh
+@@ -4,8 +4,10 @@
+ source "$EXP_ROOT/scripts/env.sh"
+ [[ -z $(nvidia-smi --id=0,1,2 --query-compute-apps=pid --format=csv,noheader) ]]
+ # CUDA 12.4 Update 1 fixes Hopper SIGFPE in cuBLASLt algorithm selection.
+-"$EXP_ROOT/envs/tools/bin/uv" pip install --python "$EXP_ROOT/envs/epd/bin/python" \
++UV="$EXP_ROOT/envs/tools/bin/uv"
++[[ -x "$UV" ]] || UV=$(command -v uv)
++"$UV" pip install --python "$EXP_ROOT/envs/epd/bin/python" \
+     --index-url https://pypi.tuna.tsinghua.edu.cn/simple --no-deps nvidia-cublas-cu12==12.4.5.8
+-"$EXP_ROOT/envs/tools/bin/uv" pip freeze --python "$EXP_ROOT/envs/epd/bin/python" >"$EXP_ROOT/evidence/epd-h20-freeze.txt"
++"$UV" pip freeze --python "$EXP_ROOT/envs/epd/bin/python" >"$EXP_ROOT/evidence/epd-h20-freeze.txt"
+ "$EXP_ROOT/envs/epd/bin/python" "$EXP_ROOT/scripts/probe_h20_blas.py" --device 0 \
+     >"$EXP_ROOT/evidence/blas-after.jsonl"
+--- archive/preflight_epd_qjh003.sh
++++ canonical/preflight_epd_h20.sh
+@@ -11,6 +11,10 @@
+ cp "$EXP_ROOT/results/environment.json" "$DESTINATION/environment.json"
+ SITE="$EXP_ROOT/envs/epd/lib/python3.10/site-packages"
+ export LD_LIBRARY_PATH="$SITE/torch/lib:$SITE/nvidia/nccl/lib:${LD_LIBRARY_PATH:-}"
++"$PYTHON" "$EXP_ROOT/scripts/probe_h20_blas.py" --device 0 >"$DESTINATION/blas-after.jsonl"
++"$PYTHON" "$EXP_ROOT/scripts/probe_epd_embedding_ipc.py" \
++    --library "$EXP_ROOT/build/epd-cuda/libcuda_ipc_utils.so" --output "$DESTINATION/embedding-ipc.json"
++cp "$DESTINATION/blas-after.jsonl" "$DESTINATION/embedding-ipc.json" "$EXP_ROOT/evidence/"
+ for PAIR in 0,1 1,0 0,2 2,0 1,2 2,1; do
+     CUDA_VISIBLE_DEVICES="$PAIR" "$PYTHON" "$EXP_ROOT/scripts/probe_cuda_peer_runtime.py" \
+         --bytes 16777216 --output "$DESTINATION/cuda-peer-$PAIR.json"
+--- archive/run_epd_qjh003.sh
++++ canonical/run_epd_h20.sh
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env bash
+ set -euo pipefail
+-export EXP_ROOT=${EXP_ROOT:?Set the dedicated qjh003 experiment directory}
++export EXP_ROOT=${EXP_ROOT:?Set the dedicated H20 experiment directory}
+ source "$EXP_ROOT/scripts/env.sh"
+ PYTHON="$EXP_ROOT/envs/epd/bin/python"
+ PREFLIGHT=${1:?Path to the successful preflight directory}
+@@ -16,6 +16,15 @@
+ import json, pathlib, sys
+ record = json.loads(pathlib.Path(sys.argv[1]).read_text())
+ assert record['boot_id'] == pathlib.Path('/proc/sys/kernel/random/boot_id').read_text().strip()
++PY
++"$PYTHON" - "$EXP_ROOT/evidence" <<'PY'
++import importlib.metadata, json, pathlib, sys
++evidence = pathlib.Path(sys.argv[1])
++assert importlib.metadata.version('nvidia-cublas-cu12') == '12.4.5.8'
++embedding = json.loads((evidence / 'embedding-ipc.json').read_text())
++assert embedding['source_validated'] and len(embedding['records']) == 3 and all(record['data_equal'] for record in embedding['records'])
++blas = [json.loads(line) for line in (evidence / 'blas-after.jsonl').read_text().splitlines()]
++assert blas[0]['cublas'] == '12.4.5.8' and sum(item.get('data_equal', False) for item in blas) == 4
+ PY
+ [[ ! -e "$EXP_ROOT/results/formal/epd-h20" && ! -e "$EXP_ROOT/results/formal/baseline-epd-h20" ]]
+ SERVERS=()
+@@ -61,7 +70,10 @@
+     correctness 18510 "epd-epoch$EPOCH-c8" --reference-file "$EXP_ROOT/evidence/baseline-reference.json" --concurrency8-only
+     correctness 18510 "epd-epoch$EPOCH" --reference-file "$EXP_ROOT/evidence/baseline-reference.json"
+     if [[ "$EPOCH" == 2 ]]; then
++        "$PYTHON" "$EXP_ROOT/scripts/check_rgb_cache.py" --urls http://127.0.0.1:18510 --dataset "$EXP_ROOT/dataset" --output "$EXP_ROOT/evidence/epd-rgb-before.json"
++        "$PYTHON" "$EXP_ROOT/scripts/capture_h20_runtime.py" "$EXP_ROOT" --output "$EXP_ROOT/evidence/epd-runtime.json"
+         bash "$EXP_ROOT/scripts/run_matrix.sh" epd-h20 0,1,2 "$SERVER_PID" http://127.0.0.1:18510
++        "$PYTHON" "$EXP_ROOT/scripts/check_rgb_cache.py" --urls http://127.0.0.1:18510 --dataset "$EXP_ROOT/dataset" --output "$EXP_ROOT/evidence/epd-rgb-after.json"
+         "$PYTHON" "$EXP_ROOT/scripts/audit_matrix.py" "$EXP_ROOT/results/formal/epd-h20" "${AUDIT_OPTIONS[@]}"
+     fi
+     stop_all
+@@ -73,9 +85,13 @@
+     URLS+=("http://127.0.0.1:$PORT")
+ done
+ PID_LIST=$(IFS=,; echo "${SERVERS[*]}")
++"$PYTHON" "$EXP_ROOT/scripts/check_rgb_cache.py" --urls "${URLS[@]}" --dataset "$EXP_ROOT/dataset" --output "$EXP_ROOT/evidence/baseline-rgb-before.json"
++"$PYTHON" "$EXP_ROOT/scripts/capture_h20_runtime.py" "$EXP_ROOT" --output "$EXP_ROOT/evidence/baseline-runtime.json"
+ bash "$EXP_ROOT/scripts/run_matrix.sh" baseline-epd-h20 0,1,2 "$PID_LIST" "${URLS[@]}"
++"$PYTHON" "$EXP_ROOT/scripts/check_rgb_cache.py" --urls "${URLS[@]}" --dataset "$EXP_ROOT/dataset" --output "$EXP_ROOT/evidence/baseline-rgb-after.json"
+ "$PYTHON" "$EXP_ROOT/scripts/audit_matrix.py" "$EXP_ROOT/results/formal/baseline-epd-h20" "${AUDIT_OPTIONS[@]}"
+ stop_all
++bash "$EXP_ROOT/scripts/postflight_epd_h20.sh"
+ "$PYTHON" - "$PREFLIGHT/platform.json" <<'PY'
+ import json, pathlib, sys
+ assert json.loads(pathlib.Path(sys.argv[1]).read_text())['boot_id'] == pathlib.Path('/proc/sys/kernel/random/boot_id').read_text().strip()
+--- archive/bootstrap.sh
++++ canonical/bootstrap.sh
+@@ -3,7 +3,7 @@
+ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+ ROLE=${1:?space or epd}
+ export EXP_ROOT=${2:?Dedicated experiment directory}
+-mkdir -p "$EXP_ROOT"/{src,envs,models,cache,tmp,logs,results,build,scripts}
++mkdir -p "$EXP_ROOT"/{src,envs,models,cache,tmp,logs,results,build,scripts,evidence}
+ export TMPDIR="$EXP_ROOT/tmp" UV_CACHE_DIR="$EXP_ROOT/cache/uv"
+ INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
+ if [[ ! -x "$EXP_ROOT/envs/$ROLE/bin/python" ]]; then
+@@ -39,6 +39,11 @@
+     checkout vbdi/epdserve "$EXP_ROOT/src/epdserve" 9b111f710dfb4724072b603d626a1e4dad93ef1f
+     uv venv --allow-existing --python /usr/bin/python3 "$EXP_ROOT/envs/epd"
+     uv pip install --python "$EXP_ROOT/envs/epd/bin/python" --index-url "$INDEX" -r "$SCRIPT_DIR/../configs/epd-freeze.txt"
++    case $(hostname) in
++        qjh003|qjh005)
++            # Fix the documented Hopper cuBLASLt SIGFPE without changing PyTorch/vLLM.
++            uv pip install --python "$EXP_ROOT/envs/epd/bin/python" --index-url "$INDEX" --no-deps nvidia-cublas-cu12==12.4.5.8 ;;
++    esac
+     "$EXP_ROOT/envs/epd/bin/python" "$SCRIPT_DIR/apply_epd_compat.py" "$EXP_ROOT"
+     bash "$SCRIPT_DIR/build_epd_cuda.sh"
+     python3 "$SCRIPT_DIR/download_model.py" OpenBMB/MiniCPM-V-2_6 "$EXP_ROOT/models/MiniCPM-V-2_6" \
+@@ -47,7 +52,7 @@
+     exit 2
+ fi
+ if [[ "$(realpath "$SCRIPT_DIR")" != "$(realpath "$EXP_ROOT/scripts")" ]]; then
+-    cp "$SCRIPT_DIR"/* "$EXP_ROOT/scripts/"
++    find "$SCRIPT_DIR" -maxdepth 1 -type f -exec cp {} "$EXP_ROOT/scripts/" \;
+ fi
+ if [[ -f "$SCRIPT_DIR/../data/dataset.tar.gz" ]]; then
+     tar -xzf "$SCRIPT_DIR/../data/dataset.tar.gz" -C "$EXP_ROOT"

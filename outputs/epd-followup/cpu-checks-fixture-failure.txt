@@ -1,0 +1,19 @@
+<unknown>:173: SyntaxWarning: invalid escape sequence '\E'
+<unknown>:322: SyntaxWarning: invalid escape sequence '\E'
+........F
+======================================================================
+FAIL: test_rehashed_directory_is_rejected_against_pinned_zip (__main__.AnalysisTests.test_rehashed_directory_is_rejected_against_pinned_zip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\outputs\epd-followup\tests\test_analysis.py", line 96, in test_rehashed_directory_is_rejected_against_pinned_zip
+    self.assertEqual(analyze.freeze_snapshot(frozen)['files_verified'], 969)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\outputs\epd-followup\scripts\analyze.py", line 109, in freeze_snapshot
+    assert bundle.read('reproduction/SHA256SUMS') == manifest_bytes, 'directory manifest differs from pinned archive'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: directory manifest differs from pinned archive
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.929s
+
+FAILED (failures=1)

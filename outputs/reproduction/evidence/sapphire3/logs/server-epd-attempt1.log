@@ -1,0 +1,17 @@
+Args: Namespace(host='127.0.0.1', port=18400, model='/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6', tokenizer='/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6', trust_remote_code=False, seed=0, use_dummy_weights=False, encoding_data_parallel_size=1, encoding_pipeline_parallel_size=1, encoding_tensor_parallel_size=1, context_data_parallel_size=1, context_pipeline_parallel_size=1, context_tensor_parallel_size=1, decoding_data_parallel_size=1, decoding_pipeline_parallel_size=1, decoding_tensor_parallel_size=1, block_size=16, max_num_blocks_per_req=256, gpu_memory_utilization=0.65, swap_space=1, encoding_sched_policy='fcfs', encoding_max_batch_size=1, context_sched_policy='fcfs', context_max_batch_size=1, context_max_tokens_per_batch=4096, decoding_sched_policy='fcfs', decoding_max_batch_size=8, decoding_max_tokens_per_batch=4096, simulator_mode=False, profiler_data_path=None, gpu_mem_size_gb=None, intra_request_dp=0, limit_mm_per_prompt=4)
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/mnt/data3/boyjiang-spaceserve-epd/src/epdserve/epdserve/api_server.py", line 160, in <module>
+    ray.init()
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/ray/_private/client_mode_hook.py", line 103, in wrapper
+    return func(*args, **kwargs)
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/ray/_private/worker.py", line 1645, in init
+    _global_node = ray._private.node.Node(
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/ray/_private/node.py", line 268, in __init__
+    self._plasma_store_socket_name = self._prepare_socket_file(
+  File "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/lib/python3.10/site-packages/ray/_private/node.py", line 932, in _prepare_socket_file
+    raise OSError(
+OSError: AF_UNIX path length cannot exceed 107 bytes: '/mnt/data3/boyjiang-spaceserve-epd/tmp/ray/ray/session_2026-10-22_18-22-31_353420_2250206/sockets/plasma_store'

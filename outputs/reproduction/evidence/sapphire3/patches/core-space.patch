@@ -1,0 +1,14 @@
+--- a/vllm/v1/engine/core.py
++++ b/vllm/v1/engine/core.py
+@@ -513,6 +513,11 @@
+             #logger.info(f"encoder queue add {output}")
+             #import time;s_time = time.time()
+                 self.encoder_result_queue.put(output)
++                self.scheduler.finish_requests(
++                    [req.req_id for req in scheduler_output.scheduled_new_reqs],
++                    RequestStatus.FINISHED_STOPPED)
++                self.scheduler.finished_req_ids.clear()
++                self.scheduler.encoder_cache_manager.get_freed_ids()
+             # e_time = time.time()
+             # logger.info(f"add time is {1000 * (e_time - s_time)}")
+         # executor to run_encoder

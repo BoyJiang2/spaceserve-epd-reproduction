@@ -1,0 +1,88 @@
+{
+  "source_host": "qjh005",
+  "new_host_runtime_proof": {
+    "host": "qjh000",
+    "boot_id": "a9617eaa-1638-45fc-8997-a62b528e8f30",
+    "packages": {
+      "torch": "2.5.1",
+      "vllm": "0.7.2",
+      "transformers": "4.49.0"
+    },
+    "torch_cuda": "12.4",
+    "driver_api": 12020,
+    "gpu_uuid": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+    "device": "NVIDIA H20",
+    "pid": 3543688,
+    "fp16_matmul_passed": true,
+    "max_abs_error": 0.03093719482421875,
+    "scope": "runtime sanity only; not model or SM mechanism acceptance"
+  },
+  "identified_jobs": [
+    {
+      "pid": 1512045,
+      "created": 1792744397.58,
+      "command": [
+        "bash",
+        "/local/boyjiang/spaceserve-h20-7b-20261023/scripts/start_when_ready.sh",
+        "1164664"
+      ]
+    },
+    {
+      "pid": 1917844,
+      "created": 1792750997.36,
+      "command": [
+        "sleep",
+        "10"
+      ]
+    },
+    {
+      "pid": 1164664,
+      "created": 1792740115.76,
+      "command": [
+        "bash",
+        "/local/boyjiang/spaceserve-h20-7b-20261023/scripts/prepare_environment.sh"
+      ]
+    },
+    {
+      "pid": 1164669,
+      "created": 1792740115.77,
+      "command": [
+        "bash",
+        "/local/boyjiang/spaceserve-h20-7b-20261023/scripts/bootstrap.sh",
+        "space",
+        "/local/boyjiang/spaceserve-h20-7b-20261023"
+      ]
+    },
+    {
+      "pid": 1164681,
+      "created": 1792740115.78,
+      "command": [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "/local/boyjiang/spaceserve-h20-7b-20261023/envs/space/bin/python",
+        "--index-url",
+        "https://pypi.tuna.tsinghua.edu.cn/simple",
+        "-r",
+        "/local/boyjiang/spaceserve-h20-7b-20261023/scripts/../configs/space-freeze.txt"
+      ]
+    },
+    {
+      "pid": 1629479,
+      "created": 1792746783.88,
+      "command": [
+        "python3",
+        "-m",
+        "http.server",
+        "18670",
+        "--bind",
+        "172.31.35.34",
+        "--directory",
+        "/local/boyjiang/qjh000-migration-export-20261023"
+      ]
+    }
+  ],
+  "termination": "TERM only; no system changes or data deletion",
+  "remaining_identified_jobs": []
+}

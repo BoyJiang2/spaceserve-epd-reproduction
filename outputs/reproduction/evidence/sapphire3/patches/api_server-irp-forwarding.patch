@@ -1,0 +1,12 @@
+--- a/epdserve/api_server.py
++++ b/epdserve/api_server.py
+@@ -121,7 +121,8 @@
+     results_generator = engine.generate(request_id=request_id,
+                                         input_dict=input_dict, 
+                                         sampling_params=sampling_params,
+-                                        arrival_time=arrival_time)
++                                        arrival_time=arrival_time,
++                                        enable_irp=bool(args.intra_request_dp))
+ 
+     final_outputs: List[Tuple[StepOutput, float]] = [] # (step_output, timestamp)
+     async for step_output in results_generator:

@@ -1,0 +1,21 @@
+{
+  "urls": [
+    "http://127.0.0.1:18100",
+    "http://127.0.0.1:18101",
+    "http://127.0.0.1:18102"
+  ],
+  "model": "/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6",
+  "dataset": "/mnt/data3/boyjiang-spaceserve-epd/dataset",
+  "output": "/mnt/data3/boyjiang-spaceserve-epd/results/formal/baseline-epd-l20/images1-c1",
+  "images": 1,
+  "concurrency": 1,
+  "tokens": 128,
+  "warmup": 20,
+  "requests": 100,
+  "repetitions": 3,
+  "timeout": 120,
+  "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\n(<image>./</image>)Describe the visible objects and scene in these images in detail.<|im_end|>\n<|im_start|>assistant\n",
+  "timestamp_clock": "same-host time.perf_counter",
+  "ttft_definition": "first server token timestamp minus client submission; excludes first-token egress",
+  "tpot_definition": "(last token timestamp - first token timestamp)/(output tokens - 1)"
+}

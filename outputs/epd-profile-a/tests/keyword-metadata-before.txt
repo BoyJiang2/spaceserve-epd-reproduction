@@ -1,0 +1,20 @@
+test_async_returns_and_closes (__main__.ObserveTests.test_async_returns_and_closes) ... ok
+test_baseline_keyword_metadata (__main__.ObserveTests.test_baseline_keyword_metadata) ... ERROR
+test_disabled_preserves_identity (__main__.ObserveTests.test_disabled_preserves_identity) ... ok
+test_exception_closes_sync_range (__main__.ObserveTests.test_exception_closes_sync_range) ... ok
+test_migration_ids_are_not_request_ids (__main__.ObserveTests.test_migration_ids_are_not_request_ids) ... ok
+test_patch_all_validated_before_write (__main__.ObserveTests.test_patch_all_validated_before_write) ... ok
+
+======================================================================
+ERROR: test_baseline_keyword_metadata (__main__.ObserveTests.test_baseline_keyword_metadata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\outputs\epd-profile-a\tests\test_observe.py", line 63, in test_baseline_keyword_metadata
+    self.assertEqual(module.details((object(),), 'baseline.execute_model', {'execute_model_req': request}), {'ids': ['r7'], 'prompt': [True], 'batch': 1})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: details() takes 2 positional arguments but 3 were given
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.102s
+
+FAILED (errors=1)

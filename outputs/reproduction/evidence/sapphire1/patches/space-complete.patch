@@ -1,0 +1,114 @@
+diff --git a/vllm/platforms/cuda.py b/vllm/platforms/cuda.py
+index 6749246..d6592cc 100644
+--- a/vllm/platforms/cuda.py
++++ b/vllm/platforms/cuda.py
+@@ -49,6 +49,13 @@ def device_id_to_physical_device_id(device_id: int) -> int:
+                 " more information.")
+             raise RuntimeError(msg)
+         physical_device_id = device_ids[device_id]
++        if physical_device_id.startswith("GPU-"):
++            pynvml.nvmlInit()
++            try:
++                return pynvml.nvmlDeviceGetIndex(
++                    pynvml.nvmlDeviceGetHandleByUUID(physical_device_id))
++            finally:
++                pynvml.nvmlShutdown()
+         return int(physical_device_id)
+     else:
+         return device_id
+diff --git a/vllm/v1/core/encoder_cache_manager.py b/vllm/v1/core/encoder_cache_manager.py
+index 8d618d4..37e9e26 100644
+--- a/vllm/v1/core/encoder_cache_manager.py
++++ b/vllm/v1/core/encoder_cache_manager.py
+@@ -55,7 +55,7 @@ class EncoderCacheManager:
+     def free(self, request: Request) -> None:
+         """Free all cached input ids for the request."""
+         input_ids = self.get_cached_input_ids(request)
+-        for input_id in input_ids:
++        for input_id in list(input_ids):
+             self.free_encoder_input(request, input_id)
+ 
+     def get_freed_ids(self) -> List[Tuple[str, int]]:
+diff --git a/vllm/v1/engine/core.py b/vllm/v1/engine/core.py
+index 2cdbd8d..4eb334d 100644
+--- a/vllm/v1/engine/core.py
++++ b/vllm/v1/engine/core.py
+@@ -513,6 +513,11 @@ class EncoderCore:
+             #logger.info(f"encoder queue add {output}")
+             #import time;s_time = time.time()
+                 self.encoder_result_queue.put(output)
++                self.scheduler.finish_requests(
++                    [req.req_id for req in scheduler_output.scheduled_new_reqs],
++                    RequestStatus.FINISHED_STOPPED)
++                self.scheduler.finished_req_ids.clear()
++                self.scheduler.encoder_cache_manager.get_freed_ids()
+             # e_time = time.time()
+             # logger.info(f"add time is {1000 * (e_time - s_time)}")
+         # executor to run_encoder
+diff --git a/vllm/v1/engine/core_client.py b/vllm/v1/engine/core_client.py
+index 9131bb5..d6da31e 100644
+--- a/vllm/v1/engine/core_client.py
++++ b/vllm/v1/engine/core_client.py
+@@ -14,7 +14,7 @@ import zmq.asyncio
+ from vllm.config import VllmConfig
+ from vllm.logger import init_logger
+ from vllm.utils import (get_open_zmq_ipc_path, kill_process_tree,
+-                        make_zmq_socket)
++                        make_zmq_socket, get_mp_context)
+ from vllm.v1.engine import (EngineCoreOutputs, EngineCoreProfile,
+                             
+                             EngineCoreRequest, EngineCoreRequestType,
+@@ -176,7 +176,8 @@ class MPClient(EngineCoreClient):
+         # else the gc cannot collect the object.
+         self._finalizer = weakref.finalize(self, lambda x: x.destroy(linger=0),
+                                            self.ctx)
+-        encoder_result_queue = mp.Queue(maxsize=5)
++        self.encoder_result_queue = get_mp_context().Queue(maxsize=5)
++        encoder_result_queue = self.encoder_result_queue
+         # Paths and sockets for IPC.
+         output_path = get_open_zmq_ipc_path()
+         input_path = get_open_zmq_ipc_path()
+@@ -408,6 +409,8 @@ class AsyncMPClient(MPClient):
+             await self._send_input(EngineCoreRequestType.ABORT, request_ids)
+ 
+     async def profile_async(self, is_start: bool = True) -> None:
++        await self._send_input_toencoder(EngineCoreRequestType.PROFILE,
++                                         EngineCoreProfile(is_start))
+         await self._send_input(EngineCoreRequestType.PROFILE,
+                                EngineCoreProfile(is_start))
+ 
+diff --git a/vllm/v1/worker/gpu_model_runner.py b/vllm/v1/worker/gpu_model_runner.py
+index ba12079..fbb1d52 100644
+--- a/vllm/v1/worker/gpu_model_runner.py
++++ b/vllm/v1/worker/gpu_model_runner.py
+@@ -781,7 +781,7 @@ class GPUModelRunner:
+         encoder_cache: Dict[str, Dict[int, torch.Tensor]] = {}
+         # Cache the encoder outputs.
+         for (req_id, input_id), output in zip(req_input_ids, encoder_outputs):
+-            if req_id not in self.encoder_cache:
++            if req_id not in encoder_cache:
+                 encoder_cache[req_id] = {}
+             # print(f"encoder cache is {self.encoder_cache[req_id]}")
+             # print(f"type of encoder output is {type(output)}")
+diff --git a/vllm/v1/worker/gpu_worker.py b/vllm/v1/worker/gpu_worker.py
+index 6b233e4..c7c9f45 100644
+--- a/vllm/v1/worker/gpu_worker.py
++++ b/vllm/v1/worker/gpu_worker.py
+@@ -77,7 +77,7 @@ class Worker:
+                     torch.profiler.ProfilerActivity.CPU,
+                     torch.profiler.ProfilerActivity.CUDA,
+                 ],
+-                with_stack=True,
++                with_stack=False,
+                 on_trace_ready=torch.profiler.tensorboard_trace_handler(
+                     torch_profiler_trace_dir, use_gzip=True))
+         else:
+@@ -265,6 +265,8 @@ class Worker:
+         #logger.info(f"execute_vision_encoder: {scheduler_output}")
+         self.model_runner.update_for_encoder(scheduler_output)
+         encoder_cache = self.model_runner._execute_encoder(scheduler_output)
++        for req_id in scheduler_output.scheduled_encoder_inputs:
++            self.model_runner.requests.pop(req_id, None)
+         #encoder_cache = self.model_runner.get_encoder_cache()
+         #logger.info(f"encoder_cache: {encoder_cache}")
+         if scheduler_output.scheduled_new_reqs == None or len(scheduler_output.scheduled_new_reqs) == 0:

@@ -1,0 +1,72 @@
+{
+  "captured_utc": "2026-10-22T20:21:03.496842+00:00",
+  "capture_note": "restart-diagnostic-after-20-warmup",
+  "devices": "0,1,2",
+  "servers": [
+    {
+      "pid": 2667492,
+      "created_epoch_seconds": 1792699854.24,
+      "command": [
+        "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/bin/python",
+        "-u",
+        "-m",
+        "epdserve.api_server",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18400",
+        "--model",
+        "/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6",
+        "--tokenizer",
+        "/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6",
+        "--encoding-data-parallel-size",
+        "1",
+        "--context-data-parallel-size",
+        "1",
+        "--decoding-data-parallel-size",
+        "1",
+        "--intra-request-dp",
+        "0",
+        "--block-size",
+        "16",
+        "--max-num-blocks-per-req",
+        "256",
+        "--gpu-memory-utilization",
+        "0.65",
+        "--swap-space",
+        "1",
+        "--encoding-max-batch-size",
+        "1",
+        "--context-max-batch-size",
+        "1",
+        "--decoding-max-batch-size",
+        "8",
+        "--context-max-tokens-per-batch",
+        "4096",
+        "--decoding-max-tokens-per-batch",
+        "4096",
+        "--encoding-sched-policy",
+        "fcfs",
+        "--context-sched-policy",
+        "fcfs",
+        "--decoding-sched-policy",
+        "fcfs",
+        "--limit-mm-per-prompt",
+        "4"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0,1,2",
+        "CUDA_MPS_PIPE_DIRECTORY": null,
+        "VLLM_USE_V1": "0",
+        "PYTHONPATH": "/mnt/data3/boyjiang-spaceserve-epd/src/epdserve",
+        "VLLM_LIBSMCTRL_PATH": null,
+        "CUDA_IPC_LIB_PATH": "/mnt/data3/boyjiang-spaceserve-epd/build/epd-cuda/libcuda_ipc_utils.so"
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.6.1.post2",
+    "torch": "2.4.0",
+    "transformers": "4.44.2"
+  }
+}

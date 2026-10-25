@@ -1,0 +1,27 @@
+started baseline-reference pid=2272559 devices=0
+Traceback (most recent call last):
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/scripts/check_correctness.py", line 119, in <module>
+    asyncio.run(run(parser.parse_args()))
+  File "/usr/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/scripts/check_correctness.py", line 60, in run
+    targets.append(await request(args.url, case))
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/scripts/check_correctness.py", line 42, in request
+    async with session.post(url + "/generate", json=body) as response:
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/aiohttp/client.py", line 878, in _connect_and_send_request
+    await resp.start(conn)
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/aiohttp/client_reqrep.py", line 745, in start
+    message, payload = await protocol.read()  # type: ignore[union-attr]
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/aiohttp/streams.py", line 716, in read
+    await self._waiter
+aiohttp.client_exceptions.ServerDisconnectedError: Server disconnected
+Traceback (most recent call last):
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/scripts/stop_server.py", line 10, in <module>
+    assert str(root) + "/" in " ".join(process.cmdline()), "PID does not belong to this experiment"
+AssertionError: PID does not belong to this experiment

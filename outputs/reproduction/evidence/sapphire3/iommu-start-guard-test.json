@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "exit_code": 1,
+  "stdout": "{\n  \"kernel_cmdline\": \"BOOT_IMAGE=/vmlinuz-6.8.0-138-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro\",\n  \"boot_id\": \"d2baf99f-59eb-4527-b4f9-da50cfaa469c\",\n  \"vm_detection\": \"none\",\n  \"vm_detection_exit_code\": 1,\n  \"devices\": [\n    {\n      \"index\": 0,\n      \"uuid\": \"GPU-03ae372c-840b-d6b0-f922-d8fc44227299\",\n      \"pci_bus\": \"0000:16:00.0\",\n      \"iommu_group\": \"/sys/kernel/iommu_groups/30\",\n      \"domain_type\": \"DMA-FQ\"\n    },\n    {\n      \"index\": 1,\n      \"uuid\": \"GPU-3f404f49-b078-9869-7d77-52b342b3b171\",\n      \"pci_bus\": \"0000:38:00.0\",\n      \"iommu_group\": \"/sys/kernel/iommu_groups/24\",\n      \"domain_type\": \"DMA-FQ\"\n    },\n    {\n      \"index\": 2,\n      \"uuid\": \"GPU-65f61985-9214-c370-eb98-0c756a9ec222\",\n      \"pci_bus\": \"0000:49:00.0\",\n      \"iommu_group\": \"/sys/kernel/iommu_groups/21\",\n      \"domain_type\": \"DMA-FQ\"\n    }\n  ],\n  \"unsupported_bare_metal_dma_iommu\": true,\n  \"note\": \"Configuration check only; CUDA-runtime P2P and original KV data checks are still required\"\n}\n",
+  "stderr": "NVIDIA does not support bare-metal PCIe P2P with DMA IOMMU translation; arrange administrator maintenance or use a validated host\n",
+  "gpu_processes_after": ""
+}

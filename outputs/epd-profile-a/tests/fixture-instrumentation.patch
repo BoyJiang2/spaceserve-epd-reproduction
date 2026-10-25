@@ -1,0 +1,219 @@
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\worker.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\worker.py
+@@ -1,3 +1,4 @@
++import observe
+ import copy
+ import time
+ from typing import List, Tuple, Optional
+@@ -274,6 +275,7 @@
+         logger.info(f"Runtime peak memory: {peak_runtime_memory / GB:.3f} GB. Total GPU memory: {total_gpu_memory / GB:.3f} GB. Num GPU Blocks: {num_gpu_blocks} Num CPU Blocks: {num_cpu_blocks}")
+         return num_gpu_blocks, num_cpu_blocks
+ 
++    @observe.call("step_llm")
+     @torch.inference_mode()
+     # This function is adapted to be used for vllm backend
+     def step_llm(
+@@ -406,6 +408,7 @@
+                 
+         torch.cuda.synchronize()
+ 
++    @observe.call("migrate_blocks_context")
+     def migrate_blocks_context(
+         self,
+         context_block_indexes: List[int],
+@@ -445,6 +448,7 @@
+                 )
+         torch.cuda.synchronize()
+ 
++    @observe.call("migrate_blocks_encoding")
+     def migrate_blocks_encoding(
+         self,
+         encoding_block_indexes: List[int],
+@@ -464,6 +468,7 @@
+             self.ve_cache,
+         )
+ 
++    @observe.call("step_encoding")
+     def step_encoding(
+         self,
+         request_ids: List[int],
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_common.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_common.py
+@@ -1,3 +1,4 @@
++import observe
+ import time, copy
+ from typing import Callable, Optional, List, Dict, Tuple
+ from abc import ABC, abstractmethod
+@@ -369,6 +370,7 @@
+             self._remote_call_all_workers_async,
+         )
+ 
++    @observe.call("_remote_call_all_workers_async")
+     def _remote_call_all_workers_async(self, func_name: str, *args):
+         """
+         call func_name asynchronously on all workers, return the futures immediately
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_encoding.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_encoding.py
+@@ -1,3 +1,4 @@
++import observe
+ 
+ import time
+ import copy
+@@ -319,6 +320,8 @@
+                 )
+                 
+             # push the batch into pipeline
++            if observe.enabled:
++                observe.mark('engine.batch', component=type(self).__name__, request_ids=list(map(str, batched_requests.get_request_ids())), batch=len(batched_requests))
+             batched_requests.start_one_iteration(time.perf_counter())
+             self.batches_in_pipeline.append(batched_requests)
+ 
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_context.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_context.py
+@@ -1,3 +1,4 @@
++import observe
+ from epdserve.engine_common import *
+ from epdserve.config import ClusterParallelConfig
+ 
+@@ -272,6 +273,8 @@
+                                                            LifetimeEvent(LifetimeEventType.ContextBegin))
+                 
+             # push the batch into pipeline
++            if observe.enabled:
++                observe.mark('engine.batch', component=type(self).__name__, request_ids=list(map(str, batched_requests.get_request_ids())), batch=len(batched_requests))
+             batched_requests.start_one_iteration(time.perf_counter())
+             self.batches_in_pipeline.append(batched_requests)
+ 
+@@ -365,6 +368,7 @@
+         self._free_request_resources(migrated_request.req.request_id)
+         self.scheduler.on_request_migrated(migrated_request)
+ 
++    @observe.call("_migrate_blocks_encoding")
+     async def _migrate_blocks_encoding(self, migrating_req: MigratingRequest) -> None:
+         self.vision_block_manager.allocate_blocks(migrating_req.req)
+         target_block_indexes = self.vision_block_manager.get_block_table(migrating_req.req.request_id)
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_decoding.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\engine_decoding.py
+@@ -1,3 +1,4 @@
++import observe
+ from epdserve.engine_common import *
+ from epdserve.config import ClusterParallelConfig
+ 
+@@ -237,6 +238,7 @@
+         block_status['gpus'] = self.gpu_ids
+         return block_status
+ 
++    @observe.call("_migrate_blocks_context")
+     async def _migrate_blocks_context(
+         self,
+         migrating_req: MigratingRequest
+@@ -316,6 +318,8 @@
+             ), "Some requests are currently swapped out to CPU"
+ 
+             # push the batch into pipeline
++            if observe.enabled:
++                observe.mark('engine.batch', component=type(self).__name__, request_ids=list(map(str, batched_requests.get_request_ids())), batch=len(batched_requests))
+             batched_requests.start_one_iteration(time.perf_counter())
+             self.batches_in_pipeline.append(batched_requests)
+             
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\orchestrator.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\orchestrator.py
+@@ -1,3 +1,4 @@
++import observe
+ from typing import List, Optional, Dict, DefaultDict, AsyncGenerator
+ import asyncio
+ import argparse
+@@ -252,6 +253,8 @@
+         is generated
+         """
+         # if dont_add_if_dup == True and self.request_lifetime_events[request_id][-1].event_type == event.event_type, don't add it
++        if observe.enabled:
++            observe.mark('lifetime', request_id=str(request_id), event=event.event_type.value, event_stamp=event.timestamp)
+         if dont_add_if_dup and \
+            len(self.request_lifetime_events[request_id]) > 0 and \
+            event.event_type in self.request_lifetime_events[request_id]:
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\api_server.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\src\epdserve\epdserve\api_server.py
+@@ -1,3 +1,4 @@
++import observe
+ """
+ Usage example:
+ 
+@@ -97,6 +98,8 @@
+     assert rgb_manifest, 'RGB preload is not enabled'
+     return cache_snapshot(rgb_manifest, image_cache)
+ 
++observe.install_api(app)
++
+ @app.post("/generate")
+ async def generate(request: Request) -> Response:
+     """Generate completion for the request.
+@@ -138,11 +141,18 @@
+ 
+     final_outputs: List[Tuple[StepOutput, float]] = [] # (step_output, timestamp)
+     async for step_output in results_generator:
+-        if await request.is_disconnected():
++        if observe.enabled:
++            with observe.span('api.disconnect', rid=str(request_id), token=len(final_outputs)):
++                disconnected = await request.is_disconnected()
++        else:
++            disconnected = await request.is_disconnected()
++        if disconnected:
+             # Abort the request if the client disconnects.
+             await engine.abort(request_id)
+             return Response(status_code=499)
+         final_outputs.append((step_output, time.perf_counter()))
++        if observe.enabled:
++            observe.mark('api.output', rid=str(request_id), token=len(final_outputs), api_stamp=final_outputs[-1][1], callback_stamp=step_output.timestamp)
+ 
+     request_events = engine.get_and_pop_request_lifetime_events(request_id)
+     
+@@ -155,6 +165,7 @@
+         'processed_prompt_token_ids': input_dict['processed_prompt_token_ids'],
+         'prompt_token_len': len(input_dict['prompt_token_ids']),
+         'processed_prompt_token_len': len(input_dict['processed_prompt_token_ids']),
++        "repro_request_id": str(request_id),
+         "timestamps": [step_output[1] for step_output in final_outputs],
+         "lifetime_events": json_encode_lifetime_events(request_events.values())
+     }
+--- D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\scripts\baseline_server.py.before
++++ D:\Documents\codex\2026-10-23\new-chat-2\work\tmpa9wxcde5\epd-profile-a-20261023\scripts\baseline_server.py
+@@ -41,6 +41,10 @@
+         if optional not in supported:
+             options.pop(optional)
+     engine_args = AsyncEngineArgs(**options)
++    import observe
++    if observe.enabled:
++        from vllm.worker.worker import Worker
++        Worker.execute_model = observe.call('baseline.execute_model')(Worker.execute_model)
+     engine = AsyncLLMEngine.from_engine_args(engine_args)
+     app = FastAPI()
+     image_cache = {}
+@@ -55,6 +59,8 @@
+         if not rgb_manifest:
+             raise HTTPException(400, 'RGB preload is not enabled')
+         return cache_snapshot(rgb_manifest, {path.name: image for path, image in image_cache.items()})
++
++    observe.install_api(app)
+ 
+     @app.get("/health")
+     async def health():
+@@ -88,13 +94,16 @@
+         sampling = SamplingParams(**data)
+         prompt = {"prompt": inputs["prompt"], "multi_modal_data": {"image": images}}
+         timestamps, previous_count, final = [], 0, None
+-        async for output in engine.generate(prompt, sampling, uuid.uuid4().hex):
++        repro_id = uuid.uuid4().hex
++        async for output in engine.generate(prompt, sampling, repro_id):
+             final = output
+             token_count = len(output.outputs[0].token_ids)
+             timestamps.extend([time.perf_counter()] * (token_count - previous_count))
++            if observe.enabled:
++                observe.mark('api.output', rid=repro_id, token=token_count, api_stamp=timestamps[-1])
+             previous_count = token_count
+         assert final is not None
+-        return JSONResponse({"output": final.outputs[0].text,
++        return JSONResponse({"repro_request_id": repro_id, "output": final.outputs[0].text,
+                              "output_token_ids": list(final.outputs[0].token_ids),
+                              "processed_prompt_token_ids": list(final.prompt_token_ids),
+                              "prompt_token_len": len(final.prompt_token_ids),

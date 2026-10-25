@@ -1,0 +1,18 @@
+{
+  "system": "EPDServe 9b111f710dfb, MiniCPM-V-2_6, FP16, E:P:D=1:1:1",
+  "condition": "Fresh server; 20 sequential 128-token COCO warmups and one diagnostic request, then eight concurrent 32-token single-color requests",
+  "concurrency": 8,
+  "max_tokens": 32,
+  "warmup_requests": 20,
+  "diagnostic_requests_before_concurrency_check": 1,
+  "client_timeout_s": 120,
+  "outcome": "Concurrent batch did not complete; asyncio TimeoutError; all preceding 21 sequential requests completed but were much slower than the formal instance",
+  "diagnostic_single_request_latency_s": 26.05773540699738,
+  "diagnostic_single_request_output_tokens_per_s": 4.911964157145431,
+  "root_cause": "Unresolved; main CLI, source, GPU allocation, package versions, and cache block counts checked",
+  "included_in_formal_performance": false,
+  "client_log": "logs/epd-warm-c8-check.log",
+  "server_log": "logs/server-epd-warm-c8-check.log",
+  "sequential_requests": "epd-c8-warmup/requests.jsonl",
+  "runtime_config": "epd-restart-runtime.json"
+}

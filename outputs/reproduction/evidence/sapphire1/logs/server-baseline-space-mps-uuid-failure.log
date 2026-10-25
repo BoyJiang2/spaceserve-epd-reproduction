@@ -1,0 +1,19 @@
+INFO 10-23 02:56:24 __init__.py:190] Automatically detected platform cuda.
+Traceback (most recent call last):
+  File "/mnt/data/boyjiang-spaceserve-epd/scripts/baseline_server.py", line 97, in <module>
+    main()
+  File "/mnt/data/boyjiang-spaceserve-epd/scripts/baseline_server.py", line 42, in main
+    engine = AsyncLLMEngine.from_engine_args(engine_args)
+  File "/mnt/data/boyjiang-spaceserve-epd/envs/space/lib/python3.10/site-packages/vllm/v1/engine/async_llm.py", line 104, in from_engine_args
+    vllm_config = engine_args.create_engine_config(usage_context)
+  File "/mnt/data/boyjiang-spaceserve-epd/envs/space/lib/python3.10/site-packages/vllm/engine/arg_utils.py", line 1048, in create_engine_config
+    self._override_v1_engine_args(usage_context)
+  File "/mnt/data/boyjiang-spaceserve-epd/envs/space/lib/python3.10/site-packages/vllm/engine/arg_utils.py", line 1308, in _override_v1_engine_args
+    device_name = current_platform.get_device_name().lower()
+  File "/mnt/data/boyjiang-spaceserve-epd/envs/space/lib/python3.10/site-packages/vllm/platforms/cuda.py", line 63, in wrapper
+    return fn(*args, **kwargs)
+  File "/mnt/data/boyjiang-spaceserve-epd/envs/space/lib/python3.10/site-packages/vllm/platforms/cuda.py", line 275, in get_device_name
+    physical_device_id = device_id_to_physical_device_id(device_id)
+  File "/mnt/data/boyjiang-spaceserve-epd/envs/space/lib/python3.10/site-packages/vllm/platforms/cuda.py", line 52, in device_id_to_physical_device_id
+    return int(physical_device_id)
+ValueError: invalid literal for int() with base 10: 'GPU-c71b0d94-bc7e-6b3c-488e-8f9a4451affd'

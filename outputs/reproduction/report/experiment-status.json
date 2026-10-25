@@ -1,0 +1,54 @@
+{
+  "goal_complete": true,
+  "execution_status": "complete",
+  "counts_scope": "All fifteen archived matrices; final selection replaces four old low-load configurations",
+  "formal_configurations_measured": 50,
+  "formal_http_requests": 15000,
+  "selected_configurations": 46,
+  "selected_formal_requests": 13800,
+  "measurement_valid_requests": 12000,
+  "diagnostic_only_requests": 1800,
+  "superseded_requests": 1200,
+  "spaceserve": "4090/L20 small-scale mechanism and performance checks complete; 4090 SM mask unavailable",
+  "h20": {
+    "qjh003": "Original 3600 plus 600 corrected-cache requests archived; final selection 3600; mechanism, runtime and raw checks passed",
+    "qjh005": "Original 1200 plus 600 corrected-cache requests archived; final selection 1200; mechanism, runtime and raw checks passed",
+    "fixed_service_cases_passed": 150,
+    "cache_fix": "1200 formal requests and 80 warmups passed; 16 actual RGB cache snapshots match archived pixels; G4 APPROVE_WITH_NITS closed B1",
+    "cublas": "12.4.5.8 override validated on both hosts; torch/vLLM unchanged"
+  },
+  "historical_failure": "sapphire3 CUDA PCIe P2P data corruption; retained as diagnostic evidence and replaced by validated H20 hosts",
+  "causality_limit": "No maintenance experiment was performed to prove IOMMU was the sole cause of sapphire3 failure",
+  "independent_review": {
+    "status": "g1_g5_approved",
+    "reviewer_policy": "Claude preferred; independent subagent substitutes on explicit quota exhaustion per user instruction and AGENTS section 3.2.1",
+    "gates": {
+      "G1": "APPROVE_WITH_NITS (subagent)",
+      "G2": "APPROVE (subagent, RGB correction and full replay)",
+      "G3": "APPROVE_WITH_NITS (subagent)",
+      "G4": "APPROVE_WITH_NITS (subagent; B1 closed)",
+      "G5": "APPROVE_WITH_NITS (Claude claude-opus-5-5)"
+    },
+    "reason": "G1-G4 valid independent subagent approvals, G5 Claude APPROVE_WITH_NITS; closure metadata, protected bytes, selected statistics, credential feature scan and complete validation-package SHA/CRC checks passed. Final outer ZIP is verified again after completion metadata.",
+    "blocking_count": 0,
+    "blocking_count_scope": "G1-G5 no unresolved blocking findings; all closure conditions addressed",
+    "subagent_results": [
+      "reviews/subagent-g1-g2-20261023.md",
+      "reviews/subagent-g3-20261023.md",
+      "reviews/subagent-g4-20261023.md",
+      "reviews/subagent-g2-rgb-followup-20261023.md",
+      "reviews/subagent-g2-full-replay-20261023.md",
+      "reviews/subagent-g4-cache-fix-data-20261023.md",
+      "reviews/subagent-g2-rgb-20261023.md",
+      "reviews/subagent-g4-selection-precheck-20261023.md"
+    ],
+    "evidence": "reviews/g5-claude-final-20261023.md",
+    "latest_availability_check": "reviews/claude-availability-post-reset-20261023.json",
+    "g5_result": "reviews/g5-claude-final-20261023.md",
+    "historical_failed_review": "reviews/g1-g4-h20-adoption-status.md",
+    "historical_blocked_audit": "report/blocked-audit.md"
+  },
+  "fairness_caveat": "Historic unmatched low-load records preserved but superseded; actual RGB cache verified on all endpoints; G4 closed B1. Later-load coverage is reconstruction from persistent script/PIDs/non-evicting cache, not direct hit-cost measurement.",
+  "required_remaining": [],
+  "forbidden_workaround": "No communication-layer rewrite, cross-host E/P/D split, or silent host-staging fallback"
+}

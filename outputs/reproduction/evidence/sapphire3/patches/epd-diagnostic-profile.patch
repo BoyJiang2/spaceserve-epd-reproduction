@@ -1,0 +1,29 @@
+--- a/epdserve/worker.py
++++ b/epdserve/worker.py
+@@ -284,6 +284,12 @@
+     ) -> List[int]:
+         """Run one step of inference on the batch of requests."""
+ 
++        import os
++        profile_dir = os.getenv("EPD_REPRO_PROFILE_DIR")
++        if profile_dir and self.stage == EngineStage.DECODING and not hasattr(self, "_repro_trace_steps"):
++            self._repro_trace_steps = 4
++            self._repro_profiler = torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA])
++            self._repro_profiler.start()
+         start = time.perf_counter()
+         # Check whether synchronization is necessary
+         for request_id in request_ids:
+@@ -368,6 +374,13 @@
+                 raise NotImplementedError
+         except Exception as e:
+             raise e
++        finally:
++            if profile_dir and self.stage == EngineStage.DECODING and self._repro_trace_steps > 0:
++                self._repro_trace_steps -= 1
++                if self._repro_trace_steps == 0:
++                    self._repro_profiler.stop()
++                    Path(profile_dir).mkdir(parents=True, exist_ok=True)
++                    self._repro_profiler.export_chrome_trace(str(Path(profile_dir) / (str(os.getpid()) + ".json")))
+ 
+ 
+     def unregister_kvcache_mem_handles_context(

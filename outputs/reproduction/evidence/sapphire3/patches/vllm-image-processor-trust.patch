@@ -1,0 +1,11 @@
+--- a/vllm/transformers_utils/image_processor.py
++++ b/vllm/transformers_utils/image_processor.py
+@@ -31,7 +31,7 @@
+ def get_image_processor(
+     processor_name: str,
+     *args,
+-    trust_remote_code: bool = False,
++    trust_remote_code: bool = True,
+     **kwargs,
+ ):
+     """Gets an image processor for the given model name via HuggingFace."""

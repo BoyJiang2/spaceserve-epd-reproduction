@@ -1,0 +1,128 @@
+{"host": "qjh000", "stopped_owner": {"state": "stopped", "pid": 18972, "created": 1792758323.21, "token": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023:945420b5fa594f3291f58b62a174ec16", "pipe": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps", "uuid": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e", "active_thread_percentage": 100, "control_inode": 4828202}, "removed_socket": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps/control", "inode": 4828202, "uid": 2147, "operation": "unlink exact stopped socket only", "daemon_pid_absent": true, "all_mps_processes_absent": true, "recorded_unix_ns": 1792759572036728483, "unlink_succeeded": true, "boot_id": "a9617eaa-1638-45fc-8997-a62b528e8f30"}
+{
+  "captured_utc": "2026-10-23T12:46:39.159400+00:00",
+  "capture_note": "Formal 7B single-H20 run; profiler disabled",
+  "devices": "0",
+  "servers": [
+    {
+      "pid": 124466,
+      "created_epoch_seconds": 1792759572.7,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/baseline_server.py",
+        "--model",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/models/Qwen2-VL-7B-Instruct",
+        "--dataset",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/dataset",
+        "--port",
+        "19770",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+        "CUDA_MPS_PIPE_DIRECTORY": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts",
+        "VLLM_LIBSMCTRL_PATH": null,
+        "CUDA_IPC_LIB_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  }
+}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+stopping PIDs [124628, 125231, 125232, 124766, 124768, 124770, 124772, 124774, 124776, 124779, 124781, 124783, 124785, 124787, 124789, 124791, 124793, 124795, 124797, 124799, 124801, 124803, 124805, 124808, 124810, 124812, 124815, 124818, 124820, 124822, 124824, 124827, 124831, 124835, 124839, 124466]
+orphan cleanup PIDs []
+{
+  "captured_utc": "2026-10-23T13:02:15.701942+00:00",
+  "capture_note": "Formal 7B single-H20 run; profiler disabled",
+  "devices": "0",
+  "servers": [
+    {
+      "pid": 195837,
+      "created_epoch_seconds": 1792760489.08,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/baseline_server.py",
+        "--model",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/models/Qwen2-VL-7B-Instruct",
+        "--dataset",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/dataset",
+        "--port",
+        "19770",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+        "CUDA_MPS_PIPE_DIRECTORY": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/src/SpaceServe:/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts",
+        "VLLM_LIBSMCTRL_PATH": null,
+        "CUDA_IPC_LIB_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  }
+}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+stopping PIDs [196477, 198118, 198121, 199271, 196754, 196756, 196758, 196760, 196762, 196764, 196766, 196768, 196770, 196772, 196774, 196776, 196778, 196780, 196782, 196784, 196786, 196788, 196790, 196792, 196794, 196796, 196798, 196800, 196802, 196804, 196806, 196808, 196810, 196812, 196814, 196816, 195837]
+orphan cleanup PIDs []
+{
+  "captured_utc": "2026-10-23T13:17:37.762695+00:00",
+  "capture_note": "Formal 7B single-H20 run; profiler disabled",
+  "devices": "0",
+  "servers": [
+    {
+      "pid": 267346,
+      "created_epoch_seconds": 1792761408.1,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/baseline_server.py",
+        "--model",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/models/Qwen2-VL-7B-Instruct",
+        "--dataset",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/dataset",
+        "--port",
+        "19770",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+        "CUDA_MPS_PIPE_DIRECTORY": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/src/SpaceServe:/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts",
+        "VLLM_LIBSMCTRL_PATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/libsmctrl.so",
+        "CUDA_IPC_LIB_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  }
+}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+stopping PIDs [268820, 269767, 269770, 271025, 268955, 268962, 268964, 268972, 268981, 268988, 269010, 269013, 269015, 269017, 269019, 269021, 269023, 269025, 269027, 269029, 269033, 269039, 269041, 269043, 269050, 269058, 269064, 269069, 269072, 269075, 269077, 269079, 269081, 269083, 269085, 269087, 267346]
+orphan cleanup PIDs []
+Low/high points for all accepted groups complete; waiting for independent G4_POINTS_APPROVED.

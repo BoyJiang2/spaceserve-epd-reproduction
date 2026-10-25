@@ -1,0 +1,125 @@
+{
+  "batch_complete": true,
+  "host": "qjh000",
+  "model": "Qwen/Qwen2-VL-7B-Instruct",
+  "precision": "float16",
+  "tensor_parallel_size": 1,
+  "eager": true,
+  "gates": {
+    "G1_migration": "APPROVE_WITH_NITS",
+    "G2_native_sm_runtime": "APPROVE_WITH_NITS",
+    "G3_native_sm": "APPROVE_WITH_NITS",
+    "G2_model_service": "APPROVE_WITH_NITS;idle/parser,RGB deployment,export wait and polling cleanup deltas approved",
+    "G3_model_service": "APPROVE_WITH_NITS;cold+restart;effective encoder-stream SM accepted",
+    "G2_formal": "APPROVE_WITH_NITS;serviceG3 satisfied;memory sampler delta APPROVE_WITH_NITS/BLOCKING0",
+    "G4": "APPROVE_WITH_NITS;full data and report scopes;BLOCKING0",
+    "G5": "APPROVE_WITH_NITS;independent candidate delivery review;BLOCKING0;final verification required",
+    "G3_native_sm_layout": "APPROVE_WITH_NITS",
+    "G2_performance_analysis": "APPROVE_WITH_NITS;B1/B2/B3 closed",
+    "G2_report_renderer": "APPROVE_WITH_NITS;full G4 approves local layout/text deltas",
+    "G4_points": "APPROVE_WITH_NITS;independent data and report scopes;BLOCKING0",
+    "G4_full": "APPROVE_WITH_NITS;independent full data and report;BLOCKING0",
+    "G2_delivery_helpers": "APPROVE;independent recheck;3 findings closed;4 CPU regressions passed",
+    "G4_full_data": "APPROVE_WITH_NITS;5760rows54repeats58294memory samples independently checked",
+    "G4_full_report": "APPROVE_WITH_NITS;18rows6loadsfigures;two text nits adopted"
+  },
+  "blocking": 0,
+  "environment": {
+    "state": "READY;154 fixed packages; pip check and finite FP16 probe passed",
+    "model_files_sha_verified": 15,
+    "original_independent_model_pin_matched": true
+  },
+  "native_sm": {
+    "state": "completed; independent feasibility/layout G3 approved;78->64;zero restores78",
+    "groups": [
+      "no-mps",
+      "private-mps"
+    ],
+    "repetitions_per_group": 3,
+    "service_mechanism_accepted": true
+  },
+  "model_gpu_jobs_started": true,
+  "formal_requests": 5400,
+  "epd_analysis": {
+    "measurement_host": "qjh003",
+    "analysis_host": "qjh000",
+    "formal_requests": 2400,
+    "warmup_requests": 160,
+    "technical_audit_passed": true,
+    "G4_statistics": "APPROVE_WITH_NITS",
+    "G4_cuda_and_final_report": "APPROVE_WITH_NITS",
+    "batch_complete": true,
+    "G5": "APPROVE_WITH_NITS;B1/B2 closed;limited delivery",
+    "archive_sha256": "f7a35baf1c7e0e13ea1b1df65d4436efff199c5b21c876198289fbbfb2a1c094"
+  },
+  "snapshot_local": "2026-10-23T23:36:09.257634+08:00",
+  "model_preflight": {
+    "state": "cold and restart completed exit0;final G3 approved",
+    "pid": 3878609,
+    "native_correctness_previously_passed": true,
+    "unmasked_space_correctness_previously_passed": true,
+    "actual_encoder_first_execution_same_pid_and_stream_observed": true,
+    "trace_overlap_accepted": true,
+    "service_g3_accepted": true,
+    "previous_failure": "incomplete async profiler export plus pidfd EINVAL cleanup;reviewed fixes applied only after prior process exited",
+    "cold_pid": 3878609,
+    "cold_complete": true,
+    "restart_pid": 4055241,
+    "cold_independent_G3": "APPROVE_WITH_NITS;final cold+restart G3",
+    "restart_complete": true
+  },
+  "formal": {
+    "pid": 124199,
+    "state": "complete;18cases5400formal360warm;full G4 and G5 approved;final archive completion requires external passed receipt",
+    "accepted_roles": [
+      "baseline-space",
+      "space",
+      "space-mask"
+    ],
+    "target_first_phase_formal_requests": 1800,
+    "target_full_matrix_formal_requests": 5400,
+    "completed_formal_requests": 5400,
+    "failed_attempt_formal_requests": 300,
+    "failed_attempt_warmup_requests": 20,
+    "failed_attempt_archive_sha256": "042347e42b5c331cc784e9ac5fff01eb7923a314a057e5f4d0e5f4d51e445d96",
+    "code_manifest_sha256": "a1df0568a0982b2c66e370f7153072534309323b3c3b856fe81518a303aaf975",
+    "restart_observed_local": "2026-10-23T20:46:51.97164+08:00",
+    "technically_audited_formal_requests": 5400,
+    "technically_audited_warmup_requests": 360,
+    "technically_completed_cases": 18,
+    "points_transfer_sha256": "ca4d480c99ae6111b1e02ae0a6af64e0f66a2a4a4f363bdb35ac391c2679a56b",
+    "points_payload_files": 199,
+    "points_statistics_passed": true,
+    "points_independent_g4_approved": true,
+    "independently_validated_formal_requests": 5400,
+    "rest_started": true,
+    "rest_resume_evidence": "evidence/g4-points-resume-observed.json",
+    "total_target_configurations": 18,
+    "supervisor_exit_code": 0,
+    "completed_utc": "2026-10-23T15:02:44Z",
+    "full_statistics_passed": true,
+    "full_transfer_sha256": "d7d75ef664e750ba87b3810ba43ccc3b06ff0f159814d28cba59a8ac9f0e6814",
+    "full_payload_files": 415,
+    "final_source_entries_verified": 660,
+    "private_mps_stopped": true,
+    "final_background_check_passed": true,
+    "independently_validated_warmup_requests": 360,
+    "independently_validated_memory_samples": 58294
+  },
+  "claude_after_reset": {
+    "available": true,
+    "evidence": "reviews/claude-availability-after-reset.json",
+    "note": "READY only;not a review approval",
+    "subsequent_review_quota_exhausted": true,
+    "next_reset": "03:50 Asia/Shanghai",
+    "review_error_evidence": [
+      "reviews/g4-full-data-claude.json",
+      "reviews/g4-full-report-claude.json"
+    ]
+  },
+  "final_archive": {
+    "archive": "../spaceserve-7b-h20.zip",
+    "integrity": "../spaceserve-7b-h20-integrity.json",
+    "completion_condition": "external receipt kind=final and passed=true;prepared metadata alone is not final verification"
+  }
+}

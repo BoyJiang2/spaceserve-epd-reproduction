@@ -1,0 +1,14 @@
+{
+  "goal_complete": false,
+  "formal_configurations_measured": 30,
+  "formal_http_requests": 9000,
+  "measurement_valid_requests": 7200,
+  "diagnostic_only_requests": 1800,
+  "spaceserve": "Same-GPU mechanism and performance validation completed; 4090 SM mask unsupported by current library/driver",
+  "epd": "awaiting_supported_peer_copy_environment",
+  "confirmed_failure": "Pure CUDA Runtime P2P copies and original EPD KV copies corrupt destination data",
+  "configuration": "Bare-metal sapphire3; all eight GPU IOMMU domains are DMA-FQ",
+  "causality_limit": "IOMMU is an unsupported configuration; adjustment and retesting are required to prove causality",
+  "required_external_action": "Administrator maintenance to test with IOMMU translation disabled, or a verified replacement GPU host",
+  "forbidden_workaround": "No communication-layer rewrite or silent host-staging fallback"
+}

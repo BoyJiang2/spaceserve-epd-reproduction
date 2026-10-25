@@ -1,0 +1,104 @@
+[
+  {
+    "host": "qjh003",
+    "passed": true,
+    "boot_id": "1702fb5b-4b05-4070-bff9-8defb7af0c1d",
+    "formal_requests": 600,
+    "warmup_requests": 40,
+    "correctness_cases": 30,
+    "cache_snapshots": 8,
+    "rgb_images_per_snapshot": 20,
+    "scope": "Baseline fixed correctness checks cover endpoint 0; RGB cache checks cover every serving endpoint",
+    "matrices": [
+      {
+        "audited_utc": "2026-10-23T04:34:32.527674+00:00",
+        "directory": "outputs\\reproduction\\data\\cache-fix\\qjh003\\epd-h20",
+        "audit_scope": "Request completion, protocol coverage, and data format; not peer-copy correctness or performance validity",
+        "passed": true,
+        "cases": [
+          {
+            "images": 1,
+            "concurrency": 1,
+            "warmup_requests": 20,
+            "measured_requests": 300,
+            "repetitions": 3,
+            "output_tokens_per_request": 128,
+            "visual_tokens_per_request": 64
+          }
+        ],
+        "measured_requests": 300,
+        "gpu_memory_samples": 3699
+      },
+      {
+        "audited_utc": "2026-10-23T04:34:32.581477+00:00",
+        "directory": "outputs\\reproduction\\data\\cache-fix\\qjh003\\baseline-epd-h20",
+        "audit_scope": "Request completion, protocol coverage, and data format; not peer-copy correctness or performance validity",
+        "passed": true,
+        "cases": [
+          {
+            "images": 1,
+            "concurrency": 1,
+            "warmup_requests": 20,
+            "measured_requests": 300,
+            "repetitions": 3,
+            "output_tokens_per_request": 128,
+            "visual_tokens_per_request": 64
+          }
+        ],
+        "measured_requests": 300,
+        "gpu_memory_samples": 3443
+      }
+    ]
+  },
+  {
+    "host": "qjh005",
+    "passed": true,
+    "boot_id": "5feba829-36fe-49cb-9551-655d740d229a",
+    "formal_requests": 600,
+    "warmup_requests": 40,
+    "correctness_cases": 30,
+    "cache_snapshots": 8,
+    "rgb_images_per_snapshot": 20,
+    "scope": "Baseline fixed correctness checks cover endpoint 0; RGB cache checks cover every serving endpoint",
+    "matrices": [
+      {
+        "audited_utc": "2026-10-23T04:34:32.679191+00:00",
+        "directory": "outputs\\reproduction\\data\\cache-fix\\qjh005\\epd-h20-qjh005",
+        "audit_scope": "Request completion, protocol coverage, and data format; not peer-copy correctness or performance validity",
+        "passed": true,
+        "cases": [
+          {
+            "images": 1,
+            "concurrency": 1,
+            "warmup_requests": 20,
+            "measured_requests": 300,
+            "repetitions": 3,
+            "output_tokens_per_request": 128,
+            "visual_tokens_per_request": 64
+          }
+        ],
+        "measured_requests": 300,
+        "gpu_memory_samples": 3748
+      },
+      {
+        "audited_utc": "2026-10-23T04:34:32.741186+00:00",
+        "directory": "outputs\\reproduction\\data\\cache-fix\\qjh005\\baseline-epd-h20-qjh005",
+        "audit_scope": "Request completion, protocol coverage, and data format; not peer-copy correctness or performance validity",
+        "passed": true,
+        "cases": [
+          {
+            "images": 1,
+            "concurrency": 1,
+            "warmup_requests": 20,
+            "measured_requests": 300,
+            "repetitions": 3,
+            "output_tokens_per_request": 128,
+            "visual_tokens_per_request": 64
+          }
+        ],
+        "measured_requests": 300,
+        "gpu_memory_samples": 3461
+      }
+    ]
+  }
+]

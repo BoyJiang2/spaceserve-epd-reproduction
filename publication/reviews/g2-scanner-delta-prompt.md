@@ -1,0 +1,5 @@
+G2窄核：第一次真实全量扫描主动失败，未stage/commit/push/Release。唯一provider-token命中是原diagnostic .pstats及对应原ZIP里的两条public函数名 get_hf_config_sliding_window / get_hf_image_processor_config（被旧正则从get_内部匹配hf_）。主执行者只读marshal键，并用vLLM固定v0.6.1公开源码AST逐一确认，精确证据scan-false-positive-proof.json；原件未改，不是忽略真秘密或脱敏原包。
+
+只改builder的provider-token规则为负向identifier前界，标准带分隔符hf_/gh token仍检出；不再把get_hf_函数名当token。为降低多GB trace扫描开销，另加mandatory literal prefilter：每类regex阳性必含其PREFIXES之一，只有存在时才regex，password类对lower bytes判断。不跳过任何文件/解压层/字节；保留tail512。test_publication_guards.py新增公开标识符vs实际格式及400随机/各类fixture的prefilter/direct regex完全一致检查，现8项全部过。
+
+请只读核此delta/证据/测试及G2之前约束保持，给APP/REQ与BLOCKING。第一次失败副本未形成publication/source-files.json（builder在assert前失败），将原同checkout重新扫描/复制原bytes；没有源目录或ZIP修改。复审通过后重新全量扫描再物化后续文档，后加内容继续verify_checkout。Claudeweekly quota接替依据仍本轮g1-plan-claude.json。禁止读取真实凭据/远端/GPU/改文件。

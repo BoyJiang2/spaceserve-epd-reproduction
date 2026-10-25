@@ -1,0 +1,21 @@
+test_only_on_mode_controls_last_window (__main__.BenchmarkControlTests.test_only_on_mode_controls_last_window) ... 
+  test_only_on_mode_controls_last_window (__main__.BenchmarkControlTests.test_only_on_mode_controls_last_window) (concurrency=8) ... FAIL
+
+======================================================================
+FAIL: test_only_on_mode_controls_last_window (__main__.BenchmarkControlTests.test_only_on_mode_controls_last_window) (concurrency=8)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\outputs\epd-profile-a\tests\test_benchmark_control.py", line 77, in test_only_on_mode_controls_last_window
+    self.assertEqual(off, on)
+AssertionError: Lists differ: [('ht[65662 chars]tp://a/generate', {'input': {'prompt': 'fixed [3402 chars]ue})] != [('ht[65662 chars]tp://b/generate', {'input': {'prompt': 'fixed [3402 chars]ue})]
+
+First differing element 304:
+('http://a/generate', {'input': {'prompt': 'fixed [161 chars]rue})
+('http://b/generate', {'input': {'prompt': 'fixed [157 chars]rue})
+
+Diff is 138844 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.355s
+
+FAILED (failures=1)

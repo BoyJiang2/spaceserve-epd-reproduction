@@ -1,0 +1,11 @@
+--- a/epdserve/api_server.py
++++ b/epdserve/api_server.py
+@@ -139,6 +139,8 @@
+         # "text": text_output,
+         "prompt": prompt,
+         "output": ''.join([step_output[0].new_token for step_output in final_outputs]),
++        'output_token_ids': [step_output[0].new_token_id for step_output in final_outputs],
++        'processed_prompt_token_ids': input_dict['processed_prompt_token_ids'],
+         'prompt_token_len': len(input_dict['prompt_token_ids']),
+         'processed_prompt_token_len': len(input_dict['processed_prompt_token_ids']),
+         "timestamps": [step_output[1] for step_output in final_outputs],

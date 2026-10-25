@@ -1,0 +1,22 @@
+--- /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/lib/python3.10/site-packages/vllm/v1/worker/gpu_worker.py.before
++++ /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/lib/python3.10/site-packages/vllm/v1/worker/gpu_worker.py
+@@ -141,6 +141,8 @@
+             context = nullcontext()
+         with context:
+             self.model_runner.load_model()
++            from record_device import record
++            record(self)
+ 
+     @torch.inference_mode()
+     def determine_available_memory(self) -> int:
+--- /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/src/SpaceServe/vllm/v1/worker/gpu_worker.py.before
++++ /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/src/SpaceServe/vllm/v1/worker/gpu_worker.py
+@@ -144,6 +144,8 @@
+             context = nullcontext()
+         with context:
+             self.model_runner.load_model()
++            from record_device import record
++            record(self)
+ 
+     @torch.inference_mode()
+     def determine_available_memory(self) -> int:

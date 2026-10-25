@@ -1,0 +1,75 @@
+{
+  "captured_utc": "2026-10-23T08:44:46.484560+00:00",
+  "boot_id": "1702fb5b-4b05-4070-bff9-8defb7af0c1d",
+  "packages": {
+    "torch": "2.4.0",
+    "vllm": "0.6.1.post2",
+    "transformers": "4.44.2",
+    "nvidia-cublas-cu12": "12.4.5.8"
+  },
+  "workers": [
+    {
+      "gpu_uuid": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+      "pid": 3782375,
+      "command": [
+        "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+        "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+        "--model",
+        "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/local/boyjiang/epd-profile-a-20261023/dataset",
+        "--port",
+        "19500",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "cuda_visible_devices": "0",
+      "loaded_cublas_libraries": [
+        "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+        "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+      ]
+    },
+    {
+      "gpu_uuid": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+      "pid": 3782964,
+      "command": [
+        "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+        "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+        "--model",
+        "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/local/boyjiang/epd-profile-a-20261023/dataset",
+        "--port",
+        "19501",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "cuda_visible_devices": "1",
+      "loaded_cublas_libraries": [
+        "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+        "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+      ]
+    },
+    {
+      "gpu_uuid": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75",
+      "pid": 3784233,
+      "command": [
+        "/local/boyjiang/epd-profile-a-20261023/envs/epd/bin/python",
+        "/local/boyjiang/epd-profile-a-20261023/scripts/baseline_server.py",
+        "--model",
+        "/local/boyjiang/epd-profile-a-20261023/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/local/boyjiang/epd-profile-a-20261023/dataset",
+        "--port",
+        "19502",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "cuda_visible_devices": "2",
+      "loaded_cublas_libraries": [
+        "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublas.so.12",
+        "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/nvidia/cublas/lib/libcublasLt.so.12"
+      ]
+    }
+  ]
+}

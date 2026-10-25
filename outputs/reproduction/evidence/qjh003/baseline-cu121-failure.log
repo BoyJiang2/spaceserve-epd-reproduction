@@ -1,0 +1,78 @@
+WARNING 10-23 08:21:50 config.py:1657] Casting torch.bfloat16 to torch.float16.
+WARNING 10-23 08:21:50 config.py:383] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+INFO 10-23 08:21:50 llm_engine.py:223] Initializing an LLM engine (v0.6.1.post2) with config: model='/local/boyjiang/spaceserve-epd-qjh003-20261023/models/MiniCPM-V-2_6', speculative_config=None, tokenizer='/local/boyjiang/spaceserve-epd-qjh003-20261023/models/MiniCPM-V-2_6', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=4096, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=/local/boyjiang/spaceserve-epd-qjh003-20261023/models/MiniCPM-V-2_6, use_v2_block_manager=False, num_scheduler_steps=1, enable_prefix_caching=False, use_async_output_proc=False)
+INFO 10-23 08:21:51 model_runner.py:997] Starting to load model /local/boyjiang/spaceserve-epd-qjh003-20261023/models/MiniCPM-V-2_6...
+/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/xformers/ops/fmha/flash.py:211: FutureWarning: `torch.library.impl_abstract` was renamed to `torch.library.register_fake`. Please use that instead; we will remove `torch.library.impl_abstract` in a future version of PyTorch.
+  @torch.library.impl_abstract("xformers_flash::flash_fwd")
+/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/xformers/ops/fmha/flash.py:344: FutureWarning: `torch.library.impl_abstract` was renamed to `torch.library.register_fake`. Please use that instead; we will remove `torch.library.impl_abstract` in a future version of PyTorch.
+  @torch.library.impl_abstract("xformers_flash::flash_bwd")
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:01<00:03,  1.13s/it]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:02<00:02,  1.18s/it]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:03<00:01,  1.27s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.04s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.10s/it]
+
+INFO 10-23 08:21:57 model_runner.py:1008] Loading model weights took 15.1935 GB
+/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/transformers/models/auto/image_processing_auto.py:513: FutureWarning: The image_processor_class argument is deprecated and will be removed in v4.42. Please use `slow_image_processor_class`, or `fast_image_processor_class` instead
+  warnings.warn(
+INFO 10-23 08:21:59 gpu_executor.py:122] # GPU blocks: 48900, # CPU blocks: 4681
+{"model": "/local/boyjiang/spaceserve-epd-qjh003-20261023/models/MiniCPM-V-2_6", "dataset": "/local/boyjiang/spaceserve-epd-qjh003-20261023/dataset", "port": 18500, "gpu_memory_utilization": 0.65}
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request cafe4e54874743fb8ffce02fc5d10d50.
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request 0f661fffb6d3464ba8ddf509dbdb6c81.
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request ef93743996244101bf25d4491bfdbbfd.
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request fb06468d57a74064bf27449a7fb2cd9a.
+INFO 10-23 08:22:04 async_llm_engine.py:169] Finished request cafe4e54874743fb8ffce02fc5d10d50.
+INFO 10-23 08:22:04 async_llm_engine.py:169] Finished request 0f661fffb6d3464ba8ddf509dbdb6c81.
+INFO 10-23 08:22:04 async_llm_engine.py:169] Finished request ef93743996244101bf25d4491bfdbbfd.
+INFO 10-23 08:22:04 async_llm_engine.py:169] Finished request fb06468d57a74064bf27449a7fb2cd9a.
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request 10bee669874743b7b43aed931f04da0a.
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request b76ce8cca9ea4a6690b9762c43c7a9f0.
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request e367f91bc482482184a9a192f70e168c.
+INFO 10-23 08:22:04 async_llm_engine.py:201] Added request a4e9198d5e654c72b1cfdc4f499ff91d.
+INFO 10-23 08:22:05 async_llm_engine.py:169] Finished request 10bee669874743b7b43aed931f04da0a.
+INFO 10-23 08:22:05 async_llm_engine.py:169] Finished request b76ce8cca9ea4a6690b9762c43c7a9f0.
+INFO 10-23 08:22:05 async_llm_engine.py:169] Finished request e367f91bc482482184a9a192f70e168c.
+INFO 10-23 08:22:05 async_llm_engine.py:169] Finished request a4e9198d5e654c72b1cfdc4f499ff91d.
+INFO 10-23 08:22:05 async_llm_engine.py:201] Added request b5ab5eff1ca34626977b3b144b13ca0c.
+Fatal Python error: Floating point exception
+
+Current thread 0x00007f00b0a5e640 (most recent call first):
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/model_executor/layers/vocab_parallel_embedding.py", line 40 in apply
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/model_executor/layers/logits_processor.py", line 83 in _get_logits
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/model_executor/layers/logits_processor.py", line 61 in forward
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562 in _call_impl
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553 in _wrapped_call_impl
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/model_executor/models/minicpmv.py", line 499 in compute_logits
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/worker/model_runner.py", line 1579 in execute_model
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/worker/model_runner_base.py", line 112 in _wrapper
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116 in decorate_context
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/worker/worker_base.py", line 327 in execute_model
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58 in run
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 83 in _worker
+  File "/usr/lib/python3.10/threading.py", line 953 in run
+  File "/usr/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/usr/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f00c33ff640 (most recent call first):
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/usage/usage_lib.py", line 196 in _report_continous_usage
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/vllm/usage/usage_lib.py", line 148 in _report_usage_worker
+  File "/usr/lib/python3.10/threading.py", line 953 in run
+  File "/usr/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/usr/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f00b3fff640 (most recent call first):
+  File "/usr/lib/python3.10/threading.py", line 324 in wait
+  File "/usr/lib/python3.10/threading.py", line 607 in wait
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/tqdm/_monitor.py", line 69 in run
+  File "/usr/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/usr/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f07c1f541c0 (most recent call first):
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/uvicorn/_compat.py", line 60 in asyncio_run
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/uvicorn/server.py", line 86 in run
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd/lib/python3.10/site-packages/uvicorn/main.py", line 632 in run
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/scripts/baseline_server.py", line 93 in main
+  File "/local/boyjiang/spaceserve-epd-qjh003-20261023/scripts/baseline_server.py", line 97 in <module>
+
+Extension modules: PIL._imaging, numpy.core._multiarray_umath, numpy.core._multiarray_tests, numpy.linalg._umath_linalg, numpy.fft._pocketfft_internal, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._mt19937, numpy.random.mtrand, numpy.random._philox, numpy.random._pcg64, numpy.random._sfc64, numpy.random._generator, torch._C, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, charset_normalizer.md, charset_normalizer.cd, requests.packages.charset_normalizer.md, requests.packages.chardet.md, requests.packages.charset_normalizer.cd, requests.packages.chardet.cd, yaml._yaml, msgspec._core, psutil._psutil_linux, PIL._imagingft, msgpack._cmsgpack, google._upb._message, setproctitle, uvloop.loop, ray._raylet, multidict._multidict, yarl._quoting_c, propcache._helpers_c, aiohttp._http_writer, aiohttp._http_parser, aiohttp._websocket.mask, aiohttp._websocket.reader_c, frozenlist._frozenlist, regex._regex, zmq.backend.cython._zmq, scipy._lib._ccallback_c, scipy.linalg._fblas, scipy.linalg._flapack, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_sqrtm_triu, scipy.linalg.cython_blas, scipy.linalg._matfuncs_expm, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.sparse.csgraph._tools, scipy.sparse.csgraph._shortest_path, scipy.sparse.csgraph._traversal, scipy.sparse.csgraph._min_spanning_tree, scipy.sparse.csgraph._flow, scipy.sparse.csgraph._matching, scipy.sparse.csgraph._reordering, scipy.optimize._group_columns, scipy._lib.messagestream, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._cobyla, scipy.optimize._slsqp, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy.optimize._highs.cython.src._highs_wrapper, scipy.optimize._highs._highs_wrapper, scipy.optimize._highs.cython.src._highs_constants, scipy.optimize._highs._highs_constants, scipy.linalg._interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.spatial._ckdtree, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._distance_wrap, scipy.spatial._hausdorff, scipy.special._ufuncs_cxx, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.special._ellip_harm_2, scipy.spatial.transform._rotation, scipy.optimize._direct, httptools.parser.parser, httptools.parser.url_parser, websockets.speedups (total: 106)

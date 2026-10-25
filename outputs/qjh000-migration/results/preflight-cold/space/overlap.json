@@ -1,0 +1,90 @@
+{
+  "clock_alignment": "Kineto baseTimeNanoseconds / 1000 + event ts (microseconds)",
+  "roles": {
+    "encoder": {
+      "pid": 3914097,
+      "trace": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/preflight-cold/space/traces/qjh000_3914097.1792754818224222785.pt.trace.json.gz",
+      "base_time_ns": 1790857026000000000,
+      "cuda_kernels": 45432,
+      "kernel_name_examples": [
+        "reduction_prod_kernel",
+        "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize256x64x32_stage3_warpsize4x1x1_g1_tensor16x8x16_execute_kernel__5x_cudnn",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x128x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_aligned16_contig<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 2, 128, 1>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_aligned16_contig<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 4, 128, 1>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_contig<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 2, 128, 1>(at::native::(anonymous namespace)::OpaqueType<8u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::indexSelectSmallIndex<long, long, unsigned int, 1, 1, -2>(at::cuda::detail::TensorInfo<long, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, int, int, unsigned int, long)"
+      ],
+      "context_ids": [
+        "1"
+      ],
+      "gpu_active_us": 3337199.0
+    },
+    "decoder": {
+      "pid": 3911050,
+      "trace": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/preflight-cold/space/traces/qjh000_3911050.1792754835884803226.pt.trace.json.gz",
+      "base_time_ns": 1790857026000000000,
+      "cuda_kernels": 591202,
+      "kernel_name_examples": [
+        "sm80_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize32x32x64_stage6_warpsize2x2x1_tensor16x8x16_execute_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x128x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x256x64_warpgroupsize2x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize256x128x64_warpgroupsize2x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x256x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x256x64_warpgroupsize1x1x1_execute_segment_k_on_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x64x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "std::enable_if<(((8)>(0)))&&vllm::_typeConvert<c10::Half>::exists, void>::type vllm::fused_add_rms_norm_kernel<c10::Half, 8>(c10::Half*, c10::Half*, c10::Half const*, float, int, int)"
+      ],
+      "context_ids": [
+        "1"
+      ],
+      "gpu_active_us": 13166959.5
+    }
+  },
+  "kernel_overlap_us": 1186100.5,
+  "overlap_examples_absolute_us": [
+    [
+      1792754791696123.0,
+      1792754791696125.8
+    ],
+    [
+      1792754791696546.8,
+      1792754791696551.0
+    ],
+    [
+      1792754791696554.0,
+      1792754791696555.5
+    ],
+    [
+      1792754791696558.8,
+      1792754791696562.2
+    ],
+    [
+      1792754791696564.5,
+      1792754791696569.8
+    ],
+    [
+      1792754791696571.8,
+      1792754791696623.8
+    ],
+    [
+      1792754791697065.5,
+      1792754791697071.0
+    ],
+    [
+      1792754791697074.0,
+      1792754791697077.8
+    ],
+    [
+      1792754791697087.2,
+      1792754791697090.0
+    ],
+    [
+      1792754791697093.0,
+      1792754791697096.5
+    ]
+  ],
+  "kernel_overlap_observed": true,
+  "encoder_active_fraction_overlapping_decoder": 0.3554179717781289
+}

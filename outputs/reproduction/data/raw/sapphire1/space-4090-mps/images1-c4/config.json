@@ -1,0 +1,19 @@
+{
+  "urls": [
+    "http://127.0.0.1:17778"
+  ],
+  "model": "/mnt/data/boyjiang-spaceserve-epd/models/Qwen2-VL-2B-Instruct",
+  "dataset": "/mnt/data/boyjiang-spaceserve-epd/dataset",
+  "output": "/mnt/data/boyjiang-spaceserve-epd/results/formal/space-4090-mps/images1-c4",
+  "images": 1,
+  "concurrency": 4,
+  "tokens": 128,
+  "warmup": 20,
+  "requests": 100,
+  "repetitions": 3,
+  "timeout": 120,
+  "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\n<|vision_start|><|image_pad|><|vision_end|>Describe the visible objects and scene in these images in detail.<|im_end|>\n<|im_start|>assistant\n",
+  "timestamp_clock": "same-host time.perf_counter",
+  "ttft_definition": "first server token timestamp minus client submission; excludes first-token egress",
+  "tpot_definition": "(last token timestamp - first token timestamp)/(output tokens - 1)"
+}

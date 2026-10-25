@@ -1,0 +1,11 @@
+--- a/vllm/v1/core/encoder_cache_manager.py
++++ b/vllm/v1/core/encoder_cache_manager.py
+@@ -55,7 +55,7 @@
+     def free(self, request: Request) -> None:
+         """Free all cached input ids for the request."""
+         input_ids = self.get_cached_input_ids(request)
+-        for input_id in input_ids:
++        for input_id in list(input_ids):
+             self.free_encoder_input(request, input_id)
+ 
+     def get_freed_ids(self) -> List[Tuple[str, int]]:

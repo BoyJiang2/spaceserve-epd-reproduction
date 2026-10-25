@@ -1,0 +1,32 @@
+{
+  "kernel_cmdline": "BOOT_IMAGE=/vmlinuz-6.8.0-138-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro",
+  "boot_id": "d2baf99f-59eb-4527-b4f9-da50cfaa469c",
+  "vm_detection": "none",
+  "vm_detection_exit_code": 1,
+  "devices": [
+    {
+      "index": 0,
+      "uuid": "GPU-03ae372c-840b-d6b0-f922-d8fc44227299",
+      "pci_bus": "0000:16:00.0",
+      "iommu_group": "/sys/kernel/iommu_groups/30",
+      "domain_type": "DMA-FQ"
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-3f404f49-b078-9869-7d77-52b342b3b171",
+      "pci_bus": "0000:38:00.0",
+      "iommu_group": "/sys/kernel/iommu_groups/24",
+      "domain_type": "DMA-FQ"
+    },
+    {
+      "index": 2,
+      "uuid": "GPU-65f61985-9214-c370-eb98-0c756a9ec222",
+      "pci_bus": "0000:49:00.0",
+      "iommu_group": "/sys/kernel/iommu_groups/21",
+      "domain_type": "DMA-FQ"
+    }
+  ],
+  "unsupported_bare_metal_dma_iommu": true,
+  "note": "Configuration check only; CUDA-runtime P2P and original KV data checks are still required"
+}
+NVIDIA does not support bare-metal PCIe P2P with DMA IOMMU translation; arrange administrator maintenance or use a validated host

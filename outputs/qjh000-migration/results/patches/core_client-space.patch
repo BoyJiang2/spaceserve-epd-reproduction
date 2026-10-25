@@ -1,0 +1,11 @@
+--- a/vllm/v1/engine/core_client.py
++++ b/vllm/v1/engine/core_client.py
+@@ -409,6 +409,8 @@
+             await self._send_input(EngineCoreRequestType.ABORT, request_ids)
+ 
+     async def profile_async(self, is_start: bool = True) -> None:
++        await self._send_input_toencoder(EngineCoreRequestType.PROFILE,
++                                         EngineCoreProfile(is_start))
+         await self._send_input(EngineCoreRequestType.PROFILE,
+                                EngineCoreProfile(is_start))
+ 

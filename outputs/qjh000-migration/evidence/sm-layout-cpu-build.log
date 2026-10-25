@@ -1,0 +1,7 @@
++ /usr/local/cuda-12.8/bin/nvcc -gencode arch=compute_90,code=sm_90 --shared --cudart=static -Xcompiler -fPIC /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/service_sm_probe.cu -o /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/sm-layout-cpu-build/service_sm_probe.so
++ /usr/local/cuda-12.8/bin/nvcc -gencode arch=compute_90,code=sm_90 /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/probe_sm_layout.cu -o /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/sm-layout-cpu-build/probe_sm_layout -ldl
++ sha256sum /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/sm-layout-cpu-build/probe_sm_layout /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/sm-layout-cpu-build/service_sm_probe.so
+5185978598b71cc4433ab993ef08bef21c7e12a6d9e38b5ae4e8fd3151cc203a  /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/sm-layout-cpu-build/probe_sm_layout
+7931ec340c325645dda3d5f8e8ff3223c8f9863436745bb77e6a7a99580a9ed0  /var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/sm-layout-cpu-build/service_sm_probe.so
++ echo 'CPU build PASS; binaries not executed'
+CPU build PASS; binaries not executed

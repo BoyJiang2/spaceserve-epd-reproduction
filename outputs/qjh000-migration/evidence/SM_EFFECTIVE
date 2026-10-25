@@ -1,0 +1,23 @@
+{
+  "gate": "G3",
+  "verdict": "APPROVE_WITH_NITS",
+  "blocking": 0,
+  "reviewer": "/root/profile_plan_review",
+  "review_sha256": "9539c7a38719cf7d61374e09cf06dd2e2e96e178e002c2187920ecdc12a37f16",
+  "model": "Qwen/Qwen2-VL-7B-Instruct",
+  "gpu_uuid": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+  "boot_id": "a9617eaa-1638-45fc-8997-a62b528e8f30",
+  "cold_archive_sha256": "39752f18b94b828f7b0bca1a8861c289479ef8d59c81b9e6b6879f53f6441f67",
+  "restart_archive_sha256": "333026ecdfb93698bbf244f9efdcdbad2bc77d6af7904810cb007ce09492a466",
+  "scope": "90 fixed correctness cases;actual co-residency/FP16/MPS;kernel overlap;actual encoder-stream SM effect cold and restart;not formal performance",
+  "mechanism": "encoder stream mask only;not mutual decoder partition or full paper SIS",
+  "observed_sm_counts": {
+    "before": 78,
+    "masked": 64,
+    "zero": 78,
+    "reapplied": 64,
+    "first_execution": 64
+  },
+  "helper_sha256": "3be03cf88212241b7b5de47673939170d5781a0fcce57839be9c9fcb194b3a1b",
+  "libsmctrl_sha256": "529e2502f633b0d7ef07db2848c64e42154cea73992a794c27a31d0361e5e7c5"
+}

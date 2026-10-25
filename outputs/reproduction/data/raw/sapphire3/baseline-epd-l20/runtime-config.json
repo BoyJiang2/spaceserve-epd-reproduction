@@ -1,0 +1,78 @@
+{
+  "started_utc": "2026-10-22T19:26:57.681500+00:00",
+  "devices": "0,1,2",
+  "servers": [
+    {
+      "pid": 2499858,
+      "command": [
+        "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/bin/python",
+        "/mnt/data3/boyjiang-spaceserve-epd/scripts/baseline_server.py",
+        "--model",
+        "/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/mnt/data3/boyjiang-spaceserve-epd/dataset",
+        "--port",
+        "18100",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "CUDA_MPS_PIPE_DIRECTORY": null,
+        "VLLM_USE_V1": "0",
+        "PYTHONPATH": null,
+        "VLLM_LIBSMCTRL_PATH": null
+      }
+    },
+    {
+      "pid": 2500993,
+      "command": [
+        "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/bin/python",
+        "/mnt/data3/boyjiang-spaceserve-epd/scripts/baseline_server.py",
+        "--model",
+        "/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/mnt/data3/boyjiang-spaceserve-epd/dataset",
+        "--port",
+        "18101",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "1",
+        "CUDA_MPS_PIPE_DIRECTORY": null,
+        "VLLM_USE_V1": "0",
+        "PYTHONPATH": null,
+        "VLLM_LIBSMCTRL_PATH": null
+      }
+    },
+    {
+      "pid": 2502186,
+      "command": [
+        "/mnt/data3/boyjiang-spaceserve-epd/envs/epd/bin/python",
+        "/mnt/data3/boyjiang-spaceserve-epd/scripts/baseline_server.py",
+        "--model",
+        "/mnt/data3/boyjiang-spaceserve-epd/models/MiniCPM-V-2_6",
+        "--dataset",
+        "/mnt/data3/boyjiang-spaceserve-epd/dataset",
+        "--port",
+        "18102",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "2",
+        "CUDA_MPS_PIPE_DIRECTORY": null,
+        "VLLM_USE_V1": "0",
+        "PYTHONPATH": null,
+        "VLLM_LIBSMCTRL_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.6.1.post2",
+    "torch": "2.4.0",
+    "transformers": "4.44.2"
+  },
+  "gpu_memory_sampling_interval_s": 0.1
+}

@@ -1,0 +1,31 @@
+{
+  "kernel_cmdline": "BOOT_IMAGE=/boot/vmlinuz-5.15.0-91-generic root=UUID=8b2456e1-e6ee-414c-8698-1eb720805d70 ro intel_idle.max_cstate=1 processor.max_cstate=1 iommu=pt net.ifnames=0 biosdevname=0 clocksource=tsc tsc=reliable transparent_hugepage=always console=tty0 console=ttyS0,115200",
+  "boot_id": "5feba829-36fe-49cb-9551-655d740d229a",
+  "vm_detection": "kvm",
+  "vm_detection_exit_code": 0,
+  "devices": [
+    {
+      "index": 0,
+      "uuid": "GPU-38d1a512-7410-d702-1c9c-f678b03209a8",
+      "pci_bus": "0000:65:02.0",
+      "iommu_group": null,
+      "domain_type": null
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-e1628b9d-7e34-ac0e-0a93-6ae31db5fe17",
+      "pci_bus": "0000:65:03.0",
+      "iommu_group": null,
+      "domain_type": null
+    },
+    {
+      "index": 2,
+      "uuid": "GPU-b7e82c38-f808-c893-a8f0-995c8484b53f",
+      "pci_bus": "0000:67:02.0",
+      "iommu_group": null,
+      "domain_type": null
+    }
+  ],
+  "unsupported_bare_metal_dma_iommu": false,
+  "note": "Configuration check only; CUDA-runtime P2P and original KV data checks are still required"
+}

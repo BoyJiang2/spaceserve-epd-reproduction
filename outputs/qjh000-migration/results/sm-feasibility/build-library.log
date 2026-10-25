@@ -1,0 +1,10 @@
+make: Entering directory '/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/sm-feasibility/library'
+cc libsmctrl.c -shared -o libsmctrl.so -fPIC -lcuda -I/usr/local/cuda/include
+libsmctrl.c: In function ‘control_callback_v2’:
+libsmctrl.c:40:32: warning: implicit declaration of function ‘error_at_line’ [-Wimplicit-function-declaration]
+   40 | #define abort(ret, errno, ...) error_at_line(ret, errno, __FILE__, __LINE__, \
+      |                                ^~~~~~~~~~~~~
+libsmctrl.c:69:17: note: in expansion of macro ‘abort’
+   69 |                 abort(1, 0, "Unsupported CUDA version for callback-based SM masking. Aborting...");
+      |                 ^~~~~
+make: Leaving directory '/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/sm-feasibility/library'

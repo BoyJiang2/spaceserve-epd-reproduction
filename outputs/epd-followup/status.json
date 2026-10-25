@@ -1,0 +1,30 @@
+{
+  "batch": "post-reproduction-offline-analysis",
+  "previous_reproduction_goal_complete": true,
+  "batch_complete": true,
+  "scope": "Read-only existing H20 data, source semantics, next-experiment proposal; no GPU jobs",
+  "gates": {
+    "G1": "APPROVE_WITH_NITS (Claude)",
+    "G2": "APPROVE_WITH_NITS (Claude; frozen-manifest B1 closed)",
+    "G3": "APPROVE_WITH_NITS (Claude; CPU event and API notification semantics)",
+    "G4": "APPROVE_WITH_NITS (Claude)",
+    "G5": "APPROVE_WITH_NITS (Claude; final packaging verification required)"
+  },
+  "blocking_count": 0,
+  "blocking_count_scope": "G1-G5 approved, no unresolved blocking findings",
+  "formal_requests_analyzed": 4800,
+  "configurations_analyzed": 16,
+  "source_payload_files_verified_before_and_after": 969,
+  "source_reproduction_unchanged": true,
+  "legacy_summary_reconciliation": "All 16 configurations TTFT/TPOT/E2E P50/P95 match frozen summary",
+  "independent_quantile_recheck": "All cases independently reloaded and checked with statistics.quantiles(method=inclusive)",
+  "gpu_experiments_started": false,
+  "source_reproduction_archive_sha256": "3d12536a846208e3202b67650adeee2f424cc4da1bb0a6cc28c67a494941be38",
+  "next_gpu_plan": {
+    "scope": "A only: qjh003, original low/high, profiler off/on, 2400 formal +160 warmups",
+    "G1": "APPROVE_WITH_NITS (Claude)",
+    "user_confirmation": "Explicitly approved in chat after independent scope review",
+    "G2": "pending implementation",
+    "status": "preparing; no GPU jobs started"
+  }
+}

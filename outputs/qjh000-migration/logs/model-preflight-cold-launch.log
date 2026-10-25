@@ -1,0 +1,304 @@
+{"host": "qjh000", "stopped_owner": {"state": "stopped", "pid": 3841162, "created": 1792754005.66, "token": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023:de4e5d1b675e44adb39bdc7491bc7baf", "pipe": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps", "uuid": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e", "active_thread_percentage": 100, "control_inode": 4828202}, "removed_socket": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps/control", "inode": 4828202, "uid": 2147, "operation": "unlink exact stopped socket only", "daemon_pid_absent": true, "all_mps_processes_absent": true, "recorded_unix_ns": 1792754450150904215, "unlink_succeeded": true, "boot_id": "a9617eaa-1638-45fc-8997-a62b528e8f30"}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{
+  "captured_utc": "2026-10-23T11:21:35.076957+00:00",
+  "capture_note": "Captured before diagnostic profiling; fresh 7B service",
+  "devices": "0",
+  "servers": [
+    {
+      "pid": 3878820,
+      "created_epoch_seconds": 1792754450.72,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/baseline_server.py",
+        "--model",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/models/Qwen2-VL-7B-Instruct",
+        "--dataset",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/dataset",
+        "--port",
+        "19770",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+        "CUDA_MPS_PIPE_DIRECTORY": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts",
+        "VLLM_LIBSMCTRL_PATH": null,
+        "CUDA_IPC_LIB_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  }
+}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+stopping PIDs [3879178, 3879764, 3879765, 3879461, 3879463, 3879465, 3879467, 3879469, 3879471, 3879473, 3879475, 3879477, 3879479, 3879481, 3879483, 3879485, 3879487, 3879489, 3879491, 3879493, 3879495, 3879497, 3879499, 3879501, 3879503, 3879505, 3879507, 3879509, 3879511, 3879513, 3879515, 3879517, 3879519, 3879521, 3879523, 3878820]
+orphan cleanup PIDs []
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{
+  "captured_utc": "2026-10-23T11:26:28.090113+00:00",
+  "capture_note": "Captured before diagnostic profiling; fresh 7B service",
+  "devices": "0",
+  "servers": [
+    {
+      "pid": 3900717,
+      "created_epoch_seconds": 1792754726.41,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/baseline_server.py",
+        "--model",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/models/Qwen2-VL-7B-Instruct",
+        "--dataset",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/dataset",
+        "--port",
+        "19770",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+        "CUDA_MPS_PIPE_DIRECTORY": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/src/SpaceServe:/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts",
+        "VLLM_LIBSMCTRL_PATH": null,
+        "CUDA_IPC_LIB_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  }
+}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+stopping PIDs [3901712, 3911047, 3911050, 3914097, 3902590, 3902592, 3902594, 3902596, 3902598, 3902600, 3902602, 3902604, 3902606, 3902608, 3902610, 3902612, 3902614, 3902616, 3902618, 3902620, 3902622, 3902624, 3902626, 3902628, 3902630, 3902632, 3902634, 3902636, 3902638, 3902640, 3902642, 3902644, 3902646, 3902648, 3902650, 3902652, 3900717]
+orphan cleanup PIDs []
+{
+  "clock_alignment": "Kineto baseTimeNanoseconds / 1000 + event ts (microseconds)",
+  "roles": {
+    "encoder": {
+      "pid": 3914097,
+      "trace": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/preflight-cold/space/traces/qjh000_3914097.1792754818224222785.pt.trace.json.gz",
+      "base_time_ns": 1790857026000000000,
+      "cuda_kernels": 45432,
+      "kernel_name_examples": [
+        "reduction_prod_kernel",
+        "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize256x64x32_stage3_warpsize4x1x1_g1_tensor16x8x16_execute_kernel__5x_cudnn",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x128x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_aligned16_contig<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 2, 128, 1>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_aligned16_contig<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 4, 128, 1>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_contig<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 2, 128, 1>(at::native::(anonymous namespace)::OpaqueType<8u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::indexSelectSmallIndex<long, long, unsigned int, 1, 1, -2>(at::cuda::detail::TensorInfo<long, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, int, int, unsigned int, long)"
+      ],
+      "context_ids": [
+        "1"
+      ],
+      "gpu_active_us": 3337199.0
+    },
+    "decoder": {
+      "pid": 3911050,
+      "trace": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/preflight-cold/space/traces/qjh000_3911050.1792754835884803226.pt.trace.json.gz",
+      "base_time_ns": 1790857026000000000,
+      "cuda_kernels": 591202,
+      "kernel_name_examples": [
+        "sm80_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize32x32x64_stage6_warpsize2x2x1_tensor16x8x16_execute_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x128x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x256x64_warpgroupsize2x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize256x128x64_warpgroupsize2x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x256x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x256x64_warpgroupsize1x1x1_execute_segment_k_on_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x64x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "std::enable_if<(((8)>(0)))&&vllm::_typeConvert<c10::Half>::exists, void>::type vllm::fused_add_rms_norm_kernel<c10::Half, 8>(c10::Half*, c10::Half*, c10::Half const*, float, int, int)"
+      ],
+      "context_ids": [
+        "1"
+      ],
+      "gpu_active_us": 13166959.5
+    }
+  },
+  "kernel_overlap_us": 1186100.5,
+  "overlap_examples_absolute_us": [
+    [
+      1792754791696123.0,
+      1792754791696125.8
+    ],
+    [
+      1792754791696546.8,
+      1792754791696551.0
+    ],
+    [
+      1792754791696554.0,
+      1792754791696555.5
+    ],
+    [
+      1792754791696558.8,
+      1792754791696562.2
+    ],
+    [
+      1792754791696564.5,
+      1792754791696569.8
+    ],
+    [
+      1792754791696571.8,
+      1792754791696623.8
+    ],
+    [
+      1792754791697065.5,
+      1792754791697071.0
+    ],
+    [
+      1792754791697074.0,
+      1792754791697077.8
+    ],
+    [
+      1792754791697087.2,
+      1792754791697090.0
+    ],
+    [
+      1792754791697093.0,
+      1792754791697096.5
+    ]
+  ],
+  "kernel_overlap_observed": true,
+  "encoder_active_fraction_overlapping_decoder": 0.3554179717781289
+}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{
+  "captured_utc": "2026-10-23T11:30:12.161292+00:00",
+  "capture_note": "Captured before diagnostic profiling; fresh 7B service",
+  "devices": "0",
+  "servers": [
+    {
+      "pid": 3929052,
+      "created_epoch_seconds": 1792754950.21,
+      "command": [
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/envs/space/bin/python",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts/baseline_server.py",
+        "--model",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/models/Qwen2-VL-7B-Instruct",
+        "--dataset",
+        "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/dataset",
+        "--port",
+        "19770",
+        "--gpu-memory-utilization",
+        "0.65"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "GPU-d1b595ce-0b57-cdee-c1c0-9b1051aaa07e",
+        "CUDA_MPS_PIPE_DIRECTORY": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/tmp/mps",
+        "VLLM_USE_V1": "1",
+        "PYTHONPATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/src/SpaceServe:/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/scripts",
+        "VLLM_LIBSMCTRL_PATH": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/build/libsmctrl.so",
+        "CUDA_IPC_LIB_PATH": null
+      }
+    }
+  ],
+  "packages": {
+    "vllm": "0.7.2",
+    "torch": "2.5.1",
+    "transformers": "4.49.0"
+  }
+}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+stopping PIDs [3929770, 3931044, 3931047, 3932151, 3930104, 3930107, 3930109, 3930111, 3930114, 3930116, 3930118, 3930120, 3930122, 3930124, 3930126, 3930128, 3930130, 3930132, 3930134, 3930136, 3930138, 3930140, 3930142, 3930144, 3930146, 3930148, 3930150, 3930152, 3930154, 3930156, 3930158, 3930160, 3930162, 3930166, 3930168, 3930170, 3929052]
+orphan cleanup PIDs []
+{
+  "clock_alignment": "Kineto baseTimeNanoseconds / 1000 + event ts (microseconds)",
+  "roles": {
+    "encoder": {
+      "pid": 3932151,
+      "trace": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/preflight-cold/space-mask/traces/qjh000_3932151.1792755041690321532.pt.trace.json.gz",
+      "base_time_ns": 1790857026000000000,
+      "cuda_kernels": 45432,
+      "kernel_name_examples": [
+        "reduction_prod_kernel",
+        "sm80_xmma_fprop_implicit_gemm_indexed_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize256x64x32_stage3_warpsize4x1x1_g1_tensor16x8x16_execute_kernel__5x_cudnn",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x128x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_aligned16_contig<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 2, 128, 1>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_aligned16_contig<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 4, 128, 1>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::CatArrayBatchedCopy_contig<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 2, 128, 1>(at::native::(anonymous namespace)::OpaqueType<8u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "void at::native::(anonymous namespace)::indexSelectSmallIndex<long, long, unsigned int, 1, 1, -2>(at::cuda::detail::TensorInfo<long, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, at::cuda::detail::TensorInfo<long const, unsigned int>, int, int, unsigned int, long)"
+      ],
+      "context_ids": [
+        "1"
+      ],
+      "gpu_active_us": 3935050.5
+    },
+    "decoder": {
+      "pid": 3931047,
+      "trace": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/results/preflight-cold/space-mask/traces/qjh000_3931047.1792755059335284967.pt.trace.json.gz",
+      "base_time_ns": 1790857026000000000,
+      "cuda_kernels": 601484,
+      "kernel_name_examples": [
+        "sm80_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize32x32x64_stage6_warpsize2x2x1_tensor16x8x16_execute_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x128x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize128x256x64_warpgroupsize2x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize256x128x64_warpgroupsize2x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x256x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x256x64_warpgroupsize1x1x1_execute_segment_k_on_kernel__5x_cublas",
+        "sm90_xmma_gemm_f16f16_f16f32_f32_tn_n_tilesize64x64x64_warpgroupsize1x1x1_execute_segment_k_off_kernel__5x_cublas",
+        "std::enable_if<(((8)>(0)))&&vllm::_typeConvert<c10::Half>::exists, void>::type vllm::fused_add_rms_norm_kernel<c10::Half, 8>(c10::Half*, c10::Half*, c10::Half const*, float, int, int)"
+      ],
+      "context_ids": [
+        "1"
+      ],
+      "gpu_active_us": 14371079.25
+    }
+  },
+  "kernel_overlap_us": 2744883.75,
+  "overlap_examples_absolute_us": [
+    [
+      1792755015565688.5,
+      1792755015565691.2
+    ],
+    [
+      1792755015565775.2,
+      1792755015565778.5
+    ],
+    [
+      1792755015565855.8,
+      1792755015565857.8
+    ],
+    [
+      1792755015566155.2,
+      1792755015566158.8
+    ],
+    [
+      1792755015566199.0,
+      1792755015566202.5
+    ],
+    [
+      1792755015566219.0,
+      1792755015566222.8
+    ],
+    [
+      1792755015566291.2,
+      1792755015566358.2
+    ],
+    [
+      1792755015566360.5,
+      1792755015566363.5
+    ],
+    [
+      1792755015566399.0,
+      1792755015566400.8
+    ],
+    [
+      1792755015566411.0,
+      1792755015566413.5
+    ]
+  ],
+  "kernel_overlap_observed": true,
+  "encoder_active_fraction_overlapping_decoder": 0.6975472741709414
+}
+orphan cleanup PIDs []
+orphan cleanup PIDs []
+{"state": "finished", "child_exit": 0}

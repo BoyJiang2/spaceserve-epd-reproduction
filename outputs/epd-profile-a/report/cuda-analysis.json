@@ -1,0 +1,2518 @@
+{
+  "passed": true,
+  "measurement_host": "qjh003",
+  "analysis_host": "qjh000",
+  "cases": [
+    {
+      "system": "epd",
+      "images": 1,
+      "concurrency": 1,
+      "selected_request_count": 16,
+      "actual_worker_pid_to_physical_gpu_uuid": {
+        "3691057": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+        "3691058": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+        "3691059": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75"
+      },
+      "physical_identity_rule": "runtime nvidia-smi PID to UUID pin, then exact trace worker PID coverage; CUPTI deviceId is process-local",
+      "stage_summaries": {
+        "E": {
+          "span_ms": {
+            "n": 16,
+            "mean": 20.1926038125,
+            "sd": 2.215985370504815,
+            "max": 27.756938,
+            "p50": 19.3592075,
+            "p95": 24.07192925,
+            "p99": 27.01993625
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 16.5506585,
+            "sd": 0.0050218144662398595,
+            "max": 16.561927,
+            "p50": 16.5501985,
+            "p95": 16.556599,
+            "p99": 16.5608614
+          }
+        },
+        "P": {
+          "span_ms": {
+            "n": 16,
+            "mean": 19.0307758125,
+            "sd": 0.1380942871882441,
+            "max": 19.34076,
+            "p50": 18.989207999999998,
+            "p95": 19.269408,
+            "p99": 19.3264896
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 16.645540625,
+            "sd": 0.01304715405430129,
+            "max": 16.66207,
+            "p50": 16.640917,
+            "p95": 16.6611325,
+            "p99": 16.6618825
+          }
+        },
+        "D": {
+          "span_ms": {
+            "n": 16,
+            "mean": 1993.543734625,
+            "sd": 17.108846391325002,
+            "max": 2014.922995,
+            "p50": 2000.3823025,
+            "p95": 2013.1525705,
+            "p99": 2014.5689100999998
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 1517.108375125,
+            "sd": 0.06191855581853981,
+            "max": 1517.186126,
+            "p50": 1517.110757,
+            "p95": 1517.1814895,
+            "p99": 1517.1851987
+          }
+        }
+      },
+      "handoff_gap_summaries": {
+        "E_last_to_P_first_ms": {
+          "n": 16,
+          "mean": 6.368257625,
+          "sd": 1.1222690369395907,
+          "max": 7.800153,
+          "p50": 6.726985,
+          "p95": 7.6112445,
+          "p99": 7.7623713
+        },
+        "P_last_to_D_first_ms": {
+          "n": 16,
+          "mean": 6.8756386875,
+          "sd": 1.1793696236640838,
+          "max": 9.140151,
+          "p50": 7.218147500000001,
+          "p95": 8.59026225,
+          "p99": 9.030173249999999
+        }
+      },
+      "traces": [
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-epd-images1-c1/traces/epd.sqlite",
+          "sha256": "5a2da88e2c72163c5404fc38bddabf6ce9cefed804040351f6519a803182b44f",
+          "capture_ns": [
+            23628062,
+            32989573832
+          ],
+          "api_pid": 3680541,
+          "selected_requests": [
+            {
+              "rid": "319",
+              "index": 84,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 37732269,
+                  "last_ns": 57113013,
+                  "span_ms": 19.380744,
+                  "kernel_union_ms": 16.554823
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 64319209,
+                  "last_ns": 83420065,
+                  "span_ms": 19.100856,
+                  "kernel_union_ms": 16.66207
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 90287579,
+                  "last_ns": 2105210574,
+                  "span_ms": 2014.922995,
+                  "kernel_union_ms": 1517.1037
+                }
+              },
+              "E_last_to_P_first_ms": 7.206196,
+              "P_last_to_D_first_ms": 6.867514
+            },
+            {
+              "rid": "320",
+              "index": 85,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 2119474025,
+                  "last_ns": 2138717648,
+                  "span_ms": 19.243623,
+                  "kernel_union_ms": 16.554087
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2145392491,
+                  "last_ns": 2164412834,
+                  "span_ms": 19.020343,
+                  "kernel_union_ms": 16.657812
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 2172111916,
+                  "last_ns": 4178963409,
+                  "span_ms": 2006.851493,
+                  "kernel_union_ms": 1516.983405
+                }
+              },
+              "E_last_to_P_first_ms": 6.674843,
+              "P_last_to_D_first_ms": 7.699082
+            },
+            {
+              "rid": "321",
+              "index": 86,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 4190345683,
+                  "last_ns": 4209683354,
+                  "span_ms": 19.337671,
+                  "kernel_union_ms": 16.561927
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 4214697089,
+                  "last_ns": 4233600442,
+                  "span_ms": 18.903353,
+                  "kernel_union_ms": 16.658259
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 4239256087,
+                  "last_ns": 6205290378,
+                  "span_ms": 1966.034291,
+                  "kernel_union_ms": 1517.173815
+                }
+              },
+              "E_last_to_P_first_ms": 5.013735,
+              "P_last_to_D_first_ms": 5.655645
+            },
+            {
+              "rid": "322",
+              "index": 87,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 6218595268,
+                  "last_ns": 6237800427,
+                  "span_ms": 19.205159,
+                  "kernel_union_ms": 16.550599
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 6245284424,
+                  "last_ns": 6264271936,
+                  "span_ms": 18.987512,
+                  "kernel_union_ms": 16.639093
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 6269558674,
+                  "last_ns": 8245212048,
+                  "span_ms": 1975.653374,
+                  "kernel_union_ms": 1517.186126
+                }
+              },
+              "E_last_to_P_first_ms": 7.483997,
+              "P_last_to_D_first_ms": 5.286738
+            },
+            {
+              "rid": "323",
+              "index": 88,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 8258058436,
+                  "last_ns": 8277331980,
+                  "span_ms": 19.273544,
+                  "kernel_union_ms": 16.548455
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 8282224576,
+                  "last_ns": 8301565336,
+                  "span_ms": 19.34076,
+                  "kernel_union_ms": 16.636981
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 8306695488,
+                  "last_ns": 10289967575,
+                  "span_ms": 1983.272087,
+                  "kernel_union_ms": 1517.00765
+                }
+              },
+              "E_last_to_P_first_ms": 4.892596,
+              "P_last_to_D_first_ms": 5.130152
+            },
+            {
+              "rid": "324",
+              "index": 89,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 10303860688,
+                  "last_ns": 10323095575,
+                  "span_ms": 19.234887,
+                  "kernel_union_ms": 16.545029
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 10328681249,
+                  "last_ns": 10347763545,
+                  "span_ms": 19.082296,
+                  "kernel_union_ms": 16.642741
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 10353534071,
+                  "last_ns": 12359572072,
+                  "span_ms": 2006.038001,
+                  "kernel_union_ms": 1517.175578
+                }
+              },
+              "E_last_to_P_first_ms": 5.585674,
+              "P_last_to_D_first_ms": 5.770526
+            },
+            {
+              "rid": "325",
+              "index": 90,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 12373028783,
+                  "last_ns": 12393719095,
+                  "span_ms": 20.690312,
+                  "kernel_union_ms": 16.552551
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 12400642889,
+                  "last_ns": 12419885218,
+                  "span_ms": 19.242329,
+                  "kernel_union_ms": 16.633045
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 12427444879,
+                  "last_ns": 14405422133,
+                  "span_ms": 1977.977254,
+                  "kernel_union_ms": 1517.047756
+                }
+              },
+              "E_last_to_P_first_ms": 6.923794,
+              "P_last_to_D_first_ms": 7.559661
+            },
+            {
+              "rid": "326",
+              "index": 91,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 14421066180,
+                  "last_ns": 14440595564,
+                  "span_ms": 19.529384,
+                  "kernel_union_ms": 16.549576
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 14446449812,
+                  "last_ns": 14465333195,
+                  "span_ms": 18.883383,
+                  "kernel_union_ms": 16.633396
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 14473028185,
+                  "last_ns": 16480156237,
+                  "span_ms": 2007.128052,
+                  "kernel_union_ms": 1517.179944
+                }
+              },
+              "E_last_to_P_first_ms": 5.854248,
+              "P_last_to_D_first_ms": 7.69499
+            },
+            {
+              "rid": "327",
+              "index": 92,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 16492943827,
+                  "last_ns": 16512200827,
+                  "span_ms": 19.257,
+                  "kernel_union_ms": 16.546311
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 16516414166,
+                  "last_ns": 16535346509,
+                  "span_ms": 18.932343,
+                  "kernel_union_ms": 16.634325
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 16541059544,
+                  "last_ns": 18543381123,
+                  "span_ms": 2002.321579,
+                  "kernel_union_ms": 1517.112199
+                }
+              },
+              "E_last_to_P_first_ms": 4.213339,
+              "P_last_to_D_first_ms": 5.713035
+            },
+            {
+              "rid": "328",
+              "index": 93,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 18555229923,
+                  "last_ns": 18574469738,
+                  "span_ms": 19.239815,
+                  "kernel_union_ms": 16.549798
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 18579453575,
+                  "last_ns": 18598361182,
+                  "span_ms": 18.907607,
+                  "kernel_union_ms": 16.625556
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 18604178189,
+                  "last_ns": 20570358009,
+                  "span_ms": 1966.17982,
+                  "kernel_union_ms": 1517.109315
+                }
+              },
+              "E_last_to_P_first_ms": 4.983837,
+              "P_last_to_D_first_ms": 5.817007
+            },
+            {
+              "rid": "329",
+              "index": 94,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 20583906993,
+                  "last_ns": 20603536857,
+                  "span_ms": 19.629864,
+                  "kernel_union_ms": 16.538981
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 20611337010,
+                  "last_ns": 20630314153,
+                  "span_ms": 18.977143,
+                  "kernel_union_ms": 16.634068
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 20637540251,
+                  "last_ns": 22613643704,
+                  "span_ms": 1976.103453,
+                  "kernel_union_ms": 1517.114187
+                }
+              },
+              "E_last_to_P_first_ms": 7.800153,
+              "P_last_to_D_first_ms": 7.226098
+            },
+            {
+              "rid": "330",
+              "index": 95,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 22627717461,
+                  "last_ns": 22647186589,
+                  "span_ms": 19.469128,
+                  "kernel_union_ms": 16.551366
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 22653680755,
+                  "last_ns": 22672671659,
+                  "span_ms": 18.990904,
+                  "kernel_union_ms": 16.634581
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 22681811810,
+                  "last_ns": 24690121203,
+                  "span_ms": 2008.309393,
+                  "kernel_union_ms": 1517.108925
+                }
+              },
+              "E_last_to_P_first_ms": 6.494166,
+              "P_last_to_D_first_ms": 9.140151
+            },
+            {
+              "rid": "331",
+              "index": 96,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 24705267562,
+                  "last_ns": 24724538609,
+                  "span_ms": 19.271047,
+                  "kernel_union_ms": 16.552903
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 24731317736,
+                  "last_ns": 24750232736,
+                  "span_ms": 18.915,
+                  "kernel_union_ms": 16.660404
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 24757442933,
+                  "last_ns": 26744241732,
+                  "span_ms": 1986.798799,
+                  "kernel_union_ms": 1517.099214
+                }
+              },
+              "E_last_to_P_first_ms": 6.779127,
+              "P_last_to_D_first_ms": 7.210197
+            },
+            {
+              "rid": "332",
+              "index": 97,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 26758874412,
+                  "last_ns": 26778593364,
+                  "span_ms": 19.718952,
+                  "kernel_union_ms": 16.549735
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 26785716933,
+                  "last_ns": 26804653981,
+                  "span_ms": 18.937048,
+                  "kernel_union_ms": 16.66082
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 26813060947,
+                  "last_ns": 28811503973,
+                  "span_ms": 1998.443026,
+                  "kernel_union_ms": 1517.038542
+                }
+              },
+              "E_last_to_P_first_ms": 7.123569,
+              "P_last_to_D_first_ms": 8.406966
+            },
+            {
+              "rid": "333",
+              "index": 98,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 28829492134,
+                  "last_ns": 28857249072,
+                  "span_ms": 27.756938,
+                  "kernel_union_ms": 16.554821
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 28864797347,
+                  "last_ns": 28883823259,
+                  "span_ms": 19.025912,
+                  "kernel_union_ms": 16.655285
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 28891259505,
+                  "last_ns": 30899363213,
+                  "span_ms": 2008.103708,
+                  "kernel_union_ms": 1517.154453
+                }
+              },
+              "E_last_to_P_first_ms": 7.548275,
+              "P_last_to_D_first_ms": 7.436246
+            },
+            {
+              "rid": "334",
+              "index": 99,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3680541,
+              "stages": {
+                "E": {
+                  "kernels": 564,
+                  "first_ns": 30916662121,
+                  "last_ns": 30939505714,
+                  "span_ms": 22.843593,
+                  "kernel_union_ms": 16.549574
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 30946820287,
+                  "last_ns": 30966065911,
+                  "span_ms": 19.245624,
+                  "kernel_union_ms": 16.660214
+                },
+                "D": {
+                  "kernels": 44174,
+                  "first_ns": 30973462122,
+                  "last_ns": 32986024551,
+                  "span_ms": 2012.562429,
+                  "kernel_union_ms": 1517.139193
+                }
+              },
+              "E_last_to_P_first_ms": 7.314573,
+              "P_last_to_D_first_ms": 7.396211
+            }
+          ],
+          "kernels_by_pid": {
+            "3691057": 9024,
+            "3691058": 5040,
+            "3691059": 706784
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:E": 9024,
+            "CUPTI_ACTIVITY_KIND_KERNEL:P": 5040,
+            "CUPTI_ACTIVITY_KIND_KERNEL:D": 706784,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:E": 288,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_encoding": 16,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:P": 336,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_context": 6272,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:D": 34544
+          },
+          "skipped_activity_counts": {},
+          "process_local_kernel_device_ids": {
+            "3691057": [
+              0
+            ],
+            "3691058": [
+              0
+            ],
+            "3691059": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "319",
+            "320",
+            "321",
+            "322",
+            "323",
+            "324",
+            "325",
+            "326",
+            "327",
+            "328",
+            "329",
+            "330",
+            "331",
+            "332",
+            "333",
+            "334"
+          ],
+          "selected_request_ids": [
+            "319",
+            "320",
+            "321",
+            "322",
+            "323",
+            "324",
+            "325",
+            "326",
+            "327",
+            "328",
+            "329",
+            "330",
+            "331",
+            "332",
+            "333",
+            "334"
+          ],
+          "extra_boundary_request_ids": [],
+          "perf_ns_minus_trace_ns_range": [
+            601912293693434,
+            601912293921843
+          ],
+          "migration_whole_capture": {
+            "migrate_blocks_encoding": {
+              "copies": 16,
+              "recorded_copy_bytes": 7340032,
+              "copy_union_ms": 2.747207
+            },
+            "migrate_blocks_context": {
+              "copies": 6272,
+              "recorded_copy_bytes": 102760448,
+              "copy_union_ms": 17.224395
+            }
+          }
+        }
+      ]
+    },
+    {
+      "system": "epd",
+      "images": 4,
+      "concurrency": 8,
+      "selected_request_count": 16,
+      "actual_worker_pid_to_physical_gpu_uuid": {
+        "3739495": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+        "3739496": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+        "3739497": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75"
+      },
+      "physical_identity_rule": "runtime nvidia-smi PID to UUID pin, then exact trace worker PID coverage; CUPTI deviceId is process-local",
+      "stage_summaries": {
+        "E": {
+          "span_ms": {
+            "n": 16,
+            "mean": 65.33757075,
+            "sd": 1.3356842298457363,
+            "max": 70.026485,
+            "p50": 64.91372849999999,
+            "p95": 67.415906,
+            "p99": 69.5043692
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 60.7731231875,
+            "sd": 0.0037888147173627713,
+            "max": 60.780814,
+            "p50": 60.772892,
+            "p95": 60.7782715,
+            "p99": 60.7803055
+          }
+        },
+        "P": {
+          "span_ms": {
+            "n": 16,
+            "mean": 52.04835075,
+            "sd": 0.6144933202870483,
+            "max": 54.237838,
+            "p50": 51.8967945,
+            "p95": 52.93098775,
+            "p99": 53.97646795
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 49.790999375,
+            "sd": 0.04025839389721417,
+            "max": 49.871686,
+            "p50": 49.7924875,
+            "p95": 49.8479995,
+            "p99": 49.866948699999995
+          }
+        },
+        "D": {
+          "span_ms": {
+            "n": 16,
+            "mean": 2299.6240940000002,
+            "sd": 60.23265075020691,
+            "max": 2364.175889,
+            "p50": 2302.30296,
+            "p95": 2364.1617035,
+            "p99": 2364.1730519000002
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 1316.854127625,
+            "sd": 7.551410437535028,
+            "max": 1321.238565,
+            "p50": 1320.9096260000001,
+            "p95": 1321.2303075,
+            "p99": 1321.2369135000001
+          }
+        }
+      },
+      "handoff_gap_summaries": {
+        "E_last_to_P_first_ms": {
+          "n": 16,
+          "mean": 6.5707368125,
+          "sd": 1.5271621789658192,
+          "max": 8.831408,
+          "p50": 6.158555,
+          "p95": 8.722019,
+          "p99": 8.8095302
+        },
+        "P_last_to_D_first_ms": {
+          "n": 16,
+          "mean": 18.246344875,
+          "sd": 5.2744484082785235,
+          "max": 24.67733,
+          "p50": 19.814167,
+          "p95": 24.417356,
+          "p99": 24.625335200000002
+        }
+      },
+      "traces": [
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-epd-images4-c8/traces/epd.sqlite",
+          "sha256": "b8df108e00edc25250c5ea70acecbdbaced6d338e7f806bbea5904832e988cc5",
+          "capture_ns": [
+            29217806,
+            7299140550
+          ],
+          "api_pid": 3728720,
+          "selected_requests": [
+            {
+              "rid": "319",
+              "index": 84,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 67778252,
+                  "last_ns": 132791196,
+                  "span_ms": 65.012944,
+                  "kernel_union_ms": 60.780814
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 140310675,
+                  "last_ns": 194548513,
+                  "span_ms": 54.237838,
+                  "kernel_union_ms": 49.791111
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 214226707,
+                  "last_ns": 2478250663,
+                  "span_ms": 2264.023956,
+                  "kernel_union_ms": 1320.899391
+                }
+              },
+              "E_last_to_P_first_ms": 7.519479,
+              "P_last_to_D_first_ms": 19.678194
+            },
+            {
+              "rid": "320",
+              "index": 85,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 161830322,
+                  "last_ns": 226868130,
+                  "span_ms": 65.037808,
+                  "kernel_union_ms": 60.77611
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 232248086,
+                  "last_ns": 283922016,
+                  "span_ms": 51.67393,
+                  "kernel_union_ms": 49.770183
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 305118743,
+                  "last_ns": 2573056750,
+                  "span_ms": 2267.938007,
+                  "kernel_union_ms": 1320.878053
+                }
+              },
+              "E_last_to_P_first_ms": 5.379956,
+              "P_last_to_D_first_ms": 21.196727
+            },
+            {
+              "rid": "321",
+              "index": 86,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 292801587,
+                  "last_ns": 357576579,
+                  "span_ms": 64.774992,
+                  "kernel_union_ms": 60.774798
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 363010065,
+                  "last_ns": 415023195,
+                  "span_ms": 52.01313,
+                  "kernel_union_ms": 49.840104
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 439177675,
+                  "last_ns": 2706490237,
+                  "span_ms": 2267.312562,
+                  "kernel_union_ms": 1321.238565
+                }
+              },
+              "E_last_to_P_first_ms": 5.433486,
+              "P_last_to_D_first_ms": 24.15448
+            },
+            {
+              "rid": "322",
+              "index": 87,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 406834024,
+                  "last_ns": 471623160,
+                  "span_ms": 64.789136,
+                  "kernel_union_ms": 60.76481
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 476388882,
+                  "last_ns": 528293276,
+                  "span_ms": 51.904394,
+                  "kernel_union_ms": 49.782151
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 547425540,
+                  "last_ns": 2814278353,
+                  "span_ms": 2266.852813,
+                  "kernel_union_ms": 1321.101926
+                }
+              },
+              "E_last_to_P_first_ms": 4.765722,
+              "P_last_to_D_first_ms": 19.132264
+            },
+            {
+              "rid": "323",
+              "index": 88,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2114011803,
+                  "last_ns": 2180557516,
+                  "span_ms": 66.545713,
+                  "kernel_union_ms": 60.775951
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2189388924,
+                  "last_ns": 2241273734,
+                  "span_ms": 51.88481,
+                  "kernel_union_ms": 49.754055
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2263785767,
+                  "last_ns": 4627942742,
+                  "span_ms": 2364.156975,
+                  "kernel_union_ms": 1320.864565
+                }
+              },
+              "E_last_to_P_first_ms": 8.831408,
+              "P_last_to_D_first_ms": 22.512033
+            },
+            {
+              "rid": "324",
+              "index": 89,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2217494088,
+                  "last_ns": 2282291385,
+                  "span_ms": 64.797297,
+                  "kernel_union_ms": 60.772907
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2290976941,
+                  "last_ns": 2342866136,
+                  "span_ms": 51.889195,
+                  "kernel_union_ms": 49.788135
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2354477898,
+                  "last_ns": 4718086453,
+                  "span_ms": 2363.608555,
+                  "kernel_union_ms": 1320.922648
+                }
+              },
+              "E_last_to_P_first_ms": 8.685556,
+              "P_last_to_D_first_ms": 11.611762
+            },
+            {
+              "rid": "325",
+              "index": 90,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2311334831,
+                  "last_ns": 2381361316,
+                  "span_ms": 70.026485,
+                  "kernel_union_ms": 60.774191
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2386971831,
+                  "last_ns": 2439467202,
+                  "span_ms": 52.495371,
+                  "kernel_union_ms": 49.793864
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2463797900,
+                  "last_ns": 4827782395,
+                  "span_ms": 2363.984495,
+                  "kernel_union_ms": 1320.919861
+                }
+              },
+              "E_last_to_P_first_ms": 5.610515,
+              "P_last_to_D_first_ms": 24.330698
+            },
+            {
+              "rid": "326",
+              "index": 91,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2419909057,
+                  "last_ns": 2484869298,
+                  "span_ms": 64.960241,
+                  "kernel_union_ms": 60.772076
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2492544110,
+                  "last_ns": 2544459672,
+                  "span_ms": 51.915562,
+                  "kernel_union_ms": 49.798247
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2555632985,
+                  "last_ns": 4919808874,
+                  "span_ms": 2364.175889,
+                  "kernel_union_ms": 1320.937663
+                }
+              },
+              "E_last_to_P_first_ms": 7.674812,
+              "P_last_to_D_first_ms": 11.173313
+            },
+            {
+              "rid": "327",
+              "index": 92,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2511864327,
+                  "last_ns": 2577333912,
+                  "span_ms": 65.469585,
+                  "kernel_union_ms": 60.775182
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2585287923,
+                  "last_ns": 2637254365,
+                  "span_ms": 51.966442,
+                  "kernel_union_ms": 49.829736
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2657204505,
+                  "last_ns": 5009628999,
+                  "span_ms": 2352.424494,
+                  "kernel_union_ms": 1320.981874
+                }
+              },
+              "E_last_to_P_first_ms": 7.954011,
+              "P_last_to_D_first_ms": 19.95014
+            },
+            {
+              "rid": "328",
+              "index": 93,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2604226477,
+                  "last_ns": 2669465598,
+                  "span_ms": 65.239121,
+                  "kernel_union_ms": 60.772492
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2673576401,
+                  "last_ns": 2725619868,
+                  "span_ms": 52.043467,
+                  "kernel_union_ms": 49.871686
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2748195967,
+                  "last_ns": 5099483171,
+                  "span_ms": 2351.287204,
+                  "kernel_union_ms": 1320.892867
+                }
+              },
+              "E_last_to_P_first_ms": 4.110803,
+              "P_last_to_D_first_ms": 22.576099
+            },
+            {
+              "rid": "329",
+              "index": 94,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2736304689,
+                  "last_ns": 2801039906,
+                  "span_ms": 64.735217,
+                  "kernel_union_ms": 60.768526
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2806977040,
+                  "last_ns": 2858748186,
+                  "span_ms": 51.771146,
+                  "kernel_union_ms": 49.719208
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2871987612,
+                  "last_ns": 5217088108,
+                  "span_ms": 2345.100496,
+                  "kernel_union_ms": 1321.227555
+                }
+              },
+              "E_last_to_P_first_ms": 5.937134,
+              "P_last_to_D_first_ms": 13.239426
+            },
+            {
+              "rid": "330",
+              "index": 95,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 2851701960,
+                  "last_ns": 2916886329,
+                  "span_ms": 65.184369,
+                  "kernel_union_ms": 60.770444
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 2924746521,
+                  "last_ns": 2976541891,
+                  "span_ms": 51.79537,
+                  "kernel_union_ms": 49.714535
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 2997849227,
+                  "last_ns": 5334517140,
+                  "span_ms": 2336.667913,
+                  "kernel_union_ms": 1321.007531
+                }
+              },
+              "E_last_to_P_first_ms": 7.860192,
+              "P_last_to_D_first_ms": 21.307336
+            },
+            {
+              "rid": "331",
+              "index": 96,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 4663846140,
+                  "last_ns": 4728713356,
+                  "span_ms": 64.867216,
+                  "kernel_union_ms": 60.772877
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 4736965348,
+                  "last_ns": 4788920752,
+                  "span_ms": 51.955404,
+                  "kernel_union_ms": 49.812422
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 4813598082,
+                  "last_ns": 7040923915,
+                  "span_ms": 2227.325833,
+                  "kernel_union_ms": 1303.639464
+                }
+              },
+              "E_last_to_P_first_ms": 8.251992,
+              "P_last_to_D_first_ms": 24.67733
+            },
+            {
+              "rid": "332",
+              "index": 97,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 4756684961,
+                  "last_ns": 4821270865,
+                  "span_ms": 64.585904,
+                  "kernel_union_ms": 60.771596
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 4827259687,
+                  "last_ns": 4879029938,
+                  "span_ms": 51.770251,
+                  "kernel_union_ms": 49.810119
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 4888389471,
+                  "last_ns": 7116774835,
+                  "span_ms": 2228.385364,
+                  "kernel_union_ms": 1303.000522
+                }
+              },
+              "E_last_to_P_first_ms": 5.988822,
+              "P_last_to_D_first_ms": 9.359533
+            },
+            {
+              "rid": "333",
+              "index": 98,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 4859583373,
+                  "last_ns": 4924161917,
+                  "span_ms": 64.578544,
+                  "kernel_union_ms": 60.777424
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 4930490205,
+                  "last_ns": 4982234920,
+                  "span_ms": 51.744715,
+                  "kernel_union_ms": 49.782569
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 4995249708,
+                  "last_ns": 7216358950,
+                  "span_ms": 2221.109242,
+                  "kernel_union_ms": 1301.765112
+                }
+              },
+              "E_last_to_P_first_ms": 6.328288,
+              "P_last_to_D_first_ms": 13.014788
+            },
+            {
+              "rid": "334",
+              "index": 99,
+              "endpoint": "http://127.0.0.1:19510",
+              "api_pid": 3728720,
+              "stages": {
+                "E": {
+                  "kernels": 679,
+                  "first_ns": 4950067313,
+                  "last_ns": 5014863873,
+                  "span_ms": 64.79656,
+                  "kernel_union_ms": 60.769773
+                },
+                "P": {
+                  "kernels": 315,
+                  "first_ns": 5019663486,
+                  "last_ns": 5071376073,
+                  "span_ms": 51.712587,
+                  "kernel_union_ms": 49.797865
+                },
+                "D": {
+                  "kernels": 44958,
+                  "first_ns": 5085403468,
+                  "last_ns": 7295035174,
+                  "span_ms": 2209.631706,
+                  "kernel_union_ms": 1309.388445
+                }
+              },
+              "E_last_to_P_first_ms": 4.799613,
+              "P_last_to_D_first_ms": 14.027395
+            }
+          ],
+          "kernels_by_pid": {
+            "3739497": 142662,
+            "3739496": 5355,
+            "3739495": 10864
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:D": 142662,
+            "CUPTI_ACTIVITY_KIND_KERNEL:P": 5355,
+            "CUPTI_ACTIVITY_KIND_KERNEL:E": 10864,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_encoding": 68,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:D": 6851,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:P": 357,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:E": 640,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:migrate_blocks_context": 19040
+          },
+          "skipped_activity_counts": {},
+          "process_local_kernel_device_ids": {
+            "3739497": [
+              0
+            ],
+            "3739496": [
+              0
+            ],
+            "3739495": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "312",
+            "313",
+            "314",
+            "315",
+            "316",
+            "317",
+            "318",
+            "319",
+            "320",
+            "321",
+            "322",
+            "323",
+            "324",
+            "325",
+            "326",
+            "327",
+            "328",
+            "329",
+            "330",
+            "331",
+            "332",
+            "333",
+            "334"
+          ],
+          "selected_request_ids": [
+            "319",
+            "320",
+            "321",
+            "322",
+            "323",
+            "324",
+            "325",
+            "326",
+            "327",
+            "328",
+            "329",
+            "330",
+            "331",
+            "332",
+            "333",
+            "334"
+          ],
+          "extra_boundary_request_ids": [
+            "312",
+            "313",
+            "314",
+            "315",
+            "316",
+            "317",
+            "318"
+          ],
+          "perf_ns_minus_trace_ns_range": [
+            602085504025894,
+            602085504176246
+          ],
+          "migration_whole_capture": {
+            "migrate_blocks_encoding": {
+              "copies": 68,
+              "recorded_copy_bytes": 31195136,
+              "copy_union_ms": 2.198722
+            },
+            "migrate_blocks_context": {
+              "copies": 19040,
+              "recorded_copy_bytes": 311951360,
+              "copy_union_ms": 50.130927
+            }
+          }
+        }
+      ]
+    },
+    {
+      "system": "baseline-epd",
+      "images": 1,
+      "concurrency": 1,
+      "selected_request_count": 16,
+      "actual_worker_pid_to_physical_gpu_uuid": {
+        "3753686": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+        "3754322": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+        "3755325": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75"
+      },
+      "physical_identity_rule": "runtime nvidia-smi PID to UUID pin, then exact trace worker PID coverage; CUPTI deviceId is process-local",
+      "stage_summaries": {
+        "baseline.prefill": {
+          "span_ms": {
+            "n": 16,
+            "mean": 39.5071749375,
+            "sd": 1.4592101799398405,
+            "max": 43.185119,
+            "p50": 38.974532999999994,
+            "p95": 43.029443,
+            "p99": 43.1539838
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 33.172256625,
+            "sd": 0.05269630853469031,
+            "max": 33.240317,
+            "p50": 33.173853,
+            "p95": 33.23971775,
+            "p99": 33.24019715
+          }
+        },
+        "baseline.decode": {
+          "span_ms": {
+            "n": 16,
+            "mean": 1836.456971375,
+            "sd": 22.28529956499013,
+            "max": 1894.893007,
+            "p50": 1834.231685,
+            "p95": 1874.26239625,
+            "p99": 1890.76688485
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 1524.8538983125,
+            "sd": 4.437669732926903,
+            "max": 1529.009838,
+            "p50": 1526.8436785,
+            "p95": 1528.88284725,
+            "p99": 1528.98443985
+          }
+        }
+      },
+      "handoff_gap_summaries": {},
+      "traces": [
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images1-c1/traces/baseline-0.sqlite",
+          "sha256": "fac3e3bab34e2df94ed72ca67c7441a3cec7c7096cd965b6c338b09eb23c13ec",
+          "capture_ns": [
+            50164033,
+            31646931418
+          ],
+          "api_pid": 3753686,
+          "selected_requests": [
+            {
+              "rid": "d40164fa10c94ee0802a9bb4a59e38f7",
+              "index": 84,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3753686,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 1447345215,
+                  "last_ns": 1486348258,
+                  "span_ms": 39.003043,
+                  "kernel_union_ms": 33.176894
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 1487880324,
+                  "last_ns": 3303984247,
+                  "span_ms": 1816.103923,
+                  "kernel_union_ms": 1526.547992
+                }
+              }
+            },
+            {
+              "rid": "d430d31ab454495285b4380c51a24b6a",
+              "index": 87,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3753686,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 7084331599,
+                  "last_ns": 7123295889,
+                  "span_ms": 38.96429,
+                  "kernel_union_ms": 33.173501
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 7125038099,
+                  "last_ns": 8964722857,
+                  "span_ms": 1839.684758,
+                  "kernel_union_ms": 1526.922644
+                }
+              }
+            },
+            {
+              "rid": "2f694d94631f4b72bd1e047f04949b71",
+              "index": 90,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3753686,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 12715106794,
+                  "last_ns": 12753911885,
+                  "span_ms": 38.805091,
+                  "kernel_union_ms": 33.168895
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 12755481839,
+                  "last_ns": 14592255654,
+                  "span_ms": 1836.773815,
+                  "kernel_union_ms": 1526.888441
+                }
+              }
+            },
+            {
+              "rid": "26168e3c5263476fa1d4b2e87f92cce3",
+              "index": 93,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3753686,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 18441645986,
+                  "last_ns": 18480735493,
+                  "span_ms": 39.089507,
+                  "kernel_union_ms": 33.174205
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 18482463399,
+                  "last_ns": 20313955226,
+                  "span_ms": 1831.491827,
+                  "kernel_union_ms": 1526.524873
+                }
+              }
+            },
+            {
+              "rid": "b5418046dcdf42f58fe74710bffc2e78",
+              "index": 96,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3753686,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 24067991132,
+                  "last_ns": 24107159425,
+                  "span_ms": 39.168293,
+                  "kernel_union_ms": 33.189824
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 24108695138,
+                  "last_ns": 25926488665,
+                  "span_ms": 1817.793527,
+                  "kernel_union_ms": 1526.798916
+                }
+              }
+            },
+            {
+              "rid": "ee05b95b9c874708997f12f110f67331",
+              "index": 99,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3753686,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 29744582129,
+                  "last_ns": 29784976245,
+                  "span_ms": 40.394116,
+                  "kernel_union_ms": 33.171838
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 29786703223,
+                  "last_ns": 31643993476,
+                  "span_ms": 1857.290253,
+                  "kernel_union_ms": 1526.926615
+                }
+              }
+            }
+          ],
+          "kernels_by_pid": {
+            "3753686": 270306
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": 5262,
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": 265044,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": 228,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": 12954
+          },
+          "skipped_activity_counts": {},
+          "process_local_kernel_device_ids": {
+            "3753686": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "26168e3c5263476fa1d4b2e87f92cce3",
+            "2f694d94631f4b72bd1e047f04949b71",
+            "b5418046dcdf42f58fe74710bffc2e78",
+            "d40164fa10c94ee0802a9bb4a59e38f7",
+            "d430d31ab454495285b4380c51a24b6a",
+            "ee05b95b9c874708997f12f110f67331"
+          ],
+          "selected_request_ids": [
+            "26168e3c5263476fa1d4b2e87f92cce3",
+            "2f694d94631f4b72bd1e047f04949b71",
+            "b5418046dcdf42f58fe74710bffc2e78",
+            "d40164fa10c94ee0802a9bb4a59e38f7",
+            "d430d31ab454495285b4380c51a24b6a",
+            "ee05b95b9c874708997f12f110f67331"
+          ],
+          "extra_boundary_request_ids": [],
+          "perf_ns_minus_trace_ns_range": [
+            602728836392928,
+            602728836500284
+          ],
+          "migration_whole_capture": {}
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images1-c1/traces/baseline-1.sqlite",
+          "sha256": "62ba0046781e5df95fb9bd1f4c88019f2a33de4d050f0c07c6ad21c80b713c2c",
+          "capture_ns": [
+            50567639,
+            37575723046
+          ],
+          "api_pid": 3754322,
+          "selected_requests": [
+            {
+              "rid": "8a101030e13a407f90b1f3e152e4bb0c",
+              "index": 85,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3754322,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 2621687632,
+                  "last_ns": 2660509208,
+                  "span_ms": 38.821576,
+                  "kernel_union_ms": 33.228251
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 2662194043,
+                  "last_ns": 4493504952,
+                  "span_ms": 1831.310909,
+                  "kernel_union_ms": 1528.729116
+                }
+              }
+            },
+            {
+              "rid": "d683828dc3784fa09b59bdb011c18600",
+              "index": 88,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3754322,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 8282991373,
+                  "last_ns": 8321717430,
+                  "span_ms": 38.726057,
+                  "kernel_union_ms": 33.228864
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 8323284185,
+                  "last_ns": 10154448861,
+                  "span_ms": 1831.164676,
+                  "kernel_union_ms": 1528.840517
+                }
+              }
+            },
+            {
+              "rid": "18c6af15973048db8ba2451e1174e1c6",
+              "index": 91,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3754322,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 13912286962,
+                  "last_ns": 13955264513,
+                  "span_ms": 42.977551,
+                  "kernel_union_ms": 33.239518
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 13957128037,
+                  "last_ns": 15852021044,
+                  "span_ms": 1894.893007,
+                  "kernel_union_ms": 1529.009838
+                }
+              }
+            },
+            {
+              "rid": "337c4f9a31b94d8f8affe14ff1dda03e",
+              "index": 94,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3754322,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 19633324200,
+                  "last_ns": 19672308976,
+                  "span_ms": 38.984776,
+                  "kernel_union_ms": 33.240317
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 19674173812,
+                  "last_ns": 21505863367,
+                  "span_ms": 1831.689555,
+                  "kernel_union_ms": 1528.6862
+                }
+              }
+            },
+            {
+              "rid": "b42618349818454f8af2b58422cc3e4d",
+              "index": 97,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3754322,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 25245017190,
+                  "last_ns": 25284265199,
+                  "span_ms": 39.248009,
+                  "kernel_union_ms": 33.233979
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 25286065619,
+                  "last_ns": 27124725470,
+                  "span_ms": 1838.659851,
+                  "kernel_union_ms": 1528.75057
+                }
+              }
+            }
+          ],
+          "kernels_by_pid": {
+            "3754322": 225255
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": 4385,
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": 220870,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": 190,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": 10795
+          },
+          "skipped_activity_counts": {},
+          "process_local_kernel_device_ids": {
+            "3754322": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "18c6af15973048db8ba2451e1174e1c6",
+            "337c4f9a31b94d8f8affe14ff1dda03e",
+            "8a101030e13a407f90b1f3e152e4bb0c",
+            "b42618349818454f8af2b58422cc3e4d",
+            "d683828dc3784fa09b59bdb011c18600"
+          ],
+          "selected_request_ids": [
+            "18c6af15973048db8ba2451e1174e1c6",
+            "337c4f9a31b94d8f8affe14ff1dda03e",
+            "8a101030e13a407f90b1f3e152e4bb0c",
+            "b42618349818454f8af2b58422cc3e4d",
+            "d683828dc3784fa09b59bdb011c18600"
+          ],
+          "extra_boundary_request_ids": [],
+          "perf_ns_minus_trace_ns_range": [
+            602729528021840,
+            602729528101187
+          ],
+          "migration_whole_capture": {}
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images1-c1/traces/baseline-2.sqlite",
+          "sha256": "335729a122e7dcdf75557ae3f402fdfebc495c48573cafcaf76582219f4258ff",
+          "capture_ns": [
+            49723740,
+            42863633394
+          ],
+          "api_pid": 3755325,
+          "selected_requests": [
+            {
+              "rid": "1aac88fb4d424afbb03e6b3cc7f23dd8",
+              "index": 86,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3755325,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 3806488634,
+                  "last_ns": 3845330261,
+                  "span_ms": 38.841627,
+                  "kernel_union_ms": 33.103406
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 3847069507,
+                  "last_ns": 5685155527,
+                  "span_ms": 1838.08602,
+                  "kernel_union_ms": 1518.742167
+                }
+              }
+            },
+            {
+              "rid": "b72f204186fc4c93bf5af14240a4ffc2",
+              "index": 89,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3755325,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 9467058551,
+                  "last_ns": 9505633168,
+                  "span_ms": 38.574617,
+                  "kernel_union_ms": 33.110405
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 9507147964,
+                  "last_ns": 11314973172,
+                  "span_ms": 1807.825208,
+                  "kernel_union_ms": 1518.453905
+                }
+              }
+            },
+            {
+              "rid": "446c5ebf8e134cbaa40761973dc1397f",
+              "index": 92,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3755325,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 15164915926,
+                  "last_ns": 15203356335,
+                  "span_ms": 38.440409,
+                  "kernel_union_ms": 33.106634
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 15204855227,
+                  "last_ns": 17042233531,
+                  "span_ms": 1837.378304,
+                  "kernel_union_ms": 1518.573348
+                }
+              }
+            },
+            {
+              "rid": "0de0e351636f4af4a065d5c8c0ba7710",
+              "index": 95,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3755325,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 20818771245,
+                  "last_ns": 20861956364,
+                  "span_ms": 43.185119,
+                  "kernel_union_ms": 33.108275
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 20864023997,
+                  "last_ns": 22669804380,
+                  "span_ms": 1805.780383,
+                  "kernel_union_ms": 1518.771591
+                }
+              }
+            },
+            {
+              "rid": "1ab1be4847684a439737ae1204d11133",
+              "index": 98,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3755325,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 877,
+                  "first_ns": 26437245989,
+                  "last_ns": 26476136707,
+                  "span_ms": 38.890718,
+                  "kernel_union_ms": 33.1013
+                },
+                "baseline.decode": {
+                  "kernels": 44174,
+                  "first_ns": 26477655055,
+                  "last_ns": 28345040581,
+                  "span_ms": 1867.385526,
+                  "kernel_union_ms": 1518.49564
+                }
+              }
+            }
+          ],
+          "kernels_by_pid": {
+            "3755325": 225255
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": 4385,
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": 220870,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": 190,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": 10795
+          },
+          "skipped_activity_counts": {},
+          "process_local_kernel_device_ids": {
+            "3755325": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "0de0e351636f4af4a065d5c8c0ba7710",
+            "1aac88fb4d424afbb03e6b3cc7f23dd8",
+            "1ab1be4847684a439737ae1204d11133",
+            "446c5ebf8e134cbaa40761973dc1397f",
+            "b72f204186fc4c93bf5af14240a4ffc2"
+          ],
+          "selected_request_ids": [
+            "0de0e351636f4af4a065d5c8c0ba7710",
+            "1aac88fb4d424afbb03e6b3cc7f23dd8",
+            "1ab1be4847684a439737ae1204d11133",
+            "446c5ebf8e134cbaa40761973dc1397f",
+            "b72f204186fc4c93bf5af14240a4ffc2"
+          ],
+          "extra_boundary_request_ids": [],
+          "perf_ns_minus_trace_ns_range": [
+            602730224953917,
+            602730225019361
+          ],
+          "migration_whole_capture": {}
+        }
+      ]
+    },
+    {
+      "system": "baseline-epd",
+      "images": 4,
+      "concurrency": 8,
+      "selected_request_count": 16,
+      "actual_worker_pid_to_physical_gpu_uuid": {
+        "3782375": "GPU-dd8ab4ed-e34e-4141-ced9-271897da8282",
+        "3782964": "GPU-c717f7e6-dc4f-3796-2994-e28b60448538",
+        "3784233": "GPU-c005197e-747d-2dc8-b77b-b123b41efd75"
+      },
+      "physical_identity_rule": "runtime nvidia-smi PID to UUID pin, then exact trace worker PID coverage; CUPTI deviceId is process-local",
+      "stage_summaries": {
+        "baseline.prefill": {
+          "span_ms": {
+            "n": 16,
+            "mean": 128.237850875,
+            "sd": 27.471482926821672,
+            "max": 198.590239,
+            "p50": 118.23306199999999,
+            "p95": 198.590239,
+            "p99": 198.590239
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 119.269492375,
+            "sd": 25.894199827550214,
+            "max": 185.601248,
+            "p50": 109.9370275,
+            "p95": 185.601248,
+            "p99": 185.601248
+          }
+        },
+        "baseline.decode": {
+          "span_ms": {
+            "n": 16,
+            "mean": 2017.0728301875,
+            "sd": 118.80228447773888,
+            "max": 2255.100532,
+            "p50": 1998.5075055,
+            "p95": 2150.0966335000003,
+            "p99": 2234.0997523
+          },
+          "kernel_union_ms": {
+            "n": 16,
+            "mean": 1305.0820743125,
+            "sd": 11.710060595773212,
+            "max": 1330.710043,
+            "p50": 1301.779,
+            "p95": 1328.22818875,
+            "p99": 1330.21367215
+          }
+        }
+      },
+      "handoff_gap_summaries": {},
+      "traces": [
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images4-c8/traces/baseline-0.sqlite",
+          "sha256": "b300581c72f7ba8ead83d22ff8353285bbe0ef7ac34d695dc39c3135636e4685",
+          "capture_ns": [
+            78188487,
+            6422906069
+          ],
+          "api_pid": 3782375,
+          "selected_requests": [
+            {
+              "rid": "46292d0ce35946fdb64ad27bc61ced59",
+              "index": 84,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3782375,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 1024,
+                  "first_ns": 1646150749,
+                  "last_ns": 1844740988,
+                  "span_ms": 198.590239,
+                  "kernel_union_ms": 185.601248
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 1846519712,
+                  "last_ns": 3815755821,
+                  "span_ms": 1969.236109,
+                  "kernel_union_ms": 1301.779
+                }
+              }
+            },
+            {
+              "rid": "a270b534167245dbbabc135f98fb33d1",
+              "index": 87,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3782375,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 1024,
+                  "first_ns": 1646150749,
+                  "last_ns": 1844740988,
+                  "span_ms": 198.590239,
+                  "kernel_union_ms": 185.601248
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 1846519712,
+                  "last_ns": 3815755821,
+                  "span_ms": 1969.236109,
+                  "kernel_union_ms": 1301.779
+                }
+              }
+            },
+            {
+              "rid": "881818f4559c49838f3d6543021bbd98",
+              "index": 90,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3782375,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 2172138774,
+                  "last_ns": 2289225015,
+                  "span_ms": 117.086241,
+                  "kernel_union_ms": 109.933996
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 2290712538,
+                  "last_ns": 4380551964,
+                  "span_ms": 2089.839426,
+                  "kernel_union_ms": 1303.174856
+                }
+              }
+            },
+            {
+              "rid": "bc0cbeba6d284871a6012dc0d0cdbccf",
+              "index": 93,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3782375,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 3854207084,
+                  "last_ns": 3971820942,
+                  "span_ms": 117.613858,
+                  "kernel_union_ms": 109.924688
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 3973249329,
+                  "last_ns": 6067232812,
+                  "span_ms": 2093.983483,
+                  "kernel_union_ms": 1301.470084
+                }
+              }
+            },
+            {
+              "rid": "c079d2e25535452c9c27311b956f3eef",
+              "index": 96,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3782375,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 4133394012,
+                  "last_ns": 4252162272,
+                  "span_ms": 118.76826,
+                  "kernel_union_ms": 109.997773
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 4253595748,
+                  "last_ns": 6207496172,
+                  "span_ms": 1953.900424,
+                  "kernel_union_ms": 1301.480043
+                }
+              }
+            },
+            {
+              "rid": "8abcb09c19534c23afab2ccf80a4f65b",
+              "index": 99,
+              "endpoint": "http://127.0.0.1:19500",
+              "api_pid": 3782375,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 4493693650,
+                  "last_ns": 4610786065,
+                  "span_ms": 117.092415,
+                  "kernel_union_ms": 109.936303
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 4612118133,
+                  "last_ns": 6419944519,
+                  "span_ms": 1807.826386,
+                  "kernel_union_ms": 1327.400904
+                }
+              }
+            }
+          ],
+          "kernels_by_pid": {
+            "3782375": 141016
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": 135936,
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": 4992,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": 6528,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": 313
+          },
+          "skipped_activity_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:before_first_worker_range": 88,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:before_first_worker_range": 8
+          },
+          "process_local_kernel_device_ids": {
+            "3782375": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "46292d0ce35946fdb64ad27bc61ced59",
+            "6d433453a5db4470bf5272956868b56f",
+            "881818f4559c49838f3d6543021bbd98",
+            "8abcb09c19534c23afab2ccf80a4f65b",
+            "a270b534167245dbbabc135f98fb33d1",
+            "bc0cbeba6d284871a6012dc0d0cdbccf",
+            "c079d2e25535452c9c27311b956f3eef",
+            "d2c982a1659540f69ce2480970bcca57"
+          ],
+          "selected_request_ids": [
+            "46292d0ce35946fdb64ad27bc61ced59",
+            "881818f4559c49838f3d6543021bbd98",
+            "8abcb09c19534c23afab2ccf80a4f65b",
+            "a270b534167245dbbabc135f98fb33d1",
+            "bc0cbeba6d284871a6012dc0d0cdbccf",
+            "c079d2e25535452c9c27311b956f3eef"
+          ],
+          "extra_boundary_request_ids": [
+            "6d433453a5db4470bf5272956868b56f",
+            "d2c982a1659540f69ce2480970bcca57"
+          ],
+          "perf_ns_minus_trace_ns_range": [
+            602933456466287,
+            602933456528175
+          ],
+          "migration_whole_capture": {}
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images4-c8/traces/baseline-1.sqlite",
+          "sha256": "f608fa9c7ff23b72a81a021bb264b896895d305b0755c296d40915830d5e826a",
+          "capture_ns": [
+            111881900,
+            10573608985
+          ],
+          "api_pid": 3782964,
+          "selected_requests": [
+            {
+              "rid": "68e4431fd83047958d3040b239f8d9bb",
+              "index": 85,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3782964,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 894850213,
+                  "last_ns": 1012858588,
+                  "span_ms": 118.008375,
+                  "kernel_union_ms": 109.937752
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 1014535074,
+                  "last_ns": 3269635606,
+                  "span_ms": 2255.100532,
+                  "kernel_union_ms": 1303.506457
+                }
+              }
+            },
+            {
+              "rid": "345ec203986f4d56a02522837724ac78",
+              "index": 88,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3782964,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 1151650747,
+                  "last_ns": 1269518994,
+                  "span_ms": 117.868247,
+                  "kernel_union_ms": 110.049785
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 1271426616,
+                  "last_ns": 3384483012,
+                  "span_ms": 2113.056396,
+                  "kernel_union_ms": 1303.78006
+                }
+              }
+            },
+            {
+              "rid": "43dcce4d0d7741b3ac65875ee10b40b9",
+              "index": 91,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3782964,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 1511996823,
+                  "last_ns": 1629820301,
+                  "span_ms": 117.823478,
+                  "kernel_union_ms": 109.960123
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 1631146098,
+                  "last_ns": 3741076855,
+                  "span_ms": 2109.930757,
+                  "kernel_union_ms": 1303.636539
+                }
+              }
+            },
+            {
+              "rid": "cfc6a49db97a46f29ec8b337f0f226ad",
+              "index": 94,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3782964,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 3122106359,
+                  "last_ns": 3240203792,
+                  "span_ms": 118.097433,
+                  "kernel_union_ms": 109.938166
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 3241848150,
+                  "last_ns": 5262547096,
+                  "span_ms": 2020.698946,
+                  "kernel_union_ms": 1301.577323
+                }
+              }
+            },
+            {
+              "rid": "ce9feee00dda4afaa2d1c47598ee49fc",
+              "index": 97,
+              "endpoint": "http://127.0.0.1:19501",
+              "api_pid": 3782964,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 3505804584,
+                  "last_ns": 3623570784,
+                  "span_ms": 117.7662,
+                  "kernel_union_ms": 109.947166
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 3625065381,
+                  "last_ns": 5505777931,
+                  "span_ms": 1880.71255,
+                  "kernel_union_ms": 1330.710043
+                }
+              }
+            }
+          ],
+          "kernels_by_pid": {
+            "3782964": 117532
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": 112218,
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": 4960,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": 5389,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": 285
+          },
+          "skipped_activity_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:before_first_worker_range": 354,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:before_first_worker_range": 17
+          },
+          "process_local_kernel_device_ids": {
+            "3782964": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "345ec203986f4d56a02522837724ac78",
+            "43dcce4d0d7741b3ac65875ee10b40b9",
+            "68e4431fd83047958d3040b239f8d9bb",
+            "ce9feee00dda4afaa2d1c47598ee49fc",
+            "cfc6a49db97a46f29ec8b337f0f226ad",
+            "fb37144f8a244dffb2bf53116d982333"
+          ],
+          "selected_request_ids": [
+            "345ec203986f4d56a02522837724ac78",
+            "43dcce4d0d7741b3ac65875ee10b40b9",
+            "68e4431fd83047958d3040b239f8d9bb",
+            "ce9feee00dda4afaa2d1c47598ee49fc",
+            "cfc6a49db97a46f29ec8b337f0f226ad"
+          ],
+          "extra_boundary_request_ids": [
+            "fb37144f8a244dffb2bf53116d982333"
+          ],
+          "perf_ns_minus_trace_ns_range": [
+            602934182427544,
+            602934182528149
+          ],
+          "migration_whole_capture": {}
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images4-c8/traces/baseline-2.sqlite",
+          "sha256": "0b8b98c5849d636ff2a3ddd7d0e2e00bda27745d3ac91e897bd27fd8b6a3a12a",
+          "capture_ns": [
+            116608562,
+            14510366540
+          ],
+          "api_pid": 3784233,
+          "selected_requests": [
+            {
+              "rid": "3f708d662ac94156bee78f24d670c643",
+              "index": 86,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3784233,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 153126448,
+                  "last_ns": 271822374,
+                  "span_ms": 118.695926,
+                  "kernel_union_ms": 109.390948
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 273811639,
+                  "last_ns": 2247420335,
+                  "span_ms": 1973.608696,
+                  "kernel_union_ms": 1293.851547
+                }
+              }
+            },
+            {
+              "rid": "fa2a250d57f04ad6b6a13ca6c6b392da",
+              "index": 89,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3784233,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 496956009,
+                  "last_ns": 616520262,
+                  "span_ms": 119.564253,
+                  "kernel_union_ms": 109.506725
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 618370614,
+                  "last_ns": 2728309627,
+                  "span_ms": 2109.939013,
+                  "kernel_union_ms": 1293.729347
+                }
+              }
+            },
+            {
+              "rid": "e4457d8d10244802994ce7c12d9c24ba",
+              "index": 92,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3784233,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 2286103610,
+                  "last_ns": 2404472301,
+                  "span_ms": 118.368691,
+                  "kernel_union_ms": 109.618481
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 2406069082,
+                  "last_ns": 4521164416,
+                  "span_ms": 2115.095334,
+                  "kernel_union_ms": 1294.484703
+                }
+              }
+            },
+            {
+              "rid": "3df10f4627964b96b83fb3afd99b95ed",
+              "index": 95,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3784233,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 2550940048,
+                  "last_ns": 2670294379,
+                  "span_ms": 119.354331,
+                  "kernel_union_ms": 109.502058
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 2671832440,
+                  "last_ns": 4648148505,
+                  "span_ms": 1976.316065,
+                  "kernel_union_ms": 1294.882257
+                }
+              }
+            },
+            {
+              "rid": "ba405937831a491b930096e0b83b8c89",
+              "index": 98,
+              "endpoint": "http://127.0.0.1:19502",
+              "api_pid": 3784233,
+              "stages": {
+                "baseline.prefill": {
+                  "kernels": 992,
+                  "first_ns": 2934003511,
+                  "last_ns": 3052520939,
+                  "span_ms": 118.517428,
+                  "kernel_union_ms": 109.465418
+                },
+                "baseline.decode": {
+                  "kernels": 44958,
+                  "first_ns": 3054102937,
+                  "last_ns": 4888787994,
+                  "span_ms": 1834.685057,
+                  "kernel_union_ms": 1324.071026
+                }
+              }
+            }
+          ],
+          "kernels_by_pid": {
+            "3784233": 104780
+          },
+          "launch_association_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.prefill": 4960,
+            "CUPTI_ACTIVITY_KIND_KERNEL:baseline.decode": 99474,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.prefill": 285,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:baseline.decode": 4777
+          },
+          "skipped_activity_counts": {
+            "CUPTI_ACTIVITY_KIND_KERNEL:before_first_worker_range": 346,
+            "CUPTI_ACTIVITY_KIND_MEMCPY:before_first_worker_range": 8
+          },
+          "process_local_kernel_device_ids": {
+            "3784233": [
+              0
+            ]
+          },
+          "observed_output_request_ids": [
+            "17000ff5b7a744ec8398586451f4ab8e",
+            "3df10f4627964b96b83fb3afd99b95ed",
+            "3f708d662ac94156bee78f24d670c643",
+            "733d7b0458f04692a630186a5294a902",
+            "ba405937831a491b930096e0b83b8c89",
+            "e4457d8d10244802994ce7c12d9c24ba",
+            "fa2a250d57f04ad6b6a13ca6c6b392da"
+          ],
+          "selected_request_ids": [
+            "3df10f4627964b96b83fb3afd99b95ed",
+            "3f708d662ac94156bee78f24d670c643",
+            "ba405937831a491b930096e0b83b8c89",
+            "e4457d8d10244802994ce7c12d9c24ba",
+            "fa2a250d57f04ad6b6a13ca6c6b392da"
+          ],
+          "extra_boundary_request_ids": [
+            "17000ff5b7a744ec8398586451f4ab8e",
+            "733d7b0458f04692a630186a5294a902"
+          ],
+          "perf_ns_minus_trace_ns_range": [
+            602934930644692,
+            602934930802105
+          ],
+          "migration_whole_capture": {}
+        }
+      ]
+    }
+  ],
+  "association_rule": "same process/correlationId; launch API on same thread wholly inside synchronous worker NVTX range",
+  "limitations": [
+    "Selected 16 requests only; C8 captures also contain earlier in-flight boundary requests.",
+    "Per-request stage kernels include shared batch kernels: exposure, not exclusive compute cost; never sum these per-request values as GPU totals.",
+    "Baseline prefill contains vision processing; no independent baseline E stage is inferred.",
+    "GPU handoff gaps include communication and waiting/scheduling; they are not pure communication time.",
+    "Migration copy bytes/counts cover entire capture and cannot be assigned to individual request IDs from blocks-only worker labels.",
+    "CPU lifetime await/API notification times are not used as GPU execution durations.",
+    "This analysis observes profiled runs and does not establish unprofiled causal bottlenecks or bandwidth."
+  ]
+}

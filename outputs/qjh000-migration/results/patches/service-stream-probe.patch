@@ -1,0 +1,32 @@
+--- a/vllm/v1/engine/core.py
++++ b/vllm/v1/engine/core.py
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: Apache-2.0
+ import sys
++import os
+ import pickle
+ import queue
+ import signal
+@@ -459,12 +460,22 @@
+             vllm_config.model_config)
+         
+         self.encoder_stream = torch.cuda.Stream("cuda")
++        if os.environ.get("REPRO_SM_PROBE") == "1":
++            from service_sm_probe import measure
++            measure(self.encoder_stream, "before-existing-mask")
+         if libsmctrl_path is not None:
+             encoder_mask = [0x000, 0x000, 0x000, 0xfff]
+             stream_lzc_mask(self.encoder_stream, encoder_mask)
+         else:
+             logger.info("libsmctrl is unavailable; skipping encoder SM "
+                         "partitioning.")
++        if os.environ.get("REPRO_SM_PROBE") == "1":
++            measure(self.encoder_stream, "after-existing-mask")
++            if libsmctrl_path is not None:
++                stream_lzc_mask(self.encoder_stream, [0, 0, 0, 0])
++                measure(self.encoder_stream, "restored-to-zero-mask")
++                stream_lzc_mask(self.encoder_stream, encoder_mask)
++                measure(self.encoder_stream, "reapplied-existing-mask")
+     def add_request(self, request: EngineCoreRequest):
+         """Add request to the scheduler."""
+ 

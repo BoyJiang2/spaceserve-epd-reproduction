@@ -1,0 +1,16 @@
+{
+  "system": "EPDServe 9b111f710dfb, MiniCPM-V-2_6, FP16, E:P:D=1:1:1",
+  "condition": "Fresh server; no application warmup; eight concurrent single-color requests",
+  "concurrency": 8,
+  "images_per_request": 1,
+  "max_tokens": 32,
+  "temperature": 0,
+  "ignore_eos": true,
+  "client_timeout_s": 120,
+  "outcome": "Batch did not complete; aiohttp/asyncio TimeoutError; decoder GPU remained busy",
+  "root_cause": "Unresolved; no communication rewrite or scheduler fix applied",
+  "included_in_formal_performance": false,
+  "client_log": "logs/epd-cold-c8-client-failure.log",
+  "server_log": "logs/epd-cold-c8-server-failure.log",
+  "reproduction": "On a fresh EPD server with no prior inference requests, run scripts/check_correctness.py --url http://127.0.0.1:18400 --reference-file evidence/sapphire3/epd-correctness-fixed.json --model $EXP_ROOT/models/MiniCPM-V-2_6 --dataset $EXP_ROOT/dataset --output cold-c8.json --concurrency8-only"
+}

@@ -1,0 +1,141 @@
+--- before/analyze.py
++++ after/analyze.py
+@@ -8,12 +8,17 @@
+ import math
+ import pathlib
+ import statistics
++import zipfile
++
++ARCHIVE_SHA256 = '3d12536a846208e3202b67650adeee2f424cc4da1bb0a6cc28c67a494941be38'
+ 
+ 
+ def stats(values):
+     values = sorted(values)
+     if not values:
+         return {'n': 0}
++    if all(isinstance(value, bool) for value in values):
++        return {'n': len(values), 'n_true': sum(values), 'fraction_true': sum(values) / len(values)}
+     result = {'n': len(values), 'mean': statistics.mean(values), 'max': values[-1]}
+     for label, fraction in [('p50', .5), ('p95', .95), ('p99', .99)]:
+         index = (len(values) - 1) * fraction
+@@ -34,7 +39,7 @@
+               'decode_window_ms': (stamps[-1] - stamps[0]) * 1000,
+               'first_gap_ms': gaps[0], 'later_window_ms': sum(gaps[1:]),
+               'later_gap_mean_ms': statistics.mean(gaps[1:]),
+-              'max_gap_ms': max(gaps), 'zero_gaps': gaps.count(0),
++              'later_gap_max_ms': max(gaps[1:]), 'later_zero_gaps': gaps[1:].count(0),
+               'http_tail_ms': (start + row['latency_s'] - stamps[-1]) * 1000,
+               'e2e_ms': row['latency_s'] * 1000}
+     assert math.isclose(result['ttft_ms'], row['ttft_s'] * 1000, abs_tol=1e-6)
+@@ -62,10 +67,10 @@
+         if result['ttft_partition_valid']:
+             for index, (first, second) in enumerate(zip(clock, clock[1:])):
+                 result['ttft_part_' + str(index) + '_ms'] = (second - first) * 1000
+-        result['kv_begins_after_first_token'] = event['migration_begin'] >= stamps[0]
+-        result['kv_ends_before_second_token'] = event['migration_end'] <= stamps[1]
+-        result['decode_begin_distance_second_ms'] = abs(event['decoding_begin'] - stamps[1]) * 1000
+-        result['decode_begin_distance_last_ms'] = abs(event['decoding_begin'] - stamps[-1]) * 1000
++        result['kv_begin_ge_first_api_stamp'] = event['migration_begin'] >= stamps[0]
++        result['kv_end_le_second_api_stamp'] = event['migration_end'] <= stamps[1]
++        result['decode_begin_minus_second_api_stamp_ms'] = (event['decoding_begin'] - stamps[1]) * 1000
++        result['decode_begin_minus_last_api_stamp_ms'] = (event['decoding_begin'] - stamps[-1]) * 1000
+     return result, gaps, event
+ 
+ 
+@@ -84,41 +89,56 @@
+ 
+ 
+ def freeze_snapshot(root):
+-    manifest = (root / 'SHA256SUMS').read_text(encoding='utf-8')
++    manifest_bytes = (root / 'SHA256SUMS').read_bytes()
++    manifest = manifest_bytes.decode('utf-8')
+     entries = {}
+     for line in manifest.splitlines():
+         expected, name = line.split('  ', 1)
++        assert name not in entries
+         assert (root / name).resolve().is_relative_to(root)
+         assert digest(root / name) == expected, name
+         entries[name] = expected
+     actual = {path.relative_to(root).as_posix() for path in root.rglob('*')
+               if path.is_file() and '__pycache__' not in path.parts and path.name != 'SHA256SUMS'}
+     assert actual == set(entries)
++    assert len(entries) == 969
+     archive = root.parent / 'reproduction-h20.zip'
+     archive_hash = digest(archive)
+-    assert archive_hash == '3d12536a846208e3202b67650adeee2f424cc4da1bb0a6cc28c67a494941be38'
++    assert archive_hash == ARCHIVE_SHA256
++    with zipfile.ZipFile(archive) as bundle:
++        assert bundle.read('reproduction/SHA256SUMS') == manifest_bytes, 'directory manifest differs from pinned archive'
+     return {'files_verified': len(entries), 'manifest_sha256': digest(root / 'SHA256SUMS'),
+             'directory_content_sha256': hashlib.sha256(manifest.encode()).hexdigest(),
+             'archive_sha256': archive_hash}
+ 
+ 
+ def run(root, output):
++    if not __debug__:
++        raise SystemExit('Run without -O or PYTHONOPTIMIZE: validation assertions are required')
+     root, output = root.resolve(), output.resolve()
+     assert not output.is_relative_to(root), 'frozen source must never contain analysis output'
+-    assert not (output / 'analysis.json').exists(), 'use an unused analysis output directory'
++    assert not root.is_relative_to(output), 'analysis output cannot contain frozen source'
++    assert not output.exists() or not any(output.iterdir()), 'use an empty or unused analysis output directory'
+     output.mkdir(parents=True, exist_ok=True)
+     before = freeze_snapshot(root)
+-    selected = [item for item in json.loads((root / 'report/summary.json').read_text())
++    selected = [item for item in json.loads((root / 'report/summary.json').read_text(encoding='utf-8'))
+                 if item['role'].startswith(('epd-h20', 'baseline-epd-h20'))]
+     assert len(selected) == 16
++    expected = {(host, role + suffix, images, concurrency)
++                for host, suffix, points in [('qjh003', '', [(i, c) for i in (1, 4) for c in (1, 4, 8)]),
++                                             ('qjh005', '-qjh005', [(1, 1), (4, 8)])]
++                for role in ('epd-h20', 'baseline-epd-h20') for images, concurrency in points}
++    actual = [(pathlib.PurePosixPath(item['source_case']).parts[2], item['role'], item['images'], item['concurrency']) for item in selected]
++    assert len(set(actual)) == len(actual) and set(actual) == expected
+     records, cases, sources = [], [], []
+     for item in selected:
++        host = pathlib.PurePosixPath(item['source_case']).parts[2]
+         case = (root / item['source_case']).resolve()
+         assert case.is_relative_to(root)
+         assert item['result_validity'] == 'measurement_valid'
+         assert item['source_kind'] == ('cache-fix' if (item['images'], item['concurrency']) == (1, 1) else 'original')
+         path = case / 'requests.jsonl'
+-        rows = [json.loads(line) for line in path.read_text().splitlines()]
++        rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+         rows = [row for row in rows if not row['warmup']]
+         assert len(rows) == 300 and collections.Counter(row['repetition'] for row in rows) == {0: 100, 1: 100, 2: 100}
+         for repetition in range(3):
+@@ -143,7 +163,7 @@
+                 values['output_window_overlap_mean'] = statistics.mean(overlap)
+             measured.append(values)
+             all_later.extend(gaps[1:])
+-            records.append({'role': item['role'], 'images': item['images'], 'concurrency': item['concurrency'],
++            records.append({'host': host, 'role': item['role'], 'images': item['images'], 'concurrency': item['concurrency'],
+                             'repetition': row['repetition'], 'index': row['index'], 'endpoint': row['endpoint'],
+                             'source_case': item['source_case'], **values})
+         metrics = {name: stats([row[name] for row in measured if name in row]) for name in sorted(set().union(*(row.keys() for row in measured)))}
+@@ -157,11 +177,12 @@
+             subset = [values for row, values in zip(rows, measured) if row['repetition'] == repeat]
+             later = [gap for row in rows if row['repetition'] == repeat for gap in measure(row)[1][1:]]
+             repetitions.append({'repetition': repeat, 'metrics': {name: stats([row[name] for row in subset if name in row]) for name in metrics}, 'later_gaps_ms': stats(later)})
+-        cases.append({'role': item['role'], 'images': item['images'], 'concurrency': item['concurrency'],
++        cases.append({'host': host, 'role': item['role'], 'images': item['images'], 'concurrency': item['concurrency'],
+                       'source_case': item['source_case'], 'source_kind': item['source_kind'],
+                       'metrics': metrics, 'later_gaps_ms': stats(all_later),
+                       'later_gaps_by_output_window_overlap': {str(count): stats(values) for count, values in sorted(by_overlap.items())},
+-                      'repetitions': repetitions, 'legacy_summary_reconciled': True})
++                      'repetitions': repetitions, 'legacy_summary_reconciled': True,
++                      'invalid_ttft_partitions': sum(not row['ttft_partition_valid'] for row in measured) if item['role'].startswith('epd-') else None})
+         sources.append({'file': path.relative_to(root).as_posix(), 'sha256': digest(path), 'formal_requests': len(rows)})
+     assert len(records) == 4800
+     after = freeze_snapshot(root)
+@@ -174,7 +195,9 @@
+     result = {'scope': 'Observable output intervals and CPU interface events, not GPU execution durations or causal attribution',
+               'formal_requests': len(records), 'configurations': len(cases), 'sources': sources,
+               'frozen_before': before, 'frozen_after': after,
+-              'ttft_partition_labels': ['submission_to_issued', 'issued_to_preprocessed', 'wait_encoding', 'encoding_call', 'wait_embedding_call', 'embedding_call', 'wait_prefill', 'prefill_call', 'prefill_end_to_first_token'],
++              'ttft_partition_labels': ['submission_to_issued', 'issued_to_preprocessed', 'wait_encoding', 'encoding_call', 'wait_embedding_call', 'embedding_call', 'wait_prefill', 'prefill_call', 'prefill_end_to_first_api_stamp'],
++              'clock_scope': 'Client and services on the same host use perf_counter; API observation follows callback/queue consumption, not GPU completion. kv_* inequalities describe CPU/API ordering only; their converses do not establish callback ordering.',
++              'partition_scope': 'Per-request ordered parts, or means over the same valid subset, can be summed; segment percentiles cannot be summed. Invalid partition counts are explicit, overall latency rows are never removed.',
+               'output_overlap_definition': 'Same-endpoint requests with first <= gap midpoint < last output timestamp; proxy only, not GPU batch size; histogram bin 0 means zero-duration coalesced notifications, excluded from overlap mean',
+               'cases': cases}
+     (output / 'analysis.json').write_text(json.dumps(result, indent=2), encoding='utf-8')

@@ -1,0 +1,584 @@
+{
+  "measurement_host": "qjh003",
+  "analysis_host": "qjh000",
+  "cases": [
+    {
+      "system": "epd",
+      "images": 1,
+      "concurrency": 1,
+      "expected_requests": 16,
+      "expected_intervals": 2032,
+      "matched_intervals": 2032,
+      "matched_fraction": 1.0,
+      "unmatched_requests": [],
+      "categories": {
+        "steady_decode": {
+          "count": 2016,
+          "metrics": {
+            "duration_ms": {
+              "n": 2016,
+              "mean": 15.707470008432539,
+              "sd": 1.1992403399682305,
+              "max": 23.701473,
+              "p50": 15.280679500000002,
+              "p95": 18.47914475,
+              "p99": 21.123351549999995
+            },
+            "recorded_cuda_union_ms": {
+              "n": 2016,
+              "mean": 11.963008467757936,
+              "sd": 0.044110554985935024,
+              "max": 12.003143,
+              "p50": 11.9832715,
+              "p95": 11.99555975,
+              "p99": 11.99845645
+            },
+            "no_recorded_cuda_ms": {
+              "n": 2016,
+              "mean": 3.744461540674603,
+              "sd": 1.1952482893232739,
+              "max": 11.69833,
+              "p50": 3.3148465,
+              "p95": 6.495946249999999,
+              "p99": 9.228741649999987
+            },
+            "api_disconnect_union_ms": {
+              "n": 2016,
+              "mean": 0.4849484806547619,
+              "sd": 0.16923176563052644,
+              "max": 2.39422,
+              "p50": 0.4442735,
+              "p95": 0.7869524999999999,
+              "p99": 1.209716099999998
+            },
+            "api_disconnect_outside_cuda_ms": {
+              "n": 2016,
+              "mean": 0.4849484806547619,
+              "sd": 0.16923176563052644,
+              "max": 2.39422,
+              "p50": 0.4442735,
+              "p95": 0.7869524999999999,
+              "p99": 1.209716099999998
+            },
+            "unexplained_ms": {
+              "n": 2016,
+              "mean": 3.259513060019841,
+              "sd": 1.1518481218671808,
+              "max": 10.811053,
+              "p50": 2.845011,
+              "p95": 5.8753632499999995,
+              "p99": 8.587150549999995
+            },
+            "matched_step_cuda_union_ms": {
+              "n": 2016,
+              "mean": 11.963008467757936,
+              "sd": 0.044110554985935024,
+              "max": 12.003143,
+              "p50": 11.9832715,
+              "p95": 11.99555975,
+              "p99": 11.99845645
+            },
+            "other_prefill_cuda_union_ms": {
+              "n": 2016,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "nvtx_vs_api_interval_difference_us": {
+              "n": 2016,
+              "mean": -0.017658518146841773,
+              "sd": 8.715340644551548,
+              "max": 216.22807253152132,
+              "p50": -0.22997846826910973,
+              "p95": 5.366775440052152,
+              "p99": 11.774525046348563
+            }
+          }
+        },
+        "first_to_second_notification": {
+          "count": 16,
+          "metrics": {
+            "duration_ms": {
+              "n": 16,
+              "mean": 21.0390958125,
+              "sd": 2.5244937294594654,
+              "max": 29.332399,
+              "p50": 20.9834265,
+              "p95": 24.63423925,
+              "p99": 28.392767049999996
+            },
+            "recorded_cuda_union_ms": {
+              "n": 16,
+              "mean": 12.9573938125,
+              "sd": 0.02905563326727714,
+              "max": 12.994539,
+              "p50": 12.9443675,
+              "p95": 12.99416025,
+              "p99": 12.994463249999999
+            },
+            "no_recorded_cuda_ms": {
+              "n": 16,
+              "mean": 8.081702,
+              "sd": 2.5181505650996328,
+              "max": 16.338365,
+              "p50": 8.047267,
+              "p95": 11.654414749999999,
+              "p99": 15.401574949999997
+            },
+            "api_disconnect_union_ms": {
+              "n": 16,
+              "mean": 0.486472125,
+              "sd": 0.05005446955584154,
+              "max": 0.561569,
+              "p50": 0.4925635,
+              "p95": 0.55094225,
+              "p99": 0.55944365
+            },
+            "api_disconnect_outside_cuda_ms": {
+              "n": 16,
+              "mean": 0.486472125,
+              "sd": 0.05005446955584154,
+              "max": 0.561569,
+              "p50": 0.4925635,
+              "p95": 0.55094225,
+              "p99": 0.55944365
+            },
+            "unexplained_ms": {
+              "n": 16,
+              "mean": 7.595229875,
+              "sd": 2.4960904830393167,
+              "max": 15.790965,
+              "p50": 7.5960475,
+              "p95": 11.109933,
+              "p99": 14.854758599999997
+            },
+            "matched_step_cuda_union_ms": {
+              "n": 16,
+              "mean": 11.880869125,
+              "sd": 0.0038402439484145736,
+              "max": 11.891016,
+              "p50": 11.8799595,
+              "p95": 11.8881855,
+              "p99": 11.8904499
+            },
+            "other_prefill_cuda_union_ms": {
+              "n": 16,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "nvtx_vs_api_interval_difference_us": {
+              "n": 16,
+              "mean": 0.5560068530030549,
+              "sd": 2.150818873510966,
+              "max": 4.327972419559956,
+              "p50": 0.9220093488693237,
+              "p95": 3.6761921364814043,
+              "p99": 4.197616362944245
+            }
+          }
+        }
+      },
+      "traces": [
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-epd-images1-c1/traces/epd.sqlite",
+          "sha256": "5a2da88e2c72163c5404fc38bddabf6ce9cefed804040351f6519a803182b44f",
+          "api_pid": 3680541,
+          "launch_associated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 720848,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 41456,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 3408
+          },
+          "launch_unassociated": {}
+        }
+      ]
+    },
+    {
+      "system": "baseline-epd",
+      "images": 1,
+      "concurrency": 1,
+      "expected_requests": 16,
+      "expected_intervals": 2032,
+      "matched_intervals": 2032,
+      "matched_fraction": 1.0,
+      "unmatched_requests": [],
+      "categories": {
+        "steady_decode": {
+          "count": 2032,
+          "metrics": {
+            "duration_ms": {
+              "n": 2032,
+              "mean": 14.471256991141733,
+              "sd": 0.7989316612107872,
+              "max": 20.991724,
+              "p50": 14.237745,
+              "p95": 15.77511695,
+              "p99": 18.739543370000007
+            },
+            "recorded_cuda_union_ms": {
+              "n": 2032,
+              "mean": 12.023438312007874,
+              "sd": 0.05331813888422855,
+              "max": 12.110583,
+              "p50": 12.052811,
+              "p95": 12.079270099999999,
+              "p99": 12.10389204
+            },
+            "no_recorded_cuda_ms": {
+              "n": 2032,
+              "mean": 2.4478186791338583,
+              "sd": 0.796452965764369,
+              "max": 8.99915,
+              "p50": 2.1982345,
+              "p95": 3.7584676499999987,
+              "p99": 6.677359000000007
+            },
+            "api_disconnect_union_ms": {
+              "n": 2032,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "api_disconnect_outside_cuda_ms": {
+              "n": 2032,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "unexplained_ms": {
+              "n": 2032,
+              "mean": 2.4478186791338583,
+              "sd": 0.796452965764369,
+              "max": 8.99915,
+              "p50": 2.1982345,
+              "p95": 3.7584676499999987,
+              "p99": 6.677359000000007
+            },
+            "matched_step_cuda_union_ms": {
+              "n": 2032,
+              "mean": 12.023438312007874,
+              "sd": 0.05331813888422855,
+              "max": 12.110583,
+              "p50": 12.052811,
+              "p95": 12.079270099999999,
+              "p99": 12.10389204
+            },
+            "other_prefill_cuda_union_ms": {
+              "n": 2032,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "nvtx_vs_api_interval_difference_us": {
+              "n": 2032,
+              "mean": -0.1286061028729919,
+              "sd": 6.234535292199674,
+              "max": 56.3780777156353,
+              "p50": -0.43847830966115,
+              "p95": 10.80354559235274,
+              "p99": 18.258612835779793
+            }
+          }
+        }
+      },
+      "traces": [
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images1-c1/traces/baseline-0.sqlite",
+          "sha256": "fac3e3bab34e2df94ed72ca67c7441a3cec7c7096cd965b6c338b09eb23c13ec",
+          "api_pid": 3753686,
+          "launch_associated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 270306,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 13182,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1278
+          },
+          "launch_unassociated": {}
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images1-c1/traces/baseline-1.sqlite",
+          "sha256": "62ba0046781e5df95fb9bd1f4c88019f2a33de4d050f0c07c6ad21c80b713c2c",
+          "api_pid": 3754322,
+          "launch_associated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 225255,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 10985,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1065
+          },
+          "launch_unassociated": {}
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images1-c1/traces/baseline-2.sqlite",
+          "sha256": "335729a122e7dcdf75557ae3f402fdfebc495c48573cafcaf76582219f4258ff",
+          "api_pid": 3755325,
+          "launch_associated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 225255,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 10985,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1065
+          },
+          "launch_unassociated": {}
+        }
+      ]
+    },
+    {
+      "system": "baseline-epd",
+      "images": 4,
+      "concurrency": 8,
+      "expected_requests": 16,
+      "expected_intervals": 2032,
+      "matched_intervals": 2032,
+      "matched_fraction": 1.0,
+      "unmatched_requests": [],
+      "categories": {
+        "steady_decode": {
+          "count": 2032,
+          "metrics": {
+            "duration_ms": {
+              "n": 2032,
+              "mean": 15.89426266683071,
+              "sd": 14.076708546750885,
+              "max": 155.988019,
+              "p50": 14.144152,
+              "p95": 17.7167987,
+              "p99": 110.32529437000707
+            },
+            "recorded_cuda_union_ms": {
+              "n": 2032,
+              "mean": 11.438028146653544,
+              "sd": 11.208482660324039,
+              "max": 121.355707,
+              "p50": 10.260874,
+              "p95": 10.30262565,
+              "p99": 86.93542085000593
+            },
+            "no_recorded_cuda_ms": {
+              "n": 2032,
+              "mean": 4.456234520177166,
+              "sd": 3.0522687693843285,
+              "max": 35.32018,
+              "p50": 3.8835170000000003,
+              "p95": 7.5027555499999945,
+              "p99": 23.547313310001037
+            },
+            "api_disconnect_union_ms": {
+              "n": 2032,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "api_disconnect_outside_cuda_ms": {
+              "n": 2032,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "unexplained_ms": {
+              "n": 2032,
+              "mean": 4.456234520177166,
+              "sd": 3.0522687693843285,
+              "max": 35.32018,
+              "p50": 3.8835170000000003,
+              "p95": 7.5027555499999945,
+              "p99": 23.547313310001037
+            },
+            "matched_step_cuda_union_ms": {
+              "n": 2032,
+              "mean": 10.292810737204725,
+              "sd": 0.2727289755409115,
+              "max": 12.008414,
+              "p50": 10.260731,
+              "p95": 10.298373,
+              "p99": 11.99177027
+            },
+            "other_prefill_cuda_union_ms": {
+              "n": 2032,
+              "mean": 1.145217409448819,
+              "sd": 11.20964859869603,
+              "max": 111.046747,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 76.18285860000603
+            },
+            "nvtx_vs_api_interval_difference_us": {
+              "n": 2032,
+              "mean": -0.16003050548061143,
+              "sd": 7.433698412270321,
+              "max": 155.42097389698029,
+              "p50": -0.12846430763602257,
+              "p95": 7.070921128615727,
+              "p99": 15.441870782524363
+            }
+          }
+        },
+        "baseline_other_request_prefill": {
+          "count": 21,
+          "metrics": {
+            "duration_ms": {
+              "n": 21,
+              "mean": 153.18393185714285,
+              "sd": 1.4749609881477983,
+              "max": 155.988019,
+              "p50": 153.536995,
+              "p95": 154.769532,
+              "p99": 155.7443216
+            },
+            "recorded_cuda_union_ms": {
+              "n": 21,
+              "mean": 121.06229614285715,
+              "sd": 0.2514060088550547,
+              "max": 121.355707,
+              "p50": 121.177712,
+              "p95": 121.278439,
+              "p99": 121.3402534
+            },
+            "no_recorded_cuda_ms": {
+              "n": 21,
+              "mean": 32.121635714285716,
+              "sd": 1.585386030996777,
+              "max": 35.32018,
+              "p50": 32.320772,
+              "p95": 33.762987,
+              "p99": 35.008741400000005
+            },
+            "api_disconnect_union_ms": {
+              "n": 21,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "api_disconnect_outside_cuda_ms": {
+              "n": 21,
+              "mean": 0.0,
+              "sd": 0.0,
+              "max": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0
+            },
+            "unexplained_ms": {
+              "n": 21,
+              "mean": 32.121635714285716,
+              "sd": 1.585386030996777,
+              "max": 35.32018,
+              "p50": 32.320772,
+              "p95": 33.762987,
+              "p99": 35.008741400000005
+            },
+            "matched_step_cuda_union_ms": {
+              "n": 21,
+              "mean": 10.248878238095239,
+              "sd": 0.04132884951205993,
+              "max": 10.30896,
+              "p50": 10.254716,
+              "p95": 10.295334,
+              "p99": 10.3062348
+            },
+            "other_prefill_cuda_union_ms": {
+              "n": 21,
+              "mean": 110.8134179047619,
+              "sd": 0.21395163380070228,
+              "max": 111.046747,
+              "p50": 110.920889,
+              "p95": 111.01931,
+              "p99": 111.0412596
+            },
+            "nvtx_vs_api_interval_difference_us": {
+              "n": 21,
+              "mean": 0.22218695708683558,
+              "sd": 6.793625995130064,
+              "max": 22.71495759487152,
+              "p50": 0.15902332961559296,
+              "p95": 7.890863344073296,
+              "p99": 19.750138744711887
+            }
+          }
+        }
+      },
+      "traces": [
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images4-c8/traces/baseline-0.sqlite",
+          "sha256": "b300581c72f7ba8ead83d22ff8353285bbe0ef7ac34d695dc39c3135636e4685",
+          "api_pid": 3782375,
+          "launch_associated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 140928,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 6841,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1544
+          },
+          "launch_unassociated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 88,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 8,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1
+          }
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images4-c8/traces/baseline-1.sqlite",
+          "sha256": "f608fa9c7ff23b72a81a021bb264b896895d305b0755c296d40915830d5e826a",
+          "api_pid": 3782964,
+          "launch_associated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 117178,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 5674,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1422
+          },
+          "launch_unassociated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 354,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 17,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1
+          }
+        },
+        {
+          "file": "/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023/analysis/epd-profile-a/results/formal/on-baseline-epd-images4-c8/traces/baseline-2.sqlite",
+          "sha256": "0b8b98c5849d636ff2a3ddd7d0e2e00bda27745d3ac91e897bd27fd8b6a3a12a",
+          "api_pid": 3784233,
+          "launch_associated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 104434,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 5062,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1386
+          },
+          "launch_unassociated": {
+            "CUPTI_ACTIVITY_KIND_KERNEL": 346,
+            "CUPTI_ACTIVITY_KIND_MEMCPY": 8,
+            "CUPTI_ACTIVITY_KIND_MEMSET": 1
+          }
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "system": "epd",
+      "images": 4,
+      "concurrency": 8,
+      "reason": "observation exceeds5%; path existence only; no quantitative interval attribution"
+    }
+  ],
+  "scope": "NVTX output-marker intervals; API timestamp interval discrepancy is reported; ordered same-rid128 worker steps matched to128 API outputs with stage/CUDA completion checks",
+  "partition": "recorded CUDA union + API disconnect outside CUDA + unexplained = marker interval; no_recorded_cuda is its complement; CPU worker/API ranges may overlap and are not CPU service time",
+  "limitations": [
+    "Kernel/copy/memset temporal union is activity exposure, not dependency critical path or exclusive cost.",
+    "No recorded CUDA activity is not proof of physical GPU idle or CPU causality.",
+    "Other-request prefill overlap is a temporal observation, not proof of why decoding paused.",
+    "Blocks-only migration labels do not prove individual request copy dependencies.",
+    "No new GPU collection; high EPD shorter-window recollection remains unperformed."
+  ]
+}
