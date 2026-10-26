@@ -1,6 +1,6 @@
 # SpaceServe / EPD: bounded artifact reproduction
 
-This private repository preserves a small-scale reproduction of fixed public implementations, including negative results. It does not reproduce the complete paper systems or claim their reported speedups. Access to the repository and Release assets requires authorization.
+This public repository preserves a small-scale reproduction of fixed public implementations, including negative results. It does not reproduce the complete paper systems or claim their reported speedups. The owner made the repository and Release assets public on 2026-10-26; initial private-publication receipts are retained as historical evidence.
 
 | Experiment | Fair baseline | Observed result |
 |---|---|---|

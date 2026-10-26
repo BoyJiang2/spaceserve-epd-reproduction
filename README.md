@@ -143,7 +143,7 @@ L20仅低/高两点；4090当前库/驱动拒绝SM mask，不宣称划分成功�
 
 ## 原始证据下载与完整恢复
 
-Release：[experiments-2026-10-25](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/tag/experiments-2026-10-25)。私有仓库资产需要有权限的GitHub登录。完整封包保留原bytes，不是重新压缩的派生包；原SHA256SUMS只有恢复完整树后才应全量验证。
+Release：[experiments-2026-10-25](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/tag/experiments-2026-10-25)。仓库与Release资产现已公开，可直接浏览和下载。完整封包保留原bytes，不是重新压缩的派生包；原SHA256SUMS只有恢复完整树后才应全量验证。
 
 使用已登录的GitHub CLI下载并核对（也可在Release页面下载同名文件）：
 
@@ -162,7 +162,7 @@ cp release-downloads/reproduction-h20.zip restore/outputs/
 
 ## Release完整封包、大小与SHA256
 
-已发布并验收：七个完整原包均已从GitHub实际下载，大小与SHA256逐包匹配；仓库仍为private。验收记录见publication/publish-state.json。
+已发布并验收：七个完整原包均已从GitHub实际下载，大小与SHA256逐包匹配；仓库已由用户于2026-10-26调整为public；首次发布时的private验收记录保留为历史证据。验收记录见publication/publish-state.json。
 
 | 批次/用途 | 下载文件 | 大小（bytes / MiB） | SHA256 |
 |---|---|---:|---|

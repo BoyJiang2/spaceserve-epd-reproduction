@@ -6,4 +6,4 @@
 - Efficiently Serving Large Multimodal Models Using EPD Disaggregation，ICML 2025。[固定arXiv v4与引用入口](https://arxiv.org/abs/2501.05460v4)。
 - 本仓库：[BoyJiang2/spaceserve-epd-reproduction](https://github.com/BoyJiang2/spaceserve-epd-reproduction)。历史完整资产见[Release](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/tag/experiments-2026-10-25)，具体分析以所用commit为准。
 
-上游许可原文与来源见[THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md)，其中EPDServe为CC BY-NC 4.0；不为全部第三方材料统一授予新许可。新增材料未擅自采用一个覆盖全仓库的LICENSE。私有可见性保持，引用链接的接收方需要访问授权。
+上游许可原文与来源见[THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md)，其中EPDServe为CC BY-NC 4.0；不为全部第三方材料统一授予新许可。新增材料未擅自采用一个覆盖全仓库的LICENSE。用户已于2026-10-26将仓库调整为公开，仓库与Release可直接访问；第三方材料的许可条件仍按各原文。
