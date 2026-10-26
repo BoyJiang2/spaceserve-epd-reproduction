@@ -1,0 +1,123 @@
+--- worker.py.profile-a
++++ worker.py.revision
+@@ -89,6 +89,17 @@
+         self.mm_registry = MultiModalRegistry()
+         self.mm_registry.init_mm_limits_per_prompt(vllm_model_config)
+ 
++    def repro_lite(self, operation):
++        if operation == 'runtime':
++            return observe.model_runtime(self)
++        if not observe.enabled:
++            raise RuntimeError('lite observation disabled')
++        if operation == 'reset':
++            return observe.reset()
++        if operation == 'export':
++            return observe.export()
++        raise RuntimeError('invalid lite operation')
++
+     def ready(self):
+         logger.info(f"Worker {self.stage}.#{self.worker_id} created on host {socket.gethostname()} and gpu #{self.gpu_id}")
+         pass
+@@ -282,7 +293,8 @@
+         self,
+         request_ids: List[int],
+         seqs,
+-        vision_blocks=None
++        vision_blocks=None,
++        repro_meta=None,
+     ) -> List[int]:
+         """Run one step of inference on the batch of requests."""
+ 
+@@ -413,7 +425,8 @@
+         self,
+         context_block_indexes: List[int],
+         context_parallel_config: ParallelConfig,
+-        decoding_block_indexes: List[int]
++        decoding_block_indexes: List[int],
++        repro_meta=None,
+     ):
+         torch.ops.block_migration_ops.migrate_blocks_context(
+             context_parallel_config.pipeline_parallel_size,
+@@ -453,7 +466,8 @@
+         self,
+         encoding_block_indexes: List[int],
+         encoding_parallel_config: ParallelConfig,
+-        context_block_indexes: List[int]
++        context_block_indexes: List[int],
++        repro_meta=None,
+     ):
+         torch.ops.block_migration_ops.migrate_blocks_encoding(
+             encoding_parallel_config.pipeline_parallel_size,
+@@ -473,7 +487,8 @@
+         self,
+         request_ids: List[int],
+         batched_requests,
+-        block_tables
++        block_tables,
++        repro_meta=None,
+     ) -> List[int]:
+         """Run one step of inference on the batch of requests."""
+ 
+--- engine_common.py.profile-a
++++ engine_common.py.revision
+@@ -376,9 +376,16 @@
+         call func_name asynchronously on all workers, return the futures immediately
+         """
+         handlers = []
++        metadata = None
++        if observe.enabled and func_name in ('step_llm', 'step_encoding', 'migrate_blocks_context', 'migrate_blocks_encoding'):
++            metadata = observe.worker_metadata(func_name, args)
++            observe.mark('engine.dispatch', **metadata)
+         for stage in self.workers:
+             for worker in stage:
+-                handlers.append(getattr(worker, func_name).remote(*args))
++                if metadata is None:
++                    handlers.append(getattr(worker, func_name).remote(*args))
++                else:
++                    handlers.append(getattr(worker, func_name).remote(*args, repro_meta=metadata))
+         return handlers
+ 
+     def abort_request(self, request_id: int):
+--- api_server.py.profile-a
++++ api_server.py.revision
+@@ -98,7 +98,7 @@
+     assert rgb_manifest, 'RGB preload is not enabled'
+     return cache_snapshot(rgb_manifest, image_cache)
+ 
+-observe.install_api(app)
++observe.install_api(app, lambda: engine)
+ 
+ @app.post("/generate")
+ async def generate(request: Request) -> Response:
+--- llm_async.py.profile-a
++++ llm_async.py.revision
+@@ -86,6 +86,9 @@
+     ):
+         vllm_engine_args = EngineArgs(model=args.model,
+                                     max_num_seqs=8,
++                                    max_model_len=4096,
++                                    max_num_batched_tokens=4096,
++                                    enable_prefix_caching=False,
+                                     tensor_parallel_size=1,
+                                     dtype="float16",
+                                     enforce_eager=True,
+--- baseline.profile-a
++++ baseline.revision
+@@ -32,7 +32,7 @@
+         max_model_len=4096, max_num_seqs=8, max_num_batched_tokens=4096,
+         enable_prefix_caching=False, disable_mm_preprocessor_cache=True,
+         gpu_memory_utilization=args.gpu_memory_utilization,
+-        limit_mm_per_prompt={"image": 4},
++        limit_mm_per_prompt={"image": 8},
+         mm_processor_kwargs={"min_pixels": 200704, "max_pixels": 200704}
+         if "Qwen2-VL" in args.model else None)
+     supported = inspect.signature(AsyncEngineArgs).parameters
+@@ -60,7 +60,7 @@
+             raise HTTPException(400, 'RGB preload is not enabled')
+         return cache_snapshot(rgb_manifest, {path.name: image for path, image in image_cache.items()})
+ 
+-    observe.install_api(app)
++    observe.install_api(app, lambda: engine)
+ 
+     @app.get("/health")
+     async def health():

@@ -1,0 +1,54 @@
+{
+  "verified_at_utc": "2026-10-26T11:38:29.578881+00:00",
+  "command": [
+    "C:\\Users\\23520\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "outputs\\epd-revision-20261026\\analysis",
+    "-v"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "test_duplicate_request_cannot_replace_missing_request (test_analyze_cells.AuditTests.test_duplicate_request_cannot_replace_missing_request) ... ok\ntest_frozen_prompt_and_image_order_checked (test_analyze_cells.AuditTests.test_frozen_prompt_and_image_order_checked) ... ok\ntest_frozen_schedules_have_exact_unique_global_pairs (test_analyze_cells.AuditTests.test_frozen_schedules_have_exact_unique_global_pairs) ... ok\ntest_incorrect_input_routing_and_length_fail (test_analyze_cells.AuditTests.test_incorrect_input_routing_and_length_fail) ... ok\ntest_missing_runtime_or_changed_rgb_cannot_be_complete (test_analyze_cells.AuditTests.test_missing_runtime_or_changed_rgb_cannot_be_complete) ... ok\ntest_recompute_metrics_and_sampled_three_gpu_memory (test_analyze_cells.AuditTests.test_recompute_metrics_and_sampled_three_gpu_memory) ... ok\ntest_sampling_gaps_duplicate_gpu_and_missing_attribution_fail (test_analyze_cells.AuditTests.test_sampling_gaps_duplicate_gpu_and_missing_attribution_fail) ... ok\ntest_summary_tampering_foreign_gpu_and_missing_sample_fail (test_analyze_cells.AuditTests.test_summary_tampering_foreign_gpu_and_missing_sample_fail) ... ok\ntest_equivalence_can_be_inconclusive_due_to_width (test_block_statistics.BlockStatisticsTests.test_equivalence_can_be_inconclusive_due_to_width) ... ok\ntest_global_block_contrast_and_invalid_data (test_block_statistics.BlockStatisticsTests.test_global_block_contrast_and_invalid_data) ... ok\ntest_independent_nonzero_variance_reference (test_block_statistics.BlockStatisticsTests.test_independent_nonzero_variance_reference) ... ok\ntest_reverse_pair_inverts_interval (test_block_statistics.BlockStatisticsTests.test_reverse_pair_inverts_interval) ... ok\ntest_six_blocks_not_requests_and_constant_ratio (test_block_statistics.BlockStatisticsTests.test_six_blocks_not_requests_and_constant_ratio) ... ok\ntest_dimensions_and_path_escape_rejected_before_inference (test_freeze_requests.FreezeTests.test_dimensions_and_path_escape_rejected_before_inference) ... ok\ntest_exact_twenty_image_cycle_template_and_sha (test_freeze_requests.FreezeTests.test_exact_twenty_image_cycle_template_and_sha) ... ok\ntest_complete_B_and_overflow_not_accepted (test_phase_analysis.PhaseTests.test_complete_B_and_overflow_not_accepted) ... ok\ntest_complete_C_and_changed_boot_or_replayed_run_rejected (test_phase_analysis.PhaseTests.test_complete_C_and_changed_boot_or_replayed_run_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 9.125s\n\nOK\n",
+  "synthetic_tests_only": true,
+  "gpu_runtime_proof": false,
+  "sources": [
+    {
+      "path": "analysis/analyze_cells.py",
+      "sha256": "e30854818b9f423bfa0ec6193cc5f44bdaca1ca8ffb5915c5760692502cfe554"
+    },
+    {
+      "path": "analysis/block_statistics.py",
+      "sha256": "bdf5b94238615d44f61aa17b48b3ba469466b532843110f0336b940922a3fa95"
+    },
+    {
+      "path": "analysis/freeze_requests.py",
+      "sha256": "29d09c209cacb5ef6c5d3e1952628682084c837cd9980c3c0b65925afd54aaad"
+    },
+    {
+      "path": "analysis/render_report.py",
+      "sha256": "746eaf1a7de7cd4c58feb5478133f9926b73c83fca96facf4b77160790ae84f7"
+    },
+    {
+      "path": "analysis/test_analyze_cells.py",
+      "sha256": "d9c60ecd11459b558b395c39d9cf868032d82c0ad9998ab0a9fc3e10f9e9bd0b"
+    },
+    {
+      "path": "analysis/test_block_statistics.py",
+      "sha256": "7784529fe60ca6688ccef28961674083192add2516b8ab18d411bbb3eee4e964"
+    },
+    {
+      "path": "analysis/test_freeze_requests.py",
+      "sha256": "f40157e6eebbdba2f13106397ab6e18168cbd6fbc824ff954df577a5d5177bc8"
+    },
+    {
+      "path": "analysis/test_phase_analysis.py",
+      "sha256": "acbb47930f633de1e2e9dceb5110141ee4fe063de6ab2f8074c3bb3eb14f0f20"
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "kernel_cmdline": "BOOT_IMAGE=/boot/vmlinuz-5.15.0-91-generic root=UUID=8b2456e1-e6ee-414c-8698-1eb720805d70 ro intel_idle.max_cstate=1 processor.max_cstate=1 iommu=pt net.ifnames=0 biosdevname=0 clocksource=tsc tsc=reliable transparent_hugepage=always console=tty0 console=ttyS0,115200",
+  "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a",
+  "vm_detection": "kvm",
+  "vm_detection_exit_code": 0,
+  "devices": [
+    {
+      "index": 4,
+      "uuid": "GPU-79214c80-7778-37d9-282b-89228debbb69",
+      "pci_bus": "0000:69:02.0",
+      "iommu_group": null,
+      "domain_type": null
+    },
+    {
+      "index": 5,
+      "uuid": "GPU-c883a2aa-a00c-c302-c3ad-12421ef80a71",
+      "pci_bus": "0000:69:03.0",
+      "iommu_group": null,
+      "domain_type": null
+    },
+    {
+      "index": 6,
+      "uuid": "GPU-5123aa0b-e69a-7246-26f1-446b3469f2eb",
+      "pci_bus": "0000:6b:02.0",
+      "iommu_group": null,
+      "domain_type": null
+    }
+  ],
+  "unsupported_bare_metal_dma_iommu": false,
+  "note": "Configuration check only; CUDA-runtime P2P and original KV data checks are still required"
+}
+Args: Namespace(host='127.0.0.1', port=19810, model='/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6', tokenizer='/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6', trust_remote_code=False, seed=0, use_dummy_weights=False, encoding_data_parallel_size=1, encoding_pipeline_parallel_size=1, encoding_tensor_parallel_size=1, context_data_parallel_size=1, context_pipeline_parallel_size=1, context_tensor_parallel_size=1, decoding_data_parallel_size=1, decoding_pipeline_parallel_size=1, decoding_tensor_parallel_size=1, block_size=16, max_num_blocks_per_req=256, gpu_memory_utilization=0.65, swap_space=1, encoding_sched_policy='fcfs', encoding_max_batch_size=1, context_sched_policy='fcfs', context_max_batch_size=1, context_max_tokens_per_batch=4096, decoding_sched_policy='fcfs', decoding_max_batch_size=8, decoding_max_tokens_per_batch=4096, simulator_mode=False, profiler_data_path=None, gpu_mem_size_gb=None, intra_request_dp=0, limit_mm_per_prompt=8)
+2026-10-26 22:41:03,529	INFO worker.py:1752 -- Started a local Ray instance.
+WARNING 10-26 22:41:05 config.py:1657] Casting torch.bfloat16 to torch.float16.
+WARNING 10-26 22:41:05 config.py:383] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+INFO 22:41:06 Initializing placement group for total engines 3
+INFO 22:41:06 Initializing Encoding (DP0) Engine
+INFO 22:41:06 Initializing Context (DP0) Engine
+INFO 22:41:07 Initializing Decoding (DP0) Engine
+INFO 22:41:07 ENCODING Initializing workers
+INFO 22:41:07 CONTEXT Initializing workers
+INFO 22:41:07 DECODING Initializing workers
+INFO 22:41:17 DECODING Initializing models
+INFO 22:41:17 ENCODING Initializing models
+INFO 22:41:17 CONTEXT Initializing models
+[36m(Worker pid=3092461)[0m INFO 22:41:17 Worker decoding.#0 created on host qjh000 and gpu #6
+[36m(Worker pid=3092461)[0m INFO 10-26 22:41:17 model_runner.py:997] Starting to load model /var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6...
+[36m(Worker pid=3092461)[0m Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+[36m(Worker pid=3092461)[0m Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:01<00:03,  1.24s/it]
+[36m(Worker pid=3092461)[0m 
+INFO 22:41:22 DECODING Initializing ve caches
+INFO 22:41:22 Vision Profiling result: num_gpu_blocks: 3000, num_cpu_blocks: 0
+INFO 22:41:22 DECODING Initializing kv caches
+INFO 22:41:22 DECODING Profiling result: num_gpu_blocks: 60470, num_cpu_blocks: 1170
+[36m(Worker pid=3092461)[0m INFO 10-26 22:41:22 model_runner.py:1008] Loading model weights took 15.1935 GB
+[36m(Worker pid=3092461)[0m INFO 22:41:22 Runtime peak memory: 10.223 GB. Total GPU memory: 95.223 GB. Num GPU Blocks: 60470 Num CPU Blocks: 1170
+[36m(Worker pid=3092460)[0m INFO 22:41:17 Worker context.#0 created on host qjh000 and gpu #5[32m [repeated 2x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/ray-logging.html#log-deduplication for more options.)[0m
+[36m(Worker pid=3092460)[0m INFO 10-26 22:41:17 model_runner.py:997] Starting to load model /var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6...[32m [repeated 2x across cluster][0m
+[36m(Worker pid=3092460)[0m Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s][32m [repeated 2x across cluster][0m
+INFO 22:41:23 CONTEXT Initializing ve caches
+INFO 22:41:23 Vision Profiling result: num_gpu_blocks: 3000, num_cpu_blocks: 0
+INFO 22:41:23 CONTEXT Initializing kv caches
+INFO 22:41:23 CONTEXT Profiling result: num_gpu_blocks: 60470, num_cpu_blocks: 1170
+INFO 22:41:23 CONTEXT The engine performs context stage, setting num_cpu_blocks to 1
+INFO 22:41:23 ENCODING Initializing ve caches
+INFO 22:41:23 Vision Profiling result: num_gpu_blocks: 3000, num_cpu_blocks: 0
+INFO 22:41:23 ENCODING Initializing kv caches
+INFO 22:41:23 ENCODING Profiling result: num_gpu_blocks: 60470, num_cpu_blocks: 1170
+
+
+********* Starting EPDOrchestrator's event loops ********** 
+
+
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+Potential chocking. Event loop called after 1.27s
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (1/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0       0       1
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (3/ 3000)     0% (0/ 0)  0 -> 0    3    4
+context(DP0)   0% (7/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)   0% (1/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         3       1       0
+context(DP0)         0        1         0       0       7
+decoding(DP0)        0        0        -1       0      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)    0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (28/ 60470)  0% (0/ 1170)  0 -> 0    4    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       4       0
+context(DP0)         0        0         0       4       0
+decoding(DP0)        0        4        -1       0      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)    0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (22/ 60470)  0% (0/ 1170)  0 -> 0    1    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       5       0
+context(DP0)         0        0         0       5       0
+decoding(DP0)        0        1        -1       4      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)    0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (20/ 60470)  0% (0/ 1170)  0 -> 0    1    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       7       0
+context(DP0)         0        0         0       7       0
+decoding(DP0)        0        1        -1       6      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)    0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (18/ 60470)  0% (0/ 1170)  0 -> 0    2    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0      15       0
+context(DP0)         0        0         0      15       0
+decoding(DP0)        0        2        -1      13      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)   0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0      17       0
+context(DP0)         0        1         0      16      37
+decoding(DP0)        0        0        -1      16      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)    0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (40/ 60470)  0% (0/ 1170)  0 -> 0    1    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0      17       0
+context(DP0)         0        0         0      17       0
+decoding(DP0)        0        1        -1      16      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)    0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (44/ 60470)  0% (0/ 1170)  0 -> 0    1    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0      17       0
+context(DP0)         0        0         0      17       0
+decoding(DP0)        0        1        -1      16      -1
+[36m(Worker pid=3092460)[0m INFO 10-26 22:41:23 model_runner.py:1008] Loading model weights took 15.1935 GB[32m [repeated 2x across cluster][0m
+[36m(Worker pid=3092459)[0m INFO 22:41:23 Runtime peak memory: 10.223 GB. Total GPU memory: 95.223 GB. Num GPU Blocks: 60470 Num CPU Blocks: 1170[32m [repeated 2x across cluster][0m
+[36m(Worker pid=3092459)[0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.24s/it][32m [repeated 14x across cluster][0m
+[36m(Worker pid=3092459)[0m [32m [repeated 2x across cluster][0m

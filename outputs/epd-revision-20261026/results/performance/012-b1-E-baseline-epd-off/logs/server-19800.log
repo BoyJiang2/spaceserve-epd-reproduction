@@ -1,0 +1,106 @@
+WARNING 10-27 00:51:22 config.py:1657] Casting torch.bfloat16 to torch.float16.
+WARNING 10-27 00:51:22 config.py:383] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+INFO 10-27 00:51:22 llm_engine.py:223] Initializing an LLM engine (v0.6.1.post2) with config: model='/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6', speculative_config=None, tokenizer='/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, rope_scaling=None, rope_theta=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=4096, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6, use_v2_block_manager=False, num_scheduler_steps=1, enable_prefix_caching=False, use_async_output_proc=False)
+INFO 10-27 00:51:24 model_runner.py:997] Starting to load model /var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6...
+/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/xformers/ops/fmha/flash.py:211: FutureWarning: `torch.library.impl_abstract` was renamed to `torch.library.register_fake`. Please use that instead; we will remove `torch.library.impl_abstract` in a future version of PyTorch.
+  @torch.library.impl_abstract("xformers_flash::flash_fwd")
+/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/xformers/ops/fmha/flash.py:344: FutureWarning: `torch.library.impl_abstract` was renamed to `torch.library.register_fake`. Please use that instead; we will remove `torch.library.impl_abstract` in a future version of PyTorch.
+  @torch.library.impl_abstract("xformers_flash::flash_bwd")
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:01<00:03,  1.11s/it]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:02<00:02,  1.31s/it]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:03<00:01,  1.29s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.07s/it]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.14s/it]
+
+INFO 10-27 00:51:30 model_runner.py:1008] Loading model weights took 15.1935 GB
+/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/transformers/models/auto/image_processing_auto.py:513: FutureWarning: The image_processor_class argument is deprecated and will be removed in v4.42. Please use `slow_image_processor_class`, or `fast_image_processor_class` instead
+  warnings.warn(
+INFO 10-27 00:51:33 gpu_executor.py:122] # GPU blocks: 43271, # CPU blocks: 4681
+{"model": "/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6", "dataset": "/var/tmp/boyjiang-epd-revision-20261026/dataset", "port": 19800, "gpu_memory_utilization": 0.65}
+INFO 10-27 00:52:22 async_llm_engine.py:201] Added request 4600cb34be9943349a8d24ee00caf236.
+INFO 10-27 00:52:22 async_llm_engine.py:201] Added request 6770cf4312294455ae4d64a7ef5991b9.
+INFO 10-27 00:52:22 async_llm_engine.py:201] Added request a28f15e6b2044ec0a6641fdee351a66d.
+INFO 10-27 00:52:23 metrics.py:351] Avg prompt throughput: 37.0 tokens/s, Avg generation throughput: 0.1 tokens/s, Running: 3 reqs, Swapped: 0 reqs, Pending: 0 reqs, GPU KV cache usage: 0.3%, CPU KV cache usage: 0.0%.
+INFO 10-27 00:52:23 async_llm_engine.py:201] Added request 1a75cccfa99149d3821173a6a6ef23f6.
+INFO 10-27 00:52:23 async_llm_engine.py:201] Added request 04ecde58a96b4c7088820b9521500b1f.
+INFO 10-27 00:52:23 async_llm_engine.py:169] Finished request 4600cb34be9943349a8d24ee00caf236.
+INFO 10-27 00:52:23 async_llm_engine.py:169] Finished request 6770cf4312294455ae4d64a7ef5991b9.
+INFO 10-27 00:52:23 async_llm_engine.py:169] Finished request a28f15e6b2044ec0a6641fdee351a66d.
+INFO 10-27 00:52:23 async_llm_engine.py:201] Added request 79a33dcbbec5432b9fa8c84fd7144d94.
+INFO 10-27 00:52:24 async_llm_engine.py:169] Finished request 1a75cccfa99149d3821173a6a6ef23f6.
+INFO 10-27 00:52:24 async_llm_engine.py:169] Finished request 04ecde58a96b4c7088820b9521500b1f.
+INFO 10-27 00:52:24 async_llm_engine.py:201] Added request 7382c8e2414644278b61d6290b5213eb.
+INFO 10-27 00:52:24 async_llm_engine.py:169] Finished request 79a33dcbbec5432b9fa8c84fd7144d94.
+INFO 10-27 00:52:25 async_llm_engine.py:169] Finished request 7382c8e2414644278b61d6290b5213eb.
+INFO 10-27 00:52:25 async_llm_engine.py:201] Added request fbbed5ee4e474af98f922114280a053e.
+INFO 10-27 00:52:25 async_llm_engine.py:201] Added request 5030eace659d4b2a9c430096fc81f77c.
+INFO 10-27 00:52:25 async_llm_engine.py:201] Added request f4b1e5ab590146638b7ca2e00827813e.
+INFO 10-27 00:52:26 async_llm_engine.py:201] Added request 660c0e8eeb564889895991e8fe18a2a7.
+INFO 10-27 00:52:26 async_llm_engine.py:201] Added request 83012a14b892473381e8e6d34a83d59d.
+INFO 10-27 00:52:26 async_llm_engine.py:169] Finished request fbbed5ee4e474af98f922114280a053e.
+INFO 10-27 00:52:26 async_llm_engine.py:169] Finished request 5030eace659d4b2a9c430096fc81f77c.
+INFO 10-27 00:52:26 async_llm_engine.py:169] Finished request f4b1e5ab590146638b7ca2e00827813e.
+INFO 10-27 00:52:26 async_llm_engine.py:201] Added request a447fde0515f446fb5fc633b2b1de54d.
+INFO 10-27 00:52:27 async_llm_engine.py:169] Finished request 660c0e8eeb564889895991e8fe18a2a7.
+INFO 10-27 00:52:27 async_llm_engine.py:169] Finished request 83012a14b892473381e8e6d34a83d59d.
+INFO 10-27 00:52:27 async_llm_engine.py:201] Added request 2338bdd4c3e84d73a5b53a37bfe39509.
+INFO 10-27 00:52:27 async_llm_engine.py:169] Finished request a447fde0515f446fb5fc633b2b1de54d.
+INFO 10-27 00:52:27 async_llm_engine.py:201] Added request 6132a8c3eff646dfbff1f3aef74535b6.
+INFO 10-27 00:52:28 metrics.py:351] Avg prompt throughput: 1396.8 tokens/s, Avg generation throughput: 89.0 tokens/s, Running: 2 reqs, Swapped: 0 reqs, Pending: 0 reqs, GPU KV cache usage: 0.2%, CPU KV cache usage: 0.0%.
+INFO 10-27 00:52:28 async_llm_engine.py:169] Finished request 2338bdd4c3e84d73a5b53a37bfe39509.
+INFO 10-27 00:52:28 async_llm_engine.py:201] Added request ef6920fbcb0a4d50bc5bb6a35d711edf.
+INFO 10-27 00:52:28 async_llm_engine.py:201] Added request 6f9fcf1c85614dd9b9731acd1a817ee6.
+INFO 10-27 00:52:28 async_llm_engine.py:169] Finished request 6132a8c3eff646dfbff1f3aef74535b6.
+INFO 10-27 00:52:28 async_llm_engine.py:201] Added request 610f86ba0a4c485daa870fa9a608e475.
+INFO 10-27 00:52:29 async_llm_engine.py:169] Finished request ef6920fbcb0a4d50bc5bb6a35d711edf.
+INFO 10-27 00:52:29 async_llm_engine.py:201] Added request ec187797ace64152b1c9d4b8094e8c6f.
+INFO 10-27 00:52:29 async_llm_engine.py:169] Finished request 6f9fcf1c85614dd9b9731acd1a817ee6.
+INFO 10-27 00:52:29 async_llm_engine.py:201] Added request b45cb7199ae64e15a15cd5e2e674a57a.
+INFO 10-27 00:52:30 async_llm_engine.py:169] Finished request 610f86ba0a4c485daa870fa9a608e475.
+INFO 10-27 00:52:30 async_llm_engine.py:201] Added request 79977aeb455b4924992d108328c13c83.
+INFO 10-27 00:52:30 async_llm_engine.py:169] Finished request ec187797ace64152b1c9d4b8094e8c6f.
+INFO 10-27 00:52:30 async_llm_engine.py:201] Added request 422957ed2add4a61b988dcb67df75b7f.
+INFO 10-27 00:52:30 async_llm_engine.py:169] Finished request b45cb7199ae64e15a15cd5e2e674a57a.
+INFO 10-27 00:52:30 async_llm_engine.py:201] Added request fb49dc2db8ec4618ba9d580da1f5f87c.
+INFO 10-27 00:52:31 async_llm_engine.py:169] Finished request 79977aeb455b4924992d108328c13c83.
+INFO 10-27 00:52:31 async_llm_engine.py:169] Finished request 422957ed2add4a61b988dcb67df75b7f.
+INFO 10-27 00:52:31 async_llm_engine.py:201] Added request f0f65cdafd434651a168a0f8474a138c.
+INFO 10-27 00:52:31 async_llm_engine.py:169] Finished request fb49dc2db8ec4618ba9d580da1f5f87c.
+INFO 10-27 00:52:31 async_llm_engine.py:201] Added request 226fb64051cc4e7a80667fd7904243ee.
+INFO 10-27 00:52:32 async_llm_engine.py:201] Added request 224dcdf653a84f048f0bceec02545d95.
+INFO 10-27 00:52:32 async_llm_engine.py:169] Finished request f0f65cdafd434651a168a0f8474a138c.
+INFO 10-27 00:52:32 async_llm_engine.py:201] Added request 4545303eb65a45fa94f77d6538e13b05.
+INFO 10-27 00:52:32 async_llm_engine.py:169] Finished request 226fb64051cc4e7a80667fd7904243ee.
+INFO 10-27 00:52:32 async_llm_engine.py:201] Added request edb5ce335179468f89b76dca0d528647.
+INFO 10-27 00:52:33 metrics.py:351] Avg prompt throughput: 1488.6 tokens/s, Avg generation throughput: 73.1 tokens/s, Running: 3 reqs, Swapped: 0 reqs, Pending: 0 reqs, GPU KV cache usage: 0.3%, CPU KV cache usage: 0.0%.
+INFO 10-27 00:52:33 async_llm_engine.py:169] Finished request 224dcdf653a84f048f0bceec02545d95.
+INFO 10-27 00:52:33 async_llm_engine.py:201] Added request 1c1a94399aba48e0987ddd9f04c0f77e.
+INFO 10-27 00:52:33 async_llm_engine.py:169] Finished request 4545303eb65a45fa94f77d6538e13b05.
+INFO 10-27 00:52:33 async_llm_engine.py:201] Added request 0c866070158447aa842726aa89c85d2d.
+INFO 10-27 00:52:34 async_llm_engine.py:169] Finished request edb5ce335179468f89b76dca0d528647.
+INFO 10-27 00:52:34 async_llm_engine.py:201] Added request 31e700d886264c49a02911c14e2a4326.
+INFO 10-27 00:52:34 async_llm_engine.py:169] Finished request 1c1a94399aba48e0987ddd9f04c0f77e.
+INFO 10-27 00:52:34 async_llm_engine.py:201] Added request 94a3cdb1106b4b83840b5458c5f730cb.
+INFO 10-27 00:52:34 async_llm_engine.py:169] Finished request 0c866070158447aa842726aa89c85d2d.
+INFO 10-27 00:52:34 async_llm_engine.py:201] Added request 5e2ffcd5911b49978af46473c04f3521.
+INFO 10-27 00:52:35 async_llm_engine.py:169] Finished request 31e700d886264c49a02911c14e2a4326.
+INFO 10-27 00:52:35 async_llm_engine.py:201] Added request df52b277baf9464d8bb8f2cba44bf3e5.
+INFO 10-27 00:52:35 async_llm_engine.py:169] Finished request 94a3cdb1106b4b83840b5458c5f730cb.
+INFO 10-27 00:52:35 async_llm_engine.py:201] Added request 5dec61a38cb34c229080cd25aa1dd122.
+INFO 10-27 00:52:36 async_llm_engine.py:169] Finished request 5e2ffcd5911b49978af46473c04f3521.
+INFO 10-27 00:52:36 async_llm_engine.py:201] Added request 164cd1b46ca243dcb5db2216c5d45dab.
+INFO 10-27 00:52:36 async_llm_engine.py:169] Finished request df52b277baf9464d8bb8f2cba44bf3e5.
+INFO 10-27 00:52:36 async_llm_engine.py:169] Finished request 5dec61a38cb34c229080cd25aa1dd122.
+INFO 10-27 00:52:36 async_llm_engine.py:201] Added request 4f889e5d68f843078af11a85605b87b5.
+INFO 10-27 00:52:36 async_llm_engine.py:201] Added request 31f884937d484da1b483f71bb769bb6e.
+INFO 10-27 00:52:37 async_llm_engine.py:169] Finished request 164cd1b46ca243dcb5db2216c5d45dab.
+INFO 10-27 00:52:37 async_llm_engine.py:201] Added request c0976fed56ce44df8b6f885981b66edb.
+INFO 10-27 00:52:37 async_llm_engine.py:169] Finished request 4f889e5d68f843078af11a85605b87b5.
+INFO 10-27 00:52:37 async_llm_engine.py:201] Added request 8711740e825f495aa92210f847d38d0a.
+INFO 10-27 00:52:38 async_llm_engine.py:169] Finished request 31f884937d484da1b483f71bb769bb6e.
+INFO 10-27 00:52:38 metrics.py:351] Avg prompt throughput: 1397.2 tokens/s, Avg generation throughput: 82.9 tokens/s, Running: 2 reqs, Swapped: 0 reqs, Pending: 0 reqs, GPU KV cache usage: 0.2%, CPU KV cache usage: 0.0%.
+INFO 10-27 00:52:38 async_llm_engine.py:201] Added request 5133c8be8f34497aa4b942f78035f450.
+INFO 10-27 00:52:38 async_llm_engine.py:169] Finished request c0976fed56ce44df8b6f885981b66edb.
+INFO 10-27 00:52:38 async_llm_engine.py:169] Finished request 8711740e825f495aa92210f847d38d0a.
+INFO 10-27 00:52:39 async_llm_engine.py:169] Finished request 5133c8be8f34497aa4b942f78035f450.

@@ -1,0 +1,711 @@
+{
+  "passed": true,
+  "scope": "C-off-only",
+  "code_manifest_sha256": "9bb1a92b9864bb9ccd837a9258d7079f0dc98d559ab305c906d4bed6d27d4bbd",
+  "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a",
+  "gpu_uuids": [
+    "GPU-79214c80-7778-37d9-282b-89228debbb69",
+    "GPU-c883a2aa-a00c-c302-c3ad-12421ef80a71",
+    "GPU-5123aa0b-e69a-7246-26f1-446b3469f2eb"
+  ],
+  "created_at_unix": 1793029803.7883537,
+  "allowed_actions": [
+    "performance"
+  ],
+  "model_correctness_passed": true,
+  "lite_observation_approved": false,
+  "lite_observation_passed": false,
+  "B_status": "not_run_observation_preflight_failed",
+  "formal_requests": 6000,
+  "warmup_requests": 1200,
+  "shared_host_relative_observation_only": true,
+  "numeric_producer_sha256": "710effcab0ecb34a563c826cfcc7ceee41cefe07c074b11c660e54333c00a6d0",
+  "model_producer_sha256": "49c2bc3feca347f0bfb5e2633cbc2e09fd30e4c747ee4a2d90edb63469466c2d",
+  "independent_G3": "/root/numeric_g3_review",
+  "bound_files": [
+    {
+      "path": "configs/code-manifest.json",
+      "sha256": "9bb1a92b9864bb9ccd837a9258d7079f0dc98d559ab305c906d4bed6d27d4bbd"
+    },
+    {
+      "path": "evidence/C-off-fallback-code-delta.json",
+      "sha256": "fd6a51e04df140ffdb1fc120b24607c8ff225c7d1a8f37deacd5b39bb4a2a178"
+    },
+    {
+      "path": "evidence/C-off-target-cpu-passed.json",
+      "sha256": "cdd4273701a1535c7ea34c947b95542140c1aa21210809db9b91bddac9cb799e"
+    },
+    {
+      "path": "evidence/C-off-target-cpu.log",
+      "sha256": "5fc4ef53eb54db6e5680aa31fe9f022867b626ce4ba05d9a5eab5a7ff9ccccf1"
+    },
+    {
+      "path": "evidence/C_SCOPE_APPROVED.json",
+      "sha256": "6236d022f375a07bb35286b11d841d9c8a294460c9a747f67ab6c79bd5b0ba60"
+    },
+    {
+      "path": "evidence/G3_NUMERICAL_APPROVED.json",
+      "sha256": "419ed9900000a9836fd8f982719f1660fe81e4545a7a905cfdad0e5b661d2afe"
+    },
+    {
+      "path": "evidence/G3_PREFLIGHT_CHECKPOINT_APPROVED.json",
+      "sha256": "fd54e293209e440aec411dd91e769ec6c8e4b3efe195cdf6e647fecb68dcc009"
+    },
+    {
+      "path": "evidence/checkpoint-90-consumer-mapping.json",
+      "sha256": "e0c9c825d84be1333ea4eb92038a4cffe3692044cf004d40ee3735cf91b17ffe"
+    },
+    {
+      "path": "evidence/checkpoint-resume-code-delta.json",
+      "sha256": "5ffd1f5fb9ffcd820dc032e3deb765f4e0c28ca76bf9ebfd3ecdd80d530f2a6d"
+    },
+    {
+      "path": "evidence/checkpoint-resume-controller.log",
+      "sha256": "37ca6d4dabf2d09f7605f27e78a9bed3c71489c4210aa903f21ac44bf1960103"
+    },
+    {
+      "path": "evidence/frozen-request-protocol.json",
+      "sha256": "08a641f1bb0c98dca6ba6c6a829caddfe3d642d54643a09fc987eb54adcf4554"
+    },
+    {
+      "path": "evidence/model-attempt0-code-manifest.json",
+      "sha256": "0290d32e8e52457962c86c825c554625b3bb845997d39f8bd2d3c4ef954f3f2a"
+    },
+    {
+      "path": "evidence/model-preflight-recheck-controller.log",
+      "sha256": "29bc0afa1afe54a7d5428c87b57f38343ca794e4d16bffe9e912383026ccd0a2"
+    },
+    {
+      "path": "evidence/model-producer-code-manifest.json",
+      "sha256": "49c2bc3feca347f0bfb5e2633cbc2e09fd30e4c747ee4a2d90edb63469466c2d"
+    },
+    {
+      "path": "evidence/numeric-producer-code-manifest.json",
+      "sha256": "710effcab0ecb34a563c826cfcc7ceee41cefe07c074b11c660e54333c00a6d0"
+    },
+    {
+      "path": "evidence/post-model-cleanup-race.json",
+      "sha256": "f276f9319372d40f764bcbb1d323976d40a6df0a67297f4b23c493541c43e747"
+    },
+    {
+      "path": "evidence/post-model-fresh-before-C.json",
+      "sha256": "9506fbda26998e337702b48dc542b728e08c26712bf14753bd6f2c550a131ab0"
+    },
+    {
+      "path": "evidence/pre-resume-code-manifest.json",
+      "sha256": "f8cec6b31fe96a9369c066f4c2ba6d7d44645f3c377f723f8b2c1e3a9cc0473d"
+    },
+    {
+      "path": "evidence/reviews-C-off/g1-C-off-fallback-subagent.md",
+      "sha256": "6dac1306e3cc9510e66a50d0e194dd1718f0c4d301e7081420564e5c551df176"
+    },
+    {
+      "path": "evidence/reviews-C-off/g1-shared-host-context-subagent.md",
+      "sha256": "5e21894d5676d37f4a1f8009ed3b999471ec188467d457285643e7c21dcee8ec"
+    },
+    {
+      "path": "evidence/reviews-C-off/g2-C-off-fallback-subagent.md",
+      "sha256": "1ea1634391901ffc3a882720aa18450dba887ee614145b85c19153d273393b81"
+    },
+    {
+      "path": "evidence/reviews-C-off/g3-C-off-consumer-subagent.md",
+      "sha256": "e19b4054625b8545783b379a4c5e44dedfe6b502f01592951d7a5f57e81f764b"
+    },
+    {
+      "path": "evidence/reviews-C-off/g3-model-final-off-subagent.md",
+      "sha256": "cd0dbf36fbf4173ee0c1ee2eb8b82ed2803ff3c7b10eebec459cb63b3c262dde"
+    },
+    {
+      "path": "evidence/reviews-C-off/g4-C-off-fallback-subagent.md",
+      "sha256": "14ed64d24fd7e78f9a8e2e930ef73bc7a560ec2485b3d1c8d63569f60145c707"
+    },
+    {
+      "path": "results/preflight-models/RESUME_STARTED.json",
+      "sha256": "337ebafb703f68a2ffbd279d08d8dd77c1e589607aa956e3ff39266d79e88c12"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/COMPLETED",
+      "sha256": "87c4330429248e9049bd2fd4634a160bb6cac9753cafc42a3e62a78f1cb58fe2"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/correctness-0.json",
+      "sha256": "ac9a7bb4c73d235156622c0f5ce04e3dc147c7991ba74688c763b86f3c8d75ea"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/correctness-0.requests.jsonl",
+      "sha256": "d1eb078aed95e3592caf1588caabcbe143daeb336e157b4e357bea20671b3b49"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/correctness-1.json",
+      "sha256": "cd3bb6168d418e4bc24b32e06f757d5e4308e8dcb4eca9a968974b20b6df5d8a"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/correctness-1.requests.jsonl",
+      "sha256": "82ad24de1fcbedd64e6949fe78ad05010123e012ea03a17087998698b53f084d"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/correctness-2.json",
+      "sha256": "9872023ec2e27f59f5eca010f29f5888e26159e55c501d32c6fd948dd2b021de"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/correctness-2.requests.jsonl",
+      "sha256": "4d2a8245aabccf1cec51abb11415e0f10798afd3849e47f2886a53e1504d1d58"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/export-0.json",
+      "sha256": "dca84a9753663fa2008e61553ed47012f14f19774637faa213602274117941a4"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/export-1.json",
+      "sha256": "12254dbadf325f5cbcf1af4c7520be1dc4784ead31d70cddfdae848352abce53"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/export-2.json",
+      "sha256": "67351f5d0c2368bd315084133d5df0c1724084fcf917ad6bb1428e13e2bd7824"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/lite/process-3059962.json",
+      "sha256": "4fe4d003cda3a1960687d3b39aaa8842b003492fb6c0cf2c3582a6bddb2f0bf4"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/lite/process-3060891.json",
+      "sha256": "71ef94b7a6538068107e7801fae1395c0dd0411aada65b62f81a45549779b561"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/lite/process-3061650.json",
+      "sha256": "e82df0bc0ebaf0d3ca52f517d55147a33bdb95d02445d6fb649219bb5a008c1a"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/logs/server-19800.log",
+      "sha256": "c75b88be8154561543b57600f1cfc262f8f0385473b70f64b8ea153ae769f91a"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/logs/server-19801.log",
+      "sha256": "bc9da223b57bcc8c61c1a2fdc5084606718fc9c28bdc416961ece7eec10dcf12"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/logs/server-19802.log",
+      "sha256": "71c79b2772f53fd7ddc4d7083687ec1c392680c0ab08db2112c356e82361ca5e"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/model-runtime-0.json",
+      "sha256": "65f8e5ee8435885e5ccda04adf80fc84c87cd3f2c4efd3413459f1e6beba9612"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/model-runtime-1.json",
+      "sha256": "58cef4847c99f3501e2ba094aa86321cfcdfff8a4971cf54ffcb213704a0ff5d"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/model-runtime-2.json",
+      "sha256": "18c0110976a2a405d2e3042c56ce0f42867102371a322e56e5121580d4f775d8"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/rgb-after.json",
+      "sha256": "e215fd769e44b31e88678d07150dfae7d3e202da9d6a2f4ddeff7c1e05788cdf"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/rgb-before.json",
+      "sha256": "79d2f718d0b4bdf61871d8b72678db37c61eb84f0f06877aaf1cdd8384498353"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-baseline-epd/runtime.json",
+      "sha256": "7d01a664f1939ee9cc328aeea36921f2106cf5c9607b7e7bb3a35b416c107cc2"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/COMPLETED",
+      "sha256": "87c4330429248e9049bd2fd4634a160bb6cac9753cafc42a3e62a78f1cb58fe2"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/correctness-0.json",
+      "sha256": "0b75e2d67eb8da5b5730bb7be10087a1216b0890adb569874900afdf5f7a4a9c"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/correctness-0.requests.jsonl",
+      "sha256": "16a105458d62b230d7794c2aa64a2c5bc77ec1fc1331039f20ab163daee61e1d"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/export-0.json",
+      "sha256": "85f3bb26cb09cb941ca999d2b146bfe6acc9244cb429ac9798a27dfa5b5b28ca"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/lite/process-3064246.json",
+      "sha256": "b07cc09aa03f2730d807e8a2ae42e95cb1623868e2679e90b9c3d24b273598f1"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/lite/process-3074696.json",
+      "sha256": "a0b5c6f2beecdc576c2010632ebe073942c30477947ba8a324bd82c515716c45"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/lite/process-3074697.json",
+      "sha256": "8035715c6ad0ebfd707b657a6cf19b3125d04e673b0645e1a4eedb35c85953f1"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/lite/process-3074698.json",
+      "sha256": "7a9c6f024f9c3595a7ce28364f5ec9079a8fbae5a78a4f6c621902ba5dd1d746"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/logs/server-19810.log",
+      "sha256": "49523c18ad2df00aa51c86998269ad70b360fb689a4fe422d8ed31b5edf59c0d"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/model-runtime-0.json",
+      "sha256": "df6ac3987e69bf11e178cd79fa3e2ec7c8e506429f61483cf00f2d0ac0cd362c"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/rgb-after.json",
+      "sha256": "fdc2305ced302d179bfce1d71790d9730b36d5733d491ae74dd308ddabb2e4c4"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/rgb-before.json",
+      "sha256": "be4712f32f39ed3dbd84c256cd638ee7c16b48f1953e711fa4e5cedd1ab14964"
+    },
+    {
+      "path": "results/preflight-models/cold-lite-epd/runtime.json",
+      "sha256": "ebd58e0f34d90cffb0fc9724b46d55d364caed6c0a6ece35390a6553a9247c79"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/COMPLETED",
+      "sha256": "87c4330429248e9049bd2fd4634a160bb6cac9753cafc42a3e62a78f1cb58fe2"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/correctness-0.json",
+      "sha256": "8cacb1f71ce3ec318316af3ede9dac9a560c62894c23307cd72d58fd30a89692"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/correctness-0.requests.jsonl",
+      "sha256": "5b74cd21fc75968ba63888fd864500d904a7d63c810086594bcb1af89fb5ee65"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/correctness-1.json",
+      "sha256": "11a2819830dd9c4d5798364efa3491a4226e17aa42023d8604eaaeb990e15c8f"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/correctness-1.requests.jsonl",
+      "sha256": "69f56bcd3203ba4dac470e781e9e89eb7c52d0a5b4ca22ecc8ec4fab39937597"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/correctness-2.json",
+      "sha256": "020939d4332f015c4484792ac4cfba43b3eb56d7cf054037ca153fcf365d6f20"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/correctness-2.requests.jsonl",
+      "sha256": "d962850744470fad6067fe9f3ce70a399a9cf0d041bd01468d08aa6fa2c65155"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/logs/server-19800.log",
+      "sha256": "e8549ab6e0f6bb23a53f47c9472e80a3744a65c07ea0a84ab0fa44d3a8eb69bd"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/logs/server-19801.log",
+      "sha256": "172cb94cc0cde1c00068f7d6172acfaa828c45a05f9f46e64223379d9770506e"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/logs/server-19802.log",
+      "sha256": "2dae5a715b2b3e77a220a5fe3aa7210288c6bc9083df6a8dd18abb3cc67dbee9"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/model-runtime-0.json",
+      "sha256": "601ea612b190b7556bb6b204bfacc8bd7a4ae0128283fde34266677962bee21b"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/model-runtime-1.json",
+      "sha256": "62cb797dff56c0f7d7dc3f96c15d5f7df1e3f0e1c2b238079da78a1b49f2ef55"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/model-runtime-2.json",
+      "sha256": "a49fb051dcc891b176b963914887bbf5d098fc9d12556cfcb4f07485086484f3"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/rgb-after.json",
+      "sha256": "164ddc760c79ee28a6b6c73b44fc1c88ef2fb2a205f5bb1a1bf724eef3e3e0b0"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/rgb-before.json",
+      "sha256": "8ebe9d67d65fa547c376970919ce5738e3e761268b5cf638688cbe85090f3949"
+    },
+    {
+      "path": "results/preflight-models/cold-off-baseline-epd/runtime.json",
+      "sha256": "561d0069b7d8ebabe4c446a3de471d71f8a2ab19a2dfffc079742d9fd2cb79b1"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/COMPLETED",
+      "sha256": "87c4330429248e9049bd2fd4634a160bb6cac9753cafc42a3e62a78f1cb58fe2"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/correctness-0.json",
+      "sha256": "808725b06cda6d452f358ddeafb63730dc119d07f56b3febc4fe80228ee29d51"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/correctness-0.requests.jsonl",
+      "sha256": "c280afc473b4ea251566e905177d8a798267a69a59465e82851d74559da91613"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/logs/server-19810.log",
+      "sha256": "c867456578573315d7fd26d8aee6b71e14d9563a33e3661d5eda962339b48a56"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/model-runtime-0.json",
+      "sha256": "80663022119528f52942e135f8c75531654e5691aa2f061e28ff902e1282653a"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/rgb-after.json",
+      "sha256": "3f786d049ac32f8f1a0e5f890b4dff6462d7f4c36de397860ce833c434e3395a"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/rgb-before.json",
+      "sha256": "a9539c81139b1a77666db933e905ef621909a3774634566b998ea8cd47e9586e"
+    },
+    {
+      "path": "results/preflight-models/cold-off-epd/runtime.json",
+      "sha256": "cc8f26bfb78e427419b5c98fdcff8ee99d8d6681c34674ccfeb18a3e4203d79f"
+    },
+    {
+      "path": "results/preflight-models/reference.json",
+      "sha256": "beac007c3f20b8f0f10ac324af832a75c9af70eba5c7dde76645347454ba84b3"
+    },
+    {
+      "path": "results/preflight-models/reference.requests.jsonl",
+      "sha256": "a6d60688a6caa4d60897b0a38e15a38f59e51df28490cba9178e1d09f28a930a"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/COMPLETED",
+      "sha256": "d7d4aacb4f29e6ae77abaf32355dd834eec88de3fb7c5447eac6c00abab4166f"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/correctness-0.json",
+      "sha256": "46c2472241502b651f09adb95fa4f630288a21092096693aed65cca4081f3738"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/correctness-0.requests.jsonl",
+      "sha256": "5527d65053648f3824c3b9ae30e877a11de568e258ad6413877e8ed486c099a2"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/correctness-1.json",
+      "sha256": "1717193d0105afb3253d8b1c54c75f5e08120d4fb98d70cf5cd25ff7c2e83b72"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/correctness-1.requests.jsonl",
+      "sha256": "81d9385f2982b1053a552dcb2368825083ad8e35eb31f6d9dce877124371426b"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/correctness-2.json",
+      "sha256": "dbafaa70a286bd7a172b3e6772af0f484879db26adcf4de600bb2f3345abc158"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/correctness-2.requests.jsonl",
+      "sha256": "ac4c99959c30012f7ab95f31d3daf943f2a1a24fc9fb0fd9983beceb5483f3fb"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/export-0.json",
+      "sha256": "192853bbfbf1fbc0af0a2257df0598b5132cf92d4ce9d6259671d8d2a2156801"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/export-1.json",
+      "sha256": "dd4e61dbaedf9b2420dd6a05ead5210f863dc030177870bee0d9dba2d4890399"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/export-2.json",
+      "sha256": "fc7a6d540c6b3476a463b2735b1d96bc61f2c7384420fd1997537d615a70c59a"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/lite/process-3218784.json",
+      "sha256": "0f0931689dcca5357ac66605bb032581cb0daf28ee901bfb62ca479c55aca9d5"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/lite/process-3220199.json",
+      "sha256": "db19d7c3a1e17457596f907bffccd59a9acdb7bf17092a9db2077c92cd52fb91"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/lite/process-3221107.json",
+      "sha256": "aba3aeb3b14cc9854d7e3ade144a0cd94b39b7134e4750034f33d46192cdcaa9"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/logs/server-19800.log",
+      "sha256": "778d0f9d6d45a4747ccbd3712bcde13169b6be975520ffc47b5a4901a360b6e1"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/logs/server-19801.log",
+      "sha256": "18f60951e4ca2b8eda0f1d016f47976cfefdca131f30bfbc82b676b4563c895d"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/logs/server-19802.log",
+      "sha256": "3a07734b16afd1a86673387fcb11c9b4142b647be431cb106ef43b8e101b0cc2"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/model-runtime-0.json",
+      "sha256": "ce005810e7965939b7d84a58c9f75b1dba9645ff5e9da0598e2b85e83a5636e1"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/model-runtime-1.json",
+      "sha256": "4e2d7202088b32d8eebea443d4035b4198f7f7cc803da8ce5ca64dd33376d7ef"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/model-runtime-2.json",
+      "sha256": "5f32f88dbf5d64915b8d73bd9cc6a97e1aebb48fc097f3fe44c98fd143eb7cf1"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/rgb-after.json",
+      "sha256": "c2d2eeafcfae2a3b88e3d99476905b42ca559108035bed4ef57af6cbae04630d"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/rgb-before.json",
+      "sha256": "b1bec1fe8417a249a0ef19786c0c72abcdc6a476a05ad0151d98c87a2ee85bf5"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-baseline-epd/runtime.json",
+      "sha256": "eb3c75f4f59400daf1c5db59d40ce1b951d2a3d02116e21c0a37a69e2e3a6e9e"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/COMPLETED",
+      "sha256": "d7d4aacb4f29e6ae77abaf32355dd834eec88de3fb7c5447eac6c00abab4166f"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/correctness-0.json",
+      "sha256": "4f60a53483d2fa8ae19dafdaf829ebd19ce5a8b7c72ae02a01cc1f1b6d44cbc1"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/correctness-0.requests.jsonl",
+      "sha256": "efc4fb897c3685c79a8053d323fd09b05efa2856cfc6186fbcf4486f29ae0102"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/export-0.json",
+      "sha256": "070b85ab9b2e544064e7197cced4fd8da1152716c504071b1e6452e3fc5e721e"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/lite/process-3223567.json",
+      "sha256": "b02897a05ba2f2a640a5e9f8eb356206f62dafab0a3a10fb270ad2b0b8c9a0f9"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/lite/process-3234460.json",
+      "sha256": "66669a5e9ccf7e568b2de87194233e100b60179ff39e315c38b52207238bfb0f"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/lite/process-3234461.json",
+      "sha256": "fc4e9dbb00312c8a4acfc318676111bcc579a78e624863cf67a2ef40da346da5"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/lite/process-3234462.json",
+      "sha256": "7cea35e26105c419b1eebc2735dffe080cd411924f1896f2e8fa14231196f975"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/logs/server-19810.log",
+      "sha256": "649ceac493f82d5a3fac649233e5b22250b583bc6b3a650d2eb36de3b4125498"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/model-runtime-0.json",
+      "sha256": "2985781f4cc024ffc6c5ecd0735a94761e66f741127289df397ea9d776983c42"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/rgb-after.json",
+      "sha256": "dd822d1ff3b425c73815975fd3a9314e2ea02c8fd3c3e7acd8969823673e358b"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/rgb-before.json",
+      "sha256": "cd9e6249ab9901d884f81dd0a8446a297745e65565dddedf98d246c0af7f0bce"
+    },
+    {
+      "path": "results/preflight-models/restart-lite-epd/runtime.json",
+      "sha256": "46df7274fcfeba61a3f026c390a49cca792087864ee4eed6d7ad68c3b0cc2cbe"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/COMPLETED",
+      "sha256": "87c4330429248e9049bd2fd4634a160bb6cac9753cafc42a3e62a78f1cb58fe2"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/correctness-0.json",
+      "sha256": "0fd04918ad853708b2d6c2dba864454a797ca387ad829e0a54577c16dba0624a"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/correctness-0.requests.jsonl",
+      "sha256": "9e0610d61602bb70e1c1b1278b5384e31d089dfe2010d3f5c34bf13de8c46680"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/correctness-1.json",
+      "sha256": "8f50d6179341b28d5f7d03175fd7fcfa7364cd0b6b19dc1da74f6555ce754d8d"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/correctness-1.requests.jsonl",
+      "sha256": "f26a34ef5b77b8da1f0774cc13888986c3f00a18389363f05fdde4303e2a906e"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/correctness-2.json",
+      "sha256": "6db9633f53f9b3ae6c7d7f70f1a06313e04c105aff49ad45851edfe81b303517"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/correctness-2.requests.jsonl",
+      "sha256": "fb117e1ccf91836c1e30c18337acfcb5fc70c6939044bc908d8f20774a2475e1"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/logs/server-19800.log",
+      "sha256": "ac753f62fc5324b693b8e4907aa83a1a7d1f6e4c3b0d65afa525bf21062daefd"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/logs/server-19801.log",
+      "sha256": "fb77cb98abcd17479cec8fffb85b5843af855d4a7723c136651b7b8f4dae9355"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/logs/server-19802.log",
+      "sha256": "88d519a2eb7ef93abf87da79cc5af08f8cdd648a259dc46d9cad42089f01cccf"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/model-runtime-0.json",
+      "sha256": "e0994f18cab5aade6be3afe212f878945ccc71a31f14b8e592e229c041bf7f3d"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/model-runtime-1.json",
+      "sha256": "157d62831a33ecc26d7e86f10a4ceb7ab8830ed01f6ef0e974cd2b1001033f59"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/model-runtime-2.json",
+      "sha256": "4eff881e984d2671bc9162e14998f41d5bb9096305895d176fac38f274f12389"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/rgb-after.json",
+      "sha256": "21efcc1389cc382582506bf2ad9664c225719c915f2911bb63de6fc56f875a53"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/rgb-before.json",
+      "sha256": "3a748a419801fece6fd679ba535e80cf0f778a35ac17db43e04d5c6de00a4a27"
+    },
+    {
+      "path": "results/preflight-models/restart-off-baseline-epd/runtime.json",
+      "sha256": "fd363ec38a4a5ba5cebddf125c57ab8fe61b4b516c481e8d72d73082e3e995bc"
+    },
+    {
+      "path": "results/preflight-models/restart-off-epd/correctness-0.json",
+      "sha256": "7491a7e11cde98032c684d3ce32b57cef25795fb9f84c5ccef22b0f76bab90d0"
+    },
+    {
+      "path": "results/preflight-models/restart-off-epd/correctness-0.requests.jsonl",
+      "sha256": "860d10c3afb5746fc1f6ff0e4257c48ff19266f0e623fbb05d5fc1c2502556b9"
+    },
+    {
+      "path": "results/preflight-models/restart-off-epd/logs/server-19810.log",
+      "sha256": "a8add4af16695f1763c0ea488feb89d66633ffc610c0f7b4fafb57b27759a91e"
+    },
+    {
+      "path": "results/preflight-models/restart-off-epd/model-runtime-0.json",
+      "sha256": "28c5a1283134f4cb25e64d078bd240c866331030e7612e9349fe93f61769f790"
+    },
+    {
+      "path": "results/preflight-models/restart-off-epd/rgb-after.json",
+      "sha256": "8966dfdd49b3f3c5e5ee6d3e3e5226d79619d689dab872072a16f35d5e6aeb16"
+    },
+    {
+      "path": "results/preflight-models/restart-off-epd/rgb-before.json",
+      "sha256": "e52ce0647cc8dc98e2d2395c97f1be8f159b633ac379ad5b8b5ece05976105c9"
+    },
+    {
+      "path": "results/preflight-models/restart-off-epd/runtime.json",
+      "sha256": "a7bdd7c88d80eccb3009e1d1935f13595db7f1168ba652a0e4abdbb1aa18133f"
+    },
+    {
+      "path": "results/preflight-models/result.json",
+      "sha256": "0fdc9ee172d3de8cef760890309d3fea6224a089a08c6c60bf2cbf02fab7b1f8"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/COMPLETED",
+      "sha256": "87c4330429248e9049bd2fd4634a160bb6cac9753cafc42a3e62a78f1cb58fe2"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/correctness-0.json",
+      "sha256": "8b76e865aea55d4e95dd601e321ce554bb4721ffbc726a5c42ae0e10c68df014"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/correctness-0.requests.jsonl",
+      "sha256": "6303f40fabf7ca05cac7a4a0e25b9f8bb4ab6b73dd4d19f5e3cc071fe8b1b326"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/correctness-1.json",
+      "sha256": "ff90e9064f96df91605e9567bb793d98fbb3dbfebd0c602b89365eafb84a3843"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/correctness-1.requests.jsonl",
+      "sha256": "ce1725c221e87e58583765e9851fee288836929f02b0971c9b1bc0dde4efa508"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/correctness-2.json",
+      "sha256": "7193a625ddd80305aff9fd4a460af831477f35d794258a51b20a4f6befb9c6ed"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/correctness-2.requests.jsonl",
+      "sha256": "7c217923c09cd42a5ef2f58f6aef1e29241475c5d743922b3bebc879ed758463"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/logs/server-19800.log",
+      "sha256": "d14333c40e8a3468efe8fbed7bd5d40c433b5750739a53209a5c60aab2b888b6"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/logs/server-19801.log",
+      "sha256": "f7ae34b60fb10db63d5ddded457889653d98d1e921c6a197823295a5cfb707d9"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/logs/server-19802.log",
+      "sha256": "c8e12d29f17f521446ffe982cd36c2eb38545d5eb6473af6e7ffd4288461800a"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/model-runtime-0.json",
+      "sha256": "14cd57e46a245e010cc1c1af37e40b5ea9a11c22188d44287d055c07f69e8915"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/model-runtime-1.json",
+      "sha256": "329751222492e4690ee555133352b52294d22aa40676d13c2462200caab54b38"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/model-runtime-2.json",
+      "sha256": "a7f9d54cf59e5bad7f0d9159c69fcf679ab64b79730948028a4b4ab1c7837fff"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/rgb-after.json",
+      "sha256": "390ecbd6a61424c7f129fbf94809ba65b3e3a9e4bb5f6d4f48eca85673e378ef"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/rgb-before.json",
+      "sha256": "6331d3dd8fb91a580d8f572028de72c1a959eb1d7097b66f55c8f7f8b18ed34f"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-baseline-epd/runtime.json",
+      "sha256": "6c146e1c73f5fd30bbc56feceaf45772b4b34e738593622d4793058db8eb1dc6"
+    },
+    {
+      "path": "results/preflight-models-attempt0/cold-off-epd/logs/server-19810.log",
+      "sha256": "843d2bc0efa0d8bf570ae7ec74bd44015e6ef7ef25b5a888a1bae3426e8e39dd"
+    },
+    {
+      "path": "results/preflight-models-attempt0/reference.json",
+      "sha256": "c64516e9316eddac085ce7cbb0d9c47af3d3da3c5f0533f1fa1d0966903d80f6"
+    },
+    {
+      "path": "results/preflight-models-attempt0/reference.requests.jsonl",
+      "sha256": "e655265d5c633ba0e340f2d3c7568affc92ee0a1edaf62b3d0630357774e2ef5"
+    },
+    {
+      "path": "results/preflight-numeric/blas.log",
+      "sha256": "02813715623a86e33bd42e1a143365fa5cffcec2ed44aede16748c7ac0534729"
+    },
+    {
+      "path": "results/preflight-numeric/embedding.json",
+      "sha256": "dfe6cadb54e8317d43e94977733a07c3d8ba3fc4a3677d65062b64641d9b3374"
+    },
+    {
+      "path": "results/preflight-numeric/embedding.log",
+      "sha256": "9a51730b3767e1835290e936f30b25bdf14c828f40abf83d3a1395adde8dd54b"
+    },
+    {
+      "path": "results/preflight-numeric/iommu.json",
+      "sha256": "3d9e5135486dfa1ee8823bca7305c7672d7a910757af6b9a0416e5956f2debbc"
+    },
+    {
+      "path": "results/preflight-numeric/kv.json",
+      "sha256": "019f8572d863cda4eb0497ed8c1768ee3797e834d3a8719aa900f3fc15da2b03"
+    },
+    {
+      "path": "results/preflight-numeric/kv.log",
+      "sha256": "f3c232fcb0db1985071300e9dcde100cd24f3e36b8cb867b96b101b3acceb224"
+    },
+    {
+      "path": "results/preflight-numeric/result.json",
+      "sha256": "175d9608765dfdc4daf7d9d0ded86a3b953e549ac045251deb92beca2cdec6ac"
+    }
+  ]
+}

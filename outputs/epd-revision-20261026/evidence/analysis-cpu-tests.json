@@ -1,0 +1,42 @@
+{
+  "verified_at_utc": "2026-10-26T11:15:07.878608+00:00",
+  "command": [
+    "C:\\Users\\23520\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "outputs\\epd-revision-20261026\\analysis",
+    "-v"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "test_duplicate_request_cannot_replace_missing_request (test_analyze_cells.AuditTests.test_duplicate_request_cannot_replace_missing_request) ... ok\ntest_frozen_schedules_have_exact_unique_global_pairs (test_analyze_cells.AuditTests.test_frozen_schedules_have_exact_unique_global_pairs) ... ok\ntest_incorrect_input_routing_and_length_fail (test_analyze_cells.AuditTests.test_incorrect_input_routing_and_length_fail) ... ok\ntest_missing_runtime_or_changed_rgb_cannot_be_complete (test_analyze_cells.AuditTests.test_missing_runtime_or_changed_rgb_cannot_be_complete) ... ok\ntest_recompute_metrics_and_sampled_three_gpu_memory (test_analyze_cells.AuditTests.test_recompute_metrics_and_sampled_three_gpu_memory) ... ok\ntest_sampling_gaps_duplicate_gpu_and_missing_attribution_fail (test_analyze_cells.AuditTests.test_sampling_gaps_duplicate_gpu_and_missing_attribution_fail) ... ok\ntest_summary_tampering_foreign_gpu_and_missing_sample_fail (test_analyze_cells.AuditTests.test_summary_tampering_foreign_gpu_and_missing_sample_fail) ... ok\ntest_equivalence_can_be_inconclusive_due_to_width (test_block_statistics.BlockStatisticsTests.test_equivalence_can_be_inconclusive_due_to_width) ... ok\ntest_global_block_contrast_and_invalid_data (test_block_statistics.BlockStatisticsTests.test_global_block_contrast_and_invalid_data) ... ok\ntest_independent_nonzero_variance_reference (test_block_statistics.BlockStatisticsTests.test_independent_nonzero_variance_reference) ... ok\ntest_reverse_pair_inverts_interval (test_block_statistics.BlockStatisticsTests.test_reverse_pair_inverts_interval) ... ok\ntest_six_blocks_not_requests_and_constant_ratio (test_block_statistics.BlockStatisticsTests.test_six_blocks_not_requests_and_constant_ratio) ... ok\ntest_complete_B_and_overflow_not_accepted (test_phase_analysis.PhaseTests.test_complete_B_and_overflow_not_accepted) ... ok\ntest_complete_C_and_changed_boot_or_replayed_run_rejected (test_phase_analysis.PhaseTests.test_complete_C_and_changed_boot_or_replayed_run_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 8.775s\n\nOK\n",
+  "synthetic_tests_only": true,
+  "gpu_runtime_proof": false,
+  "sources": [
+    {
+      "path": "analysis/analyze_cells.py",
+      "sha256": "cb0255a2ea42ce9cd6edd1ba05de10ba9bf2d01dcfd3cbd90f2b5859812de186"
+    },
+    {
+      "path": "analysis/block_statistics.py",
+      "sha256": "bdf5b94238615d44f61aa17b48b3ba469466b532843110f0336b940922a3fa95"
+    },
+    {
+      "path": "analysis/test_analyze_cells.py",
+      "sha256": "1234ab96713fb7895c14a5b42c7cfb70494b595dd52979b4128d7878a992afc9"
+    },
+    {
+      "path": "analysis/test_block_statistics.py",
+      "sha256": "7784529fe60ca6688ccef28961674083192add2516b8ab18d411bbb3eee4e964"
+    },
+    {
+      "path": "analysis/test_phase_analysis.py",
+      "sha256": "37f5ff75f7ee786c4d70468b8a94f8c64907962057f5207ff3086b4e43a66fbd"
+    }
+  ]
+}

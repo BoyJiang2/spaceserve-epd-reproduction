@@ -1,0 +1,61 @@
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+{"workers": 3, "packages": {"torch": "2.4.0", "vllm": "0.6.1.post2", "transformers": "4.44.2", "nvidia-cublas-cu12": "12.4.5.8"}, "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a"}
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"workers": 3, "packages": {"torch": "2.4.0", "vllm": "0.6.1.post2", "transformers": "4.44.2", "nvidia-cublas-cu12": "12.4.5.8"}, "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a"}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+{"workers": 3, "packages": {"torch": "2.4.0", "vllm": "0.6.1.post2", "transformers": "4.44.2", "nvidia-cublas-cu12": "12.4.5.8"}, "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a"}
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"workers": 3, "packages": {"torch": "2.4.0", "vllm": "0.6.1.post2", "transformers": "4.44.2", "nvidia-cublas-cu12": "12.4.5.8"}, "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a"}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+{"workers": 3, "packages": {"torch": "2.4.0", "vllm": "0.6.1.post2", "transformers": "4.44.2", "nvidia-cublas-cu12": "12.4.5.8"}, "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a"}
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"workers": 3, "packages": {"torch": "2.4.0", "vllm": "0.6.1.post2", "transformers": "4.44.2", "nvidia-cublas-cu12": "12.4.5.8"}, "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a"}
+{"passed": true, "services": 1, "images_per_service": 20, "inference_requests": 0}
+{"state": "retaining-lock-owned-processes-remain", "pids": [3081381, 3082392, 3082673, 3082780]}
+{"state": "retaining-lock-owned-processes-remain", "pids": [3081381, 3082673, 3082780]}
+{"state": "retaining-lock-owned-processes-remain", "pids": []}
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/psutil/_pslinux.py", line 1593, in wrapper
+    return fun(self, *args, **kwargs)
+  File "/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/psutil/_pslinux.py", line 1776, in environ
+    with open_text(f"{self._procfs_path}/{self.pid}/environ") as f:
+  File "/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/psutil/_common.py", line 692, in open_text
+    fobj = open(  # noqa: SIM115
+PermissionError: [Errno 13] Permission denied: '/proc/3082761/environ'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/owned_processes.py", line 23, in owned
+    env = process.environ()
+  File "/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/psutil/__init__.py", line 921, in environ
+    return self._proc.environ()
+  File "/var/tmp/boyjiang-epd-revision-20261026/envs/epd/lib/python3.10/site-packages/psutil/_pslinux.py", line 1595, in wrapper
+    raise AccessDenied(pid, name) from err
+psutil.AccessDenied: (pid=3082761, name='raylet')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 169, in <module>
+    main(parser.parse_args().action)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 145, in main
+    preflight(code)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 125, in preflight
+    with services(system, mode, folder) as (urls, env, servers):
+  File "/usr/lib/python3.10/contextlib.py", line 142, in __exit__
+    next(self.gen)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 67, in services
+    stop(identity)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/owned_processes.py", line 46, in stop
+    signal(owned(identity, excluded), False)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/owned_processes.py", line 41, in signal
+    if process.create_time() != creation or (pid, creation) not in owned(identity, excluded):
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/owned_processes.py", line 30, in owned
+    raise RuntimeError(f'cannot confirm candidate process identity: {process.pid}')
+RuntimeError: cannot confirm candidate process identity: 3082761

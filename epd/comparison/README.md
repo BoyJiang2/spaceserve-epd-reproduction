@@ -4,7 +4,17 @@
 
 本项目研究MiniCPM-V-2_6的Encode–Prefill–Decode三阶段链路。EPD为E:P:D=1:1:1、FP16/TP1；性能基线是同一台机器、同三张H20上的三个完整模型副本，由客户端均衡分发。
 
-最新已验收批次是qjh003方案A：2400正式＋160预热，后续CPU分析在qjh000，测量未重跑。请求内编码并行和动态角色切换关闭，视觉token存储与迁移仍在；未实现DistServe基线、容量扫描或到达率SLO。此页不与SpaceServe单卡/不同模型结果作绝对排名。qjh000修正批次C-off尚未验收；已发生启动阶段中断，原始现场与后续处理单独保留。289请求模型正确性通过，但lite GPU窗口导出失败；B阶段（观测开销）正式未运行，经独立审查仅继续既定C-off，不声称观测等效或内部瓶颈已定位。
+最新已验收批次是qjh003方案A：2400正式＋160预热，后续CPU分析在qjh000，测量未重跑。请求内编码并行和动态角色切换关闭，视觉token存储与迁移仍在；未实现DistServe基线、容量扫描或到达率SLO。此页不与SpaceServe单卡/不同模型结果作绝对排名。qjh000修正批次已按受阻分支收口：53/60单元，完整C未完成，七项不再续接；与旧方案A分批展示。289请求模型正确性通过，但lite GPU窗口导出失败；B阶段（观测开销）正式未运行，经独立审查仅继续既定C-off，不声称观测等效或内部瓶颈已定位。
+
+## qjh000修正批次：终态部分结果
+
+[本批完整原件、Release下载与SHA256](../REVISION_ASSETS.md)
+
+**53/60单元，5300正式＋1060预热，七项未执行。** 唯一续接exit1（IdentityUnconfirmed），底层原因未知，按事前规则不再续接。实际部分G4与窄受阻G5已通过，完整六区组性能复现未完成。lite观察G3失败，B正式未运行；不能声称观察等效或已定位off内部瓶颈。
+
+[全部30计划baseline配对及逐次结果](../../outputs/epd-revision-20261026/report/C-terminal-reviewed-candidate/report.md) · [可复算统计](../../outputs/epd-revision-20261026/report/C-terminal-reviewed-candidate/analysis.json) · [原始数据](../../outputs/epd-revision-20261026/results/performance) · [审查、退出与限制索引](../../outputs/epd-revision-20261026/report/publication-status.md) · [代码与复跑入口](../../outputs/epd-revision-20261026/README.md)
+
+缺失项不填零，不出完整矩阵CI或合并加速结论；已有退化与近持平观测均保留。下方旧方案A与图表来自不同批次，不与本批汇总。
 
 ## EPD方案A：同三卡完整三副本基线
 

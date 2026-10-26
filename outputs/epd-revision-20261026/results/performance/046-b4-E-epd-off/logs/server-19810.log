@@ -1,0 +1,387 @@
+{
+  "kernel_cmdline": "BOOT_IMAGE=/boot/vmlinuz-5.15.0-91-generic root=UUID=8b2456e1-e6ee-414c-8698-1eb720805d70 ro intel_idle.max_cstate=1 processor.max_cstate=1 iommu=pt net.ifnames=0 biosdevname=0 clocksource=tsc tsc=reliable transparent_hugepage=always console=tty0 console=ttyS0,115200",
+  "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a",
+  "vm_detection": "kvm",
+  "vm_detection_exit_code": 0,
+  "devices": [
+    {
+      "index": 4,
+      "uuid": "GPU-79214c80-7778-37d9-282b-89228debbb69",
+      "pci_bus": "0000:69:02.0",
+      "iommu_group": null,
+      "domain_type": null
+    },
+    {
+      "index": 5,
+      "uuid": "GPU-c883a2aa-a00c-c302-c3ad-12421ef80a71",
+      "pci_bus": "0000:69:03.0",
+      "iommu_group": null,
+      "domain_type": null
+    },
+    {
+      "index": 6,
+      "uuid": "GPU-5123aa0b-e69a-7246-26f1-446b3469f2eb",
+      "pci_bus": "0000:6b:02.0",
+      "iommu_group": null,
+      "domain_type": null
+    }
+  ],
+  "unsupported_bare_metal_dma_iommu": false,
+  "note": "Configuration check only; CUDA-runtime P2P and original KV data checks are still required"
+}
+Args: Namespace(host='127.0.0.1', port=19810, model='/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6', tokenizer='/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6', trust_remote_code=False, seed=0, use_dummy_weights=False, encoding_data_parallel_size=1, encoding_pipeline_parallel_size=1, encoding_tensor_parallel_size=1, context_data_parallel_size=1, context_pipeline_parallel_size=1, context_tensor_parallel_size=1, decoding_data_parallel_size=1, decoding_pipeline_parallel_size=1, decoding_tensor_parallel_size=1, block_size=16, max_num_blocks_per_req=256, gpu_memory_utilization=0.65, swap_space=1, encoding_sched_policy='fcfs', encoding_max_batch_size=1, context_sched_policy='fcfs', context_max_batch_size=1, context_max_tokens_per_batch=4096, decoding_sched_policy='fcfs', decoding_max_batch_size=8, decoding_max_tokens_per_batch=4096, simulator_mode=False, profiler_data_path=None, gpu_mem_size_gb=None, intra_request_dp=0, limit_mm_per_prompt=8)
+2026-10-27 02:10:42,068	INFO worker.py:1752 -- Started a local Ray instance.
+WARNING 10-27 02:10:44 config.py:1657] Casting torch.bfloat16 to torch.float16.
+WARNING 10-27 02:10:44 config.py:383] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+INFO 02:10:44 Initializing placement group for total engines 3
+INFO 02:10:45 Initializing Encoding (DP0) Engine
+INFO 02:10:45 Initializing Context (DP0) Engine
+INFO 02:10:45 Initializing Decoding (DP0) Engine
+INFO 02:10:45 ENCODING Initializing workers
+INFO 02:10:45 CONTEXT Initializing workers
+INFO 02:10:45 DECODING Initializing workers
+INFO 02:10:55 CONTEXT Initializing models
+INFO 02:10:55 ENCODING Initializing models
+[36m(Worker pid=3994683)[0m INFO 02:10:55 Worker context.#0 created on host qjh000 and gpu #5
+INFO 02:10:55 DECODING Initializing models
+[36m(Worker pid=3994683)[0m INFO 10-27 02:10:56 model_runner.py:997] Starting to load model /var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6...
+[36m(Worker pid=3994683)[0m Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+[36m(Worker pid=3994683)[0m Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:01<00:03,  1.29s/it]
+[36m(Worker pid=3994684)[0m 
+INFO 02:11:01 CONTEXT Initializing ve caches
+INFO 02:11:01 Vision Profiling result: num_gpu_blocks: 3000, num_cpu_blocks: 0
+INFO 02:11:01 CONTEXT Initializing kv caches
+INFO 02:11:01 CONTEXT Profiling result: num_gpu_blocks: 60470, num_cpu_blocks: 1170
+INFO 02:11:01 CONTEXT The engine performs context stage, setting num_cpu_blocks to 1
+[36m(Worker pid=3994683)[0m INFO 10-27 02:11:01 model_runner.py:1008] Loading model weights took 15.1935 GB
+[36m(Worker pid=3994683)[0m INFO 02:11:01 Runtime peak memory: 10.223 GB. Total GPU memory: 95.223 GB. Num GPU Blocks: 60470 Num CPU Blocks: 1170
+[36m(Worker pid=3994684)[0m INFO 02:10:55 Worker decoding.#0 created on host qjh000 and gpu #6[32m [repeated 2x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/ray-logging.html#log-deduplication for more options.)[0m
+[36m(Worker pid=3994682)[0m INFO 10-27 02:10:56 model_runner.py:997] Starting to load model /var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6...[32m [repeated 2x across cluster][0m
+INFO 02:11:01 ENCODING Initializing ve caches
+INFO 02:11:01 DECODING Initializing ve caches
+INFO 02:11:01 Vision Profiling result: num_gpu_blocks: 3000, num_cpu_blocks: 0
+INFO 02:11:01 Vision Profiling result: num_gpu_blocks: 3000, num_cpu_blocks: 0
+INFO 02:11:01 ENCODING Initializing kv caches
+INFO 02:11:01 ENCODING Profiling result: num_gpu_blocks: 60470, num_cpu_blocks: 1170
+INFO 02:11:01 DECODING Initializing kv caches
+INFO 02:11:01 DECODING Profiling result: num_gpu_blocks: 60470, num_cpu_blocks: 1170
+
+
+********* Starting EPDOrchestrator's event loops ********** 
+
+
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        8        0         0       0       0
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        7        1         0       0       8
+context(DP0)         0        0         0       0       0
+decoding(DP0)        0        0        -1       0      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)   1% (40/ 3000)     0% (0/ 0)  0 -> 0    5    4
+context(DP0)   0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)   0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        2        1         4       1       8
+context(DP0)         0        1         0       0      37
+decoding(DP0)        0        0        -1       0      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (296/ 60470)  0% (0/ 1170)  0 -> 0    8    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0       8       0
+context(DP0)         0        0         0       8       0
+decoding(DP0)        0        8        -1       0      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (113/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0      11       8
+context(DP0)         0        0         0      11       0
+decoding(DP0)        0        3        -1       8      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (152/ 60470)  0% (0/ 1170)  0 -> 0    4    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        2        1         0      17       8
+context(DP0)         0        0         0      17       0
+decoding(DP0)        0        4        -1      13      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        7        1         0      20       8
+context(DP0)         0        0         0      20       0
+decoding(DP0)        0        0        -1      20      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)    0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (114/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0      26       8
+context(DP0)         0        1         0      25      37
+decoding(DP0)        0        3        -1      22      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)    0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (114/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0      32       8
+context(DP0)         0        1         0      31      37
+decoding(DP0)        0        3        -1      28      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)    0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (115/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0      38       8
+context(DP0)         0        0         1      37       0
+decoding(DP0)        0        3        -1      34      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)   0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (76/ 60470)  0% (0/ 1170)  0 -> 0    2    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0      44       8
+context(DP0)         0        1         0      43      37
+decoding(DP0)        0        2        -1      41      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)   0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (76/ 60470)  0% (0/ 1170)  0 -> 0    2    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0      50       8
+context(DP0)         0        1         0      49      37
+decoding(DP0)        0        2        -1      47      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)    0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (113/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0      56       8
+context(DP0)         0        0         1      55       0
+decoding(DP0)        0        2        -1      53      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (113/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0      62       8
+context(DP0)         0        0         0      62       0
+decoding(DP0)        0        3        -1      59      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)   0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (76/ 60470)  0% (0/ 1170)  0 -> 0    2    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0      68       8
+context(DP0)         0        0         1      67       0
+decoding(DP0)        0        2        -1      65      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)    0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (114/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0      74       8
+context(DP0)         0        1         0      73      37
+decoding(DP0)        0        3        -1      70      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)   0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)    0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (76/ 60470)  0% (0/ 1170)  0 -> 0    2    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0      80       8
+context(DP0)         0        1         0      79      37
+decoding(DP0)        0        2        -1      77      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)    0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (114/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0      86       8
+context(DP0)         0        1         0      85      37
+decoding(DP0)        0        3        -1      82      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)    0% (37/ 60470)     0% (0/ 1)  0 -> 0    1    5
+  conviz(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    5
+decoding(DP0)  0% (114/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        3        1         0      92       8
+context(DP0)         0        1         0      91      37
+decoding(DP0)        0        3        -1      88      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (113/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0      97       8
+context(DP0)         0        0         0      97       0
+decoding(DP0)        0        3        -1      94      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (113/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0     103       8
+context(DP0)         0        0         0     103       0
+decoding(DP0)        0        3        -1     100      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (113/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0     109       8
+context(DP0)         0        0         0     109       0
+decoding(DP0)        0        3        -1     106      -1
+
+                           gpu           cpu    swap #req gpus
+encoding(DP0)     0% (8/ 3000)     0% (0/ 0)  0 -> 0    1    4
+context(DP0)     0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)     0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (113/ 60470)  0% (0/ 1170)  0 -> 0    3    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        4        1         0     115       8
+context(DP0)         0        0         0     115       0
+decoding(DP0)        0        3        -1     112      -1
+
+                          gpu           cpu    swap #req gpus
+encoding(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)    0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)    0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (76/ 60470)  0% (0/ 1170)  0 -> 0    2    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0     120       0
+context(DP0)         0        0         0     120       0
+decoding(DP0)        0        2        -1     118      -1
+
+                         gpu           cpu    swap #req gpus
+encoding(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    4
+context(DP0)   0% (0/ 60470)     0% (0/ 1)  0 -> 0    0    5
+  conviz(DP0)   0% (0/ 3000)     0% (0/ 0)  0 -> 0    0    5
+decoding(DP0)  0% (0/ 60470)  0% (0/ 1170)  0 -> 0    0    6
+               queuing  running  awaiting  exited  blocks
+encoding(DP0)        0        0         0     120       0
+context(DP0)         0        0         0     120       0
+decoding(DP0)        0        0        -1     120      -1
+[36m(Worker pid=3994682)[0m INFO 10-27 02:11:01 model_runner.py:1008] Loading model weights took 15.1935 GB[32m [repeated 2x across cluster][0m
+[36m(Worker pid=3994682)[0m INFO 02:11:01 Runtime peak memory: 10.223 GB. Total GPU memory: 95.223 GB. Num GPU Blocks: 60470 Num CPU Blocks: 1170[32m [repeated 2x across cluster][0m
+[36m(Worker pid=3994682)[0m Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s][32m [repeated 2x across cluster][0m
+[36m(Worker pid=3994682)[0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:04<00:00,  1.11s/it][32m [repeated 14x across cluster][0m
+[36m(Worker pid=3994682)[0m [32m [repeated 2x across cluster][0m

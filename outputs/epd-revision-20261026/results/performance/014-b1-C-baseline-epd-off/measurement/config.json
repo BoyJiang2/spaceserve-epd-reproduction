@@ -1,0 +1,22 @@
+{
+  "urls": [
+    "http://127.0.0.1:19800",
+    "http://127.0.0.1:19801",
+    "http://127.0.0.1:19802"
+  ],
+  "model": "/var/tmp/boyjiang-epd-revision-20261026/models/MiniCPM-V-2_6",
+  "dataset": "/var/tmp/boyjiang-epd-revision-20261026/dataset",
+  "output": "/var/tmp/boyjiang-epd-revision-20261026/results/performance/014-b1-C-baseline-epd-off/measurement",
+  "images": 1,
+  "concurrency": 8,
+  "tokens": 128,
+  "warmup": 20,
+  "requests": 100,
+  "repetitions": 1,
+  "timeout": 120,
+  "lite": false,
+  "prompt": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\n(<image>./</image>)Describe the visible objects and scene in these images in detail.<|im_end|>\n<|im_start|>assistant\n",
+  "timestamp_clock": "same-host time.perf_counter",
+  "ttft_definition": "first server token timestamp minus client submission; excludes first-token egress",
+  "tpot_definition": "(last token timestamp - first token timestamp)/(output tokens - 1)"
+}

@@ -1,0 +1,5 @@
+# g2-C-resume-subagent.md
+
+修复后G2 APPROVE/BLOCKING0，审查者/root/profile_instrument_review，只读。实际53SHA01cab0ae49091effbd6bed8220fee96382d711f761ef7bcfa8652ad287da5ed0逐项匹配；每调用UUID诊断，marker controllerID+PID owner才写canonical，回归覆盖拒者1不抢占owner0。仅一次原C后50，不重做10，不增GPU预检；目标Linux/ALARM、新consumer/prefix绑定、fresh预约空闲后才GPU。主执行者后续实际目标27CPU+ALARM1退出0，未运行GPU，完整53部署SHA待最终门禁验证。
+## 实际启动helper窄G2
+初审REQUEST_CHANGES/BLOCKING1：assert校验须显式拒绝优化模式。修复后G2 APPROVE/BLOCKING0，审查者/root/profile_instrument_review只读，核helper SHA51268d95e8f209faac333c71aa3ffa60c6cbbd0e10e6c0c7bf88e5993e7bd7de。守卫在ROOT访问/项目import前，实际python -O已拒绝；4review精确名称/SHA及helperSHA进入实签记录。静态绑定model→scope→prefix无循环；old171仅2项历史映射/old152仅010两件归档，新53仍01cab。仅原一次剩50 C-off，fresh预约/空闲/全部证据验证后执行，非已运行/结果验收。先前reject不隐藏，未部署执行错误helper。

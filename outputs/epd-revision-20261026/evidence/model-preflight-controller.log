@@ -1,0 +1,15 @@
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+{"workers": 3, "packages": {"torch": "2.4.0", "vllm": "0.6.1.post2", "transformers": "4.44.2", "nvidia-cublas-cu12": "12.4.5.8"}, "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a"}
+{"passed": true, "services": 3, "images_per_service": 20, "inference_requests": 0}
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 169, in <module>
+    main(parser.parse_args().action)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 145, in main
+    preflight(code)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 125, in preflight
+    with services(system, mode, folder) as (urls, env, servers):
+  File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/var/tmp/boyjiang-epd-revision-20261026/scripts/run_cells.py", line 52, in services
+    raise RuntimeError('server exited before readiness')
+RuntimeError: server exited before readiness
