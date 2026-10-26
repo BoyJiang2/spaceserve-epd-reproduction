@@ -4,6 +4,10 @@
 
 Git保留可直接浏览的代码、报告、PNG/SVG和小体积数据；大CUDA trace、nsys/SQLite、输入图集及完整封包由同仓库Release承载。[资产索引](publication/ASSETS.md)提供真实验收状态、大小、SHA256及下载链接，[逐文件覆盖清单](publication/source-files.json)记录原路径、原SHA、Git位置或Release包内成员。原封存文档的本地路径不改，下面导航使用仅修正链接的GitHub阅读副本。
 
+本轮是固定公开实现子集的复现：SpaceServe在单H20上验证解耦、CUDA并发及encoder stream SM mask，没有完整SIS/TWSRFT或decoder互斥分区；EPD在同机三H20上运行1:1:1，对照同三卡完整三副本，关闭请求内编码并行和动态角色切换，视觉token存储/迁移仍保留。旧2B与不同主机结果分开解释。
+
+[English](README.en.md) · [论文主张覆盖](PAPER_VS_REPRO.md) · [补丁审计](PATCH_AUDIT.md) · [复跑与验证状态](PORTABLE.md) · [引用与许可](CITING.md)。内部LLM核查不等同外部同行评审；当前数据支持有限负载下的描述性比较，因果瓶颈仍未定位。
+
 ## 结果总览
 
 各批次只与自己的同机、同模型、同GPU预算基线比较，不做跨主机/模型绝对排名。每配置20预热、100正式请求×3，目标128输出tokens；固定并发不等同真实到达率SLO。
@@ -41,6 +45,12 @@ Git保留可直接浏览的代码、报告、PNG/SVG和小体积数据；大CUDA
 | 4/1 | 356.43 / 16.29 | 497.32 / 16.52 | 485.93 / 16.78 |
 | 4/4 | 705.58 / 18.05 | 712.08 / 18.35 | 617.89 / 19.37 |
 | 4/8 | 1434.21 / 19.27 | 825.88 / 22.03 | 818.67 / 22.21 |
+
+### 观察到的指标权衡
+
+![历史六负载相对原生vLLM的变化](docs/revision/space-relative.png)
+
+百分比为`100×(实验组/原生−1)`，吞吐越高越好，延迟越低越好。吞吐使用三次运行均值，TTFT/TPOT使用300正式请求合并P50；图中没有将请求当独立运行计算置信区间。三次运行值、样本SD和37项源SHA见[派生数据](docs/revision/space-relative.json)，[CPU重算入口](scripts/revision/compare_existing_space.py)验证原始记录与封存统计一致。4图/C8解耦组表现为TTFT降低42.42%、TPOT增加14.37%、吞吐增加5.86%，是观察到的权衡，不是排队时间转移的证明。固定顺序与时间漂移限制保留。
 
 ## EPD方案A：同三卡完整三副本基线
 

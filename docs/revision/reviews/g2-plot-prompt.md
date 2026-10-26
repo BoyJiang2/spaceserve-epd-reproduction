@@ -1,0 +1,2 @@
+# G2 offline descriptive plot
+Read work/repository-upload/checkout/scripts/revision/compare_existing_space.py. Purpose recompute 18 historical raw requests/summary, verify sealed report numbers, derive descriptive percentage comparison and plot three separate panels. Writes only new docs/revision outputs, no GPU/network. Check aggregation, warmup exclusion, source hashes, figure labeling and limits. No paired CI or causal claims. Read-only review only; don't execute/change files or access credentials/GPU.

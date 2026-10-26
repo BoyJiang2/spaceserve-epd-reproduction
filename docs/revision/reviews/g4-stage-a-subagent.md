@@ -1,0 +1,1 @@
+Reviewer /root/profile_plan_review. G4 APPROVE_WITH_NITS; BLOCKING 0. Actual root docs/README, JSON, PNG/SVG and both original full papers verified. All six-load percentages and caveats correct. Only nit: audit scope32entry files rather than all linked directory contents; applied. Covers A only,no experimental/start/publish authorization.

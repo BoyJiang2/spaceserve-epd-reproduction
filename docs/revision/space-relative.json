@@ -1,0 +1,546 @@
+{
+  "source": "historical qjh000 H20 / Qwen2-VL-7B / 18 configurations",
+  "formal_requests": 5400,
+  "warmup_requests": 360,
+  "rows": [
+    {
+      "images": 1,
+      "concurrency": 1,
+      "role": "space",
+      "baseline": {
+        "throughput_mean": 0.44569138969715627,
+        "throughput_sd": 0.00021315030951291167,
+        "throughput_runs": [
+          0.44579479556331864,
+          0.44544626113346253,
+          0.4458331123946876
+        ],
+        "ttft_p50_ms": 107.77044648420997,
+        "tpot_p50_ms": 16.74466107868384
+      },
+      "tested": {
+        "throughput_mean": 0.45144457623370293,
+        "throughput_sd": 0.0004999340049175735,
+        "throughput_runs": [
+          0.45196107280491055,
+          0.4514096158300386,
+          0.45096304006615967
+        ],
+        "ttft_p50_ms": 131.80427451152354,
+        "tpot_p50_ms": 16.347790578761558
+      },
+      "changes_percent": {
+        "throughput_mean": 1.290845340417257,
+        "ttft_p50_ms": 22.300945028408048,
+        "tpot_p50_ms": -2.370131578402046
+      }
+    },
+    {
+      "images": 1,
+      "concurrency": 1,
+      "role": "space-mask",
+      "baseline": {
+        "throughput_mean": 0.44569138969715627,
+        "throughput_sd": 0.00021315030951291167,
+        "throughput_runs": [
+          0.44579479556331864,
+          0.44544626113346253,
+          0.4458331123946876
+        ],
+        "ttft_p50_ms": 107.77044648420997,
+        "tpot_p50_ms": 16.74466107868384
+      },
+      "tested": {
+        "throughput_mean": 0.44890356304971624,
+        "throughput_sd": 0.0005844669465464515,
+        "throughput_runs": [
+          0.44884608787311026,
+          0.44834995704128194,
+          0.4495146442347565
+        ],
+        "ttft_p50_ms": 132.72154949663673,
+        "tpot_p50_ms": 16.4371895077675
+      },
+      "changes_percent": {
+        "throughput_mean": 0.7207169415461623,
+        "ttft_p50_ms": 23.152082807861873,
+        "tpot_p50_ms": -1.8362364545422616
+      }
+    },
+    {
+      "images": 1,
+      "concurrency": 4,
+      "role": "space",
+      "baseline": {
+        "throughput_mean": 1.7749030123486185,
+        "throughput_sd": 0.0036069986916015193,
+        "throughput_runs": [
+          1.7708172657978891,
+          1.7762455671938266,
+          1.7776462040541399
+        ],
+        "ttft_p50_ms": 265.99055000406224,
+        "tpot_p50_ms": 15.809374653682019
+      },
+      "tested": {
+        "throughput_mean": 1.771344783838353,
+        "throughput_sd": 0.014132272268055432,
+        "throughput_runs": [
+          1.7849148496365588,
+          1.75671047676053,
+          1.77240902511797
+        ],
+        "ttft_p50_ms": 209.17953349999152,
+        "tpot_p50_ms": 16.098872452743322
+      },
+      "changes_percent": {
+        "throughput_mean": -0.2004745321580792,
+        "ttft_p50_ms": -21.35828378233854,
+        "tpot_p50_ms": 1.8311780535473554
+      }
+    },
+    {
+      "images": 1,
+      "concurrency": 4,
+      "role": "space-mask",
+      "baseline": {
+        "throughput_mean": 1.7749030123486185,
+        "throughput_sd": 0.0036069986916015193,
+        "throughput_runs": [
+          1.7708172657978891,
+          1.7762455671938266,
+          1.7776462040541399
+        ],
+        "ttft_p50_ms": 265.99055000406224,
+        "tpot_p50_ms": 15.809374653682019
+      },
+      "tested": {
+        "throughput_mean": 1.6414812251762003,
+        "throughput_sd": 0.001368234703532325,
+        "throughput_runs": [
+          1.6430364947403846,
+          1.6409442533139598,
+          1.6404629274742564
+        ],
+        "ttft_p50_ms": 218.9889950095676,
+        "tpot_p50_ms": 17.406091535386928
+      },
+      "changes_percent": {
+        "throughput_mean": -7.5171311471193825,
+        "ttft_p50_ms": -17.67038528014504,
+        "tpot_p50_ms": 10.099810502833728
+      }
+    },
+    {
+      "images": 1,
+      "concurrency": 8,
+      "role": "space",
+      "baseline": {
+        "throughput_mean": 3.1360162662850875,
+        "throughput_sd": 0.0066696709875178435,
+        "throughput_runs": [
+          3.13071441808694,
+          3.1435047843465136,
+          3.1338295964218092
+        ],
+        "ttft_p50_ms": 449.85958249890245,
+        "tpot_p50_ms": 15.875793815068866
+      },
+      "tested": {
+        "throughput_mean": 3.1225734633710998,
+        "throughput_sd": 0.02180265177736466,
+        "throughput_runs": [
+          3.1019656585797644,
+          3.120353611905138,
+          3.145401119628397
+        ],
+        "ttft_p50_ms": 262.13361049303785,
+        "tpot_p50_ms": 17.532694866187782
+      },
+      "changes_percent": {
+        "throughput_mean": -0.42865858377424404,
+        "ttft_p50_ms": -41.729904020955836,
+        "tpot_p50_ms": 10.436650100269196
+      }
+    },
+    {
+      "images": 1,
+      "concurrency": 8,
+      "role": "space-mask",
+      "baseline": {
+        "throughput_mean": 3.1360162662850875,
+        "throughput_sd": 0.0066696709875178435,
+        "throughput_runs": [
+          3.13071441808694,
+          3.1435047843465136,
+          3.1338295964218092
+        ],
+        "ttft_p50_ms": 449.85958249890245,
+        "tpot_p50_ms": 15.875793815068866
+      },
+      "tested": {
+        "throughput_mean": 2.9047082492965126,
+        "throughput_sd": 0.016626006267223877,
+        "throughput_runs": [
+          2.8860516222939965,
+          2.917957249735605,
+          2.910115875859937
+        ],
+        "ttft_p50_ms": 281.6466669901274,
+        "tpot_p50_ms": 18.690814224358714
+      },
+      "changes_percent": {
+        "throughput_mean": -7.375855140655297,
+        "ttft_p50_ms": -37.39231574758895,
+        "tpot_p50_ms": 17.731525378075318
+      }
+    },
+    {
+      "images": 4,
+      "concurrency": 1,
+      "role": "space",
+      "baseline": {
+        "throughput_mean": 0.4111971405665774,
+        "throughput_sd": 0.00012878122384864604,
+        "throughput_runs": [
+          0.4112850081597264,
+          0.4110493122649913,
+          0.4112571012750145
+        ],
+        "ttft_p50_ms": 356.42889099835884,
+        "tpot_p50_ms": 16.289998515734567
+      },
+      "tested": {
+        "throughput_mean": 0.38519745721903986,
+        "throughput_sd": 0.0005451581656254086,
+        "throughput_runs": [
+          0.3856512159046654,
+          0.38459272245816006,
+          0.3853484332942941
+        ],
+        "ttft_p50_ms": 497.31606800924055,
+        "tpot_p50_ms": 16.51952702365999
+      },
+      "changes_percent": {
+        "throughput_mean": -6.322924160346366,
+        "ttft_p50_ms": 39.527429052189376,
+        "tpot_p50_ms": 1.4090149099996507
+      }
+    },
+    {
+      "images": 4,
+      "concurrency": 1,
+      "role": "space-mask",
+      "baseline": {
+        "throughput_mean": 0.4111971405665774,
+        "throughput_sd": 0.00012878122384864604,
+        "throughput_runs": [
+          0.4112850081597264,
+          0.4110493122649913,
+          0.4112571012750145
+        ],
+        "ttft_p50_ms": 356.42889099835884,
+        "tpot_p50_ms": 16.289998515734567
+      },
+      "tested": {
+        "throughput_mean": 0.380992715088052,
+        "throughput_sd": 0.0008099691276190217,
+        "throughput_runs": [
+          0.3801613819629117,
+          0.38177947990443006,
+          0.38103728339681414
+        ],
+        "ttft_p50_ms": 485.93429299944546,
+        "tpot_p50_ms": 16.77867435443666
+      },
+      "changes_percent": {
+        "throughput_mean": -7.345485291290588,
+        "ttft_p50_ms": 36.33414834536601,
+        "tpot_p50_ms": 2.999851953516619
+      }
+    },
+    {
+      "images": 4,
+      "concurrency": 4,
+      "role": "space",
+      "baseline": {
+        "throughput_mean": 1.3312896930170528,
+        "throughput_sd": 0.0032544525144776112,
+        "throughput_runs": [
+          1.3335223687701463,
+          1.3275555640095809,
+          1.3327911462714315
+        ],
+        "ttft_p50_ms": 705.5771909945179,
+        "tpot_p50_ms": 18.04783848030896
+      },
+      "tested": {
+        "throughput_mean": 1.3328462914467663,
+        "throughput_sd": 0.0035259200131015265,
+        "throughput_runs": [
+          1.3327875927110249,
+          1.329350087271914,
+          1.33640119435736
+        ],
+        "ttft_p50_ms": 712.0759010140318,
+        "tpot_p50_ms": 18.35013168115044
+      },
+      "changes_percent": {
+        "throughput_mean": 0.11692409532486625,
+        "ttft_p50_ms": 0.9210487672304035,
+        "tpot_p50_ms": 1.6749551541659358
+      }
+    },
+    {
+      "images": 4,
+      "concurrency": 4,
+      "role": "space-mask",
+      "baseline": {
+        "throughput_mean": 1.3312896930170528,
+        "throughput_sd": 0.0032544525144776112,
+        "throughput_runs": [
+          1.3335223687701463,
+          1.3275555640095809,
+          1.3327911462714315
+        ],
+        "ttft_p50_ms": 705.5771909945179,
+        "tpot_p50_ms": 18.04783848030896
+      },
+      "tested": {
+        "throughput_mean": 1.2937261193998948,
+        "throughput_sd": 0.011164760812108213,
+        "throughput_runs": [
+          1.2926475839587643,
+          1.3053910086747038,
+          1.283139765566216
+        ],
+        "ttft_p50_ms": 617.8873095050221,
+        "tpot_p50_ms": 19.371831854351605
+      },
+      "changes_percent": {
+        "throughput_mean": -2.821592761830005,
+        "ttft_p50_ms": -12.428106039807785,
+        "tpot_p50_ms": 7.336021848196306
+      }
+    },
+    {
+      "images": 4,
+      "concurrency": 8,
+      "role": "space",
+      "baseline": {
+        "throughput_mean": 2.0137679561717823,
+        "throughput_sd": 0.006743914965725706,
+        "throughput_runs": [
+          2.0213802699792707,
+          2.011383030402366,
+          2.0085405681337107
+        ],
+        "ttft_p50_ms": 1434.2096504988149,
+        "tpot_p50_ms": 19.26633088189951
+      },
+      "tested": {
+        "throughput_mean": 2.131795944134026,
+        "throughput_sd": 0.011379873013608518,
+        "throughput_runs": [
+          2.1194028374525824,
+          2.141775312549877,
+          2.134209682399618
+        ],
+        "ttft_p50_ms": 825.8819384936942,
+        "tpot_p50_ms": 22.034388181169547
+      },
+      "changes_percent": {
+        "throughput_mean": 5.861052044279091,
+        "ttft_p50_ms": -42.41553609638212,
+        "tpot_p50_ms": 14.36732980575246
+      }
+    },
+    {
+      "images": 4,
+      "concurrency": 8,
+      "role": "space-mask",
+      "baseline": {
+        "throughput_mean": 2.0137679561717823,
+        "throughput_sd": 0.006743914965725706,
+        "throughput_runs": [
+          2.0213802699792707,
+          2.011383030402366,
+          2.0085405681337107
+        ],
+        "ttft_p50_ms": 1434.2096504988149,
+        "tpot_p50_ms": 19.26633088189951
+      },
+      "tested": {
+        "throughput_mean": 2.140430490808011,
+        "throughput_sd": 0.004639588373019822,
+        "throughput_runs": [
+          2.145721389982967,
+          2.138513443383765,
+          2.1370566390573016
+        ],
+        "ttft_p50_ms": 818.6663020023843,
+        "tpot_p50_ms": 22.206950511881445
+      },
+      "changes_percent": {
+        "throughput_mean": 6.289827695789585,
+        "ttft_p50_ms": -42.91864500300539,
+        "tpot_p50_ms": 15.26299765122696
+      }
+    }
+  ],
+  "source_files": [
+    {
+      "path": "outputs/qjh000-migration/report/space-all.json",
+      "sha256": "73dc7422f80395f53cea91b8f1057c001e5e6145237c9ad66cae40c62d43d333"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/baseline-space/images1-c1/measurement/requests.jsonl",
+      "sha256": "cebd7931d971450e5e9c2d6ba9afda04ec03d2789601ae3bfafd0813aa54db98"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/baseline-space/images1-c1/measurement/summary.json",
+      "sha256": "48b7bca7fbc779897b73f6f14178b3f36d183b579e11019ea324550a5acc9ce6"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images1-c4/measurement/requests.jsonl",
+      "sha256": "bca916bd70a0b367e8d4d1ee15f6d629941d22840e577c3a5ba7401f8e98e81c"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images1-c4/measurement/summary.json",
+      "sha256": "d3236ec0b0afdd9b146c8b06caf9edf52444fa5eeb63108f1176a8d28a0cc68c"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images1-c8/measurement/requests.jsonl",
+      "sha256": "b92c6c2601f0b3c1003f5647aaa294def2e9f6a3de0d0773d6e4f69f0f6b56a9"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images1-c8/measurement/summary.json",
+      "sha256": "5cccf5c64de362560b06b3576782126998b4c29d091383703acdbfa94a0f35ff"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images4-c1/measurement/requests.jsonl",
+      "sha256": "bfb0991ea766f52fc8f7e7bd7dedf162c08440c17e9e7b516ec60edda5b546cd"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images4-c1/measurement/summary.json",
+      "sha256": "dd3f34de2641d387e3a662975c8512d5ad7d50affe363d0bc5655853dcfa9a27"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images4-c4/measurement/requests.jsonl",
+      "sha256": "7b0a0e708dcab889a4b5a37fe94e6948ab9787dd467db4f22f34cdded7bc4694"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/baseline-space/images4-c4/measurement/summary.json",
+      "sha256": "4d0c070aa434320fbac960834d62f62965a7f457f683b04b0c60b99df11e97ad"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/baseline-space/images4-c8/measurement/requests.jsonl",
+      "sha256": "a6976f46c68dc1b8c1d696a7fa46e9fcfd32aeb2fd3f19edcab8c0777bf03d2c"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/baseline-space/images4-c8/measurement/summary.json",
+      "sha256": "27a0cccae1f89df3a0f18775073c561e4a323f75b3e2ed8526055837e76cddea"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space/images1-c1/measurement/requests.jsonl",
+      "sha256": "2c8b4a6ad330739757dd336eae923c0bcbf4ea06e3379daa4a1600861b44710e"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space/images1-c1/measurement/summary.json",
+      "sha256": "e35eb4763758199b80fd5e33a70edc1681b8402d0a0962cf959fb4c7e828e947"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images1-c4/measurement/requests.jsonl",
+      "sha256": "04784a8fdc0d31d8b34ab8a403863733d25aef632eddafdd6086d5adc38fbc5d"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images1-c4/measurement/summary.json",
+      "sha256": "6b690dce1ac61fba4111f3c5ec77e46f59d333b484f35ebacf042e4fd73ad296"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images1-c8/measurement/requests.jsonl",
+      "sha256": "e08aac0bd4b733ab50864f3c5d99b364c78340e108dbff165b0c93f9652abbe0"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images1-c8/measurement/summary.json",
+      "sha256": "0cce27580eb2e2a4ee0b13ae901011bea41154a6a1f4c60983c7df277091b3b3"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images4-c1/measurement/requests.jsonl",
+      "sha256": "681387aeb19b645ef33b656cff7ef30112b3337de5c91856d18853632fd1bf1b"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images4-c1/measurement/summary.json",
+      "sha256": "c0650a147f4373740add68b4b7ba34bb0d1c9adbe3805fd902ce5a49dfb41fcf"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images4-c4/measurement/requests.jsonl",
+      "sha256": "641a0bf2a969d19204f238d1306f7c6eb67644057b30ca24c19b86056332e35f"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space/images4-c4/measurement/summary.json",
+      "sha256": "f12f9cafabded3e94310c0cf4594e21b75e0c5430342001075f196d4cbde79b6"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space/images4-c8/measurement/requests.jsonl",
+      "sha256": "c7fba4ad247ede4b622d2f1070ba20a4569c9fb8ea5c5d53bb43e2878a919461"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space/images4-c8/measurement/summary.json",
+      "sha256": "abe8307bee8b391940695d4b32143f6b6650aa32a67114877b715d426c49330a"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space-mask/images1-c1/measurement/requests.jsonl",
+      "sha256": "10028a149d4943f2accce383fc9f1538214d48643f6a3e8b11a67fe0cbe64ec0"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space-mask/images1-c1/measurement/summary.json",
+      "sha256": "aa6fe708abe4eeaa9eab305ac9df832b6aab32724cb1d4e9c6add6cd879ebb60"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images1-c4/measurement/requests.jsonl",
+      "sha256": "d5ea21cffe61c99b05c82121d094762e7462bc09a9951797f38369d3ac4c8673"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images1-c4/measurement/summary.json",
+      "sha256": "67871dbc9d20b2c3577be88296520ce65d795a97c7602b0e7fcb7e7217ccfbf1"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images1-c8/measurement/requests.jsonl",
+      "sha256": "229d67e6307abb564ed9fb02fbc1cdd665b55b86af3c799289634d46b95f6775"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images1-c8/measurement/summary.json",
+      "sha256": "fd064a29bac74e7478c0bf4a8a246dd095447fba8c8a8a42ba43d937e3290f8b"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images4-c1/measurement/requests.jsonl",
+      "sha256": "a4eeac4a1cf83e7278106ff8e8b89abe8c3a4cf8ae2d9341e1a10e81664588b8"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images4-c1/measurement/summary.json",
+      "sha256": "67c8c0c735c75cd062f05062aaee24813ce47e67566efe960d72dea1240e5ade"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images4-c4/measurement/requests.jsonl",
+      "sha256": "3a6f843e771052cf8eed49e49d068d0cdb82a0ee0d302b67e6c950e47518a942"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/rest/space-mask/images4-c4/measurement/summary.json",
+      "sha256": "2025b7a430a720e4a92435bd6b6334eb561f688d44f772742994868d471485b5"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space-mask/images4-c8/measurement/requests.jsonl",
+      "sha256": "da3a24bd113abbcf4981c1525d9a216c8d8e98ab0622b197f675e2431a85b04c"
+    },
+    {
+      "path": "outputs/qjh000-migration/results/formal/points/space-mask/images4-c8/measurement/summary.json",
+      "sha256": "7d8c5204b688d2a83bcbd5ae66566e77af599dddb32b105ec82e5af1be262128"
+    }
+  ],
+  "limitations": [
+    "Descriptive changes, not causal effects or significance tests.",
+    "Three throughput runs per configuration; latency pools 300 formal requests.",
+    "Fixed historical execution order; no paired-run CI can be recovered afterwards."
+  ]
+}

@@ -1,0 +1,6 @@
+# G4 documentation and historical figure
+Actual candidate: work/repository-upload/checkout (base feadecdf00fcfb7e85c73db6ea4d405879177c1d). New root PAPER_VS_REPRO.md, PATCH_AUDIT.md, PORTABLE.md, README.en.md, CITING.md; README inserts only scope/navigation and descriptive relative plot. New scripts/revision/compare_existing_space.py approved G2, nits now applied; actual CPU run verified18configs/5400formal/360warm and37sourceSHA. Figure legend moved outside bars after visual QA.
+
+Read plan/reviews under outputs/revision-proposal. Inspect actual JSON/PNG/SVG and reports/raw as needed. Check all raw-derived numerical claims, source hashes/patch32manifest, complete vs partial artifact framing, on/off/causal limitations, pipeline3GPU vs Space1GPU, no novel performance data, original dirs unchanged. Paper source fulltext read for mapping: work/revision-phase/spaceserve-paper.txt (official NeurIPS PDF SHA dca2bdc617cf5594d4b19bea57fceb7a0c2a1ad74a8fbc6b027e435aa38198f9); EPD fixed v4 primary links in doc. Need not network; unsupported paper-specific claims flag for main to supply source excerpt.
+
+Only read local files. No writes/execution/SSH/network/GPU/credentials. Return G4 verdict, BLOCKING/nits. This is internal LLM review, not peer review. B/C plan/GPU not covered.
