@@ -1,5 +1,22 @@
 # 结果资产索引
 
+## 下载与完整恢复
+
+在仓库根目录执行以下命令，在新的restore副本中操作，避免覆盖封存文件。需GitHub CLI、sha256sum、unzip；也可从Release页面下载同名文件。不同原包的内部布局不同，因此解包目标分别指定；aggregate.py还需要同级的reproduction-h20.zip。
+
+```bash
+gh release download experiments-2026-10-25 --repo BoyJiang2/spaceserve-epd-reproduction --dir release-downloads
+(cd release-downloads && sha256sum -c ../publication/ASSETS.sha256)
+mkdir -p restore/outputs/epd-profile-a
+unzip release-downloads/spaceserve-7b-h20.zip -d restore/outputs
+unzip release-downloads/reproduction-h20.zip -d restore/outputs
+unzip release-downloads/epd-followup.zip -d restore/outputs
+unzip release-downloads/epd-profile-a.zip -d restore/outputs/epd-profile-a
+cp release-downloads/reproduction-h20.zip restore/outputs/
+```
+
+完整封包保留原bytes；原SHA256SUMS只有恢复完整树后才应全量验证。其余三个历史/诊断包不叠加解包到正式选用结果，保留为独立快照。
+
 ## Release完整封包、大小与SHA256
 
 已发布并验收：七个完整原包均已从GitHub实际下载，大小与SHA256逐包匹配；用户已于2026-10-26将仓库调整为public；首次private验收为历史状态。验收记录见[publish-state.json](publish-state.json)。

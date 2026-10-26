@@ -2,10 +2,13 @@
 
 This public repository preserves a small-scale reproduction of fixed public implementations, including negative results. It does not reproduce the complete paper systems or claim their reported speedups. The owner made the repository and Release assets public on 2026-10-26; initial private-publication receipts are retained as historical evidence.
 
-| Experiment | Fair baseline | Observed result |
-|---|---|---|
-| SpaceServe, Qwen2-VL-7B, one H20 | Native vLLM on the same GPU | Decoupled throughput changes from -6.32% to +5.86%; encoder-mask changes from -7.52% to +6.29% |
-| EPD profile A, MiniCPM-V-2_6, three H20 GPUs | Three complete-model replicas on those GPUs | Profiler-off throughput is 0.930x / 0.941x at the low/high workload points |
+## SpaceServe
+
+[Independent SpaceServe project page](projects/spaceserve/README.md): one H20/Qwen2-VL-7B, compared with native vLLM on that GPU. All six workload points, regressions, mechanisms, legacy4090/L20 results and commands stay together.
+
+## EPD Disaggregation
+
+[Independent EPD project page](projects/epd/README.md): MiniCPM-V-2_6, three H20 GPUs, compared with three full replicas using the same GPU budget. Profile-A, historical H20 results and offline follow-up are kept distinct.
 
 SpaceServe's encoder/decoder overlap and encoder-stream mask were observed; complete SIS/TWSRFT and mutually exclusive decoder partitioning were not reproduced. EPD uses E:P:D=1:1:1 with IRP and dynamic role switching disabled. Visual-token storage and migration remain present. Fixed-concurrency results are not arrival-rate SLO results. Fixed run order and three repeats limit causal interpretation; differing output IDs and regressions are retained.
 
