@@ -1,0 +1,11 @@
+--- a/vllm/v1/worker/gpu_model_runner.py
++++ b/vllm/v1/worker/gpu_model_runner.py
+@@ -781,7 +781,7 @@
+         encoder_cache: Dict[str, Dict[int, torch.Tensor]] = {}
+         # Cache the encoder outputs.
+         for (req_id, input_id), output in zip(req_input_ids, encoder_outputs):
+-            if req_id not in self.encoder_cache:
++            if req_id not in encoder_cache:
+                 encoder_cache[req_id] = {}
+             # print(f"encoder cache is {self.encoder_cache[req_id]}")
+             # print(f"type of encoder output is {type(output)}")

@@ -1,0 +1,63 @@
+diff --git a/epdserve/api_server.py b/epdserve/api_server.py
+index a3b9b6b..d4a1a58 100644
+--- a/epdserve/api_server.py
++++ b/epdserve/api_server.py
+@@ -85,6 +85,18 @@ def load_image_cache(image_path):
+         image_cache[image_name] = utils.load_images_parallel([image_path])[0]
+         return image_cache[image_name]
+ 
++from rgb_cache import cache_snapshot, dataset_paths
++
++rgb_manifest = os.environ.get('REPRO_RGB_MANIFEST')
++if rgb_manifest:
++    for rgb_path in dataset_paths(rgb_manifest):
++        load_image_cache(str(rgb_path))
++
++@app.get('/repro/rgb-cache')
++async def rgb_cache():
++    assert rgb_manifest, 'RGB preload is not enabled'
++    return cache_snapshot(rgb_manifest, image_cache)
++
+ @app.post("/generate")
+ async def generate(request: Request) -> Response:
+     """Generate completion for the request.
+@@ -108,7 +120,7 @@ async def generate(request: Request) -> Response:
+     # mm_data["image"]= [Image.open(p).convert("RGB") for p in ps ]
+     # mm_data["image"] = [Image.open(ps[0]).convert("RGB")] * len(ps)
+     # mm_data["image"] = [load_image_cache(p) for p in ps ]
+-    mm_data["image"] = [load_image_cache(ps[0])] * len(ps)
++    mm_data["image"] = [load_image_cache(path) for path in ps]
+     # images = [utils.base64_to_image(image) for image in mm_data['images']]
+     # mm_data["image"] = images
+     # print(f'Time taken in reading images {time.perf_counter() - start_time}')
+@@ -121,7 +133,8 @@ async def generate(request: Request) -> Response:
+     results_generator = engine.generate(request_id=request_id,
+                                         input_dict=input_dict, 
+                                         sampling_params=sampling_params,
+-                                        arrival_time=arrival_time)
++                                        arrival_time=arrival_time,
++                                        enable_irp=bool(args.intra_request_dp))
+ 
+     final_outputs: List[Tuple[StepOutput, float]] = [] # (step_output, timestamp)
+     async for step_output in results_generator:
+@@ -138,6 +151,8 @@ async def generate(request: Request) -> Response:
+         # "text": text_output,
+         "prompt": prompt,
+         "output": ''.join([step_output[0].new_token for step_output in final_outputs]),
++        'output_token_ids': [step_output[0].new_token_id for step_output in final_outputs],
++        'processed_prompt_token_ids': input_dict['processed_prompt_token_ids'],
+         'prompt_token_len': len(input_dict['prompt_token_ids']),
+         'processed_prompt_token_len': len(input_dict['processed_prompt_token_ids']),
+         "timestamps": [step_output[1] for step_output in final_outputs],
+diff --git a/epdserve/llm_async.py b/epdserve/llm_async.py
+index aa11b16..afd3924 100644
+--- a/epdserve/llm_async.py
++++ b/epdserve/llm_async.py
+@@ -70,6 +70,7 @@ class AsyncLLM:
+                             sampling_params=sampling_params,
+                             request_id=next(self.request_counter) if  request_id is None else request_id,
+                             arrival_time=arrival_time if arrival_time is not None else time.perf_counter(),
++                            **kwargs,
+         ):
+             yield step_output
+             

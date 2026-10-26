@@ -1,3 +1,5 @@
+> 本入口保留兼容；当前完整项目位于[/spaceserve/](../../spaceserve/README.md)，含自己的comparison、代码、配置和证据导航。
+
 # SpaceServe 复现项目
 
 [返回项目总入口](../../README.md) · [English overview](../../README.en.md#spaceserve) · [论文覆盖](../../PAPER_VS_REPRO.md) · [补丁审计](../../PATCH_AUDIT.md)

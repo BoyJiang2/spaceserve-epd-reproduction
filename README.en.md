@@ -4,11 +4,11 @@ This public repository preserves a small-scale reproduction of fixed public impl
 
 ## SpaceServe
 
-[Independent SpaceServe project page](projects/spaceserve/README.md): one H20/Qwen2-VL-7B, compared with native vLLM on that GPU. All six workload points, regressions, mechanisms, legacy4090/L20 results and commands stay together.
+[Independent SpaceServe project page](spaceserve/README.md): one H20/Qwen2-VL-7B, compared with native vLLM on that GPU. All six workload points, regressions, mechanisms, legacy4090/L20 results and commands stay together.
 
 ## EPD Disaggregation
 
-[Independent EPD project page](projects/epd/README.md): MiniCPM-V-2_6, three H20 GPUs, compared with three full replicas using the same GPU budget. Profile-A, historical H20 results and offline follow-up are kept distinct.
+[Independent EPD project page](epd/README.md): MiniCPM-V-2_6, three H20 GPUs, compared with three full replicas using the same GPU budget. Profile-A, historical H20 results and offline follow-up are kept distinct.
 
 SpaceServe's encoder/decoder overlap and encoder-stream mask were observed; complete SIS/TWSRFT and mutually exclusive decoder partitioning were not reproduced. EPD uses E:P:D=1:1:1 with IRP and dynamic role switching disabled. Visual-token storage and migration remain present. Fixed-concurrency results are not arrival-rate SLO results. Fixed run order and three repeats limit causal interpretation; differing output IDs and regressions are retained.
 

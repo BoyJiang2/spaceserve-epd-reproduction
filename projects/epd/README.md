@@ -1,10 +1,12 @@
+> 本入口保留兼容；当前完整项目位于[/epd/](../../epd/README.md)，含自己的comparison、代码、配置和证据导航。
+
 # EPD Disaggregation 复现项目
 
 [返回项目总入口](../../README.md) · [English overview](../../README.en.md#epd-disaggregation) · [论文覆盖](../../PAPER_VS_REPRO.md) · [补丁审计](../../PATCH_AUDIT.md)
 
 本项目研究MiniCPM-V-2_6的Encode–Prefill–Decode三阶段链路。EPD为E:P:D=1:1:1、FP16/TP1；性能基线是同一台机器、同三张H20上的三个完整模型副本，由客户端均衡分发。
 
-最新已验收批次是qjh003方案A：2400正式＋160预热，后续CPU分析在qjh000，测量未重跑。请求内编码并行和动态角色切换关闭，视觉token存储与迁移仍在；未实现DistServe基线、容量扫描或到达率SLO。此页不与SpaceServe单卡/不同模型结果作绝对排名。新EPD批次仍在准备，不把准备状态写成新增实验结果。
+最新已验收批次是qjh003方案A：2400正式＋160预热，后续CPU分析在qjh000，测量未重跑。请求内编码并行和动态角色切换关闭，视觉token存储与迁移仍在；未实现DistServe基线、容量扫描或到达率SLO。此页不与SpaceServe单卡/不同模型结果作绝对排名。新EPD批次尚未验收，当前状态见新独立项目入口，不将准备或partial当新增完成结果。
 
 ## EPD方案A：同三卡完整三副本基线
 

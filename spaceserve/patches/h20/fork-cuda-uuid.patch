@@ -1,0 +1,16 @@
+--- a/vllm/platforms/cuda.py
++++ b/vllm/platforms/cuda.py
+@@ -49,6 +49,13 @@
+                 " more information.")
+             raise RuntimeError(msg)
+         physical_device_id = device_ids[device_id]
++        if physical_device_id.startswith("GPU-"):
++            pynvml.nvmlInit()
++            try:
++                return pynvml.nvmlDeviceGetIndex(
++                    pynvml.nvmlDeviceGetHandleByUUID(physical_device_id))
++            finally:
++                pynvml.nvmlShutdown()
+         return int(physical_device_id)
+     else:
+         return device_id

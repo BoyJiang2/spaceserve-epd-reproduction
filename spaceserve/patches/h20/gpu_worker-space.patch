@@ -1,0 +1,11 @@
+--- a/vllm/v1/worker/gpu_worker.py
++++ b/vllm/v1/worker/gpu_worker.py
+@@ -265,6 +265,8 @@
+         #logger.info(f"execute_vision_encoder: {scheduler_output}")
+         self.model_runner.update_for_encoder(scheduler_output)
+         encoder_cache = self.model_runner._execute_encoder(scheduler_output)
++        for req_id in scheduler_output.scheduled_encoder_inputs:
++            self.model_runner.requests.pop(req_id, None)
+         #encoder_cache = self.model_runner.get_encoder_cache()
+         #logger.info(f"encoder_cache: {encoder_cache}")
+         if scheduler_output.scheduled_new_reqs == None or len(scheduler_output.scheduled_new_reqs) == 0:

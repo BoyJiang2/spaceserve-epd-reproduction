@@ -2,11 +2,11 @@
 
 本仓库分别展示两个项目的代码、baseline对照、图表和复跑方法。每个项目只与自己的同机、同模型、同GPU预算基线比较；主机、模型及批次分别列出，不作跨系统绝对排名。所有退化、失败和解释限制保留。
 
-[English](README.en.md) · [SpaceServe项目](projects/spaceserve/README.md) · [EPD项目](projects/epd/README.md)
+[English](README.en.md) · [SpaceServe项目](spaceserve/README.md) · [EPD项目](epd/README.md)
 
 ## 项目一：SpaceServe
 
-**[进入SpaceServe独立项目页 →](projects/spaceserve/README.md)**
+**[进入SpaceServe独立项目页 →](spaceserve/README.md)**
 
 Qwen2-VL-7B，单H20，对照原生vLLM；5400正式＋360预热。公开实现的解耦/并发与encoder mask已验证，完整SIS/TWSRFT及decoder互斥分区未复现。
 
@@ -25,7 +25,7 @@ Qwen2-VL-7B，单H20，对照原生vLLM；5400正式＋360预热。公开实现�
 
 ## 项目二：EPD Disaggregation
 
-**[进入EPD独立项目页 →](projects/epd/README.md)**
+**[进入EPD独立项目页 →](epd/README.md)**
 
 MiniCPM-V-2_6，EPD 1:1:1，对照同三H20上的三个完整模型副本；方案A为2400正式＋160预热。关闭请求内编码并行/角色切换，视觉token存储与迁移仍保留。
 
@@ -36,7 +36,7 @@ MiniCPM-V-2_6，EPD 1:1:1，对照同三H20上的三个完整模型副本；方�
 
 ![EPD：相对同三卡三副本的吞吐与时延](outputs/epd-profile-a/report/throughput-latency.png)
 
-off主结果均无吞吐加速；高负载on观测扰动5.0027158%超旧诊断阈值，trace仅路径存在，off因果瓶颈未定位。旧双H20对照、通信诊断与离线后续在EPD页单独展示。新增批次尚在准备，不混入现有结果。
+off主结果均无吞吐加速；高负载on观测扰动5.0027158%超旧诊断阈值，trace仅路径存在，off因果瓶颈未定位。旧双H20对照、通信诊断与离线后续在EPD页单独展示。qjh000新增批次C-off尚未验收；已发生启动阶段中断，原始现场与后续处理单独保留，不混入现有历史结果；lite观察预检失败，B未运行，保留失败分支。
 
 ## 共同方法与来源
 
