@@ -1,0 +1,9 @@
+# G2 EPD发布客户端v2路径delta
+
+审查者：独立/root/profile_instrument_review；沿用Claude额度耗尽接替。结论APPROVE_WITH_NITS，BLOCKING0。
+
+WORK已固定指向v2目录；固定身份、G5绑定、旧Release拒绝及下载证明校验保持。实际两资产均匹配清单：ZIP13468053B/SHA63f20f0ee7a14ff365e40c8cd0bcc3f680b727f6c354921952c18eaf771dddbb；source-files.json272344B/SHA71cbe47203f828f2d6d2d8a62639360570cc1fcf53daec7d15277909e113f514。
+
+NON-BLOCKING：Release标题含C-off，较本agent最初审阅版本另有文案差异，不宜笼统称仅WORK字节变化。主agent采纳：记录当前标题措辞，最终G5检查实际blocked说明，不声称和最初审阅版仅有WORK字节变化。
+
+尚无G5-publication-approved.json，本结论不授予发布许可。审查者仅本地只读，未联网、执行客户端或读取凭据。主agent5mockCPU测试PASS。

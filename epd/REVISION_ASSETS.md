@@ -11,4 +11,4 @@
 | [epd-revision-20261026.zip](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/download/epd-revision-2026-10-27/epd-revision-20261026.zip) | 13468053 | `63f20f0ee7a14ff365e40c8cd0bcc3f680b727f6c354921952c18eaf771dddbb` |
 | [source-files.json](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/download/epd-revision-2026-10-27/source-files.json) | 272344 | `71cbe47203f828f2d6d2d8a62639360570cc1fcf53daec7d15277909e113f514` |
 
-当前为本地发布候选；完成发布与实际下载校验后，核验回执另行保存。链接的预期地址不作为已上传证明。无权重、环境、缓存或访问凭据。
+已实际发布，并在发布后重新下载两资产，大小与SHA256全部匹配。[真实验收回执](../publication/epd-revision-20261027/publish-state.json)记录数据提交、tag、资产ID及当前public可见性；旧Release与七资产核验未变。原包内报告/清单的候选字样保留为当时状态，不替代本回执。无权重、环境、缓存或访问凭据。
