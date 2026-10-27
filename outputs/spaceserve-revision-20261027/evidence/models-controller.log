@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/run_models.py", line 54, in service
+    command(['bash',str(ROOT/'scripts/mps_control.sh'),'start','4'],mps_environment,destination/'mps-start.log',60)
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/run_models.py", line 26, in command
+    subprocess.run(arguments,env=environment,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['bash', '/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/mps_control.sh', 'start', '4']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/run_models.py", line 170, in <module>
+    main()
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/run_models.py", line 130, in main
+    with service(role,trial,destination) as (environment,pid):
+  File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/run_models.py", line 84, in service
+    command(['bash',str(ROOT/'scripts/mps_control.sh'),'recover-stop'],mps_environment,destination/'mps-stop.log',60)
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/run_models.py", line 26, in command
+    subprocess.run(arguments,env=environment,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['bash', '/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/mps_control.sh', 'recover-stop']' returned non-zero exit status 1.

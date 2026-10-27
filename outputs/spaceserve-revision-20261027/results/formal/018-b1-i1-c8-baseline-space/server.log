@@ -1,0 +1,284 @@
+INFO 10-27 07:01:33 __init__.py:190] Automatically detected platform cuda.
+WARNING 10-27 07:01:35 config.py:2386] Casting torch.bfloat16 to torch.float16.
+INFO 10-27 07:01:46 config.py:542] This model supports multiple tasks: {'reward', 'classify', 'generate', 'score', 'embed'}. Defaulting to 'generate'.
+INFO 10-27 07:01:46 config.py:1556] Chunked prefill is enabled with max_num_batched_tokens=4096.
+WARNING 10-27 07:01:46 cuda.py:102] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+WARNING 10-27 07:01:46 config.py:678] Async output processing is not supported on the current platform type cuda.
+INFO 10-27 07:01:53 __init__.py:190] Automatically detected platform cuda.
+INFO 10-27 07:01:55 core.py:47] Initializing a V1 LLM engine (v0.7.2) with config: model='/var/tmp/boyjiang-spaceserve-revision-20261027/models/Qwen2-VL-7B-Instruct', speculative_config=None, tokenizer='/var/tmp/boyjiang-spaceserve-revision-20261027/models/Qwen2-VL-7B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=True, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=/var/tmp/boyjiang-spaceserve-revision-20261027/models/Qwen2-VL-7B-Instruct, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=True, use_async_output_proc=False, disable_mm_preprocessor_cache=True, mm_processor_kwargs={'min_pixels': 200704, 'max_pixels': 200704}, pooler_config=None, compilation_config={"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output"],"compile_sizes":[],"cudagraph_capture_sizes":[],"max_capture_size":0}
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.48, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+INFO 10-27 07:01:57 gpu_model_runner.py:867] Starting to load model /var/tmp/boyjiang-spaceserve-revision-20261027/models/Qwen2-VL-7B-Instruct...
+WARNING 10-27 07:01:58 vision.py:94] Current `vllm-flash-attn` has a bug inside vision module, so we use xformers backend instead. You can run `pip install flash-attn` to use flash-attention backend.
+INFO 10-27 07:01:58 config.py:2992] cudagraph sizes specified by model runner [] is overridden by config []
+INFO 10-27 07:01:58 cuda.py:165] Using Flash Attention backend on V1 engine.
+WARNING 10-27 07:01:58 topk_topp_sampler.py:46] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:03,  1.08it/s]
+Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:01<00:02,  1.03it/s]
+Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:02<00:01,  1.50it/s]
+Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:03<00:00,  1.33it/s]
+Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:04<00:00,  1.22it/s]
+Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:04<00:00,  1.23it/s]
+
+INFO 10-27 07:02:02 gpu_model_runner.py:872] Loading model weights took 15.5313 GB
+REPRO_DEVICE {"pid": 1011613, "perf_counter": 163190.462949459, "system": "baseline-space", "only_vision_encoder": false, "model_class": "Qwen2VLForConditionalGeneration", "parameters_by_device": {"cuda:0": 8291375616}, "parameters_by_dtype": {"torch.float16": 8291375616}, "parameters_by_component": {"visual": 675759104, "language_model": 7615616512}, "parameter_examples": [{"name": "visual.patch_embed.proj.weight", "shape": [1280, 3, 2, 14, 14], "device": "cuda:0", "dtype": "torch.float16"}, {"name": "visual.blocks.0.norm1.weight", "shape": [1280], "device": "cuda:0", "dtype": "torch.float16"}, {"name": "visual.blocks.0.norm1.bias", "shape": [1280], "device": "cuda:0", "dtype": "torch.float16"}, {"name": "language_model.model.embed_tokens.weight", "shape": [152064, 3584], "device": "cuda:0", "dtype": "torch.float16"}, {"name": "language_model.model.layers.0.self_attn.qkv_proj.weight", "shape": [4608, 3584], "device": "cuda:0", "dtype": "torch.float16"}, {"name": "language_model.model.layers.0.self_attn.qkv_proj.bias", "shape": [4608], "device": "cuda:0", "dtype": "torch.float16"}], "logical_device": "cuda:0", "gpu_name": "NVIDIA H20", "cuda_device_uuid": "79214c80-7778-37d9-282b-89228debbb69", "cuda_visible_devices": "GPU-79214c80-7778-37d9-282b-89228debbb69", "mps_pipe": "/var/tmp/boyjiang-spaceserve-revision-20261027/tmp/mps", "mps_active_thread_percentage": "100", "loaded_smctrl": [], "loaded_smctrl_sha256": {}}
+INFO 10-27 07:02:02 gpu_model_runner.py:951] Encoder cache will be initialized with a budget of 4096 tokens, and profiled with 2 video items of the maximum feature size.
+Keyword argument `min_pixels` is not a valid argument for this processor and will be ignored.
+Keyword argument `max_pixels` is not a valid argument for this processor and will be ignored.
+It looks like you are trying to rescale already rescaled images. If the input images have pixel values between 0 and 1, set `do_rescale=False` to avoid rescaling them again.
+INFO 10-27 07:02:04 kv_cache_utils.py:407] # GPU blocks: 51811
+INFO 10-27 07:02:04 kv_cache_utils.py:410] Maximum concurrency for 4096 tokens per request: 202.39x
+INFO 10-27 07:02:05 core.py:91] init engine (profile, create kv cache, warmup model) took 2.40 seconds
+{"model": "/var/tmp/boyjiang-spaceserve-revision-20261027/models/Qwen2-VL-7B-Instruct", "dataset": "/var/tmp/boyjiang-spaceserve-revision-20261027/dataset", "port": 19770, "gpu_memory_utilization": 0.65}
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.48, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Keyword argument `min_pixels` is not a valid argument for this processor and will be ignored.
+Keyword argument `max_pixels` is not a valid argument for this processor and will be ignored.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request d11d7d5478624e2a86b1ec3e252c6f93.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request 3ba19f6b44aa4aee89e46e90ecc39c77.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request 10bc68b38e2240189b0fe70cb68e14a7.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request 887ab80311814cde888cf0b40b743550.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request 90ac70725b1249acb9bd973aa6338723.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request db3dfea15c10400d956b7d694f934370.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request ab5208c92ccc4fbca94a541e633d165b.
+WARNING 10-27 07:02:13 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:13 async_llm.py:161] Added request 9f3481bd6fdc4e6d8eac8120c99101bb.
+INFO 10-27 07:02:13 loggers.py:72] Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 0.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs GPU KV cache usage: 0.0%.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:15 async_llm.py:161] Added request 3c69cecf59ec4dd093828b84b2178818.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:15 async_llm.py:161] Added request 7955af150fb748188f3277ab2ce8135b.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:15 async_llm.py:161] Added request bbe372a7af3646b4a62297440240a083.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:15 async_llm.py:161] Added request 20f8f7b58f464c0485ab97d9a490e579.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:15 async_llm.py:161] Added request 716dc22a84b94c97bfe63999e55daf8e.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:15 async_llm.py:161] Added request ce375a5749a04ae396d6deb6759e088a.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:15 async_llm.py:161] Added request e2b68c111e014f5ca9f6cd1813c5c182.
+WARNING 10-27 07:02:15 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:16 async_llm.py:161] Added request 02fb0c1c5fe7447ebe8b04b473a32cfb.
+WARNING 10-27 07:02:18 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:18 async_llm.py:161] Added request 2c8c1c36e20d4f759879fab14871a680.
+WARNING 10-27 07:02:18 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:18 async_llm.py:161] Added request 71ad89ab51ca4e799a4d412ee672e1b0.
+WARNING 10-27 07:02:18 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:18 async_llm.py:161] Added request 11f4eb09c5684b049208280d4b7d7079.
+WARNING 10-27 07:02:18 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:18 async_llm.py:161] Added request 6de254a64b624f129e32e5eaa6535ebf.
+INFO 10-27 07:02:18 loggers.py:72] Avg prompt throughput: 1143.6 tokens/s, Avg generation throughput: 406.2 tokens/s, Running: 4 reqs, Waiting: 0 reqs GPU KV cache usage: 0.2%.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request 005c7f8940bc4408810962f920f633d8.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request b9383479382b483480a092dde7180bca.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request 4008784352224872af0906f3ba509349.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request 5857f6bb248841a4927f01005e66d55c.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request 06089b85c9db4e52a6a36580e631e03c.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request 282f23aae1384ce49d5f6f24ad713096.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request d024d34f7ff5414c977dd2e687f44237.
+WARNING 10-27 07:02:20 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:20 async_llm.py:161] Added request 7fc1282e219842838e3b598bc2325385.
+WARNING 10-27 07:02:22 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:22 async_llm.py:161] Added request 73ffa8bd7fd0428092ea79aab6a5883a.
+WARNING 10-27 07:02:23 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:23 async_llm.py:161] Added request 04a66d03e51a4695831bbb2551cf6094.
+WARNING 10-27 07:02:23 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:23 async_llm.py:161] Added request 4f8b230f31a94ff4bf3cb5ca597b346d.
+WARNING 10-27 07:02:23 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:23 async_llm.py:161] Added request c31ddd58a691472ea5fc4efab1882193.
+WARNING 10-27 07:02:23 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:23 async_llm.py:161] Added request 64463620cdf643ae943c589c859cf953.
+WARNING 10-27 07:02:23 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:23 async_llm.py:161] Added request b8556260bc32455c808c7227cfceca1e.
+WARNING 10-27 07:02:23 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:23 async_llm.py:161] Added request 9d7d140f17a9425c97042b0d83fdb166.
+WARNING 10-27 07:02:23 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:23 async_llm.py:161] Added request 1b9fd66781c344738ba298a5d82acaf6.
+INFO 10-27 07:02:23 loggers.py:72] Avg prompt throughput: 924.0 tokens/s, Avg generation throughput: 315.5 tokens/s, Running: 8 reqs, Waiting: 0 reqs GPU KV cache usage: 0.4%.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request af099fe5d9aa45368585133eaf7e9407.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request bd93651426c94c03884137a8b6da8f05.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request a71a9c351921434283ad20872b77f9d7.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request e0af8d8cf6d14f57a8acd3ab220e0866.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request c08d43412cec429b82a83522854c7113.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request 5d24f7b34f55443ea260f3d752c555f0.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request 4d2e076f2c1c469fbb7901f5a2c62b5e.
+WARNING 10-27 07:02:25 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:25 async_llm.py:161] Added request c19b34e108144df890fa94c273682939.
+WARNING 10-27 07:02:27 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:27 async_llm.py:161] Added request d51120afa5d34f90ba5aba4f92d37fd0.
+WARNING 10-27 07:02:27 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:27 async_llm.py:161] Added request 9be2aa72fcfd4eefbabd643ca74e329d.
+WARNING 10-27 07:02:27 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:27 async_llm.py:161] Added request a0549d8e91c14e3f984436b97bc3d2ab.
+WARNING 10-27 07:02:27 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:27 async_llm.py:161] Added request 6ca976ccd3ad47e9859259b1e15d0d86.
+WARNING 10-27 07:02:28 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:28 async_llm.py:161] Added request 61d133a680854f5b9aebdf277048e0c5.
+WARNING 10-27 07:02:28 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:28 async_llm.py:161] Added request f3faecb4c15b447dbf266303b745b141.
+WARNING 10-27 07:02:28 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:28 async_llm.py:161] Added request f9be758b621b43748ff38102780165ac.
+WARNING 10-27 07:02:28 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:28 async_llm.py:161] Added request 0076d346f9f9498893c3682baeacb113.
+INFO 10-27 07:02:28 loggers.py:72] Avg prompt throughput: 923.8 tokens/s, Avg generation throughput: 423.7 tokens/s, Running: 8 reqs, Waiting: 0 reqs GPU KV cache usage: 0.4%.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request 2274f32847fe4ca4b5a4b9dd08e92006.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request af883f673c06441a91606f82c1881a6b.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request ca1b4b870601483c8782e0195b21e287.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request 0bc1484a05854ab7886c8c2dfb89917b.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request 2c67da8c84d64667b5212210a83579d8.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request eee8130319714418a09d21d8a9d8ccfe.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request f996855ac24f4f34aab037923ce6a4de.
+WARNING 10-27 07:02:30 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:30 async_llm.py:161] Added request 80a3da97c41c425fa8518dffe851bfed.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 6b9ad34dd2e84c09b03c1a8720ecf1f5.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 4388c07660944bf496797f4e50d23718.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 61d955d1c56843d7bd30e00a39166e9f.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 62409d6b676d421a8b48968cb5f5efa9.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 744a6c0feddd45a8a3d1cb2ffbb232bd.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 0b4befbfa2684c8a8f88ac8bf7755ee5.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 7b1f17ede8734c2f9e2dd914a8669475.
+WARNING 10-27 07:02:32 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:32 async_llm.py:161] Added request 3c1e2fc6dfbe49808d7599bb25bb8a51.
+INFO 10-27 07:02:33 loggers.py:72] Avg prompt throughput: 923.6 tokens/s, Avg generation throughput: 420.2 tokens/s, Running: 8 reqs, Waiting: 0 reqs GPU KV cache usage: 0.4%.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request 6d62972da0f947b386247dc07017cbed.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request 6237b712696b411bb89be4ee132a2d1c.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request 01e0dbfb54a7469ea705c3876ba59310.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request 551ce661b8014e75963a9940803e6282.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request fa70ddcbc2794c299ea266a56c5ee3ac.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request 77c26f19409b4a46930de606b11357f8.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request 21b2f67170c04f4eb9ab4e19b69038ef.
+WARNING 10-27 07:02:35 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:35 async_llm.py:161] Added request 074e0666d00d4f8f8effbe6d8edd7b65.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request 8ef560091ec2493d946759bec25439b0.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request 308cf729ab09407aa4bd70514a4c4f45.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request 38ec3261b41d4a7d81dc26717d591171.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request 89561caf5df34aa4be6c39ebde180f35.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request ff70418ef50642e3a1e6beb8ffc33499.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request bdeacbce6f34460e974f9e1d9067d9fa.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request 4d60783a8ed146b4a080cf08dcc8d6d7.
+WARNING 10-27 07:02:37 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:37 async_llm.py:161] Added request 7c6eb301596f42b4931381d9263e76a2.
+INFO 10-27 07:02:38 loggers.py:72] Avg prompt throughput: 922.3 tokens/s, Avg generation throughput: 435.6 tokens/s, Running: 8 reqs, Waiting: 0 reqs GPU KV cache usage: 0.4%.
+WARNING 10-27 07:02:39 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request d70b61860f264404b3da6ce8267978cf.
+WARNING 10-27 07:02:40 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request cfd0e2ebf9234b28af7f2bf8b5b20fa7.
+WARNING 10-27 07:02:40 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request 05166d3482cf4d78ab6e8236f0f4d8a0.
+WARNING 10-27 07:02:40 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request 489fcdacd64b45ada847538a98aacd7a.
+WARNING 10-27 07:02:40 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request 1be3c547141a4ac4b687fe4783732eb7.
+WARNING 10-27 07:02:40 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request 61b45b0edf004376b762cd7a2ffab982.
+WARNING 10-27 07:02:40 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request cd150ff2e3ea4b0eb0d972282a54d3dd.
+WARNING 10-27 07:02:40 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:40 async_llm.py:161] Added request 32c71d77bbca4c4ab97f9178876d96fd.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request 55e673b11deb4486ac848fc152e88236.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request 295e72dfbd554c5a855276ef2dc67223.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request 7ddfee45513a4a63936e09016bdd7047.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request 66bfd61fd9654e9495e05d80a1b035a8.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request 94a6dba847d64000b678099b18590d7f.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request 0b425733a21049cfbc504c4a4ea59ba6.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request c1055101ac4e40dcaeaff2b28a939fd5.
+WARNING 10-27 07:02:42 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:42 async_llm.py:161] Added request 63c51ed0763e4f64b0a10625a46c1031.
+INFO 10-27 07:02:43 loggers.py:72] Avg prompt throughput: 924.5 tokens/s, Avg generation throughput: 430.2 tokens/s, Running: 8 reqs, Waiting: 0 reqs GPU KV cache usage: 0.4%.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request b21e7b44df5d469a90b163868f60c101.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request 1569d2e367c74b968c9e1d09d0664b9a.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request a6321231efd64957b18f513de0aae908.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request b60f84c123ba41909a490965e0d84848.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request dd7b8bbeb4ba4c64a65b06b0c1fb7428.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request bd3bd2d987b642abb95f6fa9fdd0c7b9.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request b8cb671b2dea4e63ab8abca038fba3a1.
+WARNING 10-27 07:02:44 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:44 async_llm.py:161] Added request 899958f330874e31aeddb1ce4058c828.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request 766c4610a5cd448bbf7933e101ef98d0.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request aec24a3ec08b4fb2b52c092b426de172.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request dd9e4ab056a54f53bb5114d1730191e5.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request 56c62e34e6534447b03d7211f1c39193.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request 4b7415c83a1b41e18e8f71f62d877ad7.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request a171be5ac5ec418ab5de60e74fc9ab63.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request 3f47db6d7b204483a1588eaf3703ff13.
+WARNING 10-27 07:02:47 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:47 async_llm.py:161] Added request 29fdc73cbad9462693403d70611228d9.
+INFO 10-27 07:02:48 loggers.py:72] Avg prompt throughput: 923.9 tokens/s, Avg generation throughput: 431.6 tokens/s, Running: 8 reqs, Waiting: 0 reqs GPU KV cache usage: 0.4%.
+WARNING 10-27 07:02:49 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:49 async_llm.py:161] Added request d5ba120d0a644aed87d453edf927606e.
+WARNING 10-27 07:02:49 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:49 async_llm.py:161] Added request cbc2007dbe8746e3ae18f085327d0e5d.
+WARNING 10-27 07:02:49 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:49 async_llm.py:161] Added request cec94ee2b8ae44dda0609ffcafebcecb.
+WARNING 10-27 07:02:49 utils.py:1474] The following intended overrides are not keyword-only args and and will be dropped: {'min_pixels', 'max_pixels'}
+INFO 10-27 07:02:49 async_llm.py:161] Added request 54bf1362b18741b8a12dde44857ba357.
+[rank0]:[W1027 07:02:55.887805072 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())

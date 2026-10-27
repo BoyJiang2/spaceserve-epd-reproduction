@@ -1,0 +1,7 @@
+# G2 Space本地单cell复核适配
+先读AGENTS；Claude额度接替，只读本地、不凭据/网络/GPU/改文件。
+新增analysis/audit_cell.py、test_audit_cell.py（outputs/spaceserve-revision-20261027）。原scripts/audit_formal_cell.py实际SHA7a1b31c12200909936cd77646e27e3519d8c915b5f36888ade7b0f6f01cc4aa9，冻结原件完全不改。
+新增是该已G2审计器的透明离线适配：去CLI/写原件路径；audit(case,planned,source)从source读dataset/frozen-input/reference，ROOT保留部署路径但改PurePosixPath避免Windows反斜杠；image_token_id由实际目标CPU回执读取（要求同formal producer/26tests/noSkip/正整数），无需模型权重。其余请求/路由/长度/时间戳/显存/污染/summary重算原逻辑不改。
+CPU复用原fixture，改serialized路径为真实Linuxroot，验证Windows文件系统下复核、CPUreceipt拒绝skip、图序串线拒绝。全部analysis6测试PASS（原统计5+新fixture1）。第一次test temp默认系统temp权限失败已改workspace专属temp并显式边界断言，之后PASS，不涉及实验数据。
+核差异是否仅离线读取/路径与calibration，是否存在降级或不可信tokenID口径。仅批准本单cell适配，不等于完整54cell全局审计/实际数据G4，不连接运行中GPU或读取远端数据。
+回复APPROVE/APPROVE_WITH_NITS/REQUEST_CHANGES与blocking，主agent落盘。

@@ -1,0 +1,136 @@
+"""Local benchmark adapter using vLLM's unmodified inference engine.
+
+Matches EPD's JSON /generate response so both use server token timestamps.
+Each timestamp is in this host's time.perf_counter() domain.
+"""
+import argparse
+import inspect
+import json
+import os
+import pathlib
+import re
+import time
+import uuid
+import importlib.metadata
+from PIL import Image
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
+import uvicorn
+from vllm import AsyncEngineArgs, AsyncLLMEngine, SamplingParams
+from rgb_cache import cache_snapshot, dataset_paths
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", required=True)
+    parser.add_argument("--dataset", type=pathlib.Path, required=True)
+    parser.add_argument("--port", type=int, default=17778)
+    parser.add_argument("--gpu-memory-utilization", type=float, default=0.65)
+    args = parser.parse_args()
+    dataset = args.dataset.resolve()
+    options = dict(
+        model=args.model, dtype="float16", tensor_parallel_size=1,
+        enforce_eager=True, trust_remote_code=True, seed=0,
+        max_model_len=4096, max_num_seqs=8, max_num_batched_tokens=4096,
+        enable_prefix_caching=False, disable_mm_preprocessor_cache=True,
+        gpu_memory_utilization=args.gpu_memory_utilization,
+        limit_mm_per_prompt={"image": 4},
+        mm_processor_kwargs={"min_pixels": 200704, "max_pixels": 200704}
+        if "Qwen2-VL" in args.model else None)
+    supported = inspect.signature(AsyncEngineArgs).parameters
+    # vLLM 0.6.1 has no multimodal preprocessing cache or processor-kwargs flag.
+    for optional in ("disable_mm_preprocessor_cache", "mm_processor_kwargs"):
+        if optional not in supported:
+            options.pop(optional)
+    engine_args = AsyncEngineArgs(**options)
+    experiment = pathlib.Path(os.environ['EXP_ROOT']).resolve()
+    run_label = os.environ['REPRO_SPACE_RUN_LABEL']
+    if str(experiment) != '/var/tmp/boyjiang-spaceserve-revision-20261027' or not re.fullmatch('[a-z0-9-]+', run_label):
+        raise RuntimeError('unexpected configuration destination')
+    record_folder = experiment / 'results/runtime-devices' / run_label
+    record_folder.mkdir(parents=True, exist_ok=True)
+    (record_folder / 'engine-args.json').write_text(json.dumps(options, default=str, indent=2))
+    import vllm
+    import torch
+    import transformers
+    imported = {'vllm_file': str(pathlib.Path(vllm.__file__).resolve()),
+                'engine_class_file': str(pathlib.Path(inspect.getfile(AsyncLLMEngine)).resolve()),
+                'torch_file': str(pathlib.Path(torch.__file__).resolve()),
+                'transformers_file': str(pathlib.Path(transformers.__file__).resolve()),
+                'versions': {name: importlib.metadata.version(name) for name in ('vllm','torch','transformers')},
+                'role': os.environ['REPRO_SYSTEM_ROLE'],
+                'profiler_directory': os.environ.get('VLLM_TORCH_PROFILER_DIR'),
+                'SM_diagnostics': os.environ.get('REPRO_SM_PROBE') == '1',
+                'mps_pipe': os.environ.get('CUDA_MPS_PIPE_DIRECTORY'),
+                'mps_active_thread_percentage': os.environ.get('CUDA_MPS_ACTIVE_THREAD_PERCENTAGE')}
+    expected = experiment / ('envs/space/lib/python3.10/site-packages/vllm' if imported['role'] == 'baseline-space' else 'src/SpaceServe/vllm')
+    if not pathlib.Path(imported['vllm_file']).is_relative_to(expected):
+        raise RuntimeError('wrong actual vLLM import path')
+    (record_folder / 'imports.json').write_text(json.dumps(imported, indent=2))
+    engine = AsyncLLMEngine.from_engine_args(engine_args)
+    app = FastAPI()
+    image_cache = {}
+    rgb_manifest = os.environ.get('REPRO_RGB_MANIFEST')
+    if rgb_manifest:
+        for path in dataset_paths(rgb_manifest):
+            with Image.open(path) as image:
+                image_cache[path] = image.convert('RGB')
+
+    @app.get('/repro/rgb-cache')
+    async def rgb_cache():
+        if not rgb_manifest:
+            raise HTTPException(400, 'RGB preload is not enabled')
+        return cache_snapshot(rgb_manifest, {path.name: image for path, image in image_cache.items()})
+
+    @app.get("/health")
+    async def health():
+        return {"status": "ready", "model": args.model}
+
+    @app.post("/profile/start")
+    async def start_profile():
+        await engine.start_profile()
+        return {"profiling": True}
+
+    @app.post("/profile/stop")
+    async def stop_profile():
+        await engine.stop_profile()
+        return {"profiling": False}
+
+    @app.post("/generate")
+    async def generate(request: Request):
+        data = await request.json()
+        inputs = data.pop("input")
+        data.pop("stream", None)
+        paths = inputs["multi_modal_data"]["images_paths"]
+        images = []
+        for name in paths:
+            path = pathlib.Path(name).resolve()
+            if path.parent != dataset:
+                raise HTTPException(400, "image must be in the experiment dataset")
+            if path not in image_cache:
+                with Image.open(path) as image:
+                    image_cache[path] = image.convert("RGB")
+            images.append(image_cache[path])
+        sampling = SamplingParams(**data)
+        prompt = {"prompt": inputs["prompt"], "multi_modal_data": {"image": images}}
+        timestamps, previous_count, final = [], 0, None
+        async for output in engine.generate(prompt, sampling, uuid.uuid4().hex):
+            final = output
+            token_count = len(output.outputs[0].token_ids)
+            timestamps.extend([time.perf_counter()] * (token_count - previous_count))
+            previous_count = token_count
+        assert final is not None
+        return JSONResponse({"output": final.outputs[0].text,
+                             "output_token_ids": list(final.outputs[0].token_ids),
+                             "processed_prompt_token_ids": list(final.prompt_token_ids),
+                             "prompt_token_len": len(final.prompt_token_ids),
+                             "processed_prompt_token_len": len(final.prompt_token_ids),
+                             "timestamps": timestamps,
+                             "timestamp_clock": "time.perf_counter on server host"})
+
+    print(json.dumps(vars(args), default=str), flush=True)
+    uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
+
+
+if __name__ == "__main__":
+    main()

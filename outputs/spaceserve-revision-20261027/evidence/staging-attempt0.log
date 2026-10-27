@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-spacerev-stage-20261027/stage_cpu.py", line 104, in <module>
+    stage(parser.parse_args().approval)
+  File "/var/tmp/boyjiang-spacerev-stage-20261027/stage_cpu.py", line 67, in stage
+    before = inventory(SOURCE)
+  File "/var/tmp/boyjiang-spacerev-stage-20261027/stage_cpu.py", line 45, in inventory
+    raise RuntimeError('absolute non-interpreter link refused: ' + relative)
+RuntimeError: absolute non-interpreter link refused: src/SpaceServe/vllm/_C.abi3.so

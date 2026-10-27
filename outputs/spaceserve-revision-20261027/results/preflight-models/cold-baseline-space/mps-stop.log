@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/mps_owner.py", line 89, in <module>
+    state=recover_bounded(root,intent)
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/mps_recovery.py", line 64, in recover_bounded
+    raise last_error
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/mps_recovery.py", line 56, in recover_bounded
+    state=recover(root,intent,psutil.process_iter())
+  File "/var/tmp/boyjiang-spaceserve-revision-20261027/scripts/mps_recovery.py", line 41, in recover
+    raise RuntimeError('cannot recover a unique private MPS daemon; no quit permitted')
+RuntimeError: cannot recover a unique private MPS daemon; no quit permitted

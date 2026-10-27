@@ -1,0 +1,54 @@
+{
+  "pid": 826645,
+  "perf_counter": 161794.493338035,
+  "system": "space",
+  "only_vision_encoder": true,
+  "model_class": "Qwen2VLEncoder",
+  "parameters_by_device": {
+    "cuda:0": 675759104
+  },
+  "parameters_by_dtype": {
+    "torch.float16": 675759104
+  },
+  "parameters_by_component": {
+    "visual": 675759104
+  },
+  "parameter_examples": [
+    {
+      "name": "visual.patch_embed.proj.weight",
+      "shape": [
+        1280,
+        3,
+        2,
+        14,
+        14
+      ],
+      "device": "cuda:0",
+      "dtype": "torch.float16"
+    },
+    {
+      "name": "visual.blocks.0.norm1.weight",
+      "shape": [
+        1280
+      ],
+      "device": "cuda:0",
+      "dtype": "torch.float16"
+    },
+    {
+      "name": "visual.blocks.0.norm1.bias",
+      "shape": [
+        1280
+      ],
+      "device": "cuda:0",
+      "dtype": "torch.float16"
+    }
+  ],
+  "logical_device": "cuda:0",
+  "gpu_name": "NVIDIA H20",
+  "cuda_device_uuid": "79214c80-7778-37d9-282b-89228debbb69",
+  "cuda_visible_devices": "GPU-79214c80-7778-37d9-282b-89228debbb69",
+  "mps_pipe": "/var/tmp/boyjiang-spaceserve-revision-20261027/tmp/mps",
+  "mps_active_thread_percentage": "100",
+  "loaded_smctrl": [],
+  "loaded_smctrl_sha256": {}
+}

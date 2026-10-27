@@ -1,0 +1,2 @@
+# G2 失败传输保全与新holding重试
+只读审查work/revision-phase/prepare_space_download_retry.py及test_prepare_space_download_retry.py，不网络/GPU/凭据/改文件。原SFTP99074实际exit1 Connection reset，GPU和MPS已于08:45:53实际释放，四真实终态原件已抓回；不重启GPU。新helper复用原已审validated_capture/路径守卫/prepare和最终merge，旧holding完全不改，只将exact bytes+SHA文件xb copy到新holding，其余missing/mismatch留旧原件并在新目录get。四SFTP batch路径互斥、并行只读数据抓取，不远端hash或分析，不改任何运行清单。最终仍原merge逐SHA全部预检，不生成G4。CPU两个新case+继承七原守卫共九，不执行网络。请审路径边界、原件保全和重试是否降级，回复G2结论。

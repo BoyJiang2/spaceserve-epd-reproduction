@@ -10,7 +10,13 @@
 
 Qwen2-VL-7B，单H20，对照原生vLLM；5400正式＋360预热。公开实现的解耦/并发与encoder mask已验证，完整SIS/TWSRFT及decoder互斥分区未复现。
 
-以上及下表为已封存历史批次。2026-10-27顺序平衡补充批次正在独立采集，尚无数据G4或新性能结论；不将运行中数据混入旧表。
+以上及下表为已封存历史固定顺序批次。2026-10-27顺序平衡补充已按时间余量门槛停止：**48/54有效单元，4,800正式＋960预热，六项未执行**，GPU与私有MPS已释放；部分数据G4已通过；发布G5与远端核验尚待。
+
+[最新补充：六负载逐区组baseline对照与三种单次吞吐比](spaceserve/README.md) · [全部延迟/显存/失败率及54项状态](outputs/spaceserve-revision-20261027/report/formal-terminal-reviewed-candidate/report.md) · [终态与限制](outputs/spaceserve-revision-20261027/report/terminal-status.md)
+
+![最新补充：48/54部分矩阵逐次原始吞吐](outputs/spaceserve-revision-20261027/report/formal-terminal-reviewed-candidate/raw-observations.png)
+
+仅逐次描述，无总体置信区间；未完成实际顺序平衡，不与下列历史均值表合并。 [完整原件与trace下载索引（待发布验收）](spaceserve/REVISION_ASSETS.md)。
 
 | 图/C | 原生vLLM | 解耦 | 解耦/原生变化 | encoder mask | mask/原生变化 |
 |---|---:|---:|---:|---:|---:|
