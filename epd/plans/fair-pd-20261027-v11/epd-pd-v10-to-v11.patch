@@ -1,0 +1,276 @@
+diff --git a/cpu_target_runner.py b/cpu_target_runner.py
+--- a/cpu_target_runner.py
++++ b/cpu_target_runner.py
+@@ -1,4 +1,4 @@
+-"""One conditional qjh001 CPU50 test unit. No remote transport or GPU APIs."""
++"""One authorized qjh000 CPU50 test unit. No remote transport or GPU APIs."""
+ import argparse
+ import hashlib
+ import importlib.abc
+@@ -13,7 +13,6 @@
+ import sys
+ import time
+ import unittest
+-from datetime import datetime
+ 
+ sys.dont_write_bytecode = True
+ SOURCE = Path(__file__).resolve().parent
+@@ -21,11 +20,12 @@
+ from admission import bound_bytes, integer
+ from preflight_guard import digest, require_review
+ 
+-POLICY = {"host": "qjh001", "cpu": 50, "memory_bytes": 1073741824, "wall_seconds": 300,
+-          "cleanup_seconds": 30, "earliest_ms": int(datetime.fromisoformat("2026-10-27T18:00:00+08:00").timestamp()*1000),
+-          "safe_end_ms": int(datetime.fromisoformat("2026-10-27T19:00:00+08:00").timestamp()*1000),
+-          "booking_start_ms": int(datetime.fromisoformat("2026-10-27T15:00:00+08:00").timestamp()*1000),
+-          "booking_end_ms": int(datetime.fromisoformat("2026-10-27T21:00:00+08:00").timestamp()*1000)}
++POLICY = {"host": "qjh000", "uid": 2147, "boot_id": "c57aee5b-05dd-4c39-81fc-4c76b492d3d6",
++          "source_root": "/var/tmp/boyjiang-epd-cpu-qjh000-20261027/epd/code/fair-pd-candidate-20261027-v11",
++          "booking_id": "bk-20261027T1130-99a32163", "cpu": 50, "memory_bytes": 1073741824,
++          "wall_seconds": 300, "cleanup_seconds": 30, "earliest_ms": 1793098800000,
++          "safe_end_ms": 1793145600000, "booking_start_ms": 1793098800000,
++          "booking_end_ms": 1793145600000}
+ GPU_MODULES = {"torch", "ray", "vllm", "pynvml", "nvidia", "cupy", "tensorflow", "jax"}
+ 
+ 
+@@ -55,37 +55,57 @@
+     return result
+ 
+ 
+-def validate_observations(scope, booking, handoff, releases, now_ms):
+-    if scope["policy"] != POLICY:
+-        raise ValueError("Only fixed qjh001 CPU50/1GiB/300+30s is in scope")
++def validate_observations(scope, booking, host_probe, now_ms):
++    if (scope["policy"] != POLICY or scope["booking_id"] != POLICY["booking_id"]
++            or scope["uid"] != POLICY["uid"] or scope["boot_id"] != POLICY["boot_id"]
++            or scope["source_root"] != POLICY["source_root"]):
++        raise ValueError("Only the fixed qjh000 CPU50/1GiB/300+30s unit is in scope")
+     integer(now_ms, "current UTC")
+     if now_ms < POLICY["earliest_ms"] or now_ms + 330000 > POLICY["safe_end_ms"]:
+-        raise ValueError("No complete CPU unit plus cleanup fits after handoff and before 19:00")
+-    fresh(booking["observed_ms"], now_ms); fresh(handoff["observed_ms"], now_ms)
++        raise ValueError("No complete CPU unit and cleanup fit in the authorized booking")
++    fresh(booking["observed_ms"], now_ms); fresh(host_probe["observed_ms"], now_ms)
+     if booking.get("origin") != "gputime_read_only_api" or booking.get("read_only") is not True:
+         raise ValueError("Actual read-only CPU booking is required; GPU ticket is insufficient")
+-    own = [row for row in booking["bookings"] if row["id"] == scope["booking_id"]]
+-    resources = [row for row in booking["resources"] if row["id"] == "h20/qjh001"]
++    own = [row for row in booking["bookings"] if row["id"] == POLICY["booking_id"]]
++    resources = [row for row in booking["resources"] if row["id"] == "h20/qjh000"]
+     if len(resources) != 1 or resources[0].get("active") is not True:
+         raise ValueError("CPU booking resource is inactive")
+     if len(own) != 1 or any(own[0].get(key) != value for key, value in {
+-            "kind": "cpu", "node": "qjh001", "user": scope["booking_user"],
+-            "resource_id": "h20/qjh001", "start_ms": POLICY["booking_start_ms"],
++            "kind": "cpu", "node": "qjh000", "user": scope["booking_user"],
++            "resource_id": "h20/qjh000", "start_ms": POLICY["booking_start_ms"],
+             "end_ms": POLICY["booking_end_ms"]}.items()):
+-        raise ValueError("Exact fresh 15–21 CPU booking does not match")
+-    if (handoff.get("host") != "qjh001" or handoff.get("boot_id") != scope["boot_id"]
+-            or handoff.get("origin") != "actual_read_only_host_probe"
+-            or handoff["active_control_domains"] or handoff["cpu50_conflicting_pids"]):
+-        raise ValueError("Old control not handed off, new takeover present, or CPU50 conflict")
+-    if len(scope["prior_control_domains"]) != 4 or set(releases) != set(scope["prior_control_domains"]):
+-        raise ValueError("All four exact prior control domains must have original release evidence")
+-    for name, release in releases.items():
+-        integer(release["released_ms"], "actual domain release UTC")
+-        if (release["domain"] != name or release["host"] != "qjh001"
+-                or release["boot_id"] != scope["boot_id"]
+-                or release["remaining_owned_pids"] or release["controller_state"] != "released"
+-                or not POLICY["earliest_ms"] <= release["released_ms"] <= handoff["observed_ms"]):
+-            raise ValueError("A prior control domain has no actual 18:00+ release")
++        raise ValueError("Exact fresh qjh000 19:00-to-08:00 CPU booking differs")
++    if (any(host_probe.get(key) != value for key, value in {
++            "origin": "actual_read_only_host_probe", "host": "qjh000", "uid": POLICY["uid"],
++            "boot_id": POLICY["boot_id"], "source_root": POLICY["source_root"]}.items())
++            or host_probe["cpu50_conflicting_pids"] or host_probe["root_active_units"]
++            or 50 not in host_probe["available_affinity"]):
++        raise ValueError("Fresh actual CPU50/root/UID/boot availability differs")
++
++
++def validate_cpu_grant(owner, descriptor, scope):
++    user = document(owner, descriptor)
++    if (user.get("author") != "human_user" or user.get("scope") != "EPD_CPU_tests_only"
++            or user.get("scope_sha256") != digest(scope)
++            or not bound_bytes(owner, user["original_instruction_file"], user["original_instruction_sha256"]).strip()):
++        raise ValueError("Original user CPU-only grant does not bind this exact scope")
++
++
++def claim_unit(root, permit, run_id, started, command):
++    """One nonrefundable claim per new owned ROOT; never delete/retry it."""
++    runtime = root / "runtime"
++    runtime.mkdir(mode=0o700, exist_ok=True)
++    if runtime.resolve().parent != root or runtime.stat().st_uid != os.getuid():
++        raise ValueError("CPU runtime must be an owned directory in the exact new source root")
++    claim = runtime / "CPU-unit-claim.json"
++    record = {"run_id": run_id, "parent_identity": process_identity(os.getpid()),
++              "commit": permit["_verified_commit"], "permit_sha256": permit["_verified_permit_sha256"],
++              "command": command, "start_monotonic": started, "deadline_monotonic": started + 300,
++              "cleanup_deadline_monotonic": started + 330, "claim_utc_ms": int(time.time()*1000),
++              "max_attempts": 1, "auto_retries": 0, "GPU_or_model_requests": 0}
++    with claim.open("x", encoding="utf-8") as file:
++        json.dump(record, file, indent=2); file.flush(); os.fsync(file.fileno())
++    return {"path": str(claim), "sha256": sha(claim)}
+ 
+ 
+ def preflight(path):
+@@ -94,9 +114,9 @@
+     scope = permit["scope"]
+     now_ms = int(time.time()*1000)
+     root = Path(scope["source_root"]).resolve()
+-    if (socket.gethostname() != "qjh001" or os.getuid() != scope["uid"] or root != SOURCE
++    if (socket.gethostname() != POLICY["host"] or os.getuid() != POLICY["uid"]
++            or scope["uid"] != POLICY["uid"] or str(root) != POLICY["source_root"] or root != SOURCE
+             or not (root / "runtime").resolve().is_relative_to(root)
+-            or any(root.is_relative_to(Path(old).resolve()) for old in scope["old_control_roots"])
+             or os.sched_getaffinity(0) != {50}):
+         raise ValueError("Actual CPU host/UID/source root/CPU50 availability differs")
+     if os.environ.get("CUDA_VISIBLE_DEVICES") != "" or os.environ.get("NVIDIA_VISIBLE_DEVICES") != "void":
+@@ -107,9 +127,9 @@
+     require_review(path, permit["G1"]["path"], permit["G1"]["sha256"], "G1", digest(scope), authority)
+     require_review(path, permit["G2"]["path"], permit["G2"]["sha256"], "G2", digest({
+         "scope_sha256": digest(scope), "source_manifest_sha256": permit["source_manifest"]["sha256"]}), authority)
+-    booking, handoff = document(path, permit["cpu_booking"]), document(path, permit["handoff"])
+-    releases = {name: document(path, desc) for name, desc in handoff["release_files"].items()}
+-    validate_observations(scope, booking, handoff, releases, now_ms)
++    validate_cpu_grant(path, permit["user_CPU_grant"], scope)
++    booking, host_probe = document(path, permit["cpu_booking"]), document(path, permit["host_probe"])
++    validate_observations(scope, booking, host_probe, now_ms)
+     pushed = document(path, permit["pushed_commit"])
+     original = document(path, pushed["raw_remote"])
+     commit = pushed["commit"]
+@@ -302,6 +322,7 @@
+         if os.getpriority(os.PRIO_PROCESS, 0) != 10: raise ValueError("Child nice10 not effective")
+         resource.setrlimit(resource.RLIMIT_AS, (1073741824, 1073741824))
+         resource.setrlimit(resource.RLIMIT_CPU, (300, 300))
++    claim = claim_unit(root, permit, run_id, started, command)
+     previous = {number: signal.getsignal(number) for number in (signal.SIGTERM, signal.SIGINT)}
+     starting, pending_signal, startup_attempted = True, None, False
+     def interrupted(number, frame):
+@@ -374,7 +395,7 @@
+         permit_sha, commit = permit.get("_verified_permit_sha256"), permit.get("_verified_commit")
+         if permit_sha is None or commit is None: terminal_errors.append("missing-preflight-cache")
+         if terminal_errors: code = 1
+-        report = {"scope": "actual_CPU_only_not_GPU_G3", "host": "qjh001", "cpu": 50,
++        report = {"scope": "actual_CPU_only_not_GPU_G3", "host": POLICY["host"], "cpu": 50,
+             "child_RLIMIT_AS": 1073741824, "run_id": run_id, "exit_code": code,
+             "child_exit_code": getattr(process, "returncode", None),
+             "terminal_state": "completed" if failure is None and code == 0 else "stopped",
+@@ -382,7 +403,7 @@
+             "startup_attempted": startup_attempted, "child_object_obtained": process is not None,
+             "startup_signal_deferred": pending_signal,
+             "parent_nice": parent_nice, "child_nice": child_nice,
+-            "parent_identity": parent, "command": command,
++            "parent_identity": parent, "command": command, "claim": claim,
+             "duration_seconds": time.monotonic()-started, "source_before": before, "source_after": after,
+             "source_unchanged": before == after, "permit_sha256": permit_sha, "commit": commit, "GPU_or_model_requests": 0,
+             "SIGKILL_parent_guarantee": False,
+diff --git a/tests/test_cpu_target_runner.py b/tests/test_cpu_target_runner.py
+--- a/tests/test_cpu_target_runner.py
++++ b/tests/test_cpu_target_runner.py
+@@ -21,42 +21,67 @@
+ class ConditionalCPUWindow(unittest.TestCase):
+     def fixture(self):
+         now = runner.POLICY["earliest_ms"] + 60000
+-        scope = {"policy": dict(runner.POLICY), "boot_id": "CPU-MOCK-boot",
+-            "booking_id": "CPU-MOCK-booking", "booking_user": "CPU-MOCK-user",
+-            "prior_control_domains": ["CPU-MOCK-a", "CPU-MOCK-b", "CPU-MOCK-c", "CPU-MOCK-d"]}
++        scope = {"policy": dict(runner.POLICY), "boot_id": runner.POLICY["boot_id"],
++            "uid": runner.POLICY["uid"], "source_root": runner.POLICY["source_root"],
++            "booking_id": runner.POLICY["booking_id"], "booking_user": "CPU-MOCK-user"}
+         booking = {"origin": "gputime_read_only_api", "read_only": True, "observed_ms": now,
+-            "resources": [{"id": "h20/qjh001", "active": True}],
+-            "bookings": [{"id": scope["booking_id"], "kind": "cpu", "node": "qjh001",
+-                "resource_id": "h20/qjh001", "user": scope["booking_user"],
++            "resources": [{"id": "h20/qjh000", "active": True}],
++            "bookings": [{"id": scope["booking_id"], "kind": "cpu", "node": "qjh000",
++                "resource_id": "h20/qjh000", "user": scope["booking_user"],
+                 "start_ms": runner.POLICY["booking_start_ms"], "end_ms": runner.POLICY["booking_end_ms"]}]}
+-        handoff = {"origin": "actual_read_only_host_probe", "host": "qjh001", "boot_id": scope["boot_id"],
+-            "observed_ms": now, "active_control_domains": [], "cpu50_conflicting_pids": []}
+-        releases = {name: {"domain": name, "host": "qjh001", "remaining_owned_pids": [],
+-            "controller_state": "released", "boot_id": scope["boot_id"], "released_ms": runner.POLICY["earliest_ms"]} for name in scope["prior_control_domains"]}
+-        return scope, booking, handoff, releases, now
+-
+-    def test_exact_conditional_cpu_window_and_completed_handoff(self):
++        probe = {"origin": "actual_read_only_host_probe", "host": "qjh000", "uid": scope["uid"],
++            "boot_id": scope["boot_id"], "source_root": scope["source_root"], "observed_ms": now,
++            "cpu50_conflicting_pids": [], "root_active_units": [], "available_affinity": [50]}
++        return scope, booking, probe, now
++
++    def test_exact_qjh000_cpu_window_and_fresh_new_root(self):
+         runner.validate_observations(*self.fixture())
+ 
+-    def test_gpu_ticket_or_unreleased_control_or_cpu50_conflict_rejected(self):
+-        for mode in ("gpu_ticket", "old_control", "new_takeover", "cpu_conflict"):
++    def test_gpu_ticket_foreign_booking_stale_boot_or_busy_cpu_root_rejected(self):
++        for mode in ("gpu_ticket", "booking", "uid", "boot", "old_root", "cpu_conflict", "root_active", "affinity"):
+             with self.subTest(mode=mode):
+-                scope, booking, handoff, releases, now = self.fixture()
++                scope, booking, probe, now = self.fixture()
+                 if mode == "gpu_ticket": booking["bookings"][0]["kind"] = "gpu"
+-                elif mode == "old_control": releases[scope["prior_control_domains"][0]]["remaining_owned_pids"] = [123]
+-                elif mode == "new_takeover": handoff["active_control_domains"] = ["foreign"]
+-                else: handoff["cpu50_conflicting_pids"] = [456]
+-                with self.assertRaises(ValueError):
+-                    runner.validate_observations(scope, booking, handoff, releases, now)
+-
+-    def test_stale_or_before_18_or_too_late_for_19_cleanup_rejected(self):
+-        scope, booking, handoff, releases, now = self.fixture()
++                elif mode == "booking": booking["bookings"][0]["id"] = "CPU-MOCK-other-booking"
++                elif mode == "uid": probe["uid"] += 1
++                elif mode == "boot": probe["boot_id"] = "CPU-MOCK-old-boot"
++                elif mode == "old_root": scope["source_root"] = "/var/tmp/old-project"
++                elif mode == "cpu_conflict": probe["cpu50_conflicting_pids"] = [456]
++                elif mode == "root_active": probe["root_active_units"] = ["CPU-MOCK-active"]
++                else: probe["available_affinity"] = [49]
++                with self.assertRaises(ValueError): runner.validate_observations(scope, booking, probe, now)
++
++    def test_stale_or_outside_qjh000_booking_rejected(self):
++        scope, booking, probe, now = self.fixture()
+         for time_ms in (runner.POLICY["earliest_ms"] - 1, runner.POLICY["safe_end_ms"] - 329999):
+-            with self.assertRaises(ValueError):
+-                runner.validate_observations(scope, booking, handoff, releases, time_ms)
+-        handoff["observed_ms"] = now - 300001
+-        with self.assertRaises(ValueError):
+-            runner.validate_observations(scope, booking, handoff, releases, now)
++            with self.assertRaises(ValueError): runner.validate_observations(scope, booking, probe, time_ms)
++        probe["observed_ms"] = now - 300001
++        with self.assertRaises(ValueError): runner.validate_observations(scope, booking, probe, now)
++
++    def test_cpu_grant_requires_exact_scope_and_original_human_instruction(self):
++        from unittest.mock import patch
++        scope = self.fixture()[0]
++        user = {"author": "human_user", "scope": "EPD_CPU_tests_only", "scope_sha256": runner.digest(scope),
++                "original_instruction_file": "CPU-MOCK-user.txt", "original_instruction_sha256": "a" * 64}
++        with patch.object(runner, "document", return_value=user), patch.object(runner, "bound_bytes", return_value=b"CPU-MOCK-human-instruction"):
++            runner.validate_cpu_grant(None, {}, scope)
++            user["scope_sha256"] = "b" * 64
++            with self.assertRaises(ValueError): runner.validate_cpu_grant(None, {}, scope)
++            user["scope_sha256"], user["author"] = runner.digest(scope), "CPU-MOCK-agent"
++            with self.assertRaises(ValueError): runner.validate_cpu_grant(None, {}, scope)
++
++    def test_one_nonrefundable_root_claim_refuses_duplicate(self):
++        with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
++            root = Path(directory).resolve()
++            permit = {"_verified_commit": "a" * 40, "_verified_permit_sha256": "b" * 64}
++            claim = runner.claim_unit(root, permit, "CPU-MOCK-once", time.monotonic(), ["CPU-MOCK-python"])
++            record = json.loads(Path(claim["path"]).read_bytes())
++            self.assertEqual(record["max_attempts"], 1)
++            self.assertEqual(record["auto_retries"], 0)
++            self.assertEqual(record["GPU_or_model_requests"], 0)
++            self.assertEqual(record["deadline_monotonic"] - record["start_monotonic"], 300)
++            with self.assertRaises(FileExistsError):
++                runner.claim_unit(root, permit, "CPU-MOCK-second", time.monotonic(), ["CPU-MOCK-python"])
+ 
+     def test_gpu_import_finder_refuses_actual_gpu_libraries(self):
+         finder = runner.NoGPU()
+@@ -103,6 +128,8 @@
+ path=case/"permit.json";path.write_text("{}")
+ permit={"_verified_commit":"a"*40,"_verified_permit_sha256":r.sha(path)}
+ r.preflight=lambda p:(permit,root,{"cpu_target_runner.py":r.sha(root/"cpu_target_runner.py")})
++# CPU-only lifecycle fixture; actual unit authority is tested separately, never claimed by this harness.
++r.claim_unit=lambda *args:{"path":"CPU-MOCK-lifecycle-claim","sha256":"c"*64}
+ original=r.subprocess.Popen
+ worker=(case/"worker-code.txt").read_text()
+ def spawn(argv,*args,**kwargs):

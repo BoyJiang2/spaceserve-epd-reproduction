@@ -1,0 +1,7 @@
+# v10 fixed-suite/tmp nit closure — UNEXECUTED
+
+Parent relayed independent v9 G2 APPROVE_WITH_NITS/BLOCKING0, reviewed 2026-10-27T11:26:04Z. This is the implementation task summary, not the original peer review, which parent preserves separately.
+
+Only two source files changed: cpu_target_runner.py appends test_production_identity to its fixed unittest suite; tests/test_production_identity.py requires the existing runner-provided EPD_CPU_TEST_TMP, resolves that existing directory and creates its sole TemporaryDirectory beneath it, asserting containment. All generated service/identity fixtures remain below that per-test root. Missing tmp env/path fails rather than silently using the OS global temp folder. The nine test methods now belong to the runner's actual test-ID/raw-event reporting. No test ran, and no result/count is represented as executed.
+
+v9's 51 source members were statically SHA checked unchanged before copying v10. v1–v8 untouched. No controller changes, no CPU policy/date/resource widening: the old pre-19 entry window remains expired. Legitimate CPU handoff remains pending. No tests, compilation, syntax checking, patch application, remote/network/GPU/bookings/push. v10 needs narrow independent G2; target tests remain UNEXECUTED. All v9 runtime/controller/claim/cleanup limitations and 1440 requests/36 transfers/340min/zero-retry candidate budget remain; formal remains blocked.

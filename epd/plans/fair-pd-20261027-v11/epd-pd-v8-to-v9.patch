@@ -1,0 +1,538 @@
+diff --git a/baseline_server.py b/baseline_server.py
+--- a/baseline_server.py
++++ b/baseline_server.py
+@@ -26,12 +26,20 @@
+     parser.add_argument("--gpu-memory-utilization", type=float, default=0.65)
+     parser.add_argument("--max-num-seqs", type=int, choices=(4, 8), default=8)
+     args = parser.parse_args()
++    from production_identity import validate_profile
++    validate_profile(args, baseline=True)
+     dataset = args.dataset.resolve()
+     from runtime_options import engine_options
+     options = engine_options(args.model, args.gpu_memory_utilization,
+                              args.max_num_seqs, inspect.signature(AsyncEngineArgs).parameters)
+     engine_args = AsyncEngineArgs(**options)
+     engine = AsyncLLMEngine.from_engine_args(engine_args)
++    from production_identity import enabled, publish_service, response_identity
++    repro_service, repro_workers = None, None
++    if enabled():
++        from production_identity import baseline_worker_identity
++        repro_workers = [baseline_worker_identity(engine)]
++        repro_service = publish_service(repro_workers, args.port)
+     app = FastAPI()
+     image_cache = {}
+     rgb_manifest = os.environ.get('REPRO_RGB_MANIFEST')
+@@ -84,13 +92,16 @@
+             timestamps.extend([time.perf_counter()] * (token_count - previous_count))
+             previous_count = token_count
+         assert final is not None
+-        return JSONResponse({"output": final.outputs[0].text,
++        result = {"output": final.outputs[0].text,
+                              "output_token_ids": list(final.outputs[0].token_ids),
+                              "processed_prompt_token_ids": list(final.prompt_token_ids),
+                              "prompt_token_len": len(final.prompt_token_ids),
+                              "processed_prompt_token_len": len(final.prompt_token_ids),
+                              "timestamps": timestamps,
+-                             "timestamp_clock": "time.perf_counter on server host"})
++                             "timestamp_clock": "time.perf_counter on server host"}
++        if repro_service is not None:
++            result.update(response_identity(repro_service, repro_workers))
++        return JSONResponse(result)
+ 
+     print(json.dumps(vars(args), default=str), flush=True)
+     uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
+diff --git a/epdserve/api_server.py b/epdserve/api_server.py
+--- a/epdserve/api_server.py
++++ b/epdserve/api_server.py
+@@ -68,6 +68,7 @@
+ TIMEOUT_KEEP_ALIVE = 5  # seconds.
+ app = FastAPI()
+ counter = utils.Counter()
++repro_service = None
+ 
+ image_cache = {}
+ ASSETS_DIR = os.path.join(os.path.dirname(__file__), '../assets')
+@@ -158,6 +159,9 @@
+         "timestamps": [step_output[1] for step_output in final_outputs],
+         "lifetime_events": json_encode_lifetime_events(request_events.values())
+     }
++    if repro_service is not None:
++        from production_identity import response_identity
++        ret.update(response_identity(repro_service, getattr(final_outputs[-1][0].request, "repro_worker_route", [])))
+     return JSONResponse(ret)
+ 
+ 
+@@ -172,9 +176,17 @@
+     print(f'Args: {args}')
+     
+     set_random_seed(args.seed)
++    from production_identity import validate_profile
++    validate_profile(args)
+     ray.init()
+     
+     engine = AsyncLLM.from_engine_args(args)
++    from production_identity import enabled, publish_service
++    repro_service = None
++    if enabled():
++        workers = [worker for cluster in (engine.orchestrator.encoding_cluster, engine.orchestrator.context_cluster,
++                   engine.orchestrator.decoding_cluster) for stage in cluster.engines for worker in stage.repro_workers]
++        repro_service = publish_service(workers, args.port)
+ 
+     uvicorn_config = uvicorn.Config(
+         app,
+diff --git a/epdserve/engine_common.py b/epdserve/engine_common.py
+--- a/epdserve/engine_common.py
++++ b/epdserve/engine_common.py
+@@ -270,7 +270,10 @@
+                 tmp_parallel_config.tensor_parallel_rank = j
+                 scheduling_strategy = PlacementGroupSchedulingStrategy(placement_group=cur_placement_group)
+                 worker_id = i*self.parallel_config.tensor_parallel_size + j
+-                worker = Worker.options(scheduling_strategy=scheduling_strategy).remote(
++                from production_identity import environment
++                identity_env = environment()
++                identity_options = {"runtime_env": {"env_vars": identity_env}} if identity_env else {}
++                worker = Worker.options(scheduling_strategy=scheduling_strategy, **identity_options).remote(
+                         worker_id=worker_id,
+                         stage=self.stage,
+                         model_config=self.model_config,
+@@ -284,6 +287,9 @@
+             self.workers.append(workers)
+             
+         await asyncio.gather(*init_handlers)
++        from production_identity import enabled
++        self.repro_workers = (await asyncio.gather(*self._remote_call_all_workers_async("qualification_identity"))
++                              if enabled() else None)
+ 
+     async def _init_model(self):
+         """
+diff --git a/epdserve/engine_context.py b/epdserve/engine_context.py
+--- a/epdserve/engine_context.py
++++ b/epdserve/engine_context.py
+@@ -301,6 +301,9 @@
+                 seq_group_metadata.multi_modal_data = None
+                 seq_group_metadata_list.append(seq_group_metadata)
+ 
++            if getattr(self, "repro_workers", None) is not None:
++                from production_identity import mark_batch
++                mark_batch(batched_requests, self.repro_workers)
+             if getattr(self.model_config, "pd_fused", False):
+                 remote_calls = self._remote_call_all_workers_async(
+                     "step_pd", batched_requests.get_request_ids(),
+diff --git a/epdserve/engine_decoding.py b/epdserve/engine_decoding.py
+--- a/epdserve/engine_decoding.py
++++ b/epdserve/engine_decoding.py
+@@ -345,6 +345,9 @@
+                 seq_md.multi_modal_data = None
+                 seq_group_metadata_list.append(seq_md)
+ 
++            if getattr(self, "repro_workers", None) is not None:
++                from production_identity import mark_batch
++                mark_batch(batched_requests, self.repro_workers)
+             remote_calls = self._remote_call_all_workers_async(
+                 "step_llm",
+                 batched_requests.get_request_ids(),
+diff --git a/epdserve/engine_encoding.py b/epdserve/engine_encoding.py
+--- a/epdserve/engine_encoding.py
++++ b/epdserve/engine_encoding.py
+@@ -323,6 +323,9 @@
+             self.batches_in_pipeline.append(batched_requests)
+ 
+             block_tables = self.vision_block_manager.get_partial_block_table(batched_requests.get_request_ids())
++            if getattr(self, "repro_workers", None) is not None:
++                from production_identity import mark_batch
++                mark_batch(batched_requests, self.repro_workers)
+             remote_calls = self._remote_call_all_workers_async(
+                 "step_encoding",
+                 batched_requests.get_request_ids(),
+diff --git a/epdserve/worker.py b/epdserve/worker.py
+--- a/epdserve/worker.py
++++ b/epdserve/worker.py
+@@ -88,6 +88,10 @@
+         self.mm_registry = MultiModalRegistry()
+         self.mm_registry.init_mm_limits_per_prompt(vllm_model_config)
+ 
++    def qualification_identity(self):
++        from production_identity import worker_identity
++        return worker_identity(self.device, self.stage.name)
++
+     def ready(self):
+         logger.info(f"Worker {self.stage}.#{self.worker_id} created on host {socket.gethostname()} and gpu #{self.gpu_id}")
+         pass
+diff --git a/live_evidence.py b/live_evidence.py
+--- a/live_evidence.py
++++ b/live_evidence.py
+@@ -36,7 +36,7 @@
+         return int((Path("/sys/bus/pci/devices") / f"{int(domain,16):04x}:{bus}:{device}" / "numa_node").read_text())
+ 
+ 
+-def capture_own_identity(root, run_id, source_commit, deploy_sha256, gpu_uuid, engine_stage, proc=None):
++def capture_own_identity(root, run_id, source_commit, deploy_sha256, gpu_uuid, engine_stage, proc=None, *, candidate_config_sha256=None, endpoint=None):
+     """Called inside the pinned owned worker; reads only two explicit env keys."""
+     proc = proc or ProcReader()
+     root = Path(root).resolve()
+@@ -47,6 +47,8 @@
+     identity.update(root=str(root), run_id=run_id, source_commit=source_commit,
+                     deploy_sha256=deploy_sha256, gpu_uuid=gpu_uuid, host=socket.gethostname(),
+                     engine_stage=engine_stage)
++    if candidate_config_sha256 is not None:
++        identity.update(candidate_config_sha256=candidate_config_sha256, endpoint=endpoint)
+     folder = root / "runtime/identities"
+     folder.mkdir(parents=True, exist_ok=True)
+     path = folder / f'{identity["pid"]}-{identity["proc_start_ticks"]}.json'
+@@ -118,7 +120,8 @@
+                 raise ValueError("Selected PID root/RUNID/source/start identity differs; do not kill it")
+             if proc.identity(process["pid"], config["uid"]) != actual:
+                 raise ValueError("Selected PID identity changed during collection")
+-            gpu["processes"].append({**expected, "engine_stage": saved["engine_stage"], "used_bytes": process["used_bytes"]})
++            gpu["processes"].append({**expected, "engine_stage": saved["engine_stage"], "used_bytes": process["used_bytes"],
++                **{key: saved[key] for key in ("candidate_config_sha256", "endpoint") if key in saved}})
+         if raw["processes"] and sum(p["used_bytes"] for p in raw["processes"]) > raw["used_bytes"]:
+             raise ValueError("Unresolved NVML memory attribution")
+         result["gpus"][uuid] = gpu
+@@ -164,6 +167,7 @@
+                         seen[key] = {"gpu_uuid": uuid, **{name: process[name] for name in
+                             ("pid", "uid", "run_id", "proc_start_ticks", "root", "boot_id", "source_commit", "deploy_sha256")}}
+                         seen[key]["engine_stage"] = process["engine_stage"]
++                        seen[key].update({name: process[name] for name in ("candidate_config_sha256", "endpoint") if name in process})
+                     row = {"gpu_uuid": uuid, "unit": "bytes", "capacity_bytes": gpu["capacity_bytes"],
+                            "device_used_bytes": gpu["used_bytes"], "monotonic_s": observed["monotonic_s"],
+                            "processes": [{key: process[key] for key in ("pid", "uid", "run_id", "proc_start_ticks", "used_bytes")}
+diff --git a/production_identity.py b/production_identity.py
+new file mode 100644
+--- /dev/null
++++ b/production_identity.py
+@@ -0,0 +1,168 @@
++"""Opt-in qualification identities; imported without Ray, CUDA or NVML."""
++import json
++import os
++from pathlib import Path
++import re
++import socket
++from urllib.parse import urlsplit
++
++from live_evidence import ProcReader, capture_own_identity, write_exclusive
++
++KEYS = ("EXP_ROOT", "REPRO_RUN_ID", "REPRO_SOURCE_COMMIT", "REPRO_DEPLOY_SHA256",
++        "REPRO_PROFILE_SHA256", "REPRO_ENDPOINT", "REPRO_GPU_UUIDS")
++
++
++def enabled():
++    value = os.environ.get("REPRO_IDENTITY", "0")
++    if value not in ("0", "1"):
++        raise ValueError("REPRO_IDENTITY must be 0 or 1")
++    return value == "1"
++
++
++def environment():
++    if not enabled():
++        return {}
++    values = {key: os.environ[key] for key in KEYS}
++    root = Path(values["EXP_ROOT"]).resolve(strict=True)
++    if str(root) != values["EXP_ROOT"] or not Path.cwd().resolve().is_relative_to(root):
++        raise ValueError("Qualification identity root/cwd differs")
++    if not re.fullmatch(r"[A-Za-z0-9_.:-]{1,160}", values["REPRO_RUN_ID"]):
++        raise ValueError("Invalid qualification RUNID")
++    for key, length in (("REPRO_SOURCE_COMMIT", 40), ("REPRO_DEPLOY_SHA256", 64), ("REPRO_PROFILE_SHA256", 64)):
++        if not re.fullmatch("[0-9a-f]{%d}" % length, values[key]):
++            raise ValueError("Invalid qualification source/deploy/profile hash")
++    url = urlsplit(values["REPRO_ENDPOINT"])
++    if (url.scheme != "http" or url.hostname not in ("127.0.0.1", "::1") or not url.port
++            or url.path or url.query or url.fragment or url.username or url.password):
++        raise ValueError("Qualification endpoint must be an exact loopback URL")
++    uuids = json.loads(values["REPRO_GPU_UUIDS"])
++    if len(uuids) != 3 or len(set(uuids)) != 3 or any(not re.fullmatch(r"GPU-[0-9a-f-]{36}", uuid) for uuid in uuids):
++        raise ValueError("Qualification identity requires exactly three full GPU UUIDs")
++    return {"REPRO_IDENTITY": "1", **values}
++
++
++def scope():
++    values = environment()
++    return {"host": socket.gethostname(), "run_id": values["REPRO_RUN_ID"],
++            "source_commit": values["REPRO_SOURCE_COMMIT"], "deploy_sha256": values["REPRO_DEPLOY_SHA256"],
++            "candidate_config_sha256": values["REPRO_PROFILE_SHA256"]}
++
++
++def worker_identity(device, stage):
++    if not enabled():
++        return None
++    values = environment()
++    # Actual CUDA device property, never the expected placement or a Ray GPU index.
++    import torch
++    uuid = str(torch.cuda.get_device_properties(device).uuid)
++    if uuid not in json.loads(values["REPRO_GPU_UUIDS"]):
++        raise ValueError("Actual CUDA UUID differs from qualification GPU set")
++    return capture_own_identity(values["EXP_ROOT"], values["REPRO_RUN_ID"], values["REPRO_SOURCE_COMMIT"],
++        values["REPRO_DEPLOY_SHA256"], uuid, stage,
++        candidate_config_sha256=values["REPRO_PROFILE_SHA256"], endpoint=values["REPRO_ENDPOINT"])
++
++
++def publish_service(workers, port):
++    values = environment()
++    url = values["REPRO_ENDPOINT"]
++    if urlsplit(url).port != port or not workers:
++        raise ValueError("Actual listening port/worker binding differs")
++    current = scope()
++    api = ProcReader().identity(os.getpid(), os.getuid())
++    api.update(current, root=values["EXP_ROOT"], endpoint=url)
++    for worker in workers:
++        if (any(worker[key] != current[key] for key in current)
++                or worker["endpoint"] != url or worker["uid"] != api["uid"]
++                or worker["root"] != api["root"] or worker["boot_id"] != api["boot_id"]):
++            raise ValueError("Actual API/worker scope differs")
++    service = {"url": url, "api_identity": api,
++               "worker_keys": [f'{w["pid"]}:{w["proc_start_ticks"]}' for w in workers]}
++    envelope = {**current, "boot_id": api["boot_id"], "services": [service]}
++    folder = Path(values["EXP_ROOT"]) / "runtime/endpoints"
++    folder.mkdir(parents=True, exist_ok=True)
++    write_exclusive(folder / f'{api["run_id"]}-{api["pid"]}-{api["proc_start_ticks"]}.json', envelope)
++    return service
++
++
++def mark_batch(batch, workers):
++    # Once per visited stage, no extra RPC, hashing, disk write or per-token growth.
++    for request in batch.requests:
++        route = getattr(request, "repro_worker_route", [])
++        known = {(worker["pid"], worker["proc_start_ticks"]) for worker in route}
++        request.repro_worker_route = route + [worker for worker in workers
++            if (worker["pid"], worker["proc_start_ticks"]) not in known]
++
++
++def response_identity(service, route):
++    if not route:
++        raise ValueError("Successful qualification response has no actual worker route")
++    return {"repro_api_identity": service["api_identity"], "repro_worker_route": route}
++
++
++def assemble_services(paths, output):
++    """Join server-produced sidecars after rechecking only their exact owned PIDs."""
++    values, current, proc = environment(), scope(), ProcReader()
++    services = []
++    boot = proc.boot()
++    for path in paths:
++        path = Path(path).resolve(strict=True)
++        folder = (Path(values["EXP_ROOT"]) / "runtime/endpoints").resolve()
++        if path.parent != folder or path.stat().st_uid != os.getuid():
++            raise ValueError("Endpoint sidecar outside owned runtime folder")
++        envelope = json.loads(path.read_bytes())
++        if any(envelope[key] != value for key, value in {**current, "boot_id": boot}.items()):
++            raise ValueError("Server-produced endpoint scope differs")
++        for service in envelope["services"]:
++            api = service["api_identity"]
++            actual = proc.identity(api["pid"], os.getuid())
++            if any(actual[key] != api[key] for key in actual):
++                raise ValueError("Endpoint API PID/start/cwd changed")
++            services.append(service)
++    if not services or len({s["url"] for s in services}) != len(services):
++        raise ValueError("Missing or duplicate live endpoints")
++    output = Path(output).resolve()
++    if not output.is_relative_to((Path(values["EXP_ROOT"]) / "runtime").resolve()):
++        raise ValueError("Endpoint manifest must remain runtime data")
++    manifest = {**current, "boot_id": boot, "services": services}
++    write_exclusive(output, manifest)
++    return manifest
++
++
++def validate_profile(args, baseline=False):
++    if not enabled():
++        return
++    from experiment_plan import CANDIDATES, candidate_arguments, config_sha256
++    values = environment()
++    if baseline:
++        candidate = ("replicas", 0, 0, args.max_num_seqs)
++    else:
++        candidate = ("pd" if args.pd_fused else "epd", args.context_data_parallel_size,
++                     args.decoding_data_parallel_size, args.runtime_max_num_seqs)
++        if any(getattr(args, stage + "_" + parallel + "_parallel_size") != 1
++               for stage in ("encoding", "context", "decoding") for parallel in ("tensor", "pipeline")):
++            raise ValueError("Qualification identity requires actual TP1/PP1")
++    if candidate not in CANDIDATES or config_sha256(candidate) != values["REPRO_PROFILE_SHA256"]:
++        raise ValueError("Actual entrypoint profile differs from frozen profile SHA")
++    argv = candidate_arguments(candidate)["arguments"]
++    index = 0
++    while index < len(argv):
++        name = argv[index][2:].replace("-", "_")
++        if name == "pd_fused":
++            if not args.pd_fused:
++                raise ValueError("Actual fused-PD flag differs")
++            index += 1
++        else:
++            if str(getattr(args, name)) != argv[index + 1]:
++                raise ValueError("Actual qualification CLI differs: " + name)
++            index += 2
++
++
++def baseline_worker_identity(engine):
++    executor = engine.engine.model_executor
++    if executor.__class__.__name__ != "GPUExecutorAsync" or engine.engine.parallel_config.tensor_parallel_size != 1:
++        raise ValueError("Qualification baseline requires the local vLLM 0.6.1 TP1 GPUExecutorAsync")
++    driver = executor.driver_worker
++    worker = getattr(driver, "worker", driver)  # vLLM local WorkerWrapperBase, never a remote RPC.
++    if worker.__class__.__module__ != "vllm.worker.worker" or worker.model_runner.model is None:
++        raise ValueError("Qualification baseline cannot establish actual in-process loaded worker")
++    return worker_identity(worker.device, "FULL_REPLICA")
+diff --git a/selected_g3.py b/selected_g3.py
+--- a/selected_g3.py
++++ b/selected_g3.py
+@@ -41,7 +41,8 @@
+         api = service["api_identity"]
+         for key, value in {"uid": config["uid"], "root": config["root"], "host": config["host"],
+                 "boot_id": proof["boot_id"], "run_id": session["run_id"],
+-                "source_commit": proof["commit"], "deploy_sha256": proof["deploy_sha256"]}.items():
++                "source_commit": proof["commit"], "deploy_sha256": proof["deploy_sha256"],
++                "candidate_config_sha256": expected["candidate_config_sha256"], "endpoint": service["url"]}.items():
+             if api.get(key) != value:
+                 raise ValueError("Actual API process UID/root/RUNID/source identity differs")
+         identity = integer(api["pid"], "API PID", 1), integer(api["proc_start_ticks"], "API start ticks", 1)
+@@ -53,6 +54,10 @@
+             raise ValueError("Endpoint maps to an unknown/duplicate actual worker identity")
+         if baseline and (len(keys) != 1 or by_worker[keys[0]]["engine_stage"] != "FULL_REPLICA"):
+             raise ValueError("Each baseline API must bind its own full-model GPU worker")
++        for key in keys:
++            if (by_worker[key].get("candidate_config_sha256") != expected["candidate_config_sha256"]
++                    or by_worker[key].get("endpoint") != service["url"]):
++                raise ValueError("Actual endpoint worker profile/endpoint differs")
+         assigned.extend(keys); urls.append(service["url"])
+     if set(assigned) != set(by_worker) or baseline and len(assigned) != 3:
+         raise ValueError("Actual service manifest does not bind all three model workers")
+@@ -236,7 +241,7 @@
+                     raise ValueError("Actual request route used an unbound/duplicate worker")
+                 for worker, key in zip(route, route_keys):
+                     if any(worker.get(field) != by_worker[key][field] for field in
+-                           ("pid", "proc_start_ticks", "gpu_uuid", "engine_stage", "uid", "root", "run_id", "boot_id", "source_commit", "deploy_sha256")):
++                           ("pid", "proc_start_ticks", "gpu_uuid", "engine_stage", "uid", "root", "run_id", "boot_id", "source_commit", "deploy_sha256", "candidate_config_sha256", "endpoint")):
+                         raise ValueError("Actual per-request worker PID/UUID/source identity differs")
+                 wanted = {"FULL_REPLICA": 1} if system == "replicas" else ({"CONTEXT": 1, "DECODING": 1} if system == "pd" else
+                     {"ENCODING": 1, "CONTEXT": 1, "DECODING": 1})
+diff --git a/tests/test_preflight_v5.py b/tests/test_preflight_v5.py
+--- a/tests/test_preflight_v5.py
++++ b/tests/test_preflight_v5.py
+@@ -345,6 +345,9 @@
+                         "host": self.config["host"], "root": str(self.root), "boot_id": "cpu-fixture-boot",
+                         "run_id": run_id, "source_commit": self.commit, "deploy_sha256": self.deploy_sha}
+                     workers = [processes[api_index]] if system == "replicas" else processes
++                    api.update(candidate_config_sha256=config_sha256(candidate), endpoint=f"http://127.0.0.1:{17780 + api_index}")
++                    for worker in workers:
++                        worker.update(candidate_config_sha256=config_sha256(candidate), endpoint=api["endpoint"])
+                     services.append({"url": f"http://127.0.0.1:{17780 + api_index}", "api_identity": api,
+                         "worker_keys": [f'{worker["pid"]}:{worker["proc_start_ticks"]}' for worker in workers]})
+                 endpoint_manifest = {"host": self.config["host"], "boot_id": "cpu-fixture-boot", "run_id": run_id,
+diff --git a/tests/test_production_identity.py b/tests/test_production_identity.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_production_identity.py
+@@ -0,0 +1,115 @@
++"""v9 targeted CPU test SOURCE ONLY: UNEXECUTED; no real GPU/Ray imports."""
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++from types import SimpleNamespace as NS
++import unittest
++from unittest.mock import patch
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++import production_identity as bridge
++from experiment_plan import config_sha256
++
++
++class ProductionIdentityTests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory()
++        self.root = Path(self.temp.name).resolve()
++        self.uuids = ["GPU-" + str(i) * 8 + "-1111-1111-1111-111111111111" for i in range(3)]
++        self.env = {"REPRO_IDENTITY": "1", "EXP_ROOT": str(self.root), "REPRO_RUN_ID": "cpu-unit-only",
++                    "REPRO_SOURCE_COMMIT": "a" * 40, "REPRO_DEPLOY_SHA256": "b" * 64,
++                    "REPRO_PROFILE_SHA256": config_sha256(("replicas", 0, 0, 4)),
++                    "REPRO_ENDPOINT": "http://127.0.0.1:17778", "REPRO_GPU_UUIDS": json.dumps(self.uuids)}
++        self.environ = patch.dict(os.environ, self.env)
++        self.environ.start()
++        self.cwd = patch.object(Path, "cwd", return_value=self.root)
++        self.cwd.start()
++
++    def tearDown(self):
++        self.cwd.stop()
++        self.environ.stop()
++        self.temp.cleanup()
++
++    def test_disabled_does_not_read_identity_inputs(self):
++        with patch.dict(os.environ, {"REPRO_IDENTITY": "0"}), patch.dict(sys.modules, {"torch": None}):
++            self.assertEqual(bridge.environment(), {})
++            self.assertIsNone(bridge.worker_identity(None, "CONTEXT"))
++
++    def test_actual_uuid_forwarded_to_self_capture_not_expected_rank(self):
++        cuda = NS(get_device_properties=lambda device: NS(uuid=self.uuids[2]))
++        with patch.dict(sys.modules, {"torch": NS(cuda=cuda)}), patch.object(bridge, "capture_own_identity", return_value={}) as capture:
++            bridge.worker_identity("actual-device", "CONTEXT")
++            self.assertEqual(capture.call_args.args[4:6], (self.uuids[2], "CONTEXT"))
++            self.assertEqual(capture.call_args.kwargs["endpoint"], self.env["REPRO_ENDPOINT"])
++
++    def test_foreign_uuid_refused_before_sidecar(self):
++        cuda = NS(get_device_properties=lambda device: NS(uuid="GPU-foreign"))
++        with patch.dict(sys.modules, {"torch": NS(cuda=cuda)}), patch.object(bridge, "capture_own_identity") as capture:
++            with self.assertRaises(ValueError): bridge.worker_identity(0, "DECODING")
++            capture.assert_not_called()
++
++    def test_actual_profile_and_cli_mismatch_refused(self):
++        args = NS(max_num_seqs=4, gpu_memory_utilization=0.65)
++        bridge.validate_profile(args, baseline=True)
++        args.max_num_seqs = 8
++        with self.assertRaises(ValueError): bridge.validate_profile(args, baseline=True)
++        args.max_num_seqs, args.gpu_memory_utilization = 4, 0.9
++        with self.assertRaises(ValueError): bridge.validate_profile(args, baseline=True)
++
++    def test_route_uses_only_selected_stage_workers_and_does_not_grow_per_token(self):
++        request = NS()
++        batch = NS(requests=[request])
++        p2 = {"pid": 22, "proc_start_ticks": 220, "engine_stage": "CONTEXT"}
++        d1 = {"pid": 31, "proc_start_ticks": 310, "engine_stage": "DECODING"}
++        bridge.mark_batch(batch, [p2]); bridge.mark_batch(batch, [d1]); bridge.mark_batch(batch, [d1])
++        self.assertEqual(request.repro_worker_route, [p2, d1])
++        service = {"api_identity": {"pid": 1}}
++        self.assertEqual(bridge.response_identity(service, request.repro_worker_route)["repro_worker_route"], [p2, d1])
++        with self.assertRaises(ValueError): bridge.response_identity(service, [])
++
++    def test_baseline_only_accepts_loaded_local_TP1_driver(self):
++        Worker = type("Worker", (), {"__module__": "vllm.worker.worker"})
++        worker = Worker()
++        worker.device, worker.model_runner = "cuda:0", NS(model=object())
++        Executor = type("GPUExecutorAsync", (), {})
++        executor = Executor()
++        executor.driver_worker = NS(worker=worker)
++        engine = NS(engine=NS(model_executor=executor, parallel_config=NS(tensor_parallel_size=1)))
++        with patch.object(bridge, "worker_identity", return_value={"pid": 12}) as capture:
++            self.assertEqual(bridge.baseline_worker_identity(engine), {"pid": 12})
++            capture.assert_called_once_with("cuda:0", "FULL_REPLICA")
++        engine.engine.parallel_config.tensor_parallel_size = 2
++        with self.assertRaises(ValueError): bridge.baseline_worker_identity(engine)
++
++    def test_server_produces_manifest_and_actual_cached_response(self):
++        identity = {"pid": os.getpid(), "uid": os.getuid(), "proc_start_ticks": 123,
++                    "cwd": str(self.root), "boot_id": "cpu-mock-boot"}
++        proc = NS(identity=lambda pid, uid: dict(identity), boot=lambda: "cpu-mock-boot")
++        worker = {**identity, **bridge.scope(), "root": str(self.root),
++                  "endpoint": self.env["REPRO_ENDPOINT"], "gpu_uuid": self.uuids[0], "engine_stage": "FULL_REPLICA"}
++        with patch.object(bridge, "ProcReader", return_value=proc):
++            service = bridge.publish_service([worker], 17778)
++            paths = list((self.root / "runtime/endpoints").glob("*.json"))
++            self.assertEqual(len(paths), 1)
++            manifest = bridge.assemble_services(paths, self.root / "runtime/endpoints-merged.json")
++            self.assertEqual(manifest["services"], [service])
++            response = bridge.response_identity(service, [worker])
++            self.assertEqual(response["repro_api_identity"], service["api_identity"])
++            self.assertEqual(response["repro_worker_route"], [worker])
++            worker["candidate_config_sha256"] = "f" * 64
++            with self.assertRaises(ValueError): bridge.publish_service([worker], 17778)
++
++    def test_port_mismatch_does_not_publish_service(self):
++        with self.assertRaises(ValueError): bridge.publish_service([{}], 17779)
++
++    def test_bad_endpoint_and_missing_source_fail_closed(self):
++        with patch.dict(os.environ, {"REPRO_ENDPOINT": "http://remote:17778"}):
++            with self.assertRaises(ValueError): bridge.environment()
++        with patch.dict(os.environ, {"REPRO_SOURCE_COMMIT": ""}):
++            with self.assertRaises(ValueError): bridge.environment()
++
++
++if __name__ == "__main__":
++    unittest.main()

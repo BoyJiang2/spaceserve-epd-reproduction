@@ -1,0 +1,33 @@
+diff --git a/cpu_target_runner.py b/cpu_target_runner.py
+--- a/cpu_target_runner.py
++++ b/cpu_target_runner.py
+@@ -203,7 +203,7 @@
+                 ids.write(json.dumps({"event": "subtest_failure", "test_id": subtest.id()})+"\n"); ids.flush()
+             super().addSubTest(test,subtest,error)
+     loader = unittest.TestLoader()
+-    suite = unittest.TestSuite(loader.loadTestsFromName(name) for name in ("test_pd_cpu", "test_preflight_v5", "test_cpu_target_runner"))
++    suite = unittest.TestSuite(loader.loadTestsFromName(name) for name in ("test_pd_cpu", "test_preflight_v5", "test_cpu_target_runner", "test_production_identity"))
+     result = unittest.TextTestRunner(verbosity=2, resultclass=Result).run(suite)
+     ids.close()
+     with (output / "test-result.json").open("x",encoding="utf-8") as file:
+diff --git a/tests/test_production_identity.py b/tests/test_production_identity.py
+--- a/tests/test_production_identity.py
++++ b/tests/test_production_identity.py
+@@ -1,4 +1,4 @@
+-"""v9 targeted CPU test SOURCE ONLY: UNEXECUTED; no real GPU/Ray imports."""
++"""Qualification identity CPU tests; use the fixed runner and its controlled tmp."""
+ import json
+ import os
+ from pathlib import Path
+@@ -15,8 +15,10 @@
+ 
+ class ProductionIdentityTests(unittest.TestCase):
+     def setUp(self):
+-        self.temp = tempfile.TemporaryDirectory()
++        self.tmp_root = Path(os.environ["EPD_CPU_TEST_TMP"]).resolve(strict=True)
++        self.temp = tempfile.TemporaryDirectory(dir=self.tmp_root)
+         self.root = Path(self.temp.name).resolve()
++        assert self.root.is_relative_to(self.tmp_root)
+         self.uuids = ["GPU-" + str(i) * 8 + "-1111-1111-1111-111111111111" for i in range(3)]
+         self.env = {"REPRO_IDENTITY": "1", "EXP_ROOT": str(self.root), "REPRO_RUN_ID": "cpu-unit-only",
+                     "REPRO_SOURCE_COMMIT": "a" * 40, "REPRO_DEPLOY_SHA256": "b" * 64,
