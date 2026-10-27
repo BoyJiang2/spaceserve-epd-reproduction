@@ -49,7 +49,7 @@
 
 仅覆盖固定公开实现子集，未复现完整SIS/TWSRFT或decoder互斥分区。LM仍保留visual权重，另有encoder驻留；所有自有GPU进程显存合计计入。本页全部性能对照属于SpaceServe，不与EPD的三卡预算或模型作绝对排名。
 
-[本批完整原件、trace下载及SHA（发布待验收）](REVISION_ASSETS.md) · [实际部分G4与终态审查](../outputs/spaceserve-revision-20261027/report/publication-status.md)
+[本批完整原件、trace下载及SHA（已发布验收）](REVISION_ASSETS.md) · [实际部分G4与终态审查](../outputs/spaceserve-revision-20261027/report/publication-status.md)
 
 ## 历史固定顺序批次：直接与原生vLLM比较
 

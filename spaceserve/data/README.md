@@ -8,4 +8,4 @@
 
 各主机、2B/7B分别解释；encoder SM mask不等于未验证的decoder互斥分区。顺序平衡补充为独立48/54部分批次，六项缺失，不混入历史图表。
 
-本批[完整包与trace/SHA索引（待发布验收）](../REVISION_ASSETS.md)；历史大trace及完整封包：[真实Release下载、大小与SHA](../../publication/ASSETS.md)。原封存和七ZIP/Release保持不变，不为目录重组重跑GPU。
+本批[完整包与trace/SHA索引（已实际下载验收）](../REVISION_ASSETS.md)；历史大trace及完整封包：[真实Release下载、大小与SHA](../../publication/ASSETS.md)。原封存和七ZIP/Release保持不变，不为目录重组重跑GPU。
