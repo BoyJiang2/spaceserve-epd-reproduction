@@ -4,7 +4,7 @@
 
 新增公平PD工作请先读[未运行候选说明](../plans/fair-pd-20261027/README.md)，其中列出独立源码SHA、审查及剩余条件；[冻结源码目录](fair-pd-candidate-20261027/)不属于上述历史执行证据。源码内继承的README仅作上游参考，其引用的上游assets未随本候选发布。
 
-最新的身份/路由桥接与本次 qjh000 CPU 验证入口见[v11 候选说明](../plans/fair-pd-20261027-v11/README.md)及[51 项源码](fair-pd-candidate-20261027-v11/)。当前目标 CPU 尚未运行，不属于历史已执行批次。
+最新的身份/路由桥接与本次 qjh000 CPU 验证入口见[v11 说明](../plans/fair-pd-20261027-v11/README.md)及[51 项源码](fair-pd-candidate-20261027-v11/)。目标 CPU 已实际76 PASS，原件见[独立CPU验证批次](../validation/qjh000-cpu-20261027/README.md)；真实GPU/模型与性能仍未验证。
 
 请先阅读[本项目完整复跑入口](../README.md)和[仓库可移植性说明](../../PORTABLE.md)。原始封包恢复到独立restore目录后，沿原批次目录结构复算；GPU启动仍须有效预约、环境/模型pin、空闲卡与通信/机制正确性。不会自动在本机启动GPU。
 
