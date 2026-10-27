@@ -1,0 +1,11 @@
+--- a/vllm/v1/worker/gpu_worker.py
++++ b/vllm/v1/worker/gpu_worker.py
+@@ -141,6 +141,8 @@
+             context = nullcontext()
+         with context:
+             self.model_runner.load_model()
++            from record_device import record
++            record(self)
+ 
+     @torch.inference_mode()
+     def determine_available_memory(self) -> int:
