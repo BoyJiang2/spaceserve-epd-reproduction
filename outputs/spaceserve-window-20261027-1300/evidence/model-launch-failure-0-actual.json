@@ -1,0 +1,47 @@
+{
+  "utc": "2026-10-27T05:54:03.570423+00:00",
+  "host": "qjh000",
+  "uid": 2147,
+  "boot_id": "838160b3-4eb7-4a24-accc-f7720e0ac78a",
+  "files": [
+    {
+      "path": "evidence/MODELS_ATTEMPT1_STARTED.json",
+      "bytes": 149,
+      "sha256": "8769f75771aea363558bfd71af42e32607f15d72732031fe6a049450bd9577e2",
+      "text": "{\n  \"controller_id\": \"ac0ff67d6d01430c82d713d6f086aa72\",\n  \"pid\": 2960286,\n  \"process_created\": 1793080314.81,\n  \"started_unix\": 1793080315.1036086\n}"
+    },
+    {
+      "path": "evidence/models-attempt1-exit.json",
+      "bytes": 263,
+      "sha256": "eb4732bb0b700abaf93f06417e1a9ecae5358132a8e969d14dcf6a20f2cfe677",
+      "text": "{\n  \"controller_id\": \"ac0ff67d6d01430c82d713d6f086aa72\",\n  \"pid\": 2960286,\n  \"process_created\": 1793080314.81,\n  \"started_unix\": 1793080315.1036086,\n  \"child_pid\": 2960288,\n  \"child_created\": 1793080314.86,\n  \"exit_code\": 1,\n  \"finished_unix\": 1793080315.655082\n}"
+    },
+    {
+      "path": "evidence/models-attempt1-controller.log",
+      "bytes": 1115,
+      "sha256": "ddf379c16bab7c66fe4a8c1e79d881df674f4bdd9d991d19d20471b26975426f",
+      "text": "Traceback (most recent call last):\n  File \"/var/tmp/boyjiang-spaceserve-window-20261027-1300/scripts/run_models.py\", line 171, in <module>\n    main()\n  File \"/var/tmp/boyjiang-spaceserve-window-20261027-1300/scripts/run_models.py\", line 119, in main\n    with exclusive_models() as code:\n  File \"/usr/lib/python3.10/contextlib.py\", line 135, in __enter__\n    return next(self.gen)\n  File \"/var/tmp/boyjiang-spaceserve-window-20261027-1300/scripts/model_guard.py\", line 39, in exclusive_models\n    yield model_code()\n  File \"/var/tmp/boyjiang-spaceserve-window-20261027-1300/scripts/model_guard.py\", line 13, in model_code\n    approval=json.loads((ROOT/'evidence/G2_MODEL_CODE_APPROVED.json').read_text())\n  File \"/usr/lib/python3.10/pathlib.py\", line 1134, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n  File \"/usr/lib/python3.10/pathlib.py\", line 1119, in open\n    return self._accessor.open(self, mode, buffering, encoding, errors,\nFileNotFoundError: [Errno 2] No such file or directory: '/var/tmp/boyjiang-spaceserve-window-20261027-1300/evidence/G2_MODEL_CODE_APPROVED.json'\n"
+    },
+    {
+      "path": "evidence/model-attempt1-launcher-stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    }
+  ],
+  "model_result_exists": false,
+  "G2_MODEL_file_exists": false,
+  "owned": [],
+  "gpus": "GPU-79214c80-7778-37d9-282b-89228debbb69, 0, 0\n",
+  "compute": "",
+  "processes": {
+    "pid": {
+      "pid": 2960286,
+      "absent": true
+    },
+    "child_pid": {
+      "pid": 2960288,
+      "absent": true
+    }
+  }
+}

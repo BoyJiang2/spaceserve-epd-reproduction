@@ -1,0 +1,3 @@
+# Exact Git83 model deployment G2
+Reviewer /root/profile_instrument_review; independent read-only Claude quota fallback.
+APPROVE; BLOCKING0; NONBLOCKING0. Exact75 manifest d542d1acbf078ee2cebe466df732a6f1f0c618851931960a3597845eab49a138 and170consumer all bytes/SHA match. GIT_DEPLOYED e5052938...70ac matches61 fixed members and actual Git83edff6608fc9db33ea90c3d04ce091705ee643f blobs. Only fresh input and Gitproof differ from previous74.2564 input/prompt unchanged, historical receipts retained. Only preflight-models unique313 after zero-request failure, no third call/formal54. Fresh API/idle/input900sec mandatory at launch. Reviewer did not execute/deploy/network/GPU. Compact preservation of actual delivered review.
