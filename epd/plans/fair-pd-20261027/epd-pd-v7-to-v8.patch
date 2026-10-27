@@ -1,0 +1,106 @@
+diff --git a/cpu_target_runner.py b/cpu_target_runner.py
+--- a/cpu_target_runner.py
++++ b/cpu_target_runner.py
+@@ -303,7 +303,12 @@
+         resource.setrlimit(resource.RLIMIT_AS, (1073741824, 1073741824))
+         resource.setrlimit(resource.RLIMIT_CPU, (300, 300))
+     previous = {number: signal.getsignal(number) for number in (signal.SIGTERM, signal.SIGINT)}
++    starting, pending_signal, startup_attempted = True, None, False
+     def interrupted(number, frame):
++        nonlocal pending_signal
++        if starting:
++            pending_signal = pending_signal or number
++            return  # Popen may have forked but not yet returned its owned object.
+         for item in previous: signal.signal(item, signal.SIG_IGN)
+         raise ParentInterrupted(number)
+     process, identity, code, failure = None, None, 1, None
+@@ -315,6 +320,8 @@
+         if parent_nice != 10: raise ValueError("Parent nice10 not effective")
+         with (output / "raw-test.log").open("xb") as log:
+             if time.monotonic()-started >= 300: raise TimeoutError("Preflight consumed the CPU unit")
++            if pending_signal is not None: raise ParentInterrupted(pending_signal)
++            startup_attempted = True
+             process = subprocess.Popen(command,
+                 cwd=root, env=env, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT,
+                 start_new_session=True, preexec_fn=limits)
+@@ -324,6 +331,8 @@
+                 if child_nice != 10: raise ValueError("Actual child nice10 differs")
+             except FileNotFoundError:
+                 identity = None
++            starting = False
++            if pending_signal is not None: raise ParentInterrupted(pending_signal)
+             code = process.wait(timeout=max(0, 300-(time.monotonic()-started)))
+     except BaseException as error:
+         failure = {"type": type(error).__name__, "message": str(error), "signal": getattr(error, "number", None)}
+@@ -351,7 +360,7 @@
+         for relative in before:
+             try: after[relative] = sha(root/relative)
+             except Exception as error: after[relative] = "unreadable:"+type(error).__name__
+-        confirmed = all(item["state"] in ("gone", "exited", "already_exited") for item in cleanup)
++        confirmed = process is not None and bool(cleanup) and all(item["state"] in ("gone", "exited", "already_exited") for item in cleanup)
+         if not confirmed or before != after: code = 1
+         artifacts, terminal_errors = {}, []
+         try: artifact_paths = list(output.iterdir())
+@@ -370,6 +379,8 @@
+             "child_exit_code": getattr(process, "returncode", None),
+             "terminal_state": "completed" if failure is None and code == 0 else "stopped",
+             "failure": failure, "cleanup_confirmed": confirmed, "cleanup": cleanup,
++            "startup_attempted": startup_attempted, "child_object_obtained": process is not None,
++            "startup_signal_deferred": pending_signal,
+             "parent_nice": parent_nice, "child_nice": child_nice,
+             "parent_identity": parent, "command": command,
+             "duration_seconds": time.monotonic()-started, "source_before": before, "source_after": after,
+diff --git a/tests/test_cpu_target_runner.py b/tests/test_cpu_target_runner.py
+--- a/tests/test_cpu_target_runner.py
++++ b/tests/test_cpu_target_runner.py
+@@ -110,6 +110,10 @@
+     end=time.monotonic()+5
+     while not (case/"helper-ready.json").exists() and time.monotonic()<end:time.sleep(.01)
+     (case/"ready.json").write_text(json.dumps({"parent":r.process_identity(os.getpid()),"child":r.process_identity(process.pid),"run_id":kwargs["env"]["EPD_CPU_RUN_ID"]}))
++    if mode.endswith("_during_start"):
++        (case/"startup-window-open").write_text("forked; Popen wrapper has not returned")
++        deadline=time.monotonic()+5
++        while not (case/"resume-startup").exists() and time.monotonic()<deadline:time.sleep(.01)
+     if mode=="wait_error":
+         def fail(timeout=None):raise OSError("injected_wait_failure")
+         process.wait=fail
+@@ -130,15 +134,28 @@
+                 ready = json.loads(ready_path.read_bytes())
+                 if mode != "wait_error":
+                     self.assertEqual(runner.process_identity(parent.pid), parent_id)
+-                    os.kill(parent.pid, signal.SIGTERM if mode == "term" else signal.SIGINT)
++                    if mode.endswith("_during_start"):
++                        window = case / "startup-window-open"
++                        while not window.exists() and time.monotonic() < deadline: time.sleep(.01)
++                        self.assertTrue(window.exists(), "deterministic pre-return fork window missing")
++                    os.kill(parent.pid, signal.SIGTERM if mode.startswith("term") else signal.SIGINT)
++                    if mode.endswith("_during_start"):
++                        time.sleep(.05)
++                        self.assertIsNone(parent.poll(), "startup handler must defer rather than throw before Popen returns")
++                        self.assertEqual(runner.process_identity(ready["child"]["pid"]), ready["child"])
++                        (case / "resume-startup").write_text("return the Popen object and bind identity", encoding="utf-8")
+                 parent.wait(timeout=40)
+                 receipt = json.loads((ROOT / "runtime" / ready["run_id"] / "CPU-receipt.json").read_bytes())
+-                self.assertEqual(receipt["exit_code"], {"term":143,"int":130,"wait_error":1}[mode])
++                expected = 1 if mode == "wait_error" else 143 if mode.startswith("term") else 130
++                self.assertEqual(receipt["exit_code"], expected)
+                 self.assertTrue(receipt["cleanup_confirmed"])
+                 self.assertEqual(receipt["parent_nice"], 10)
+                 self.assertEqual(receipt["child_nice"], 10)
+                 self.assertEqual(receipt["commit"], "a"*40)
+                 self.assertTrue(receipt["command"])
++                if mode.endswith("_during_start"):
++                    self.assertTrue(receipt["child_object_obtained"])
++                    self.assertEqual(receipt["startup_signal_deferred"], signal.SIGTERM if mode.startswith("term") else signal.SIGINT)
+                 self.assertFalse(receipt["SIGKILL_parent_guarantee"])
+                 self.assertTrue(all(row["state"] in ("gone","exited","already_exited") for row in receipt["cleanup"]))
+             finally:
+@@ -150,6 +167,8 @@
+     def test_parent_term_always_cleans_owned_child_and_helper(self): self.lifecycle("term")
+     def test_parent_int_always_cleans_owned_child_and_helper(self): self.lifecycle("int")
+     def test_wait_exception_always_cleans_owned_child_and_helper(self): self.lifecycle("wait_error")
++    def test_term_after_fork_before_Popen_return_is_deferred_then_cleaned(self): self.lifecycle("term_during_start")
++    def test_int_after_fork_before_Popen_return_is_deferred_then_cleaned(self): self.lifecycle("int_during_start")
+ 
+ 
+ if __name__ == "__main__":

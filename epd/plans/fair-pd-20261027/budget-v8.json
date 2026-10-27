@@ -1,0 +1,82 @@
+{
+  "state": "v8_edit_only_UNEXECUTED_pending_independent_review",
+  "gpus": 3,
+  "numeric_model_requests": 0,
+  "numeric_transfers_max": 36,
+  "correctness_model_requests_max": 480,
+  "calibration_warmup_requests_max": 192,
+  "calibration_measure_requests_max": 768,
+  "first_stage_model_requests_max": 1440,
+  "first_stage_wallclock_minutes": {
+    "numeric": 30,
+    "qualification": 40,
+    "calibration": 180,
+    "selected_full_G3": 80,
+    "cleanup": 10,
+    "total": 340
+  },
+  "retry_model_requests_max": 0,
+  "small_formal_separate": {
+    "cells": 54,
+    "warmup": 1080,
+    "formal": 2700,
+    "minutes_per_complete_block": 175,
+    "blocks": 6,
+    "total_minutes": 1050
+  },
+  "full_formal_separate": {
+    "cells": 90,
+    "warmup": 1800,
+    "formal": 9000,
+    "minutes_per_complete_block": 265,
+    "blocks": 6,
+    "total_minutes": 1590
+  },
+  "qualification_model_requests_max": 120,
+  "selected_full_G3_model_requests_max": 360,
+  "execution_order": [
+    "numeric",
+    "eight_exact_candidate_qualification",
+    "independent_calibration",
+    "three_selected_exact_config_full_G3",
+    "independent_G3_review",
+    "separately_authorized_formal"
+  ],
+  "memory_policy": {
+    "unit": "bytes",
+    "capacity_fraction_max": 0.65,
+    "per_gpu_cap": "min(floor(0.65 * capacity_bytes), fresh_admission_free_bytes)",
+    "sample_target_seconds": 0.1,
+    "sample_max_gap_seconds": 1.0,
+    "raw_request_interval_required": true,
+    "raw_samples_and_process_registry_SHA_required": true
+  },
+  "calibration_rate_policy": {
+    "clock": "time.perf_counter on same client host/boot",
+    "window": "actual outer measurement gather start/end",
+    "requests": 16,
+    "score_source": "16 / (raw_measurement_end - raw_measurement_start)",
+    "raw_client_window_and_request_SHA_required": true,
+    "summary_relative_tolerance": 1e-09,
+    "summary_absolute_tolerance": 1e-12
+  },
+  "unit_wallclock_seconds": {
+    "numeric": 1800,
+    "each_qualification": 300,
+    "each_calibration": 225,
+    "each_selected_full_G3": 1600,
+    "cleanup_reserve": 600
+  },
+  "selected_G3_actual_claim_clock_tolerance_ms": 100,
+  "CPU_runner_separate_candidate": {
+    "host": "qjh001",
+    "cpu": 50,
+    "child_RLIMIT_AS_bytes": 1073741824,
+    "wall_seconds": 300,
+    "cleanup_seconds": 30,
+    "actual_handoff_and_CPU_booking": "not_verified_by_this_subagent",
+    "executed": false,
+    "nice": 10,
+    "terminal_cleanup": "single bounded finally for TERM/INT/normal/error; unknown identity refused; no SIGKILL-parent guarantee"
+  }
+}
