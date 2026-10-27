@@ -1,6 +1,6 @@
 # qjh000：EPD/PD v11 目标 CPU 验证
 
-**76 项测试全部通过，0 失败、0 错误、0 跳过。** 独立结果审查为 APPROVE_WITH_NITS/BLOCKING 0，唯一原件路径说明已补齐；本页为待发布 G5 的数据候选。本次没有启动 GPU 或模型，不构成公平 PD 性能、CUDA IPC 或模型 G3 通过。
+**76 项测试全部通过，0 失败、0 错误、0 跳过。** 独立结果审查为 APPROVE_WITH_NITS/BLOCKING 0，原件路径说明已补齐；实际数据及精确 commit G5 均已通过并发布。本次没有启动 GPU 或模型，不构成公平 PD 性能、CUDA IPC 或模型 G3 通过。
 
 | 测试模块 | 实际通过数 |
 |---|---:|
@@ -24,6 +24,8 @@ CPU50、nice10，Python3.10.12；每进程 RLIMIT_AS 为 1GiB、CPU 时间上限
 - [部署期间的传输与诊断失败记录](deployment-history.md)单列，未计成测试失败或模型失败，没有删除原件重试同一 CPU 单元。
 
 实际顶层回执由原始 claim 的 run ID 唯一选取；测试中的嵌套 mock 回执不作为实际执行证明。所有原始结果按真实字节保留。需要复核时，可根据 permit 各 descriptor 的相对路径和 SHA，核查该目录内审批、用户指令、预约/host、Git与源码链；原服务器绝对路径在数据中保留为来源记录。
+
+数据 commit 为 [`df103e0dc02672282238050d87305a481a31578e`](https://github.com/BoyJiang2/spaceserve-epd-reproduction/commit/df103e0dc02672282238050d87305a481a31578e)，实际运行源码仍为 `6ca496bb…`。[精确交付G5](reviews/exact-result-commit-G5.md)与[远端验收](remote-verification/remote-result-verified.json)分别保留。完整全树API两次下载超时后，改用实际 commit/根树、完整EPD子树及此前完整验收且根SHA未变的其他子树，按Git内容寻址覆盖全部7,292个blob；这是分段核验，不宣称全树GET成功。[原始根树](remote-verification/result-root-tree.json)、[EPD子树](remote-verification/result-epd-tree.json)、[先前完整树](remote-verification/parent-complete-tree.json)及两个失败响应一并保存。四Release/13资产、tag指向和public状态未变，未重复下载旧资产。
 
 ## 范围与下一步
 
