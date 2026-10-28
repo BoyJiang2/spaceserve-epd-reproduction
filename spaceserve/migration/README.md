@@ -1,3 +1,5 @@
+最新：Qwen原15文件已全部在qjh003落地，额外实际SHA与[独立完整性审查](asset-recovery/model-download/actual/model-file-bytes-audit.md)通过，16,594,373,187B；数据集/八小素材也已独立验字节。主要剩余准备是Space专用环境与框架source，[环境官方制品目录准备](asset-recovery/environment/README.md)单列；不称模型正确性/CPU_STAGED/GPU通过。
+
 最新：数据集和八份原pin素材已在qjh003实际落地并独立SHA审查通过；[小素材实际原件](asset-recovery/actual/space-small-bytes-audit.md)、[剩余固定权重准备](asset-recovery/model-download/README.md)分开。完整Space环境及Qwen权重仍缺，目标suite/GPU未通过，不以旧预检补新证据。
 
 最新CPU迁移：数据集已实际复制且独立SHA审查通过；[八份精确素材恢复](asset-recovery/README.md)仍待实际上传。完整Space环境、Qwen权重和新host GPU Gates尚未完成。

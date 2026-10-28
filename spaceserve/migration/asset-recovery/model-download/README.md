@@ -1,3 +1,5 @@
+实际更新：十个独立新获取单元各一次全exit0，无自动重试；随后额外实际重读15model＋原metadata共16实体，全SHA匹配，15model共16,594,373,187B。[独立实际结果审查](actual/model-file-bytes-audit.md)通过，[完整额外实际SHA和30原件索引](actual/model-final-capture-index.json)可核。原Windows失败/partial未动。下文“尚未执行”是旧准备历史；环境/模型加载/目标suite/GPU仍未通过。
+
 # Qwen 原固定权重的独立 CPU 获取准备
 
 原15文件的name/bytes/SHA/逐文件Revision与现行pins和已恢复原download_manifest一致；两manifest编码不同，不能称文件原字节相同，语义比对证据单列。已落地五小文件仅SHA复用；剩余十件16,592,698,781B建立新的qjh003获取单元，旧Windows curl43与1.632GB.partial保留，绝不续传或重标成功。
