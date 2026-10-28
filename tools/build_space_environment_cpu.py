@@ -17,7 +17,8 @@ import migrate_code_cpu as migration
 
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 RUNTIME='a3f03b9dd5956db92add454f9b3afd5663f84609'
-ACTIONS=tuple(f'{kind}-{part:02}' for kind in ('lock','install') for part in range(1,11))+('framework','verify')
+ACTIONS=tuple(f'install-{part:02}' for part in range(2,11))+('framework','verify')
+LOCK_TOOL='999d479ff855dd25d9eb50ee073a6421209ff7d9'
 INPUTS={'space-freeze.txt':'12cc7ae16e15cb32a58d197b10c139df7d715a8c3eeb4246b77eebe5d4814b0f',
         'prepare_space.py':'3775d95a2e1ed4deefb49c6db1d2efe8480e46aba553d349804347751eab721c',
         'apply_space_compat.py':'8718c981961ca4812e16b0bce2dcd36639c4bdf0e923ba178b9761a4a75fd2ed'}
@@ -66,7 +67,7 @@ def dependency_parts(raw):
 
 def controlled_environment(root):
     return {'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LC_ALL':'C.UTF-8',
-        'TMPDIR':str(root/'staging/env-build-batched/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
+        'TMPDIR':str(root/'staging/env-build-mirror/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
         'UV_CACHE_DIR':str(root/'assets/cache/uv'),'UV_NO_CONFIG':'1','UV_PYTHON_DOWNLOADS':'never',
         'UV_HTTP_TIMEOUT':'30','UV_HTTP_RETRIES':'2','UV_CONCURRENT_DOWNLOADS':'4',
         'UV_CONCURRENT_INSTALLS':'1','UV_CONCURRENT_BUILDS':'1','UV_NO_PROGRESS':'1',
@@ -77,7 +78,7 @@ def controlled_environment(root):
 def install_arguments(uv,python,lock):
     return [str(uv),'--no-config','--verbose','pip','install','--python',str(python),
             '--no-deps','--require-hashes','--only-binary',':all:','--link-mode','copy',
-            '--index-url','https://pypi.org/simple','-r',str(lock)]
+            '--index-url','https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple','-r',str(lock)]
 
 
 def run(data):
@@ -92,7 +93,7 @@ def run(data):
     check();migration.validate_executor()
     if (sys.version_info[:3]!=(3,10,12) or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT):
         raise ValueError('Exact system Python/boot required')
-    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-batched'
+    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-mirror';locks_root=root/'staging/env-build-batched'
     for path in (assets,repo/'.git',evidence):migration.real_ancestry(path)
     if (repo/'.git/HEAD').is_symlink() or (repo/'.git/HEAD').read_text().strip()!=RUNTIME:
         raise ValueError('Frozen runtime differs')
@@ -109,7 +110,7 @@ def run(data):
     first=action==ACTIONS[0]
     if first:
         if evidence.exists():raise ValueError('Existing batch preparation/partial; inspect without retry')
-        prior_root=root/'staging/env-build-git-recovery';previous='bootstrap'
+        prior_root=locks_root;previous='install-01'
     else:
         prior_root=evidence;previous=ACTIONS[ACTIONS.index(action)-1]
     def prior_success(folder,name):
@@ -119,10 +120,20 @@ def run(data):
                 or prior['host']!='qjh003' or prior['uid']!=2147 or prior['input_sha256s']!=INPUTS
                 or migration.sha(folder/(name+'.log'))!=prior['log_sha256']):
             raise ValueError('Previous actual action has not succeeded with the same inputs')
-        if folder==evidence and prior['tool_commit']!=data['tool_commit']:raise ValueError('Batch tool commit changed')
+        expected_tool=data['tool_commit'] if folder==evidence else LOCK_TOOL
+        if prior['tool_commit']!=expected_tool:raise ValueError('Actual action tool commit changed')
         return prior
     prior_success(prior_root,previous)
-    if first:evidence.mkdir(mode=0o700)
+    if first:
+        failed=json.loads((locks_root/'install-02.terminal.json').read_bytes())
+        if (failed['action']!='install-02' or failed['state']!='FAILED_PARTIAL_PRESERVED'
+                or failed['failure']!="TimeoutError('CPU environment action interrupted')"
+                or failed['tool_commit']!=LOCK_TOOL or failed['runtime_commit']!=RUNTIME
+                or failed['boot_id']!=BOOT or failed['host']!='qjh003' or failed['uid']!=2147
+                or failed['input_sha256s']!=INPUTS
+                or migration.sha(locks_root/'install-02.log')!=failed['log_sha256']):
+            raise ValueError('Exact known failed install02 evidence required')
+        evidence.mkdir(mode=0o700)
     claim={'action':action,'tool_commit':data['tool_commit'],'runtime_commit':RUNTIME,'input_sha256s':INPUTS,
            'host':socket.gethostname(),'uid':os.getuid(),'boot_id':BOOT,'booking':proof,
            'pid':os.getpid(),'start_ticks':Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],
@@ -153,32 +164,27 @@ def run(data):
                 raise ValueError('Actual successful bootstrap system interpreter required')
             if first:
                 site=assets/'envs/space/lib/python3.10/site-packages'
-                if list(importlib.metadata.distributions(path=[str(site)])):
-                    raise ValueError('Unseeded bootstrap environment is no longer empty')
+                installed={re.sub('[-_.]+','-',d.metadata['Name']).lower():d.version
+                           for d in importlib.metadata.distributions(path=[str(site)])}
+                if installed!=versions(parts[0].decode()):raise ValueError('Actual first16 bootstrap-installed versions changed')
                 (evidence/'tmp').mkdir(mode=0o700)
-                manifest=[]
-                for number,raw in enumerate(parts,1):
-                    part=evidence/f'part-{number:02}.txt'
-                    with part.open('xb') as target:target.write(raw)
-                    manifest.append({'part':number,'sha256':migration.sha(part),'versions':versions(raw.decode())})
-                save('parts.json',manifest)
+                save('failed-install02-reference.json',{'terminal_sha256':migration.sha(locks_root/'install-02.terminal.json'),
+                    'log_sha256':migration.sha(locks_root/'install-02.log'),'actual_installed_versions':installed})
+            lock_receipts={}
             for number,raw in enumerate(parts,1):
-                path=evidence/f'part-{number:02}.txt'
+                path=locks_root/f'part-{number:02}.txt';lock=locks_root/f'part-{number:02}.lock'
                 if path.is_symlink() or path.read_bytes()!=raw:raise ValueError('Original fixed batch changed')
-            if action.startswith(('lock-','install-')):
+                prior=prior_success(locks_root,f'lock-{number:02}')
+                if lock.is_symlink() or migration.sha(lock)!=prior['details']['lock_sha256']:
+                    raise ValueError('Actual original successful batch lock differs')
+                verify_lock(lock.read_text(),versions(raw.decode()));lock_receipts[number]=prior['details']['lock_sha256']
+            if first:save('original-lock-references.json',lock_receipts)
+            if action.startswith('install-'):
                 number=int(action.split('-')[1]);subset=versions(parts[number-1].decode())
-                lock=evidence/f'part-{number:02}.lock'
-                if action.startswith('lock-'):
-                    if os.path.lexists(lock):raise ValueError('Existing batch lock output refused')
-                    command([str(uv),'--no-config','--verbose','pip','compile',str(evidence/f'part-{number:02}.txt'),
-                        '--no-deps','--generate-hashes','--only-binary',':all:','--python','/usr/bin/python3',
-                        '--index-url','https://pypi.org/simple','--output-file',str(lock)])
-                    details.update(locked_packages=len(verify_lock(lock.read_text(),subset)),lock_sha256=migration.sha(lock))
-                else:
-                    prior=prior_success(evidence,f'lock-{number:02}')
-                    if lock.is_symlink() or migration.sha(lock)!=prior['details']['lock_sha256']:raise ValueError('Actual successful batch lock differs')
-                    verify_lock(lock.read_text(),subset);command(install_arguments(uv,python,lock))
-                    details.update(installed_packages=len(subset),lock_sha256=migration.sha(lock))
+                lock=locks_root/f'part-{number:02}.lock'
+                command(install_arguments(uv,python,lock))
+                details.update(installed_packages=len(subset),lock_sha256=lock_receipts[number],
+                    index_url='https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple')
             elif action=='framework':
                 for batch in ACTIONS[:-2]:prior_success(evidence,batch)
                 src=assets/'src';migration.real_ancestry(src);src.mkdir(mode=0o700,exist_ok=True)

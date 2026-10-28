@@ -1,0 +1,3 @@
+handoff_cpu_review reviewed_at_utc 2026-10-28T17:50:20Z APPROVE BLOCKING0。批准仅一次mirror install02恢复及首次install03..10/framework/verify，共11CPU单元2640工作3960含收口，不扩09预约。恢复绑定旧install01实际成功、install02失败/logSHA、现场首16metadata、十原锁999及154闭包。只临时TUNA HTTPS index https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple，原require-hashes/no-deps/wheel-only不变，不extra-index/trusted-host/TLS例外/缺失pin降级或自动回退；原source/claims/缓存/partial保留，不bootstrap或compile。新env-build-mirror排他，同新toolcommit，每unitfresh API300/240+120/CPU50nice10/END120，首失败停。最后154metadata/pipcheck/2582pins不能省，成功仅ASSETS_MATERIALIZED非CPU/GPU Gate。新G2/mock/G5/push/三端尚需。仅设计审查，未运行。
+
+临时源依据：[TUNA 官方使用说明](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)，官方提供该HTTPS index；不修改全局配置。更换来源未被预先认定解决超时的因果证据。

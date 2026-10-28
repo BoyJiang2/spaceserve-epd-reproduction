@@ -38,7 +38,8 @@ class BuildTests(unittest.TestCase):
         argv=build.install_arguments('/project/uv','/project/env/bin/python','/project/lock')
         for option in ('--no-deps','--require-hashes','--only-binary','--no-config'):self.assertIn(option,argv)
         self.assertEqual(argv[argv.index('--python')+1],'/project/env/bin/python')
-        self.assertEqual(argv[argv.index('--index-url')+1],'https://pypi.org/simple')
+        self.assertEqual(argv[argv.index('--index-url')+1],'https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple')
+        for option in ('--extra-index-url','--trusted-host','--allow-insecure-host'):self.assertNotIn(option,argv)
         self.assertNotIn('--no-verify-hashes',argv);self.assertNotIn('--torch-backend',argv)
 
     def test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection(self):
