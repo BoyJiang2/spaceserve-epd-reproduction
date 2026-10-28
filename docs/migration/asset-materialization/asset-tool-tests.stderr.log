@@ -1,0 +1,36 @@
+test_byte_budget_and_deadline_fail_before_copy (test_materialize_assets_cpu.AssetTests.test_byte_budget_and_deadline_fail_before_copy) ... ok
+test_changed_source_is_rejected_and_partial_is_preserved (test_materialize_assets_cpu.AssetTests.test_changed_source_is_rejected_and_partial_is_preserved) ... ok
+test_complete_members_copy_and_source_bytes_remain_equal (test_materialize_assets_cpu.AssetTests.test_complete_members_copy_and_source_bytes_remain_equal) ... ERROR
+test_existing_target_is_never_overwritten (test_materialize_assets_cpu.AssetTests.test_existing_target_is_never_overwritten) ... ok
+test_external_links_and_foreign_owner_are_rejected (test_materialize_assets_cpu.AssetTests.test_external_links_and_foreign_owner_are_rejected) ... ok
+test_linked_staging_rejected_before_any_evidence_write (test_materialize_assets_cpu.AssetTests.test_linked_staging_rejected_before_any_evidence_write) ... ok
+test_own_process_permission_error_rejected_but_exit_is_allowed (test_materialize_assets_cpu.AssetTests.test_own_process_permission_error_rejected_but_exit_is_allowed) ... ok
+
+======================================================================
+ERROR: test_complete_members_copy_and_source_bytes_remain_equal (test_materialize_assets_cpu.AssetTests.test_complete_members_copy_and_source_bytes_remain_equal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_materialize_assets_cpu.py", line 34, in test_complete_members_copy_and_source_bytes_remain_equal
+    self.assertEqual(before,self.scan(target));self.assertEqual(before,self.scan(self.source))
+                            ~~~~~~~~~^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_materialize_assets_cpu.py", line 29, in scan
+    def scan(self,path):return assets.inventory(path,lambda:None)
+                               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\materialize_assets_cpu.py", line 63, in inventory
+    visit(root,'.')
+    ~~~~~^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\materialize_assets_cpu.py", line 49, in visit
+    for child in sorted(path.iterdir()):visit(child,child.name if relative=='.' else relative+'/'+child.name)
+                                        ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\materialize_assets_cpu.py", line 49, in visit
+    for child in sorted(path.iterdir()):visit(child,child.name if relative=='.' else relative+'/'+child.name)
+                                        ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\materialize_assets_cpu.py", line 57, in visit
+    if fingerprint(os.fstat(stream.fileno()))!=fingerprint(before):raise ValueError('Source changed before read')
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Source changed before read
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.079s
+
+FAILED (errors=1)

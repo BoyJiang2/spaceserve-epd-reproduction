@@ -1,3 +1,11 @@
+# 实际迁移状态（2026-10-28 22:14）
+
+qjh003两个固定repo在21:21实际部署a3f03b9dd5956db92add454f9b3afd5663f84609；[独立代码部署审查](asset-materialization/deployment-audit.md)已通过。Space98/EPD78实际检出文件覆盖原G2源85/62，Git clean、完整fsck及六原件下载SHA通过。此结论仅代码完整性，不是环境或GPU G3。
+
+[后续原始资产物化](asset-materialization/README.md)已有本地软件测试，实际远端复制仍待准入执行；环境兼容、目标套件及GPU0。新目录是/local/boyjiang/spaceserve与/local/boyjiang/epd，旧源保护。下文是此前准备阶段记录，不能当作当前尚未部署或需要重新部署的指令。
+
+---
+
 # 两项目代码迁移的共同CPU准备
 
 SpaceServe固定源码已发布07358c8，EPD固定源码已发布aae5c8b；两者分别通过本地G2和代码发布G5。**目标部署尚未执行；本次Space/EPD套件未执行，资产未迁移、新GPU请求0。** 源码README内“尚待G2”是受审快照中的较早措辞，实际代码审查已通过，不能因此改写该历史快照SHA。
