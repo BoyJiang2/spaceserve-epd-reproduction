@@ -1,3 +1,5 @@
+当前补充：原始资产data首次执行因系统PAM服务cwd不可读在写前停止；[窄恢复及原始证据](pam-recovery/README.md)单独保存。尚无资产复制成功，环境/模型未启动，未运行GPU。
+
 # 实际迁移状态（2026-10-28 22:14）
 
 qjh003两个固定repo在21:21实际部署a3f03b9dd5956db92add454f9b3afd5663f84609；[独立代码部署审查](asset-materialization/deployment-audit.md)已通过。Space98/EPD78实际检出文件覆盖原G2源85/62，Git clean、完整fsck及六原件下载SHA通过。此结论仅代码完整性，不是环境或GPU G3。

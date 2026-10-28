@@ -26,6 +26,13 @@ COMPONENTS={
 LINKS={'lib64':'lib','bin/python':'/usr/bin/python3','bin/python3':'python','bin/python3.10':'python'}
 LIMIT=30*1024**3
 OWNER=2147
+PAM_SNAPSHOT={'boot_id':BOOT,'processes':[
+    {'pid':2565253,'uid':2147,'comm':'systemd','ppid':1,'start_ticks':12603390,
+     'cmdline_sha256':'8e5650cd3e49f78d40815491e0e012c21acac998215dd4338c62ac0eaed3bec0',
+     'cgroup':'0::/user.slice/user-2147.slice/user@2147.service/init.scope\n','exe':'/usr/lib/systemd/systemd'},
+    {'pid':2565254,'uid':2147,'comm':'(sd-pam)','ppid':2565253,'start_ticks':12603391,
+     'cmdline_sha256':'971490059d839d27af3ded30a476216b92689d837b0236a700723fb13640e370',
+     'cgroup':'0::/user.slice/user-2147.slice/user@2147.service/init.scope\n'}]}
 
 
 def fingerprint(info):
@@ -85,9 +92,30 @@ def copy_members(source,target,rows,check):
             if copied!=row['bytes'] or value.hexdigest()!=row['sha256']:raise ValueError('Copied source changed')
 
 
+def pam_snapshot(proc):
+    rows=[]
+    for pid in (2565253,2565254):
+        folder=proc/str(pid);fields=(folder/'stat').read_text().rsplit(')',1)[1].split()
+        row={'pid':pid,'uid':folder.stat().st_uid,'comm':(folder/'comm').read_text().strip(),
+             'ppid':int(fields[1]),'start_ticks':int(fields[19]),
+             'cmdline_sha256':hashlib.sha256((folder/'cmdline').read_bytes()).hexdigest(),
+             'cgroup':(folder/'cgroup').read_text()}
+        if pid==2565253:row['exe']=os.readlink(folder/'exe')
+        rows.append(row)
+    return {'boot_id':(proc/'sys/kernel/random/boot_id').read_text().strip(),'processes':rows}
+
+
+def pam_exception(proc,pid):
+    if pid!=2565254:return None
+    before=pam_snapshot(proc)
+    if before!=PAM_SNAPSHOT or pam_snapshot(proc)!=before:raise ValueError('PAM service identity changed')
+    return {'snapshot':before,'sha256':hashlib.sha256(json.dumps(before,sort_keys=True).encode()).hexdigest()}
+
+
 def guard_processes(proc=Path('/proc')):
     """A cwd guard only, not an audit of every process FD or source reference."""
     roots=(LEGACY,migration.PARENT/'spaceserve',migration.PARENT/'epd')
+    exceptions=[]
     for folder in proc.iterdir():
         if not folder.name.isdigit():continue
         try:
@@ -97,7 +125,11 @@ def guard_processes(proc=Path('/proc')):
             cwd=(folder/'cwd').resolve(strict=True)
             if any(cwd.is_relative_to(root) for root in roots):raise ValueError('Project cwd active')
         except (FileNotFoundError,ProcessLookupError):continue
-        except PermissionError:raise ValueError('Own process cwd cannot be verified')
+        except PermissionError:
+            match=pam_exception(proc,int(folder.name))
+            if match is None:raise ValueError('Own process cwd cannot be verified')
+            exceptions.append(match)
+    return exceptions
 
 
 def create_evidence(path,git_log):
@@ -137,7 +169,7 @@ def run(args):
         source=LEGACY/member;target=migration.PARENT/project/'assets'/relative
         migration.real_ancestry(source.parent);migration.real_ancestry(target.parent)
         if not source.exists() or source.is_symlink() or os.path.lexists(target):raise ValueError('Missing source or existing target')
-    guard_processes()
+    process_exceptions=guard_processes()
     evidence=migration.PARENT/'epd/staging'/('asset-'+args.unit)
     create_evidence(evidence,git_log.getvalue())
     def save(name,value):
@@ -146,7 +178,8 @@ def run(args):
     identity={'unit':args.unit,'runtime_commit':RUNTIME_COMMIT,'tool_commit':args.tool_commit,
               'pid':os.getpid(),'start_ticks':Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],
               'host':socket.gethostname(),'uid':os.getuid(),'boot_id':BOOT,'booking':proof,
-              'started_ms':int(time.time()*1000),'GPU_queries':0,'package_imports':0}
+              'started_ms':int(time.time()*1000),'GPU_queries':0,'package_imports':0,
+              'process_guard_exceptions':process_exceptions}
     save('claim.json',identity)
     previous=signal.getsignal(signal.SIGALRM)
     def interrupted(number,frame):raise TimeoutError('Asset unit interrupted: '+str(number))

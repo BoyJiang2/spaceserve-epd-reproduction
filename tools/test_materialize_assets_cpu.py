@@ -1,5 +1,6 @@
 """Small CPU-only file-copy contracts; no Linux executor or remote calls."""
 import os
+import copy
 from pathlib import Path
 import stat
 import sys
@@ -84,6 +85,41 @@ class AssetTests(unittest.TestCase):
         with self.assertRaises(ValueError):assets.guard_processes(proc)
         process.error=FileNotFoundError('CPU-MOCK process exited')
         assets.guard_processes(proc)
+
+    def test_pam_exception_requires_every_identity_field_and_two_equal_reads(self):
+        frozen=copy.deepcopy(assets.PAM_SNAPSHOT)
+        with patch.object(assets,'pam_snapshot',side_effect=[frozen,copy.deepcopy(frozen)]):
+            self.assertEqual(assets.pam_exception(None,2565254)['snapshot'],frozen)
+        for key in frozen:
+            changed=copy.deepcopy(frozen);changed[key]='CHANGED'
+            with patch.object(assets,'pam_snapshot',return_value=changed):
+                with self.assertRaises(ValueError):assets.pam_exception(None,2565254)
+        for index,row in enumerate(frozen['processes']):
+            for key in row:
+                changed=copy.deepcopy(frozen);changed['processes'][index][key]='CHANGED'
+                with patch.object(assets,'pam_snapshot',return_value=changed):
+                    with self.assertRaises(ValueError):assets.pam_exception(None,2565254)
+        changed=copy.deepcopy(frozen);changed['processes'][0]['start_ticks']+=1
+        with patch.object(assets,'pam_snapshot',side_effect=[frozen,changed]):
+            with self.assertRaises(ValueError):assets.pam_exception(None,2565254)
+        with patch.object(assets,'pam_snapshot',side_effect=AssertionError('Must not inspect unrelated PID')):
+            self.assertIsNone(assets.pam_exception(None,123))
+
+    def test_pam_permission_exception_is_recorded_but_readable_project_cwd_is_rejected(self):
+        class Process:
+            name='2565254';error=None
+            def stat(self):return SimpleNamespace(st_uid=2147)
+            def __truediv__(self,name):return self
+            def resolve(self,strict=True):
+                if self.error:raise self.error
+                return assets.LEGACY
+        process=Process();proc=SimpleNamespace(iterdir=lambda:[process]);match={'snapshot':'CPU-MOCK','sha256':'fixture'}
+        process.error=PermissionError('CPU-MOCK PAM cwd')
+        with patch.object(assets,'pam_exception',return_value=match):
+            self.assertEqual(assets.guard_processes(proc),[match])
+        process.error=None
+        with patch.object(assets,'pam_exception',side_effect=AssertionError('Readable cwd cannot be exempted')):
+            with self.assertRaisesRegex(ValueError,'Project cwd active'):assets.guard_processes(proc)
 
 
 if __name__=='__main__':unittest.main(verbosity=2)
