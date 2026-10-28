@@ -9,10 +9,10 @@ raw=sys.stdin.buffer.read(100001)
 if len(raw)>100000:raise ValueError('100000-byte CPU recipe budget exceeded')
 data=json.loads(raw)
 if set(data)!={'action','tool_commit','runtime_commit','booking','inputs','modules','source_archives_base64'}:raise ValueError('Unexpected payload fields')
-if data['action'] not in ('framework','verify'):raise ValueError('Unknown environment action')
+if data['action'] not in ('restore-hooks','verify'):raise ValueError('Unknown environment action')
 if data['runtime_commit']!='a3f03b9dd5956db92add454f9b3afd5663f84609':raise ValueError('Unexpected frozen runtime')
 expected=[('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),
-          ('build_space_environment_cpu','707773868437472eb0f79e8fa86b32002a6ce535b5ed07753bbd8bf171953e16')]
+          ('build_space_environment_cpu','d730cbcb94491d496aa447cce038432b6bf15283fd2fce287d8cf977040fe8db')]
 modules=data.pop('modules')
 if len(modules)!=2:raise ValueError('Exact two approved modules required')
 sources=[]

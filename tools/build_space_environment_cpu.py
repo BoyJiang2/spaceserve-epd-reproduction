@@ -21,9 +21,9 @@ import migrate_code_cpu as migration
 
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 RUNTIME='a3f03b9dd5956db92add454f9b3afd5663f84609'
-ACTIONS=('framework','verify')
+ACTIONS=('restore-hooks','verify')
 MIRROR_TOOL='ac30bfb7255a49738ca1450c92799b803c983208'
-SOURCE_TRANSFER_TOOL='6822451dcc449d051f579e2218753a64d7e9529a'
+SOURCE_TRANSFER_TOOL='97a08edc8136909192a6b821cf832a313d108a91'
 SOURCE_ARCHIVES_SHA='7f2c0ef2769f1f3dfdbb8c8a5d4d5e833a5655e5f625e983353e6262f5080a43'
 PARTIAL_GIT_SHA='68719988769a6fe6f6f7f57ba9d0ff3d07f32032ae61c7712b701e08ec5b9922'
 LOCK_TOOL='999d479ff855dd25d9eb50ee073a6421209ff7d9'
@@ -122,7 +122,7 @@ def partial_git_inventory(path):
 
 def controlled_environment(root):
     return {'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LC_ALL':'C.UTF-8',
-        'TMPDIR':str(root/'staging/env-build-source-io/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
+        'TMPDIR':str(root/'staging/env-build-hooks/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
         'UV_CACHE_DIR':str(root/'assets/cache/uv'),'UV_NO_CONFIG':'1','UV_PYTHON_DOWNLOADS':'never',
         'UV_HTTP_TIMEOUT':'30','UV_HTTP_RETRIES':'2','UV_CONCURRENT_DOWNLOADS':'4',
         'UV_CONCURRENT_INSTALLS':'1','UV_CONCURRENT_BUILDS':'1','UV_NO_PROGRESS':'1',
@@ -149,7 +149,7 @@ def run(data):
     check();migration.validate_executor()
     if (sys.version_info[:3]!=(3,10,12) or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT):
         raise ValueError('Exact system Python/boot required')
-    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-source-io';source_previous=root/'staging/env-build-source-transfer';locks_root=root/'staging/env-build-batched';mirror=root/'staging/env-build-mirror'
+    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-hooks';source_previous=root/'staging/env-build-source-io';locks_root=root/'staging/env-build-batched';mirror=root/'staging/env-build-mirror'
     for path in (assets,repo/'.git',evidence):migration.real_ancestry(path)
     if (repo/'.git/HEAD').is_symlink() or (repo/'.git/HEAD').read_text().strip()!=RUNTIME:
         raise ValueError('Frozen runtime differs')
@@ -166,7 +166,7 @@ def run(data):
     first=action==ACTIONS[0]
     if first:
         if evidence.exists():raise ValueError('Existing batch preparation/partial; inspect without retry')
-        prior_root=mirror;previous='install-10'
+        prior_root=source_previous;previous='framework'
     else:
         prior_root=evidence;previous=ACTIONS[ACTIONS.index(action)-1]
     def prior_success(folder,name):
@@ -176,18 +176,18 @@ def run(data):
                 or prior['host']!='qjh003' or prior['uid']!=2147 or prior['input_sha256s']!=INPUTS
                 or migration.sha(folder/(name+'.log'))!=prior['log_sha256']):
             raise ValueError('Previous actual action has not succeeded with the same inputs')
-        expected_tool=data['tool_commit'] if folder==evidence else (MIRROR_TOOL if folder==mirror else LOCK_TOOL)
+        expected_tool=data['tool_commit'] if folder==evidence else (SOURCE_TRANSFER_TOOL if folder==source_previous else MIRROR_TOOL if folder==mirror else LOCK_TOOL)
         if prior['tool_commit']!=expected_tool:raise ValueError('Actual action tool commit changed')
         return prior
     prior_success(prior_root,previous)
     if first:
-        failed=json.loads((source_previous/'framework.terminal.json').read_bytes())
-        if (failed['action']!='framework' or failed['state']!='FAILED_PARTIAL_PRESERVED'
-                or failed['failure']!="ValueError('write to closed file')"
+        failed=json.loads((source_previous/'verify.terminal.json').read_bytes())
+        if (failed['action']!='verify' or failed['state']!='FAILED_PARTIAL_PRESERVED'
+                or failed['failure']!="ValueError('Original protected bytes/links differ; do not rewrite pins')"
                 or failed['tool_commit']!=SOURCE_TRANSFER_TOOL or failed['runtime_commit']!=RUNTIME
                 or failed['boot_id']!=BOOT or failed['host']!='qjh003' or failed['uid']!=2147
                 or failed['input_sha256s']!=INPUTS
-                or migration.sha(source_previous/'framework.log')!=failed['log_sha256']):
+                or migration.sha(source_previous/'verify.log')!=failed['log_sha256']):
             raise ValueError('Exact known failed framework evidence required')
         evidence.mkdir(mode=0o700)
     claim={'action':action,'tool_commit':data['tool_commit'],'runtime_commit':RUNTIME,'input_sha256s':INPUTS,
@@ -225,8 +225,8 @@ def run(data):
                            for d in importlib.metadata.distributions(path=[str(site)])}
                 if installed!=expected:raise ValueError('Actual154 installed versions changed')
                 (evidence/'tmp').mkdir(mode=0o700)
-                save('failed-framework-reference.json',{'terminal_sha256':migration.sha(source_previous/'framework.terminal.json'),
-                    'log_sha256':migration.sha(source_previous/'framework.log'),'actual_installed_versions':installed})
+                save('failed-framework-reference.json',{'terminal_sha256':migration.sha(source_previous/'verify.terminal.json'),
+                    'log_sha256':migration.sha(source_previous/'verify.log'),'actual_installed_versions':installed})
             lock_receipts={}
             for number,raw in enumerate(parts,1):
                 path=locks_root/f'part-{number:02}.txt';lock=locks_root/f'part-{number:02}.lock'
@@ -240,71 +240,34 @@ def run(data):
             if hashlib.sha256(archive_raw).hexdigest()!=SOURCE_ARCHIVES_SHA:raise ValueError('Approved source archive manifest differs')
             archives=json.loads(archive_raw)
             if [(row['name'],row['url'],row['commit']) for row in archives]!=list(UPSTREAM):raise ValueError('Official source identities differ')
-            if action=='framework':
-                for number in range(2,11):prior_success(mirror,f'install-{number:02}')
-                for pid in (3523931,3430795,3430819,3430820):
-                    if Path(f'/proc/{pid}').exists():raise ValueError('Original process PID exists; refuse recovery')
-                for folder in Path('/proc').iterdir():
-                    if not folder.name.isdigit():continue
-                    try:
-                        if folder.stat().st_uid!=2147 or not (folder/'comm').read_text().startswith('git'):continue
-                        cwd=(folder/'cwd').resolve(strict=True)
-                        if cwd.is_relative_to(root):raise ValueError('Active project Git process')
-                    except (FileNotFoundError,ProcessLookupError):continue
-                for row in archives:
-                    name,url,commit=row['name'],row['url'],row['commit'];target=assets/'src'/name
-                    archive_path=root/'staging'/row['archive_name']
-                    if archive_path.is_symlink() or not archive_path.is_file() or archive_path.stat().st_uid!=2147:
-                        raise ValueError('Owned regular transferred archive required')
-                    contents=validate_git_archive(archive_path,row)
-                    gitdir=target/'.git'
-                    if name=='SpaceServe':
-                        migration.real_ancestry(gitdir)
-                        if sorted(f.name for f in target.iterdir())!=['.git']:raise ValueError('Restored worktree is not empty')
-                        expected_hashes={name:hashlib.sha256(raw).hexdigest() for name,raw in contents.items()}
-                        expected_hashes['config']=hashlib.sha256(git_configuration(url)).hexdigest()
-                        entries=list(gitdir.rglob('*'))
-                        if any(path.is_symlink() or path.stat().st_uid!=2147 for path in entries):raise ValueError('Unknown restored metadata owner/link')
-                        actual={path.relative_to(gitdir).as_posix():migration.sha(path) for path in entries if path.is_file()}
-                        if actual!=expected_hashes:raise ValueError('Exact previously restored metadata required')
-                        backup=source_previous/'failed-SpaceServe.git';migration.real_ancestry(backup)
-                        before=partial_git_inventory(backup)
-                        if hashlib.sha256(json.dumps(before,sort_keys=True,separators=(',',':')).encode()).hexdigest()!=PARTIAL_GIT_SHA:
-                            raise ValueError('Original failed Git archive changed')
-                        save('existing-SpaceServe-metadata.json',{'members':actual,'original_backup_sha256':PARTIAL_GIT_SHA})
-                    else:
-                        migration.real_ancestry(target)
-                        if os.path.lexists(target):raise ValueError('Existing mysmctrl source refused')
-                        target.mkdir(mode=0o700);gitdir.mkdir(mode=0o700)
-                        for relative,raw in contents.items():
-                            path=gitdir/relative;migration.real_ancestry(path.parent);path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
-                            with path.open('xb') as writer:writer.write(raw);writer.flush();os.fsync(writer.fileno())
-                        if any(migration.sha(gitdir/name)!=hashlib.sha256(raw).hexdigest() for name,raw in contents.items()):
-                            raise ValueError('Restored Git metadata differs')
-                        (gitdir/'config').write_bytes(git_configuration(url))
-                    original=hashlib.sha256(contents['config']).hexdigest()
-                    command(['git','-c','core.hooksPath=/dev/null','-C',str(target),'fsck','--full'])
-                    command(['git','-c','core.hooksPath=/dev/null','-c','core.autocrlf=false','-C',str(target),'checkout','--detach',commit])
-                    if command(['git','-C',str(target),'rev-parse','HEAD']).decode().strip()!=commit:raise ValueError('Materialized official HEAD differs')
-                    if command(['git','-C',str(target),'rev-parse','HEAD^{tree}']).decode().strip()!=row['tree']:raise ValueError('Official tree differs')
-                    save('source-'+name+'-restored.json',{'commit':commit,'tree':row['tree'],'archive_sha256':row['archive_sha256'],
-                        'original_config_sha256':original,'sanitized_config_sha256':migration.sha(gitdir/'config'),'full_history':False})
-                # System Python -S reads the new wheel metadata without executing installed .pth files.
+            if action=='restore-hooks':
+                before={
+                    'envs/space/lib/python3.10/site-packages/vllm/v1/worker/gpu_worker.py':'41232620036691ced8c0f06982c87a2fff7d7b24fa7e159ab1ba7a1834b63b96',
+                    'src/SpaceServe/vllm/v1/worker/gpu_worker.py':'975d48631b1298966b5f64db479038c3070e3673c632d5a5e4802f546870f569',
+                    'src/SpaceServe/vllm/v1/engine/core.py':'6737019b2f74dbbc349fd852287f48dd774c56d2eb575db3d42e6f97667fd456'}
+                pins={r['path']:r for r in json.loads((repo/'spaceserve/runtime/configs/asset-content-pins.json').read_bytes())}
+                for number,(name,digest) in enumerate(before.items()):
+                    path=assets/name;migration.real_ancestry(path.parent)
+                    if path.is_symlink() or path.stat().st_uid!=2147 or migration.sha(path)!=digest:raise ValueError('Exact pre-hook file required')
+                    with (evidence/f'hook-{number}.before.py').open('xb') as writer:writer.write(path.read_bytes())
+                recipes={'install_device_record.py':'29f8e6d5a5894a14de6f83dd613cb76bcee22593fef24d15f6115ce8a20ab5b4',
+                         'install_service_probe.py':'871730504cc3247291143236f601b7bd5ae6b6996439c3a5d473dd7c82998e04'}
                 prefix=('import importlib.metadata,pathlib,sys\n'
                     'site=pathlib.Path(sys.argv[1])/"envs/space/lib/python3.10/site-packages"\n'
                     'def metadata_only(name):\n'
                     ' return next(d for d in importlib.metadata.distributions(path=[str(site)]) if d.metadata["Name"].lower()==name.lower())\n'
                     'importlib.metadata.distribution=metadata_only\n')
-                for name in ('prepare_space.py','apply_space_compat.py'):
-                    command(['/usr/bin/python3','-I','-S','-B','-c',prefix+inputs[name].decode(),str(assets)])
-                pins=json.loads((repo/'spaceserve/runtime/configs/asset-content-pins.json').read_bytes())
-                for row in (r for r in pins if 'link' in r):
-                    path=assets/row['path'];expected_target=assets/row['target_member']
-                    if not path.is_symlink() or path.resolve()!=expected_target.resolve():raise ValueError('Unexpected native extension link')
-                    path.unlink();path.symlink_to(row['link'])
-                target=assets/'src/mysmctrl/libsmctrl.so'
-                if os.path.lexists(target):raise ValueError('Existing upstream library refused')
-                with (assets/'build/libsmctrl.so').open('rb') as reader,target.open('xb') as writer:shutil.copyfileobj(reader,writer)
+                guard=b"'/var/tmp/boyjiang-spaceserve-epd-qjh000-20261023'"
+                for name,digest in recipes.items():
+                    raw=command(['git','-C',str(repo),'show',RUNTIME+':spaceserve/code/h20/used-scripts/'+name])
+                    if hashlib.sha256(raw).hexdigest()!=digest or raw.count(guard)!=1:raise ValueError('Original hook recipe differs')
+                    adapted=raw.replace(guard,repr(str(assets)).encode(),1)
+                    command(['/usr/bin/python3','-I','-S','-B','-c',prefix+adapted.decode(),str(assets)])
+                for number,name in enumerate(before):
+                    if migration.sha(assets/name)!=pins[name]['sha256']:raise ValueError('Restored hook must equal original pin')
+                    with (evidence/f'hook-{number}.after.py').open('xb') as writer:writer.write((assets/name).read_bytes())
+                save('hook-restoration.json',{'before_sha256s':before,'after_sha256s':{n:pins[n]['sha256'] for n in before},
+                    'recipe_source_commit':RUNTIME,'recipe_sha256s':recipes,'root_only_adaptation':str(assets)})
             elif action=='verify':
                 site=assets/'envs/space/lib/python3.10/site-packages'
                 actual={re.sub('[-_.]+','-',d.metadata['Name']).lower():d.version for d in importlib.metadata.distributions(path=[str(site)])}

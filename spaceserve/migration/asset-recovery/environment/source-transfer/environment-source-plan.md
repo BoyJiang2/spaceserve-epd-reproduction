@@ -7,3 +7,5 @@
 仓库中的harness仅原始归档，主线程执行outputs相对BASE版本。Git metadata tar是本次临时源码传输材料，不上传依赖缓存；官方源码URL/commit和逐文件SHA足以追溯实际输入。原始成功/失败和所有旧封存保留。
 
 2026-10-29 实际恢复到精确8份metadata后，内层writer覆盖外层日志stream，首次fsck未启动。G1/G2窄恢复只改句柄名并核现有8份及原backup摘要后接续，不重传、不重复归档；仅framework/verify两单元，480工作720含收口。原失败和纠正8mock日志均保留。
+
+源码恢复真实通过，154依赖pip check兼容；完整2582表仅3文件少原有startup/device/SM probe hook。G1 18:50:47及G2 18:56:04批准只恢复两份既有recipe的3文件，beforeSHA固定、after必须原pins，8mock复验通过。只restore-hooks/verify两单元480工作720收口，不重做安装/source/download；原失败与完整diff保留。
