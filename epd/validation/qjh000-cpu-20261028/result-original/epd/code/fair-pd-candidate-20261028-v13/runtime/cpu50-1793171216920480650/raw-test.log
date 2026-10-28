@@ -1,0 +1,97 @@
+test_profiles_share_context_limits_and_cache_policy (test_pd_cpu.CommonEngineOptions) ... ok
+test_unsupported_required_option_fails_instead_of_silent_weak_baseline (test_pd_cpu.CommonEngineOptions) ... ok
+test_model_stack_was_not_imported (test_pd_cpu.Isolation) ... ok
+test_destination_allocation_failure_preserves_generated_tokens (test_pd_cpu.LifecycleMethods) ... ok
+test_failed_kv_transfer_preserves_source_and_raises (test_pd_cpu.LifecycleMethods) ... ok
+test_fused_context_does_not_allocate_vision_cache (test_pd_cpu.LifecycleMethods) ... ok
+test_fused_prefill_enqueues_original_rid_and_source_dp (test_pd_cpu.LifecycleMethods) ... ok
+test_model_initialization_failure_is_propagated (test_pd_cpu.LifecycleMethods) ... ok
+test_successful_kv_transfer_frees_correct_source_after_await (test_pd_cpu.LifecycleMethods) ... ok
+test_rejects_shards_and_batch_id_reordering (test_pd_cpu.PDConfigAndRouting) ... ok
+test_routes_to_less_pending_tokens_without_migration (test_pd_cpu.PDConfigAndRouting) ... ok
+test_running_work_and_capacity_affect_routing (test_pd_cpu.PDConfigAndRouting) ... ok
+test_three_gpu_allocations_and_reject_extra_actor (test_pd_cpu.PDConfigAndRouting) ... ok
+test_actual_client_window_writer_roundtrips_through_consumer (test_pd_cpu.PlanSelection) ... ok
+test_actual_qualification_log_binding_count_and_concurrency (test_pd_cpu.PlanSelection) ... ok
+test_available_memory_cap_and_raw_request_interval_are_enforced (test_pd_cpu.PlanSelection) ... ok
+test_calibration_client_metadata_rejects_wrong_budget_or_identity (test_pd_cpu.PlanSelection) ... ok
+test_candidate_server_arguments_match_three_gpu_profiles (test_pd_cpu.PlanSelection) ... ok
+test_counts_and_balanced_order (test_pd_cpu.PlanSelection) ... ok
+test_failures_not_dropped_and_missing_cells_rejected (test_pd_cpu.PlanSelection) ... ok
+test_memory_requires_raw_bytes_ownership_interval_and_capacity (test_pd_cpu.PlanSelection) ... ok
+test_memory_summary_or_bad_raw_hash_cannot_admit_a_candidate (test_pd_cpu.PlanSelection) ... ok
+test_nonconstant_repeats_freeze_load_mean_then_geomean (test_pd_cpu.PlanSelection) ... ok
+test_only_changing_summary_rate_is_rejected_without_touching_raw (test_pd_cpu.PlanSelection) ... ok
+test_profile_or_source_receipt_cannot_be_reused (test_pd_cpu.PlanSelection) ... ok
+test_prompt_and_ordered_images_are_bound_to_actual_fixture (test_pd_cpu.PlanSelection) ... ok
+test_qualification_and_final_G3_fit_original_480_budget (test_pd_cpu.PlanSelection) ... ok
+test_rate_uses_outer_client_window_instead_of_min_submit_span (test_pd_cpu.PlanSelection) ... ok
+test_three_percent_tie_is_best_over_candidate_score (test_pd_cpu.PlanSelection) ... ok
+test_ties_prefer_small_profile_and_p1d2 (test_pd_cpu.PlanSelection) ... ok
+test_window_clock_identity_and_measurement_count_cannot_be_changed (test_pd_cpu.PlanSelection) ... ok
+test_wrong_actual_IDs_are_rejected_even_with_true_boolean (test_pd_cpu.PlanSelection) ... ok
+test_one_call_uses_local_embedding_identity_and_order (test_pd_cpu.WorkerMethods) ... ok
+test_shared_encoder_preserves_each_images_and_crop_sizes (test_pd_cpu.WorkerMethods) ... ok
+test_worker_waits_for_cuda_completion_before_kv_ack (test_pd_cpu.WorkerMethods) ... ok
+test_actual_api_interface_is_mocked_and_foreign_pid_fails_without_kill (test_preflight_v5.CollectorCPU) ... ok
+test_collector_requires_recorded_claim_and_preserves_raw_failure (test_preflight_v5.CollectorCPU) ... ok
+test_candidate_static_configuration_never_authorizes_hardware (test_preflight_v5.GuardCPU) ... ok
+test_exact_source_commit_deploy_and_user_review_bindings (test_preflight_v5.GuardCPU) ... ok
+test_foreign_uuid_numa_uid_root_and_stale_resources_rejected (test_preflight_v5.GuardCPU) ... ok
+test_fresh_owned_booking_and_static_bounds (test_preflight_v5.GuardCPU) ... ok
+test_later_phase_requires_actual_independently_reviewed_prerequisite (test_preflight_v5.GuardCPU) ... ok
+test_nonrefundable_unit_inventory_and_no_formal_permission (test_preflight_v5.GuardCPU) ... ok
+test_request_transfer_deadline_checks_require_durable_claim (test_preflight_v5.GuardCPU) ... ok
+test_actual_claim_deadline_is_not_reset_at_late_cold_start (test_preflight_v5.SelectedG3CPU) ... ok
+test_actual_endpoint_api_pid_and_worker_uuid_must_match (test_preflight_v5.SelectedG3CPU) ... ok
+test_changed_raw_ids_and_reused_restart_process_are_rejected (test_preflight_v5.SelectedG3CPU) ... ok
+test_complete_fixture_is_consumed_but_never_admits_formal (test_preflight_v5.SelectedG3CPU) ... ok
+test_cross_system_claim_before_previous_release_is_rejected (test_preflight_v5.SelectedG3CPU) ... ok
+test_missing_endpoint_or_single_replica_dispatch_is_rejected (test_preflight_v5.SelectedG3CPU) ... ok
+test_missing_raw_or_summary_boolean_cannot_replace_full_proof (test_preflight_v5.SelectedG3CPU) ... ok
+test_nonfinite_session_snapshot_and_release_utc_are_rejected (test_preflight_v5.SelectedG3CPU) ... ok
+test_self_review_is_rejected (test_preflight_v5.SelectedG3CPU) ... ok
+test_snapshot_clock_anchor_mismatch_is_rejected (test_preflight_v5.SelectedG3CPU) ... ok
+test_cpu_grant_requires_exact_scope_and_original_human_instruction (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_exact_qjh000_cpu_window_and_fresh_new_root (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_gpu_import_finder_refuses_actual_gpu_libraries (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_gpu_ticket_foreign_booking_stale_boot_or_busy_cpu_root_rejected (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_one_nonrefundable_root_claim_refuses_duplicate (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_real_posix_asyncio_selfpipe_is_allowed (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_reviewed_git_and_owned_python_posix_helpers_are_allowed (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_stale_or_outside_qjh000_booking_rejected (test_cpu_target_runner.ConditionalCPUWindow) ... ok
+test_int_after_fork_before_Popen_return_is_deferred_then_cleaned (test_cpu_target_runner.ParentExitPOSIX) ... {"receipt": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/runtime/cpu50-1793171219129325213/CPU-receipt.json", "sha256": "d313ae7fc75fe2ac01d5f77f3f2b84924c256e164c398e6b93586dd055b15c70", "exit_code": 130}
+ok
+test_parent_int_always_cleans_owned_child_and_helper (test_cpu_target_runner.ParentExitPOSIX) ... {"receipt": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/runtime/cpu50-1793171219461977823/CPU-receipt.json", "sha256": "8d7fae95e60740ab5bb3854f47a78c18f5a322f3c0b50dca8879ca30d26965bc", "exit_code": 130}
+ok
+test_parent_term_always_cleans_owned_child_and_helper (test_cpu_target_runner.ParentExitPOSIX) ... {"receipt": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/runtime/cpu50-1793171219694345116/CPU-receipt.json", "sha256": "ed583679d813ed59d0814f0974d72a8622752d76cf75b9c2737a1feac2ba11da", "exit_code": 143}
+ok
+test_term_after_fork_before_Popen_return_is_deferred_then_cleaned (test_cpu_target_runner.ParentExitPOSIX) ... {"receipt": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/runtime/cpu50-1793171219925939104/CPU-receipt.json", "sha256": "d083d4776aea991e25230a864bb2628a95dad6dd9d462388764b5bfbafea37fe", "exit_code": 143}
+ok
+test_wait_exception_always_cleans_owned_child_and_helper (test_cpu_target_runner.ParentExitPOSIX) ... {"receipt": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/runtime/cpu50-1793171220276483603/CPU-receipt.json", "sha256": "9edf15c5459671341c4f69f65d9c62d9b61b27e2dec6e1f75b3d1451008208e1", "exit_code": 1}
+ok
+test_actual_profile_and_cli_mismatch_refused (test_production_identity.ProductionIdentityTests) ... ok
+test_actual_uuid_forwarded_to_self_capture_not_expected_rank (test_production_identity.ProductionIdentityTests) ... ok
+test_bad_endpoint_and_missing_source_fail_closed (test_production_identity.ProductionIdentityTests) ... ok
+test_baseline_only_accepts_loaded_local_TP1_driver (test_production_identity.ProductionIdentityTests) ... ok
+test_disabled_does_not_read_identity_inputs (test_production_identity.ProductionIdentityTests) ... ok
+test_foreign_uuid_refused_before_sidecar (test_production_identity.ProductionIdentityTests) ... ok
+test_port_mismatch_does_not_publish_service (test_production_identity.ProductionIdentityTests) ... ok
+test_route_uses_only_selected_stage_workers_and_does_not_grow_per_token (test_production_identity.ProductionIdentityTests) ... ok
+test_server_produces_manifest_and_actual_cached_response (test_production_identity.ProductionIdentityTests) ... ok
+test_actual_posix_claim_binds_execution_and_rejects_tampering (test_controller_cpu.BoundClaimCPU) ... ok
+test_expired_future_wrong_or_short_booking_never_constructs_nvml (test_controller_cpu.BoundClaimCPU) ... ok
+test_missing_or_wrong_execution_scope_never_claims (test_controller_cpu.BoundClaimCPU) ... ok
+test_argv_extra_request_wrong_profile_or_dispatch_rejected (test_controller_cpu.FixedVectorCPU) ... ok
+test_candidate_gpu_scope_refused_before_nvml_or_popen (test_controller_cpu.FixedVectorCPU) ... ok
+test_exact_fifteen_vector_and_three_official_single_uuid_servers (test_controller_cpu.FixedVectorCPU) ... ok
+test_startup_registration_independent_of_request_diagnostics (test_controller_cpu.FixedVectorCPU) ... ok
+test_unimplemented_numeric_and_restart_stop_before_claim (test_controller_cpu.FixedVectorCPU) ... ok
+test_unknown_identity_refused_without_signal (test_controller_cpu.FixedVectorCPU) ... ok
+test_first_success_then_second_cancel_is_preserved_and_propagated (test_controller_cpu.SubmittedJournalCPU) ... ok
+test_real_TERM_while_waiting_HTTP_preserves_submission_and_cancellation (test_controller_cpu.SubmittedJournalCPU) ... ok
+
+----------------------------------------------------------------------
+Ran 87 tests in 3.555s
+
+OK

@@ -1,0 +1,90 @@
+{
+  "scope": "actual_CPU_only_not_GPU_G3",
+  "host": "qjh000",
+  "cpu": 50,
+  "child_RLIMIT_AS": 1073741824,
+  "run_id": "cpu50-1793171219461977823",
+  "exit_code": 130,
+  "child_exit_code": -15,
+  "terminal_state": "stopped",
+  "failure": {
+    "type": "ParentInterrupted",
+    "message": "CPU parent interrupted by signal 2",
+    "signal": 2
+  },
+  "cleanup_confirmed": true,
+  "cleanup": [
+    {
+      "identity": {
+        "pid": 3256181,
+        "start_ticks": 7767652,
+        "uid": 2147,
+        "cwd": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13"
+      },
+      "signals": [
+        15
+      ],
+      "observations": [],
+      "state": "exited",
+      "exit_code": -15
+    },
+    {
+      "identity": {
+        "pid": 3256182,
+        "start_ticks": 7767657,
+        "uid": 2147,
+        "cwd": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13"
+      },
+      "signals": [
+        15
+      ],
+      "observations": [],
+      "state": "gone"
+    }
+  ],
+  "startup_attempted": true,
+  "child_object_obtained": true,
+  "startup_signal_deferred": null,
+  "parent_nice": 10,
+  "child_nice": 10,
+  "parent_identity": {
+    "pid": 3256180,
+    "start_ticks": 7767648,
+    "uid": 2147,
+    "cwd": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13"
+  },
+  "command": [
+    "/usr/bin/python3",
+    "-I",
+    "-S",
+    "-B",
+    "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/cpu_target_runner.py",
+    "--child",
+    "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/runtime/cpu50-1793171216920480650/test-tmp/tmp3l_b8oy3/permit.json",
+    "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13/runtime/cpu50-1793171219461977823",
+    "3256180",
+    "7767648",
+    "cpu50-1793171219461977823"
+  ],
+  "claim": {
+    "path": "CPU-MOCK-lifecycle-claim",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "duration_seconds": 0.17323591699823737,
+  "source_before": {
+    "cpu_target_runner.py": "9e81f214a092324b049f87415537042da06bef47259c4f754caae16118e1a5a0"
+  },
+  "source_after": {
+    "cpu_target_runner.py": "9e81f214a092324b049f87415537042da06bef47259c4f754caae16118e1a5a0"
+  },
+  "source_unchanged": true,
+  "permit_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "GPU_or_model_requests": 0,
+  "SIGKILL_parent_guarantee": false,
+  "terminal_errors": [],
+  "files": {
+    "helper-pids.jsonl": "71df7f71034c667e56c13b166a4dafcb032aca3496a7c71d200026d5a52906f4",
+    "raw-test.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
