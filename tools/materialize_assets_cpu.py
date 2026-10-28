@@ -112,6 +112,30 @@ def pam_exception(proc,pid):
     return {'snapshot':before,'sha256':hashlib.sha256(json.dumps(before,sort_keys=True).encode()).hexdigest()}
 
 
+def ssh_snapshot(proc,pid):
+    def read(number):
+        folder=proc/str(number);fields=(folder/'stat').read_text().rsplit(')',1)[1].split()
+        return {'pid':number,'uid':folder.stat().st_uid,'comm':(folder/'comm').read_text().strip(),
+                'ppid':int(fields[1]),'start_ticks':int(fields[19]),'cgroup':(folder/'cgroup').read_text(),
+                'cmdline_sha256':hashlib.sha256((folder/'cmdline').read_bytes()).hexdigest()}
+    child=read(pid)
+    return {'boot_id':(proc/'sys/kernel/random/boot_id').read_text().strip(),
+            'child':child,'parent':read(child['ppid']),'daemon':read(7347)}
+
+
+def ssh_exception(proc,pid):
+    snapshot=ssh_snapshot(proc,pid);child=snapshot['child'];parent=snapshot['parent'];daemon=snapshot['daemon']
+    anchor={'pid':7347,'uid':0,'comm':'sshd','ppid':1,'start_ticks':19660,
+            'cgroup':'0::/system.slice/ssh.service\n'}
+    if (snapshot['boot_id']!=BOOT or child['uid']!=2147 or child['comm']!='sshd'
+            or child['cmdline_sha256']!='3b019070d13e4d05f268dd5f7ac3f625caa6b4fa35efddc49c30935466bde1bb'
+            or not re.fullmatch(r'0::/user\.slice/user-2147\.slice/session-[0-9]+\.scope\n',child['cgroup'])
+            or child['ppid']!=parent['pid'] or parent['uid']!=0 or parent['comm']!='sshd' or parent['ppid']!=7347
+            or any(daemon[key]!=value for key,value in anchor.items())):return None
+    if ssh_snapshot(proc,pid)!=snapshot:raise ValueError('SSH service identity changed')
+    return {'snapshot':snapshot,'sha256':hashlib.sha256(json.dumps(snapshot,sort_keys=True).encode()).hexdigest()}
+
+
 def guard_processes(proc=Path('/proc')):
     """A cwd guard only, not an audit of every process FD or source reference."""
     roots=(LEGACY,migration.PARENT/'spaceserve',migration.PARENT/'epd')
@@ -127,6 +151,7 @@ def guard_processes(proc=Path('/proc')):
         except (FileNotFoundError,ProcessLookupError):continue
         except PermissionError:
             match=pam_exception(proc,int(folder.name))
+            if match is None:match=ssh_exception(proc,int(folder.name))
             if match is None:raise ValueError('Own process cwd cannot be verified')
             exceptions.append(match)
     return exceptions

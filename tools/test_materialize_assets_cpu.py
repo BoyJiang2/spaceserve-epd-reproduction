@@ -82,7 +82,8 @@ class AssetTests(unittest.TestCase):
             def resolve(self,strict=True):raise self.error
         process=Process();proc=SimpleNamespace(iterdir=lambda:[process])
         process.error=PermissionError('CPU-MOCK restricted own cwd')
-        with self.assertRaises(ValueError):assets.guard_processes(proc)
+        with patch.object(assets,'ssh_exception',return_value=None):
+            with self.assertRaises(ValueError):assets.guard_processes(proc)
         process.error=FileNotFoundError('CPU-MOCK process exited')
         assets.guard_processes(proc)
 
@@ -120,6 +121,32 @@ class AssetTests(unittest.TestCase):
         process.error=None
         with patch.object(assets,'pam_exception',side_effect=AssertionError('Readable cwd cannot be exempted')):
             with self.assertRaisesRegex(ValueError,'Project cwd active'):assets.guard_processes(proc)
+
+    def test_ssh_transport_requires_exact_root_anchor_and_full_cgroup_match(self):
+        frozen={'boot_id':assets.BOOT,
+                'child':{'pid':9001,'uid':2147,'comm':'sshd','ppid':9000,'start_ticks':100,
+                         'cgroup':'0::/user.slice/user-2147.slice/session-123.scope\n',
+                         'cmdline_sha256':'3b019070d13e4d05f268dd5f7ac3f625caa6b4fa35efddc49c30935466bde1bb'},
+                'parent':{'pid':9000,'uid':0,'comm':'sshd','ppid':7347,'start_ticks':99,'cgroup':'fixture','cmdline_sha256':'fixture'},
+                'daemon':{'pid':7347,'uid':0,'comm':'sshd','ppid':1,'start_ticks':19660,
+                          'cgroup':'0::/system.slice/ssh.service\n','cmdline_sha256':'fixture'}}
+        with patch.object(assets,'ssh_snapshot',side_effect=[frozen,copy.deepcopy(frozen)]):
+            self.assertEqual(assets.ssh_exception(None,9001)['snapshot'],frozen)
+        changes=[('child','uid',0),('child','comm','other'),('child','cmdline_sha256','other'),
+                 ('child','ppid',8000),('parent','uid',2147),('parent','comm','other'),('parent','ppid',1)]
+        changes += [('daemon',key,'CHANGED') for key in ('pid','uid','comm','ppid','start_ticks','cgroup')]
+        changes += [('child','cgroup',value) for value in ('prefix'+frozen['child']['cgroup'],
+                    frozen['child']['cgroup']+'suffix','0::/user.slice/user-2147.slice/session-x.scope\n')]
+        for role,key,value in changes:
+            changed=copy.deepcopy(frozen);changed[role][key]=value
+            with patch.object(assets,'ssh_snapshot',return_value=changed):self.assertIsNone(assets.ssh_exception(None,9001))
+        changed=copy.deepcopy(frozen);changed['boot_id']='OTHER'
+        with patch.object(assets,'ssh_snapshot',return_value=changed):self.assertIsNone(assets.ssh_exception(None,9001))
+        changed=copy.deepcopy(frozen);changed['child']['start_ticks']+=1
+        with patch.object(assets,'ssh_snapshot',side_effect=[frozen,changed]):
+            with self.assertRaises(ValueError):assets.ssh_exception(None,9001)
+        with patch.object(assets,'ssh_snapshot',side_effect=FileNotFoundError('CPU-MOCK vanished')):
+            with self.assertRaises(FileNotFoundError):assets.ssh_exception(None,9001)
 
 
 if __name__=='__main__':unittest.main(verbosity=2)
