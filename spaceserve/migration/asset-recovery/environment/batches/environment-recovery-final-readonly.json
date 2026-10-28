@@ -1,0 +1,53 @@
+{
+  "exit_code": 0,
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "-l",
+    "boyjiang",
+    "qjh003",
+    "/usr/bin/python3 -I -S -B -c 'import json,hashlib,os\nfrom pathlib import Path\np=Path('\"'\"'/local/boyjiang/spaceserve/staging/env-build-git-recovery'\"'\"');rows=[]\nfor a in ['\"'\"'bootstrap'\"'\"','\"'\"'lock'\"'\"']:\n for suffix in ['\"'\"'.claim.json'\"'\"','\"'\"'.terminal.json'\"'\"','\"'\"'.log'\"'\"']:\n  f=p/(a+suffix);raw=f.read_bytes();rows.append(dict(file=f.name,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest()))\nt=json.loads((p/'\"'\"'lock.terminal.json'\"'\"').read_bytes());ids=[int(t['\"'\"'pid'\"'\"']),3308365];processes=[]\nfor pid in ids:\n f=Path('\"'\"'/proc'\"'\"')/str(pid)\n if f.exists():processes.append(dict(pid=pid,uid=f.stat().st_uid,stat=(f/'\"'\"'stat'\"'\"').read_text()))\nprint(json.dumps(dict(files=rows,processes=processes,lock_exists=os.path.lexists(p/'\"'\"'requirements.lock'\"'\"'))))'"
+  ],
+  "actual": {
+    "files": [
+      {
+        "file": "bootstrap.claim.json",
+        "bytes": 1231,
+        "sha256": "5ba808d115304281b1db16efa0b737c1572a7e3fbac3af2f474571aa1caf0d4b"
+      },
+      {
+        "file": "bootstrap.terminal.json",
+        "bytes": 1542,
+        "sha256": "e17295445c225133c9ff7b96f55c7c81e85a6c84b9a7c745cd1b72d2ae6d1c70"
+      },
+      {
+        "file": "bootstrap.log",
+        "bytes": 6737,
+        "sha256": "9aac98ef32f61178dc3def4983b0a54044b980d4ebcf7c45a6a2ab9b9ba6b318"
+      },
+      {
+        "file": "lock.claim.json",
+        "bytes": 1226,
+        "sha256": "2917062d3f180db57dd90b32854edafaa6a21e2fe3e3b97b85b146df0d47cb82"
+      },
+      {
+        "file": "lock.terminal.json",
+        "bytes": 1583,
+        "sha256": "bade0233333b0fac6c18afd51f152e3bbcf27fbfb989a68e4f51e97a2d965e3c"
+      },
+      {
+        "file": "lock.log",
+        "bytes": 98299,
+        "sha256": "afb60cddf231b4e5a65eaf34269837a320ee0b2fd9d4be4f21ca94ff856225b3"
+      }
+    ],
+    "processes": [],
+    "lock_exists": false
+  },
+  "all_6_original_bytes_rehashed": true
+}

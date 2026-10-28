@@ -10,6 +10,17 @@ import build_space_environment_cpu as build
 
 
 class BuildTests(unittest.TestCase):
+    def test_fixed_batches_preserve_exact_original_freeze(self):
+        root=Path(__file__).resolve().parents[1]
+        raw=(root/'spaceserve/migration/asset-recovery/environment/space-freeze.txt').read_bytes()
+        parts=build.dependency_parts(raw)
+        self.assertEqual([len(build.versions(part.decode())) for part in parts],[16]*9+[10])
+        self.assertEqual(b''.join(parts),raw)
+        self.assertEqual({name:version for part in parts for name,version in build.versions(part.decode()).items()},
+                         build.versions(raw.decode()))
+        for changed in (raw+b'\n',raw.splitlines(keepends=True)[0]+raw,raw.replace(b'==',b'>=',1)):
+            with self.assertRaises(ValueError):build.dependency_parts(changed)
+
     def test_exact_versions_reject_floating_urls_and_duplicates(self):
         self.assertEqual(build.versions('CPU_mock==1.0\n'),{'cpu-mock':'1.0'})
         for text in ('package>=1','-e ./source','package @ https://outside.invalid/file','a_b==1\na-b==1'):

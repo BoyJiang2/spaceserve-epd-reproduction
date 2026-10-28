@@ -11,3 +11,5 @@
 [纠正原始测试](environment-build-tests-corrected.json) · [首失败](environment-build-tests.stderr.log) · [真实软件只读资料](software-inventory.json) · [具体wrapper](environment-build-wrapper.py)
 
 实际首次bootstrap被Git配置权限警告合流误判为dirty，写前停止；env与uv尚未创建，后四action未运行。[最小恢复方案](../git-recovery/environment-git-recovery-plan.md)保留原失败，显式空Git排除文件和独立恢复证据目录；实际环境仍未通过。
+
+恢复bootstrap实际成功；全量lock在239秒时限受控失败，未安装。[固定十批续接方案](../batches/environment-batches-plan.md)仅改变准备方法，所有154版本/哈希锁/原保护pins保留。新实际运行仍须独立门槛，当前非环境成功。

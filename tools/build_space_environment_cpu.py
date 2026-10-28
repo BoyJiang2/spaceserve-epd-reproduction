@@ -1,4 +1,4 @@
-"""Five bounded CPU actions for the original Space environment. No model/GPU import."""
+"""Bounded dependency batches and framework actions for the original Space environment. No model/GPU import."""
 import base64
 import hashlib
 import importlib.metadata
@@ -17,7 +17,7 @@ import migrate_code_cpu as migration
 
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 RUNTIME='a3f03b9dd5956db92add454f9b3afd5663f84609'
-ACTIONS=('bootstrap','lock','install','framework','verify')
+ACTIONS=tuple(f'{kind}-{part:02}' for kind in ('lock','install') for part in range(1,11))+('framework','verify')
 INPUTS={'space-freeze.txt':'12cc7ae16e15cb32a58d197b10c139df7d715a8c3eeb4246b77eebe5d4814b0f',
         'prepare_space.py':'3775d95a2e1ed4deefb49c6db1d2efe8480e46aba553d349804347751eab721c',
         'apply_space_compat.py':'8718c981961ca4812e16b0bce2dcd36639c4bdf0e923ba178b9761a4a75fd2ed'}
@@ -56,9 +56,17 @@ def verify_lock(text,expected):
     return found
 
 
+def dependency_parts(raw):
+    expected=versions(raw.decode())
+    if len(expected)!=154:raise ValueError('Exact154 packages required')
+    lines=raw.decode().splitlines(keepends=True)
+    if len(lines)!=154 or any(not line.strip() for line in lines):raise ValueError('Exact154 original lines required')
+    return [b''.join(line.encode() for line in lines[start:start+16]) for start in range(0,154,16)]
+
+
 def controlled_environment(root):
     return {'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LC_ALL':'C.UTF-8',
-        'TMPDIR':str(root/'staging/env-build-git-recovery/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
+        'TMPDIR':str(root/'staging/env-build-batched/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
         'UV_CACHE_DIR':str(root/'assets/cache/uv'),'UV_NO_CONFIG':'1','UV_PYTHON_DOWNLOADS':'never',
         'UV_HTTP_TIMEOUT':'30','UV_HTTP_RETRIES':'2','UV_CONCURRENT_DOWNLOADS':'4',
         'UV_CONCURRENT_INSTALLS':'1','UV_CONCURRENT_BUILDS':'1','UV_NO_PROGRESS':'1',
@@ -84,7 +92,7 @@ def run(data):
     check();migration.validate_executor()
     if (sys.version_info[:3]!=(3,10,12) or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT):
         raise ValueError('Exact system Python/boot required')
-    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-git-recovery'
+    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-batched'
     for path in (assets,repo/'.git',evidence):migration.real_ancestry(path)
     if (repo/'.git/HEAD').is_symlink() or (repo/'.git/HEAD').read_text().strip()!=RUNTIME:
         raise ValueError('Frozen runtime differs')
@@ -97,18 +105,24 @@ def run(data):
         inputs[name]=raw
     expected=versions(inputs['space-freeze.txt'].decode())
     if len(expected)!=154:raise ValueError('Exact154 packages required')
-    if action=='bootstrap':
-        if evidence.exists() or os.path.lexists(assets/'envs/space') or os.path.lexists(assets/'tools/uv'):
-            raise ValueError('Existing bootstrap/partial; inspect without retry')
-        evidence.mkdir(mode=0o700)
+    parts=dependency_parts(inputs['space-freeze.txt'])
+    first=action==ACTIONS[0]
+    if first:
+        if evidence.exists():raise ValueError('Existing batch preparation/partial; inspect without retry')
+        prior_root=root/'staging/env-build-git-recovery';previous='bootstrap'
     else:
-        previous=ACTIONS[ACTIONS.index(action)-1]
-        prior=json.loads((evidence/(previous+'.terminal.json')).read_bytes())
-        if (prior['action']!=previous or prior['state']!='SPACE_CPU_ACTION_SUCCEEDED'
+        prior_root=evidence;previous=ACTIONS[ACTIONS.index(action)-1]
+    def prior_success(folder,name):
+        prior=json.loads((folder/(name+'.terminal.json')).read_bytes())
+        if (prior['action']!=name or prior['state']!='SPACE_CPU_ACTION_SUCCEEDED'
                 or prior['failure'] is not None or prior['runtime_commit']!=RUNTIME or prior['boot_id']!=BOOT
                 or prior['host']!='qjh003' or prior['uid']!=2147 or prior['input_sha256s']!=INPUTS
-                or migration.sha(evidence/(previous+'.log'))!=prior['log_sha256']):
+                or migration.sha(folder/(name+'.log'))!=prior['log_sha256']):
             raise ValueError('Previous actual action has not succeeded with the same inputs')
+        if folder==evidence and prior['tool_commit']!=data['tool_commit']:raise ValueError('Batch tool commit changed')
+        return prior
+    prior_success(prior_root,previous)
+    if first:evidence.mkdir(mode=0o700)
     claim={'action':action,'tool_commit':data['tool_commit'],'runtime_commit':RUNTIME,'input_sha256s':INPUTS,
            'host':socket.gethostname(),'uid':os.getuid(),'boot_id':BOOT,'booking':proof,
            'pid':os.getpid(),'start_ticks':Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],
@@ -129,78 +143,83 @@ def run(data):
                 raise ValueError('Frozen runtime is dirty')
             for name,raw in inputs.items():
                 path=evidence/name
-                if action=='bootstrap':
+                if first:
                     with path.open('xb') as target:target.write(raw)
                 elif path.is_symlink() or migration.sha(path)!=INPUTS[name]:raise ValueError('Staged input changed')
-            uv=assets/'tools/uv';python=assets/'envs/space/bin/python';lock=evidence/'requirements.lock'
-            if action=='bootstrap':
-                for path in (assets/'tools',assets/'envs',assets/'cache/uv',evidence/'tmp'):
-                    migration.real_ancestry(path);path.mkdir(mode=0o700,parents=True,exist_ok=True)
-                source=migration.PARENT/'spaceserve-epd-qjh003-20261023/envs/tools/bin/uv'
-                migration.real_ancestry(source.parent)
-                if source.is_symlink() or source.stat().st_uid!=2147 or source.stat().st_size!=37597160 or migration.sha(source)!=UV_SHA:
-                    raise ValueError('Exact inspected native uv required')
-                with source.open('rb') as reader,uv.open('xb') as writer:
-                    while block:=reader.read(4*1024**2):check();writer.write(block)
-                    writer.flush();os.fsync(writer.fileno())
-                os.chmod(uv,0o755)
-                if migration.sha(source)!=UV_SHA or migration.sha(uv)!=UV_SHA:raise ValueError('uv copy differs')
-                command([str(uv),'--version'])
-                helptext=command([str(uv),'venv','--help'])
-                if b'--python' not in helptext or b'--no-config' not in helptext:raise ValueError('Required venv options unsupported')
-                command([str(uv),'--no-config','venv','--python','/usr/bin/python3',str(python.parents[1])])
-            else:
-                if uv.is_symlink() or migration.sha(uv)!=UV_SHA:raise ValueError('Staged uv changed')
-                if action=='lock':
-                    if os.path.lexists(lock):raise ValueError('Existing lock output refused')
-                    command([str(uv),'--no-config','--verbose','pip','compile',str(evidence/'space-freeze.txt'),
+            uv=assets/'tools/uv';python=assets/'envs/space/bin/python'
+            if uv.is_symlink() or migration.sha(uv)!=UV_SHA:raise ValueError('Staged uv changed')
+            migration.real_ancestry(python.parent)
+            if not python.is_file() or python.resolve()!=Path('/usr/bin/python3').resolve():
+                raise ValueError('Actual successful bootstrap system interpreter required')
+            if first:
+                site=assets/'envs/space/lib/python3.10/site-packages'
+                if list(importlib.metadata.distributions(path=[str(site)])):
+                    raise ValueError('Unseeded bootstrap environment is no longer empty')
+                (evidence/'tmp').mkdir(mode=0o700)
+                manifest=[]
+                for number,raw in enumerate(parts,1):
+                    part=evidence/f'part-{number:02}.txt'
+                    with part.open('xb') as target:target.write(raw)
+                    manifest.append({'part':number,'sha256':migration.sha(part),'versions':versions(raw.decode())})
+                save('parts.json',manifest)
+            for number,raw in enumerate(parts,1):
+                path=evidence/f'part-{number:02}.txt'
+                if path.is_symlink() or path.read_bytes()!=raw:raise ValueError('Original fixed batch changed')
+            if action.startswith(('lock-','install-')):
+                number=int(action.split('-')[1]);subset=versions(parts[number-1].decode())
+                lock=evidence/f'part-{number:02}.lock'
+                if action.startswith('lock-'):
+                    if os.path.lexists(lock):raise ValueError('Existing batch lock output refused')
+                    command([str(uv),'--no-config','--verbose','pip','compile',str(evidence/f'part-{number:02}.txt'),
                         '--no-deps','--generate-hashes','--only-binary',':all:','--python','/usr/bin/python3',
                         '--index-url','https://pypi.org/simple','--output-file',str(lock)])
-                    details['locked_packages']=len(verify_lock(lock.read_text(),expected));details['lock_sha256']=migration.sha(lock)
-                elif action=='install':
-                    prior=json.loads((evidence/'lock.terminal.json').read_bytes())
-                    if lock.is_symlink() or migration.sha(lock)!=prior['details']['lock_sha256']:raise ValueError('Actual successful hash lock differs')
-                    verify_lock(lock.read_text(),expected);command(install_arguments(uv,python,lock))
-                elif action=='framework':
-                    src=assets/'src';migration.real_ancestry(src);src.mkdir(mode=0o700,exist_ok=True)
-                    for name,url,commit in UPSTREAM:
-                        target=src/name
-                        if os.path.lexists(target):raise ValueError('Existing framework source refused')
-                        command(['git','-c','core.hooksPath=/dev/null','init',str(target)])
-                        command(['git','-C',str(target),'remote','add','origin',url])
-                        command(['git','-C',str(target),'fetch','--depth=1','origin',commit])
-                        command(['git','-c','core.hooksPath=/dev/null','-C',str(target),'checkout','--detach',commit])
-                        if command(['git','-C',str(target),'rev-parse','HEAD']).decode().strip()!=commit:raise ValueError('Official framework HEAD differs')
-                    # System Python -S reads the new wheel metadata without executing installed .pth files.
-                    prefix=('import importlib.metadata,pathlib,sys\n'
-                        'site=pathlib.Path(sys.argv[1])/"envs/space/lib/python3.10/site-packages"\n'
-                        'def metadata_only(name):\n'
-                        ' return next(d for d in importlib.metadata.distributions(path=[str(site)]) if d.metadata["Name"].lower()==name.lower())\n'
-                        'importlib.metadata.distribution=metadata_only\n')
-                    for name in ('prepare_space.py','apply_space_compat.py'):
-                        command(['/usr/bin/python3','-I','-S','-B','-c',prefix+inputs[name].decode(),str(assets)])
-                    pins=json.loads((repo/'spaceserve/runtime/configs/asset-content-pins.json').read_bytes())
-                    for row in (r for r in pins if 'link' in r):
-                        path=assets/row['path'];expected_target=assets/row['target_member']
-                        if not path.is_symlink() or path.resolve()!=expected_target.resolve():raise ValueError('Unexpected native extension link')
-                        path.unlink();path.symlink_to(row['link'])
-                    target=assets/'src/mysmctrl/libsmctrl.so'
-                    if os.path.lexists(target):raise ValueError('Existing upstream library refused')
-                    with (assets/'build/libsmctrl.so').open('rb') as reader,target.open('xb') as writer:shutil.copyfileobj(reader,writer)
-                elif action=='verify':
-                    site=assets/'envs/space/lib/python3.10/site-packages'
-                    actual={re.sub('[-_.]+','-',d.metadata['Name']).lower():d.version for d in importlib.metadata.distributions(path=[str(site)])}
-                    if actual!=expected:raise ValueError('Actual154 package versions differ')
-                    command([str(uv),'--no-config','pip','check','--python',str(python)])
-                    spec=importlib.util.spec_from_file_location('space_asset_inventory',repo/'spaceserve/runtime/scripts/stage_cpu.py')
-                    inventory=importlib.util.module_from_spec(spec);spec.loader.exec_module(inventory)
-                    rows=inventory.inventory(assets);pins=json.loads((repo/'spaceserve/runtime/configs/asset-content-pins.json').read_bytes())
-                    protected=('models/','dataset/','src/SpaceServe/','src/mysmctrl/','build/','envs/space/lib/python3.10/site-packages/vllm/')
-                    if {r['path']:r for r in rows if r['path'].startswith(protected)}!={r['path']:r for r in pins}:
-                        raise ValueError('Original protected bytes/links differ; do not rewrite pins')
-                    with (assets/'manifest.json').open('x') as target:json.dump(rows,target,indent=2)
-                    details.update(packages=len(actual),protected_entries=len(pins),asset_files=len(rows),
-                        asset_manifest_sha256=migration.sha(assets/'manifest.json'),state='ASSETS_MATERIALIZED_only')
+                    details.update(locked_packages=len(verify_lock(lock.read_text(),subset)),lock_sha256=migration.sha(lock))
+                else:
+                    prior=prior_success(evidence,f'lock-{number:02}')
+                    if lock.is_symlink() or migration.sha(lock)!=prior['details']['lock_sha256']:raise ValueError('Actual successful batch lock differs')
+                    verify_lock(lock.read_text(),subset);command(install_arguments(uv,python,lock))
+                    details.update(installed_packages=len(subset),lock_sha256=migration.sha(lock))
+            elif action=='framework':
+                for batch in ACTIONS[:-2]:prior_success(evidence,batch)
+                src=assets/'src';migration.real_ancestry(src);src.mkdir(mode=0o700,exist_ok=True)
+                for name,url,commit in UPSTREAM:
+                    target=src/name
+                    if os.path.lexists(target):raise ValueError('Existing framework source refused')
+                    command(['git','-c','core.hooksPath=/dev/null','init',str(target)])
+                    command(['git','-C',str(target),'remote','add','origin',url])
+                    command(['git','-C',str(target),'fetch','--depth=1','origin',commit])
+                    command(['git','-c','core.hooksPath=/dev/null','-C',str(target),'checkout','--detach',commit])
+                    if command(['git','-C',str(target),'rev-parse','HEAD']).decode().strip()!=commit:raise ValueError('Official framework HEAD differs')
+                # System Python -S reads the new wheel metadata without executing installed .pth files.
+                prefix=('import importlib.metadata,pathlib,sys\n'
+                    'site=pathlib.Path(sys.argv[1])/"envs/space/lib/python3.10/site-packages"\n'
+                    'def metadata_only(name):\n'
+                    ' return next(d for d in importlib.metadata.distributions(path=[str(site)]) if d.metadata["Name"].lower()==name.lower())\n'
+                    'importlib.metadata.distribution=metadata_only\n')
+                for name in ('prepare_space.py','apply_space_compat.py'):
+                    command(['/usr/bin/python3','-I','-S','-B','-c',prefix+inputs[name].decode(),str(assets)])
+                pins=json.loads((repo/'spaceserve/runtime/configs/asset-content-pins.json').read_bytes())
+                for row in (r for r in pins if 'link' in r):
+                    path=assets/row['path'];expected_target=assets/row['target_member']
+                    if not path.is_symlink() or path.resolve()!=expected_target.resolve():raise ValueError('Unexpected native extension link')
+                    path.unlink();path.symlink_to(row['link'])
+                target=assets/'src/mysmctrl/libsmctrl.so'
+                if os.path.lexists(target):raise ValueError('Existing upstream library refused')
+                with (assets/'build/libsmctrl.so').open('rb') as reader,target.open('xb') as writer:shutil.copyfileobj(reader,writer)
+            elif action=='verify':
+                site=assets/'envs/space/lib/python3.10/site-packages'
+                actual={re.sub('[-_.]+','-',d.metadata['Name']).lower():d.version for d in importlib.metadata.distributions(path=[str(site)])}
+                if actual!=expected:raise ValueError('Actual154 package versions differ')
+                command([str(uv),'--no-config','pip','check','--python',str(python)])
+                spec=importlib.util.spec_from_file_location('space_asset_inventory',repo/'spaceserve/runtime/scripts/stage_cpu.py')
+                inventory=importlib.util.module_from_spec(spec);spec.loader.exec_module(inventory)
+                rows=inventory.inventory(assets);pins=json.loads((repo/'spaceserve/runtime/configs/asset-content-pins.json').read_bytes())
+                protected=('models/','dataset/','src/SpaceServe/','src/mysmctrl/','build/','envs/space/lib/python3.10/site-packages/vllm/')
+                if {r['path']:r for r in rows if r['path'].startswith(protected)}!={r['path']:r for r in pins}:
+                    raise ValueError('Original protected bytes/links differ; do not rewrite pins')
+                with (assets/'manifest.json').open('x') as target:json.dump(rows,target,indent=2)
+                details.update(packages=len(actual),protected_entries=len(pins),asset_files=len(rows),
+                    asset_manifest_sha256=migration.sha(assets/'manifest.json'),state='ASSETS_MATERIALIZED_only')
             check()
     except BaseException as error:failure=repr(error)
     finally:
