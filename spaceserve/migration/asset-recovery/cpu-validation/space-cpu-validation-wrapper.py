@@ -9,10 +9,10 @@ raw=sys.stdin.buffer.read(100001)
 if len(raw)>100000:raise ValueError('100000-byte CPU recipe budget exceeded')
 data=json.loads(raw)
 if set(data)!={'phase','tool_commit','runtime_commit','booking','source_config_base64','modules'}:raise ValueError('Unexpected payload fields')
-if data['phase'] not in ('prepare','cpu'):raise ValueError('Unknown environment action')
-if data['runtime_commit']!='a3f03b9dd5956db92add454f9b3afd5663f84609':raise ValueError('Unexpected frozen runtime')
+if data['phase'] not in ('deploy','prepare','cpu'):raise ValueError('Unknown environment action')
+if data['runtime_commit']!='7fc3877e4f67cfcaecc6da1b47dbaf60ebdef61c':raise ValueError('Unexpected frozen runtime')
 expected=[('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),
-          ('validate_space_cpu','fd4ccfd1a7c4ff689d7eb39eee83067abee52359e29717d5373166694329631c')]
+          ('validate_space_cpu','c9d895c8567fac7f2248c8af63996e6eb4b60080edf493b51002c1c4da4a641b')]
 modules=data.pop('modules')
 if len(modules)!=2:raise ValueError('Exact two approved modules required')
 sources=[]

@@ -1,1 +1,3 @@
 旧a3f目标CPU suite实际58项：57PASS/1ERROR/0skip，自有进程全部释放。错误fixture只patch ROOT而production通过CONFIG读共享assets；只补测试的SimpleNamespace CONFIG(asset→临时root，gpu_devices=(4,))，生产auditor及120条模拟请求/全部负例不改。G1 handoff19:47:22、G2 space reviewer19:47:38批准，仅一次本机stdlib回归已PASS0skip0.240s，源前后b901同。旧失败cohort保留，不追溯改源或结果；CPU日志的模拟请求统计不是GPU性能数据。新指定commit/新CPU cohort须单独G2/G5/fresh准入，禁止GPU阶段。
+
+指定新runtime C1=7fc3877e4f67cfcaecc6da1b47dbaf60ebdef61c；runtime/shared仅该fixture变化。增量bundle918129B/SHA39ad9860eab2fb6f5a7fc5ed3b75d99af36779ed76e368de66efd1504dcfbfbc，prereq a3f；新CPU cohort migration-cpu-fix-20261029，config396e58...dab8。G2 runner c9d895...641b新增限定deploy，再prepare/cpu，5纯函数复验PASS。一次transfer/deploy/prepare/cpu共4unit960/1440，09边界不扩；不改EPD checkout或旧失败run。

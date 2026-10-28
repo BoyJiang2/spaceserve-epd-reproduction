@@ -24,19 +24,19 @@ def remote_read(code,label):
     return json.loads(result.stdout)
 
 commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
-assert json.loads((BASE/'space-cpu-validation-publication-verified.json').read_bytes())['commit']==commit
+assert json.loads((BASE/'space-cpu-fixture-publication-verified.json').read_bytes())['commit']==commit
 wrapper=(BASE/'space-cpu-validation-wrapper.py').read_text()
-assert sha(wrapper.encode())=='d90efa0e981141fe9c29f7affb9d85139688eb9852194d35677f32f31c9ee3f2'
+assert sha(wrapper.encode())=='b5dbd8e821451f05d71d3d5218bd00f4ac955c24cc1ed9a752b891ee279e5579'
 modules=[]
-for name,digest in [('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),('validate_space_cpu','fd4ccfd1a7c4ff689d7eb39eee83067abee52359e29717d5373166694329631c')]:
+for name,digest in [('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),('validate_space_cpu','c9d895c8567fac7f2248c8af63996e6eb4b60080edf493b51002c1c4da4a641b')]:
  raw=subprocess.check_output(['git','show',commit+':tools/'+name+'.py'],cwd=REPO);assert sha(raw)==digest
  modules.append(dict(name=name,sha256=digest,base64=base64.b64encode(raw).decode()))
 config=subprocess.check_output(['git','show',commit+':spaceserve/migration/asset-recovery/cpu-validation/project.json'],cwd=REPO)
-assert sha(config)=='2f914400aa04d53637c761fc8b7dcd46d8825168aa60604af562b8d25ba0d4b3'
-save('space-cpu-validation-controller.json',dict(driver_pid=os.getpid(),started_ms=int(time.time()*1000),tool_commit=commit,stop_on_failure=True))
+assert sha(config)=='396e58b949fa5a74af5fd84df8524ea21a81ca8c13e650ca58ebc0ca3ccbdab8'
+save('space-cpu-fixture-controller.json',dict(driver_pid=os.getpid(),started_ms=int(time.time()*1000),tool_commit=commit,stop_on_failure=True))
 progress=[]
-for phase in ('prepare','cpu'):
- prefix='space-cpu-validation-'+phase
+for phase in ('transfer','deploy','prepare','cpu'):
+ prefix='space-cpu-fixture-'+phase
  api=subprocess.run([sys.executable,'-X','utf8','C:/Users/23520/.codex/skills/gputime-booking-agent/scripts/gputime_agent.py','snapshot'],capture_output=True,timeout=45);assert api.returncode==0
  snapshot=json.loads(api.stdout);now=int(time.time()*1000)
  proof=dict(origin='gputime_read_only_api',read_only=True,observed_ms=now,resources=[dict(id=r['id'],node=r['node'],active=r['active']) for r in snapshot['resources'] if r['id']=='h20/qjh003'],bookings=[r for r in snapshot['bookings'] if r['id']=='bk-20261028T0925-0332cf80'])
@@ -45,8 +45,9 @@ for phase in ('prepare','cpu'):
  assert all(ticket.get(k)==v for k,v in dict(user='boyjiang',kind='cpu',resource_id='h20/qjh003',node='qjh003',start_ms=1793192400000,end_ms=1793235600000).items())
  assert ticket['start_ms']<=now and now+1020000<=ticket['end_ms']
  save(prefix+'-booking.json',proof)
- paths=['/local/boyjiang/spaceserve/staging/cpu-validation/'+phase+'.claim.json']
- if phase=='prepare':paths+=['/local/boyjiang/spaceserve/staging/cpu-validation','/local/boyjiang/spaceserve/runs/migration-cpu-003-20261029']
+ paths=['/local/boyjiang/spaceserve/staging/cpu-validation-fixture/'+phase+'.claim.json']
+ if phase=='transfer':paths=['/local/boyjiang/spaceserve/staging/space-fixture-fix.bundle']
+ if phase=='deploy':paths+=['/local/boyjiang/spaceserve/staging/cpu-validation-fixture','/local/boyjiang/spaceserve/runs/migration-cpu-fix-20261029']
  code="""import json,os,socket,time,shutil
 from pathlib import Path
 root=Path('/local/boyjiang/spaceserve');pinned=[]
@@ -62,7 +63,22 @@ print(json.dumps(dict(observed_ms=int(time.time()*1000),host=socket.gethostname(
  assert not actual['cpu50'] and not actual['existing'] and actual['free']>=120*1024**3 and actual['parents_owned'] and not actual['linked_ancestors']
  assert before-2000<=actual['observed_ms']<=after+2000 and after-proof['observed_ms']<60000
  save(prefix+'-admission.json',dict(actual=actual,local_before_ms=before,local_after_ms=after,passed=True))
- data=dict(phase=phase,tool_commit=commit,runtime_commit='a3f03b9dd5956db92add454f9b3afd5663f84609',booking=proof,source_config_base64=base64.b64encode(config).decode(),modules=modules)
+ if phase=='transfer':
+  source=BASE/'space-fixture-fix.bundle';assert source.stat().st_size==918129 and sha(source.read_bytes())=='39ad9860eab2fb6f5a7fc5ed3b75d99af36779ed76e368de66efd1504dcfbfbc'
+  argv=SSH+['taskset -c 50 nice -n 10 timeout --signal=TERM --kill-after=120s 240s /usr/bin/dd of=/local/boyjiang/spaceserve/staging/space-fixture-fix.bundle bs=4M conv=excl oflag=nofollow status=none']
+  save(prefix+'-command.json',dict(argv=argv,source_bytes=918129,source_sha256=sha(source.read_bytes())))
+  started=time.monotonic()
+  with source.open('rb') as inp,(BASE/(prefix+'.stdout.log')).open('xb') as out,(BASE/(prefix+'.stderr.log')).open('xb') as err:
+   process=subprocess.Popen(argv,stdin=inp,stdout=out,stderr=err);save(prefix+'-controller.json',dict(pid=process.pid,created_utc=created(process)))
+   try:process.wait(timeout=390)
+   except subprocess.TimeoutExpired:save(prefix+'-unknown.json',dict(state='UNKNOWN_DO_NOT_RESTART'));raise
+  result=dict(phase=phase,exit_code=process.returncode,elapsed_seconds=time.monotonic()-started,tool_commit=commit);save(prefix+'-exit.json',result);progress.append(result)
+  (BASE/'space-cpu-fixture-progress.json').write_text(json.dumps(progress,indent=2));print(json.dumps(result),flush=True)
+  if process.returncode:sys.exit(process.returncode)
+  code="import hashlib,json\nfrom pathlib import Path\np=Path('/local/boyjiang/spaceserve/staging/space-fixture-fix.bundle')\nprint(json.dumps(dict(bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest(),uid=p.stat().st_uid,link=p.is_symlink())))"
+  actual=remote_read(code,prefix+'-postcheck');assert actual==dict(bytes=918129,sha256='39ad9860eab2fb6f5a7fc5ed3b75d99af36779ed76e368de66efd1504dcfbfbc',uid=2147,link=False);save(prefix+'-verified.json',actual)
+  continue
+ data=dict(phase=phase,tool_commit=commit,runtime_commit='7fc3877e4f67cfcaecc6da1b47dbaf60ebdef61c',booking=proof,source_config_base64=base64.b64encode(config).decode(),modules=modules)
  wire=json.dumps(data).encode();assert len(wire)<=100000
  with (BASE/(prefix+'-payload.json')).open('xb') as stream:stream.write(wire)
  assert sha((BASE/(prefix+'-payload.json')).read_bytes())==sha(wire)
@@ -75,6 +91,6 @@ print(json.dumps(dict(observed_ms=int(time.time()*1000),host=socket.gethostname(
   except subprocess.TimeoutExpired:
    save(prefix+'-unknown.json',dict(state='OBSERVER_TIMEOUT_UNKNOWN_DO_NOT_RESTART'));raise
  result=dict(phase=phase,exit_code=process.returncode,elapsed_seconds=time.monotonic()-started,tool_commit=commit)
- save(prefix+'-exit.json',result);progress.append(result);(BASE/'space-cpu-validation-progress.json').write_text(json.dumps(progress,indent=2));print(json.dumps(result),flush=True)
+ save(prefix+'-exit.json',result);progress.append(result);(BASE/'space-cpu-fixture-progress.json').write_text(json.dumps(progress,indent=2));print(json.dumps(result),flush=True)
  if process.returncode:sys.exit(process.returncode)
-save('space-cpu-validation-sequence-complete.json',dict(actions=progress,actual_CPU_audit_pending=True,GPU_requests=0))
+save('space-cpu-fixture-sequence-complete.json',dict(actions=progress,actual_CPU_audit_pending=True,GPU_requests=0))
