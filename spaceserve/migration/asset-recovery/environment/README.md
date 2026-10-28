@@ -1,3 +1,5 @@
+最新：remaining65第二单元已停，只有首项成功，下一outlines0.1.11在HTTP前SSLEOFError，合计90/154。原始[第二终态](catalog-remaining/terminal.json)与[派生90目录](catalog-remaining/combined-catalog.json)保留，不称完整、不第三catalog重跑。转入[uv固定版本＋哈希锁的完整CPU环境方案](build/README.md)，实际安装尚未开始；所有原metadata记录保留。
+
 实际更新：第一单元72.112秒结束，前89/154项HTTP200及原JSON SHA通过，第90项URLError/HTTPstatus未知，已按规则停止；不能据此认定具体网络根因或完整catalog。[原始终态](catalog-first/terminal.json)、[已取89目录](catalog-first/catalog.json)、[270原件SHA索引](catalog-first-index.json)保留。旧89项不会再GET。
 
 [续接G1](g1-catalog-remaining.md)/[G2](g2-catalog-remaining.md)只批准一个remaining65新单元：先核旧270原件每SHA与旧3摘要/严格89prefix，再把严格余65写独占remaining子目录，不改旧原件。原失败第90项明确重取一次，其余64首次。新一次7HTTP-MOCK全PASS/0skip0.003秒（父0.340秒），e9eb/9405前后等、temp空。实际续接仍待G5/push/源码核，120工作/180父及首失败停保持，不自动第三单元；不下载或安装artifact，不服务器/GPU。

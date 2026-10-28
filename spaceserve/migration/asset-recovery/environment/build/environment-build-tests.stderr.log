@@ -1,0 +1,18 @@
+test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection (test_build_space_environment_cpu.BuildTests.test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection) ... FAIL
+test_exact_versions_reject_floating_urls_and_duplicates (test_build_space_environment_cpu.BuildTests.test_exact_versions_reject_floating_urls_and_duplicates) ... ok
+test_hash_lock_requires_full_original_version_and_hashes (test_build_space_environment_cpu.BuildTests.test_hash_lock_requires_full_original_version_and_hashes) ... ok
+test_install_never_drops_hash_binary_or_fixed_python_flags (test_build_space_environment_cpu.BuildTests.test_install_never_drops_hash_binary_or_fixed_python_flags) ... ok
+
+======================================================================
+FAIL: test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection (test_build_space_environment_cpu.BuildTests.test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 40, in test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection
+    self.assertTrue(env['UV_CACHE_DIR'].startswith('/project/'));self.assertEqual(env['UV_PYTHON_DOWNLOADS'],'never')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.003s
+
+FAILED (failures=1)
