@@ -11,7 +11,7 @@
 
 ## 后续公平 PD 基线：CPU验证通过，GPU待验证
 
-后续公平 PD 基线已有[独立 G1/G2 通过的 v11 代码](plans/fair-pd-20261027-v11/README.md)，[qjh000目标CPU实际76 PASS](validation/qjh000-cpu-20261027/README.md)，0失败/错误/跳过，完整日志与独立审查保留；[旧 v8 候选](plans/fair-pd-20261027/README.md)独立保留。**真实 GPU/模型验证尚未执行，没有新增性能结果**；三个完整副本、调优 PD 和 EPD 的完整对照仍待完成。CPU契约测试与以下已运行性能批次分开。
+后续公平 PD 基线已有[独立 G1/G2 通过的 v11 代码](plans/fair-pd-20261027-v11/README.md)，[qjh000目标CPU实际76 PASS](validation/qjh000-cpu-20261027/README.md)，0失败/错误/跳过，完整日志与独立审查保留；[旧 v8 候选](plans/fair-pd-20261027/README.md)独立保留。**真实 GPU/模型验证尚未执行，没有新增性能结果**；三个完整副本、调优 PD 和 EPD 的完整对照仍待完成。CPU契约测试与以下已运行性能批次分开。2026-10-28 新增 [v13 候选](plans/fair-pd-20261028-v13/README.md)（v12 薄 controller＋v13-a 修复＋qjh000 当日 CPU 范围），其 CPU 单元尚未执行。
 
 ## qjh000修正批次：终态部分结果
 

@@ -1,0 +1,974 @@
+diff --git a/baseline_server.py b/baseline_server.py
+--- a/baseline_server.py
++++ b/baseline_server.py
+@@ -34,8 +34,9 @@
+                              args.max_num_seqs, inspect.signature(AsyncEngineArgs).parameters)
+     engine_args = AsyncEngineArgs(**options)
+     engine = AsyncLLMEngine.from_engine_args(engine_args)
+-    from production_identity import enabled, publish_service, response_identity
++    from production_identity import enabled, publish_service, response_identity, requests_enabled
+     repro_service, repro_workers = None, None
++    repro_request_identity = requests_enabled()
+     if enabled():
+         from production_identity import baseline_worker_identity
+         repro_workers = [baseline_worker_identity(engine)]
+@@ -86,7 +87,8 @@
+         sampling = SamplingParams(**data)
+         prompt = {"prompt": inputs["prompt"], "multi_modal_data": {"image": images}}
+         timestamps, previous_count, final = [], 0, None
+-        async for output in engine.generate(prompt, sampling, uuid.uuid4().hex):
++        request_id = uuid.uuid4().hex
++        async for output in engine.generate(prompt, sampling, request_id):
+             final = output
+             token_count = len(output.outputs[0].token_ids)
+             timestamps.extend([time.perf_counter()] * (token_count - previous_count))
+@@ -99,7 +101,8 @@
+                              "processed_prompt_token_len": len(final.prompt_token_ids),
+                              "timestamps": timestamps,
+                              "timestamp_clock": "time.perf_counter on server host"}
+-        if repro_service is not None:
++        if repro_request_identity:
++            result["repro_request_id"] = request_id
+             result.update(response_identity(repro_service, repro_workers))
+         return JSONResponse(result)
+ 
+diff --git a/benchmark.py b/benchmark.py
+--- a/benchmark.py
++++ b/benchmark.py
+@@ -5,7 +5,6 @@
+ import pathlib
+ import time
+ import aiohttp
+-from transformers import AutoTokenizer
+ from client_window import load_metadata, write_window
+ 
+ 
+@@ -28,6 +27,7 @@
+             raise ValueError("Calibration must use all three distinct replica APIs or the single disaggregated API")
+     args.output.mkdir(parents=True, exist_ok=True)
+     manifest = json.loads((args.dataset / "manifest.json").read_text())
++    from transformers import AutoTokenizer
+     tokenizer = AutoTokenizer.from_pretrained(args.model, trust_remote_code=True)
+     marker = "<|vision_start|><|image_pad|><|vision_end|>" if "Qwen2-VL" in args.model else "(<image>./</image>)"
+     prompt = tokenizer.apply_chat_template(
+@@ -127,6 +127,16 @@
+ 
+ 
+ def main():
++    import sys
++    if "--fixed-unit" in sys.argv:
++        parser = argparse.ArgumentParser()
++        parser.add_argument("--fixed-unit", type=pathlib.Path, required=True)
++        parser.add_argument("--unit-runtime", type=pathlib.Path, required=True)
++        parser.add_argument("--unit-output", type=pathlib.Path, required=True)
++        fixed = parser.parse_args()
++        from fixed_unit import run_client
++        asyncio.run(run_client(json.loads(fixed.fixed_unit.read_bytes()), json.loads(fixed.unit_runtime.read_bytes()), fixed.unit_output))
++        return
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--urls", nargs="+", required=True)
+     parser.add_argument("--model", required=True)
+diff --git a/cpu_target_runner.py b/cpu_target_runner.py
+--- a/cpu_target_runner.py
++++ b/cpu_target_runner.py
+@@ -223,7 +223,7 @@
+                 ids.write(json.dumps({"event": "subtest_failure", "test_id": subtest.id()})+"\n"); ids.flush()
+             super().addSubTest(test,subtest,error)
+     loader = unittest.TestLoader()
+-    suite = unittest.TestSuite(loader.loadTestsFromName(name) for name in ("test_pd_cpu", "test_preflight_v5", "test_cpu_target_runner", "test_production_identity"))
++    suite = unittest.TestSuite(loader.loadTestsFromName(name) for name in ("test_pd_cpu", "test_preflight_v5", "test_cpu_target_runner", "test_production_identity", "test_controller_cpu"))
+     result = unittest.TextTestRunner(verbosity=2, resultclass=Result).run(suite)
+     ids.close()
+     with (output / "test-result.json").open("x",encoding="utf-8") as file:
+diff --git a/epdserve/api_server.py b/epdserve/api_server.py
+--- a/epdserve/api_server.py
++++ b/epdserve/api_server.py
+@@ -69,6 +69,7 @@
+ app = FastAPI()
+ counter = utils.Counter()
+ repro_service = None
++repro_request_identity = False
+ 
+ image_cache = {}
+ ASSETS_DIR = os.path.join(os.path.dirname(__file__), '../assets')
+@@ -159,7 +160,8 @@
+         "timestamps": [step_output[1] for step_output in final_outputs],
+         "lifetime_events": json_encode_lifetime_events(request_events.values())
+     }
+-    if repro_service is not None:
++    if repro_request_identity:
++        ret["repro_request_id"] = request_id
+         from production_identity import response_identity
+         ret.update(response_identity(repro_service, getattr(final_outputs[-1][0].request, "repro_worker_route", [])))
+     return JSONResponse(ret)
+@@ -178,10 +180,15 @@
+     set_random_seed(args.seed)
+     from production_identity import validate_profile
+     validate_profile(args)
+-    ray.init()
++    from production_identity import enabled
++    if enabled():
++        ray.init(address="local", include_dashboard=False, _temp_dir=os.environ["REPRO_RAY_TMP"])
++    else:
++        ray.init()
+     
+     engine = AsyncLLM.from_engine_args(args)
+-    from production_identity import enabled, publish_service
++    from production_identity import enabled, publish_service, requests_enabled
++    repro_request_identity = requests_enabled()
+     repro_service = None
+     if enabled():
+         workers = [worker for cluster in (engine.orchestrator.encoding_cluster, engine.orchestrator.context_cluster,
+diff --git a/epdserve/engine_common.py b/epdserve/engine_common.py
+--- a/epdserve/engine_common.py
++++ b/epdserve/engine_common.py
+@@ -214,6 +214,8 @@
+         
+         # workers[i][j] is the j-th tensor-parallel worker in pipeline stage i
+         self.workers = []
++        from production_identity import requests_enabled
++        self.repro_request_identity = requests_enabled()
+         self.operating_status = EngineStatus.ACTIVE
+     
+     async def initialize(self):
+diff --git a/epdserve/engine_context.py b/epdserve/engine_context.py
+--- a/epdserve/engine_context.py
++++ b/epdserve/engine_context.py
+@@ -301,7 +301,7 @@
+                 seq_group_metadata.multi_modal_data = None
+                 seq_group_metadata_list.append(seq_group_metadata)
+ 
+-            if getattr(self, "repro_workers", None) is not None:
++            if getattr(self, "repro_request_identity", False):
+                 from production_identity import mark_batch
+                 mark_batch(batched_requests, self.repro_workers)
+             if getattr(self.model_config, "pd_fused", False):
+diff --git a/epdserve/engine_decoding.py b/epdserve/engine_decoding.py
+--- a/epdserve/engine_decoding.py
++++ b/epdserve/engine_decoding.py
+@@ -345,7 +345,7 @@
+                 seq_md.multi_modal_data = None
+                 seq_group_metadata_list.append(seq_md)
+ 
+-            if getattr(self, "repro_workers", None) is not None:
++            if getattr(self, "repro_request_identity", False):
+                 from production_identity import mark_batch
+                 mark_batch(batched_requests, self.repro_workers)
+             remote_calls = self._remote_call_all_workers_async(
+diff --git a/epdserve/engine_encoding.py b/epdserve/engine_encoding.py
+--- a/epdserve/engine_encoding.py
++++ b/epdserve/engine_encoding.py
+@@ -323,7 +323,7 @@
+             self.batches_in_pipeline.append(batched_requests)
+ 
+             block_tables = self.vision_block_manager.get_partial_block_table(batched_requests.get_request_ids())
+-            if getattr(self, "repro_workers", None) is not None:
++            if getattr(self, "repro_request_identity", False):
+                 from production_identity import mark_batch
+                 mark_batch(batched_requests, self.repro_workers)
+             remote_calls = self._remote_call_all_workers_async(
+diff --git a/fixed_unit.py b/fixed_unit.py
+new file mode 100644
+--- /dev/null
++++ b/fixed_unit.py
+@@ -0,0 +1,176 @@
++"""Fixed preflight request vectors, raw client and exact official argv. No GPU imports."""
++import asyncio
++import hashlib
++import json
++import math
++from pathlib import Path
++import sys
++import time
++
++from experiment_plan import CANDIDATES, candidate_arguments, candidate_id, config_sha256, qualification_schedule, LOADS
++from preflight_guard import digest, unit_budget
++
++
++def official_servers(spec, config):
++    candidate = next(c for c in CANDIDATES if candidate_id(c) == spec["candidate"])
++    root = Path(config["root"])
++    common = candidate_arguments(candidate)["arguments"]
++    urls = spec["urls"]
++    if len(urls) != (3 if candidate[0] == "replicas" else 1) or len(set(urls)) != len(urls):
++        raise ValueError("Exactly three baseline endpoints or one disaggregated endpoint required")
++    from urllib.parse import urlsplit
++    result = []
++    for index, url in enumerate(urls):
++        parsed = urlsplit(url)
++        if parsed.scheme != "http" or parsed.hostname != "127.0.0.1" or not parsed.port or parsed.path or parsed.query or parsed.fragment or parsed.username:
++            raise ValueError("Only exact loopback endpoints allowed")
++        if candidate[0] == "replicas":
++            argv = [sys.executable, str(root / "baseline_server.py"), "--model", spec["model"],
++                    "--dataset", spec["dataset"], "--port", str(parsed.port), *common]
++            visible = config["gpu_uuids"][index]
++        else:
++            argv = [sys.executable, "-m", "epdserve.api_server", "--host", "127.0.0.1",
++                    "--port", str(parsed.port), "--model", spec["model"], "--tokenizer", spec["model"], *common]
++            visible = ",".join(config["gpu_uuids"])
++        result.append({"url": url, "argv": argv, "CUDA_VISIBLE_DEVICES": visible})
++    return result
++
++
++def validate_spec(spec, config, source_sha):
++    if spec["schema"] != "epd-fixed-unit-v1" or spec["source_manifest_sha256"] != source_sha:
++        raise ValueError("Fixed source/schema differs")
++    candidate = next((c for c in CANDIDATES if candidate_id(c) == spec["candidate"]), None)
++    if candidate is None or config_sha256(candidate) != spec["candidate_config_sha256"]:
++        raise ValueError("Unknown candidate/profile SHA")
++    n, transfers, seconds = unit_budget(spec["phase"], spec["unit"], spec["candidate"])
++    if spec["phase"] not in ("qualification", "calibration"):
++        raise NotImplementedError("Numeric geometry/transfer and full cold/restart adapters remain blocked in this unit")
++    if spec["servers"] != official_servers(spec, config) or spec["max_requests"] != n or spec["wall_seconds"] != seconds:
++        raise ValueError("Actual official argv/visibility/request budget differs")
++    if spec["request_diagnostics"] is not (spec["phase"] == "qualification"):
++        raise ValueError("Calibration diagnostics must be off for every group")
++    for key in ("runtime_binding_sha256", "rgb_manifest_sha256"):
++        if type(spec[key]) is not str or len(spec[key]) != 64 or any(c not in "0123456789abcdef" for c in spec[key]):
++            raise ValueError("Missing runtime/cache binding")
++    if "MiniCPM-V-2_6" not in spec["model"]:
++        raise ValueError("Only the frozen MiniCPM model is supported")
++    if hashlib.sha256(Path(spec["rgb_manifest"]).read_bytes()).hexdigest() != spec["rgb_manifest_sha256"]:
++        raise ValueError("RGB input manifest differs")
++    batches = spec["batches"]
++    if spec["phase"] == "qualification":
++        expected = [(row["case"], row["images"], row["tokens"], row["concurrency"], row["requests"], False)
++                    for row in qualification_schedule() if row["candidate"] == spec["candidate"]]
++    else:
++        cid, repeat, load = spec["unit"].split("/")
++        if cid != spec["candidate"] or int(repeat) != spec["repeat"] or load != spec["load"]:
++            raise ValueError("Calibration unit identity differs")
++        images, tokens, concurrency = LOADS[load]
++        expected = [("warmup", images, tokens, concurrency, 4, True), ("measurement", images, tokens, concurrency, 16, False)]
++    if any(type(b[key]) is not int or b[key] < 1 for b in batches for key in ("images", "tokens", "concurrency")):
++        raise ValueError("Fixed geometry must use positive integers")
++    actual = [(b["case"], b["images"], b["tokens"], b["concurrency"], len(b["requests"]), b["warmup"]) for b in batches]
++    if actual != expected:
++        raise ValueError("Fixed request geometry/order differs from reviewed schedule")
++    seen, dispatch = set(), 0
++    for batch in batches:
++        for row in batch["requests"]:
++            if row["fixture_id"] in seen or row["dispatch_index"] != dispatch:
++                raise ValueError("Duplicate fixture or noncontinuous dispatch index")
++            seen.add(row["fixture_id"]); dispatch += 1
++            data = row["input"]
++            if not isinstance(data["prompt"], str) or not data["prompt"] or len(data["images"]) != batch["images"]:
++                raise ValueError("Actual request prompt/image vector differs")
++            for image in data["images"]:
++                if Path(image["path"]).resolve().parent != Path(spec["dataset"]).resolve() or len(image["rgb_sha256"]) != 64:
++                    raise ValueError("Ordered image outside frozen dataset or missing RGB hash")
++    if dispatch != n:
++        raise ValueError("N+1/incomplete fixed request vector")
++    return n
++
++
++async def run_client(spec, runtime, output):
++    """Called only by the claimed benchmark subprocess, one POST per frozen vector item."""
++    import aiohttp
++    output = Path(output)
++    claim_raw = Path(runtime["claim"]["path"]).read_bytes()
++    if hashlib.sha256(claim_raw).hexdigest() != runtime["claim"]["sha256"]:
++        raise ValueError("Actual durable claim bytes differ")
++    claim = json.loads(claim_raw)
++    if digest(claim["execution"]) != digest(spec) or claim["execution_sha256"] != digest(spec):
++        raise ValueError("Client argv/vector differs from pre-start claim")
++    deadline = claim["timing"]["deadline_monotonic"]
++    stop_file = Path(runtime["stop_file"])
++    # Fresh connections + no redirects; no retry loop or proxy environment.
++    connector = aiohttp.TCPConnector(force_close=True)
++    timeout = aiohttp.ClientTimeout(total=120)
++    issued, windows = 0, []
++    with (output / "requests.jsonl").open("x", encoding="utf-8") as raw:
++        async with aiohttp.ClientSession(connector=connector, timeout=timeout, trust_env=False) as session:
++            if hasattr(session, "_retry_connection"): session._retry_connection = False
++            for batch in spec["batches"]:
++                semaphore = asyncio.Semaphore(batch["concurrency"])
++                async def one(item):
++                    nonlocal issued
++                    async with semaphore:
++                        if stop_file.exists() or time.perf_counter() >= deadline or issued >= spec["max_requests"]:
++                            raise RuntimeError("Unit stopped/deadline/N+1: do not submit")
++                        issued += 1
++                        endpoint = spec["urls"][item["dispatch_index"] % len(spec["urls"])]
++                        images = []
++                        for image in item["input"]["images"]:
++                            actual_hash = runtime["rgb_by_path"][image["path"]]
++                            if actual_hash != image["rgb_sha256"]: raise ValueError("Actual server RGB differs")
++                            images.append({"path": image["path"], "rgb_sha256": actual_hash})
++                        actual_input = {"prompt": item["input"]["prompt"], "images": images}
++                        body = {"input": {"prompt": actual_input["prompt"], "multi_modal_data": {
++                            "images_paths": [i["path"] for i in images]}}, "stream": False,
++                            "max_tokens": batch["tokens"], "temperature": 0.0, "ignore_eos": True}
++                        row = {"fixture_id": item["fixture_id"], "request_id": item["fixture_id"],
++                            "unit_id": runtime["unit_id"], "run_id": runtime["run_id"], "candidate": spec["candidate"],
++                            "case": batch["case"], "images": len(images), "input": actual_input,
++                            "dispatch_index": item["dispatch_index"], "endpoint": endpoint, "warmup": batch["warmup"],
++                            "submit_monotonic": time.perf_counter()}
++                        if spec["phase"] == "calibration": row.update(repeat=spec["repeat"], load=spec["load"])
++                        try:
++                            async with session.post(endpoint + "/generate", json=body, allow_redirects=False) as response:
++                                text = await response.text()
++                                row.update(http_status=response.status, raw_response=text, end_monotonic=time.perf_counter())
++                                if response.status != 200: raise RuntimeError("HTTP status " + str(response.status))
++                                result = json.loads(text)
++                            row.update(response=result, processed_prompt_token_ids=result["processed_prompt_token_ids"],
++                                output_token_ids=result["output_token_ids"], observed_api_identity=result.get("repro_api_identity"),
++                                observed_worker_route=result.get("repro_worker_route"), server_request_id=result.get("repro_request_id"))
++                            stamps = result["timestamps"]
++                            if (len(row["output_token_ids"]) != batch["tokens"] or len(stamps) != batch["tokens"]
++                                    or not row["processed_prompt_token_ids"] or any(not math.isfinite(t) for t in stamps)
++                                    or not row["submit_monotonic"] <= stamps[0] <= stamps[-1] <= row["end_monotonic"]):
++                                raise ValueError("Actual token IDs/count/server clock differ")
++                            if spec["request_diagnostics"] and (row["server_request_id"] is None or not row["observed_worker_route"]):
++                                raise ValueError("Actual server RID/worker route missing")
++                            row["success"] = True
++                        except BaseException as error:
++                            row.update(success=False, end_monotonic=time.perf_counter(), error=repr(error))
++                            stop_file.touch(exist_ok=True)
++                        raw.write(json.dumps(row) + "\n"); raw.flush()
++                        return row
++                start = time.perf_counter()
++                results = await asyncio.gather(*(one(item) for item in batch["requests"]), return_exceptions=True)
++                end = time.perf_counter()
++                window = {"case": batch["case"], "images": batch["images"], "output_tokens": batch["tokens"],
++                          "concurrency": batch["concurrency"], "clock": "time.perf_counter",
++                          "start_monotonic": start, "end_monotonic": end, **runtime["clock_scope"]}
++                windows.append(window)
++                with (output / "case-windows.jsonl").open("a", encoding="utf-8") as file:
++                    file.write(json.dumps(window) + "\n")
++                if any(isinstance(row, BaseException) or row.get("success") is not True for row in results):
++                    raise RuntimeError("Actual fixed batch failed; preserve raw, no retry")
++    if issued != spec["max_requests"]: raise RuntimeError("Fixed vector incomplete")
++    if spec["phase"] == "calibration":
++        from client_window import write_window
++        metadata = {**runtime["clock_scope"], "candidate": spec["candidate"], "candidate_config_sha256": spec["candidate_config_sha256"],
++            "uid": runtime["uid"], "repeat": spec["repeat"], "load": spec["load"],
++            "source_manifest_sha256": spec["source_manifest_sha256"], "runtime_binding_sha256": spec["runtime_binding_sha256"]}
++        warm, measured = windows
++        write_window(output, metadata, warm["start_monotonic"], warm["end_monotonic"], measured["start_monotonic"], measured["end_monotonic"])
++        (output / "summary.json").write_text(json.dumps({"requests_per_s": 16 / (measured["end_monotonic"] - measured["start_monotonic"])}))
++    return windows
+diff --git a/live_evidence.py b/live_evidence.py
+--- a/live_evidence.py
++++ b/live_evidence.py
+@@ -58,7 +58,7 @@
+ 
+ class NvmlBackend:
+     def __init__(self):
+-        # Import only after a genuine preflight Claim has been reserved.
++        # Metadata-only admission after original GPU scope validation; model sampling after Claim.
+         import pynvml
+         self.api = pynvml
+         self.api.nvmlInit()
+@@ -129,7 +129,7 @@
+ 
+ 
+ def collect(permit, output, stop_requested, *, backend_factory=NvmlBackend, proc=None,
+-            clock=time.perf_counter, sleep=time.sleep):
++            clock=time.perf_counter, sleep=time.sleep, ready_callback=None):
+     """Caller must keep it running across the actual outer client window."""
+     from preflight_guard import Claim, validate_resources
+     if not isinstance(permit, Claim) or not getattr(permit, "reserved", False):
+@@ -174,6 +174,8 @@
+                                          for process in processes]}
+                     samples.write(json.dumps(row) + "\n")
+                 samples.flush()
++                if ready_callback is not None:
++                    ready_callback()
+                 if stop_requested():
+                     break
+                 sleep(.1)
+diff --git a/preflight_controller.py b/preflight_controller.py
+new file mode 100644
+--- /dev/null
++++ b/preflight_controller.py
+@@ -0,0 +1,363 @@
++"""Fixed qualification/calibration production bridge. Candidate scopes cannot run.
++
++Numeric full-cache and selected cold/restart orchestration are explicitly blocked.
++No GPU dependency is imported until original GPU authorization/source checks pass.
++"""
++import argparse
++import hashlib
++import http.client
++import json
++import os
++from pathlib import Path
++import signal
++import socket
++import subprocess
++import sys
++import threading
++import time
++from urllib.parse import urlsplit
++
++from admission import bound_bytes
++from fixed_unit import validate_spec
++from live_evidence import ProcReader, NvmlBackend, snapshot, collect, write_exclusive
++from preflight_guard import (Claim, digest, load_bound, validate_static, verify_checkout,
++                             require_review, validate_resources, booking_remaining)
++from production_identity import assemble_services
++
++
++def authorize(config, inputs, owner):
++    validate_static(config)  # candidate rejection before NVML, spawn or claim.
++    if len(set(config["numa_by_uuid"].values())) != 1:
++        raise ValueError("Exactly three approved GPUs in one NUMA group required")
++    if (socket.gethostname(), os.getuid(), str(Path.cwd().resolve())) != (config["host"], config["uid"], config["root"]):
++        raise ValueError("Actual host/UID/root differs")
++    user = load_bound(owner, inputs["user_file"], inputs["user_sha256"])
++    if (user.get("author") != "human_user" or user.get("scope") != "EPD_preflight_only"
++            or user.get("static_config_sha256") != digest(config)
++            or not bound_bytes(owner, user["original_instruction_file"], user["original_instruction_sha256"]).strip()):
++        raise ValueError("Original exact GPU grant required; CPU grant is insufficient")
++    require_review(owner, inputs["G1_file"], inputs["G1_sha256"], "G1", digest(config), config)
++    require_review(owner, inputs["G2_file"], inputs["G2_sha256"], "G2", digest({
++        "static_config_sha256": digest(config), "source_manifest_sha256": inputs["source_manifest_sha256"]}), config)
++    return verify_checkout(config, inputs, owner)
++
++
++def load_execution(template_path, config, inputs, owner):
++    template_path = Path(template_path).resolve(strict=True)
++    root = Path(config["root"])
++    rel = template_path.relative_to(root).as_posix()
++    manifest = load_bound(owner, inputs["source_manifest_file"], inputs["source_manifest_sha256"])
++    pin = next((item for item in manifest["files"] if item["path"] == rel), None)
++    if pin is None or hashlib.sha256(template_path.read_bytes()).hexdigest() != pin["sha256"]:
++        raise ValueError("Unit template is not a pinned committed source member")
++    template = json.loads(template_path.read_bytes())
++    # Avoid an impossible source-manifest/spec self-hash cycle: only runtime envelope binds sourceSHA.
++    if "source_manifest_sha256" in template: raise ValueError("Static template cannot self-reference its source manifest")
++    spec = {**template, "source_manifest_sha256": inputs["source_manifest_sha256"]}
++    validate_spec(spec, config, inputs["source_manifest_sha256"])
++    output = root / "runtime" / inputs["run_id"]
++    spec["client_argv"] = [sys.executable, str(root / "benchmark.py"), "--fixed-unit", str(output / "execution.json"),
++                           "--unit-runtime", str(output / "client-runtime.json"), "--unit-output", str(output)]
++    return spec
++
++
++def child_environment(server, spec, config, inputs, deployed):
++    return {"PATH": os.environ.get("PATH", ""), "LD_LIBRARY_PATH": os.environ.get("LD_LIBRARY_PATH", ""),
++        "CUDA_VISIBLE_DEVICES": server["CUDA_VISIBLE_DEVICES"], "PYTHONDONTWRITEBYTECODE": "1",
++        "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "RAY_ADDRESS": "local",
++        "REPRO_RAY_TMP": str(Path(config["root"]) / "runtime" / inputs["run_id"] / "ray"),
++        "EXP_ROOT": config["root"], "REPRO_RUN_ID": inputs["run_id"], "REPRO_SOURCE_COMMIT": deployed["commit"],
++        "REPRO_DEPLOY_SHA256": inputs["deploy_sha256"], "REPRO_PROFILE_SHA256": spec["candidate_config_sha256"],
++        "REPRO_GPU_UUIDS": json.dumps(config["gpu_uuids"]), "REPRO_ENDPOINT": server["url"],
++        "REPRO_IDENTITY": "1", "REPRO_REQUEST_IDENTITY": "1" if spec["request_diagnostics"] else "0",
++        "REPRO_RGB_MANIFEST": spec["rgb_manifest"]}
++
++
++def observe_owned(pid, config, run_id, proc):
++    identity = proc.identity(pid, config["uid"])
++    if identity["boot_id"] != proc.boot() or not Path(identity["cwd"]).is_relative_to(Path(config["root"])):
++        raise ValueError("PID boot/cwd outside this owned unit; refuse to signal")
++    return {**identity, "root": config["root"], "run_id": run_id}
++
++
++def descendants(owned, config, run_id, proc):
++    # Only descendants of exact already registered PIDs, never a machine-wide process scan.
++    for saved in list(owned.values()):
++        try:
++            current = observe_owned(saved["pid"], config, run_id, proc)
++            if current != saved: raise ValueError("Known parent PID identity changed")
++            for task in (Path("/proc") / str(saved["pid"]) / "task").iterdir():
++                for value in (task / "children").read_text().split():
++                    pid = int(value)
++                    if pid not in owned: owned[pid] = observe_owned(pid, config, run_id, proc)
++        except FileNotFoundError:
++            continue  # Gone parent is checked again in terminal cleanup.
++
++
++def stop_owned(saved, config, run_id, proc, deadline, process=None):
++    observations = []
++    if process is not None:
++        process.poll()  # Reap the exact Popen child before examining an already-exited /proc entry.
++    for number in (signal.SIGTERM, signal.SIGKILL):
++        if time.perf_counter() >= deadline: break
++        try:
++            current = observe_owned(saved["pid"], config, run_id, proc)
++            if current != saved: return {"identity": saved, "state": "identity_changed_refused"}
++        except FileNotFoundError:
++            state = "gone" if not Path('/proc/' + str(saved["pid"])).exists() else "zombie_or_unknown_unconfirmed"
++            return {"identity": saved, "state": state}
++        except Exception as error:
++            return {"identity": saved, "state": "identity_unknown_refused", "error": str(error)}
++        os.kill(saved["pid"], number); observations.append(int(number))
++        until = min(deadline, time.perf_counter() + 2)
++        while time.perf_counter() < until:
++            if process is not None: process.poll()  # Reap exact own Popen child.
++            if not Path('/proc/' + str(saved["pid"])).exists():
++                return {"identity": saved, "state": "gone", "signals": observations}
++            time.sleep(.05)
++    return {"identity": saved, "state": "deadline_unconfirmed", "signals": observations}
++
++
++def listener_owned(pid, url):
++    """Match a selected loopback listen inode to this exact owned API's FDs."""
++    port = urlsplit(url).port
++    inodes = set()
++    for fd in (Path('/proc') / str(pid) / 'fd').iterdir():
++        try: target = os.readlink(fd)
++        except FileNotFoundError: continue
++        if target.startswith('socket:['): inodes.add(target[8:-1])
++    with Path('/proc/net/tcp').open() as file:
++        for line in file:
++            fields = line.split()
++            if len(fields) > 9 and fields[1] == '0100007F:' + format(port, '04X') and fields[3] == '0A' and fields[9] in inodes:
++                return True
++    return False
++
++
++def rgb_cache(url, spec):
++    parsed = urlsplit(url)
++    connection = http.client.HTTPConnection(parsed.hostname, parsed.port, timeout=5)
++    try:
++        connection.request("GET", "/repro/rgb-cache")
++        response = connection.getresponse(); raw = response.read()
++        if response.status != 200: raise ValueError("Actual RGB cache endpoint failed; no retry")
++        actual = json.loads(raw)
++    finally:
++        connection.close()
++    if actual["manifest_sha256"] != spec["rgb_manifest_sha256"]:
++        raise ValueError("Actual server cache manifest differs")
++    images = {str(Path(spec["dataset"]) / image["file"]): image["rgb_sha256"] for image in actual["images"]}
++    for batch in spec["batches"]:
++        for request in batch["requests"]:
++            for image in request["input"]["images"]:
++                if images.get(image["path"]) != image["rgb_sha256"]:
++                    raise ValueError("Actual server RGB buffer differs from frozen vector")
++    return actual, images
++
++
++def run(config, inputs, owner, template):
++    deployed = authorize(config, inputs, owner)
++    spec = load_execution(template, config, inputs, owner)
++    root, proc = Path(config["root"]), ProcReader()
++    runtime = root / "runtime"; runtime.mkdir(mode=0o700, exist_ok=True)
++    if runtime.resolve() != runtime or runtime.stat().st_uid != config["uid"]:
++        raise ValueError("Runtime escaped the exact owned source root")
++    import fcntl
++    fd = os.open(runtime / "controller.lock", os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
++    with os.fdopen(fd, "r+") as lock:
++        import stat
++        info = os.fstat(lock.fileno())
++        if info.st_uid != config["uid"] or not stat.S_ISREG(info.st_mode): raise ValueError("Unknown controller lock owner/type")
++        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
++        active = runtime / "controller-active.json"
++        if active.exists() and json.loads(active.read_bytes()).get("state") != "released":
++            raise ValueError("Previous unit release unconfirmed; no next unit")
++        backend = NvmlBackend()  # Original GPU grant/source already verified; metadata-only admission.
++        try:
++            fresh = snapshot(config, inputs["run_id"], deployed, backend, proc)
++            if any(gpu["processes"] for gpu in fresh["gpus"].values()):
++                raise ValueError("Startup requires all three approved GPUs free of compute PIDs")
++            claim = Claim(config, inputs, owner, spec["unit"], spec["phase"], spec["candidate"], fresh,
++                          now_ms=int(time.time()*1000))
++            envs = [child_environment(server, spec, config, inputs, deployed) for server in spec["servers"]]
++            spec["server_environments"] = envs
++            spec["client_environment"] = {"PATH": os.environ.get("PATH", ""), "PYTHONDONTWRITEBYTECODE": "1",
++                "CUDA_VISIBLE_DEVICES": "", "NVIDIA_VISIBLE_DEVICES": "void"}
++            ledger = runtime / "gpu-budget.json"
++            if ledger.exists():
++                old_units = json.loads(ledger.read_bytes())["units"].values()
++                first = min((unit["timing"]["start_monotonic"] for unit in old_units), default=time.perf_counter())
++                if time.perf_counter() + spec["wall_seconds"] + 600 > first + 340 * 60:
++                    raise TimeoutError("Complete next unit plus cleanup cannot fit global340min")
++            claim.reserve(ledger, spec)
++            claim.admit_request(spec["max_requests"])  # Once, before startup; finite vector only.
++            output = runtime / inputs["run_id"]; output.mkdir(mode=0o700, exist_ok=False)
++            write_exclusive(output / "execution.json", spec)
++            active.write_text(json.dumps({"state": "claimed", "claim": claim.reservation_receipt, "run_id": inputs["run_id"]}))
++            return execute_claimed(config, inputs, deployed, spec, claim, backend, proc, output, active)
++        finally:
++            backend.close()
++
++
++def execute_claimed(config, inputs, deployed, spec, claim, backend, proc, output, active):
++    root, run_id = Path(config["root"]), inputs["run_id"]
++    owned, processes, logs, bootstrap_seen = {}, {}, [], {}
++    cancelled, collect_stop, sample_ready = threading.Event(), threading.Event(), threading.Event()
++    errors, cleanup, failure, sampler = [], [], None, None
++    by_pid = {}
++    previous = {n: signal.getsignal(n) for n in (signal.SIGTERM, signal.SIGINT)}
++    for number in previous: signal.signal(number, lambda number, frame: cancelled.set())
++    def check():
++        claim.check()
++        if time.perf_counter() >= claim.deadline - config["cleanup_seconds"]:
++            raise TimeoutError("Reserved in-unit cleanup interval reached")
++        if cancelled.is_set() or errors: raise RuntimeError("Unit cancelled/collector failed")
++    def spawn(argv, env):
++        check()
++        log = (output / ('process-' + str(len(logs)) + '.log')).open('xb'); logs.append(log)
++        process = subprocess.Popen(argv, cwd=root, env=env, stdin=subprocess.DEVNULL,
++            stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
++        processes[process.pid] = process
++        owned[process.pid] = observe_owned(process.pid, config, run_id, proc)
++        write_exclusive(output / ('spawn-' + str(process.pid) + '.json'), {"argv": argv, "identity": owned[process.pid]})
++        check()  # Deferred TERM/INT is handled only after the owned Popen and identity are bound.
++        return process
++    try:
++        for server, env in zip(spec["servers"], spec["server_environments"]): spawn(server["argv"], env)
++        # Actual bootstrap raw, including own UID/startticks before late self-registration.
++        with (output / 'bootstrap-nvml.jsonl').open('x', encoding='utf-8') as raw:
++            while True:
++                check(); descendants(owned, config, run_id, proc)
++                for uuid in config["gpu_uuids"]:
++                    observed = backend.read(uuid)
++                    raw.write(json.dumps({"gpu_uuid": uuid, "clock": time.perf_counter(), "raw": observed}) + '\n'); raw.flush()
++                    if observed["used_bytes"] > observed["capacity_bytes"] * 65 // 100:
++                        raise ValueError("Bootstrap sampled memory exceeds common cap")
++                    for process in observed["processes"]:
++                        identity = observe_owned(process["pid"], config, run_id, proc)
++                        if process["pid"] not in owned: raise ValueError("Bootstrap compute PID is not a known own descendant")
++                        bootstrap_seen[process["pid"]] = {**identity, "gpu_uuid": uuid}
++                paths = list((root / 'runtime/endpoints').glob(run_id + '-*.json'))
++                if len(paths) == len(spec["servers"]): break
++                if any(p.poll() is not None for p in processes.values()): raise RuntimeError("Official service exited before registration")
++                time.sleep(.1)
++        env = spec["server_environments"][0]
++        saved_env = {key: os.environ.get(key) for key in env}
++        try:
++            os.environ.update(env)
++            endpoints = assemble_services(paths, output / 'endpoints.json')
++        finally:
++            for key, value in saved_env.items():
++                if value is None: os.environ.pop(key, None)
++                else: os.environ[key] = value
++        ready = snapshot(config, run_id, deployed, backend, proc)
++        validate_resources(ready, config, run_id, deployed, int(time.time()*1000))
++        by_pid = {p["pid"]: p for gpu in ready["gpus"].values() for p in gpu["processes"]}
++        expected_roles = ["FULL_REPLICA"] * 3 if spec["candidate"].startswith('replicas-') else (["ENCODING", "CONTEXT", "DECODING"] if spec["candidate"].startswith('epd-') else
++            ["CONTEXT"] * int(spec["candidate"].split('-p')[1].split('-')[0]) + ["DECODING"] * int(spec["candidate"].split('-d')[1].split('-')[0]))
++        if sorted(p["engine_stage"] for p in by_pid.values()) != sorted(expected_roles): raise ValueError("Actual stage/worker count differs")
++        for pid, before in bootstrap_seen.items():
++            after = by_pid.get(pid)
++            if after is None or any(after[k] != before[k] for k in ('proc_start_ticks', 'gpu_uuid', 'uid', 'boot_id', 'run_id', 'root')):
++                raise ValueError("Bootstrap identity cannot bind to actual registered worker")
++        from selected_g3 import endpoint_bindings
++        system = spec["candidate"].split('-p')[0]
++        endpoint_bindings(endpoints, list(by_pid.values()), config,
++            {"boot_id": deployed["boot_id"], "commit": deployed["commit"], "deploy_sha256": inputs["deploy_sha256"],
++             "systems": {system: {"candidate_config_sha256": spec["candidate_config_sha256"]}}}, {"run_id": run_id}, spec["candidate"])
++        while not all(listener_owned(service["api_identity"]["pid"], service["url"]) for service in endpoints["services"]):
++            check()
++            if any(p.poll() is not None for p in processes.values()): raise RuntimeError("API exited before actual listening")
++            time.sleep(.05)
++        rgb = None
++        for index, server in enumerate(spec["servers"]):
++            actual_cache, observed_rgb = rgb_cache(server["url"], spec)
++            write_exclusive(output / ('rgb-' + str(index) + '.json'), actual_cache)
++            if rgb is not None and rgb != observed_rgb: raise ValueError("Baseline/endpoint RGB caches differ")
++            rgb = observed_rgb
++        def sampling():
++            try: collect(claim, output / 'memory', lambda: collect_stop.is_set(), backend_factory=NvmlBackend,
++                         ready_callback=sample_ready.set)
++            except BaseException as error:
++                errors.append(repr(error)); (output / 'STOP').touch(exist_ok=True); sample_ready.set()
++        sampler = threading.Thread(target=sampling, daemon=True); sampler.start()
++        while not sample_ready.wait(.05): check()
++        check()
++        write_exclusive(output / 'client-runtime.json', {"claim": {"path": claim.reservation_receipt["claim"],
++            "sha256": claim.reservation_receipt["claim_sha256"]}, "unit_id": claim.reservation_receipt["key"],
++            "run_id": run_id, "uid": config["uid"], "rgb_by_path": rgb, "stop_file": str(output / 'STOP'),
++            "clock_scope": {"host": config["host"], "boot_id": deployed["boot_id"], "run_id": run_id}})
++        client = spawn(spec["client_argv"], spec["client_environment"])
++        while client.poll() is None:
++            check(); descendants(owned, config, run_id, proc); time.sleep(.1)
++        if client.returncode != 0: raise RuntimeError("Actual fixed client failed; no retry")
++        time.sleep(.15); check()  # Tail memory sample after actual outer window.
++    except BaseException as error:
++        failure = {"type": type(error).__name__, "error": repr(error)}
++    finally:
++        try: (output / 'STOP').touch(exist_ok=True)
++        except Exception as error: errors.append('stop-file:' + repr(error))
++        collect_stop.set()
++        if sampler is not None: sampler.join(timeout=2)
++        deadline = min(time.perf_counter() + config["cleanup_seconds"], claim.deadline)
++        try:
++            descendants(owned, config, run_id, proc)
++            for saved in reversed(list(owned.values())):
++                current_gpus = {p["pid"]: uuid for uuid in config["gpu_uuids"] for p in backend.read(uuid)["processes"]}
++                if saved["pid"] in current_gpus:
++                    binding = by_pid.get(saved["pid"])
++                    if binding is None or binding["gpu_uuid"] != current_gpus[saved["pid"]]:
++                        cleanup.append({"identity": saved, "state": "GPU_identity_unknown_refused"}); continue
++                    sidecar = root / 'runtime/identities' / (str(saved["pid"]) + '-' + str(saved["proc_start_ticks"]) + '.json')
++                    actual_binding = json.loads(sidecar.read_bytes())
++                    if any(actual_binding.get(k) != binding[k] for k in ('pid','uid','root','run_id','boot_id','proc_start_ticks','gpu_uuid','engine_stage','source_commit','deploy_sha256','candidate_config_sha256','endpoint')):
++                        cleanup.append({"identity": saved, "state": "GPU_binding_changed_refused"}); continue
++                cleanup.append(stop_owned(saved, config, run_id, proc, deadline, processes.get(saved["pid"])))
++        except BaseException as error: cleanup.append({"state": "cleanup_unknown_unconfirmed", "error": repr(error)})
++        for log in logs:
++            try: log.close()
++            except Exception: pass
++        released = bool(owned) and set(processes) <= set(owned) and len(cleanup) == len(owned) and all(item["state"] == 'gone' for item in cleanup)
++        release_raw = {}
++        try:
++            for uuid in config['gpu_uuids']:
++                release_raw[uuid] = backend.read(uuid)
++                if release_raw[uuid]['processes'] or release_raw[uuid]['used_bytes'] > config['max_idle_bytes']: released = False
++        except Exception as error:
++            released = False; errors.append(repr(error))
++        if sampler is not None and sampler.is_alive(): released = False; errors.append('collector_not_stopped')
++        try: verify_checkout(config, inputs, claim.owner)
++        except Exception as error: errors.append(repr(error)); failure = failure or {"error": "source_changed"}
++        artifacts = {}
++        try:
++            for artifact in output.iterdir():
++                if artifact.is_file():
++                    try: artifacts[artifact.name] = hashlib.sha256(artifact.read_bytes()).hexdigest()
++                    except Exception as error: errors.append('artifact:' + repr(error))
++        except Exception as error: errors.append('artifact-list:' + repr(error))
++        report = {"state": 'released' if released else 'release_unconfirmed', 'run_id': run_id,
++            'failure': failure, 'errors': errors, 'cleanup': cleanup, 'actual_gpu_release': release_raw,
++            'claim': claim.reservation_receipt, 'source_commit': deployed['commit'],
++            'finished_utc_ms': int(time.time()*1000), 'formal_admission': 'blocked',
++            'evidence_state': 'raw_not_independently_reviewed', 'files': artifacts}
++        try:
++            write_exclusive(output / 'terminal.json', report)
++            active.write_text(json.dumps({'state': report['state'] if failure is None and not errors else 'stopped_no_next_unit', 'terminal': str(output / 'terminal.json'),
++                'terminal_sha256': hashlib.sha256((output / 'terminal.json').read_bytes()).hexdigest()}))
++        finally:
++            for number, handler in previous.items(): signal.signal(number, handler)
++    return report
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--inputs', type=Path, required=True)
++    parser.add_argument('--unit-template', type=Path, required=True)
++    args = parser.parse_args()
++    inputs = json.loads(args.inputs.read_bytes())
++    config = json.loads((Path.cwd() / 'preflight-static.json').read_bytes())
++    report = run(config, inputs, args.inputs.resolve(), args.unit_template)
++    return 0 if report['state'] == 'released' and report['failure'] is None and not report['errors'] else 1
++
++
++if __name__ == '__main__': sys.exit(main())
+diff --git a/preflight_guard.py b/preflight_guard.py
+--- a/preflight_guard.py
++++ b/preflight_guard.py
+@@ -142,7 +142,8 @@
+     if any(not rel.startswith("runtime/") or Path(rel).suffix in (".py", ".so", ".sh", ".pth") for rel in untracked):
+         raise ValueError("Untracked code/out-of-whitelist files in source checkout")
+     required = {"preflight_guard.py", "live_evidence.py", "selected_g3.py", "admission.py",
+-                "experiment_plan.py", "benchmark.py", "client_window.py", "preflight-static.json"}
++                "experiment_plan.py", "benchmark.py", "client_window.py", "preflight-static.json",
++                "fixed_unit.py", "preflight_controller.py", "production_identity.py"}
+     if not required <= {item["path"] for item in manifest["files"]}:
+         raise ValueError("Source manifest omits an execution/admission component")
+     if json.loads((root / "preflight-static.json").read_bytes()) != config:
+@@ -254,12 +255,18 @@
+                 or now_ms >= self.booking_deadline_ms):
+             raise TimeoutError("Unit wallclock/booking deadline reached; no next request")
+ 
+-    def reserve(self, ledger):
++    def reserve(self, ledger, execution):
+         # Separate persistent flock plus atomic replace: locking is not a booking.
+         import fcntl
+         import stat
+         import tempfile
+         self.check()
++        if (execution.get("schema") != "epd-fixed-unit-v1"
++                or execution.get("phase") != self.phase or execution.get("unit") != self.unit
++                or execution.get("candidate") != self.candidate
++                or execution.get("source_manifest_sha256") != self.inputs["source_manifest_sha256"]):
++            raise ValueError("Fixed execution argv/vector/source scope differs")
++        self.execution_sha256 = digest(execution)
+         now_ms = int(time.time() * 1000)
+         validate_resources(self.resources, self.config, self.inputs["run_id"], self.deployed, now_ms)
+         if unit_budget(self.phase, self.unit, self.candidate)[2] > booking_remaining(
+@@ -298,7 +305,8 @@
+             claim_path = claims / (digest(key) + ".json")
+             with claim_path.open("x", encoding="utf-8") as file:
+                 json.dump({"unit": state["units"][key], "resources": self.resources, "timing": self.timing,
+-                           "source": self.deployed, "static_config_sha256": self.config_sha256}, file, indent=2)
++                           "source": self.deployed, "static_config_sha256": self.config_sha256,
++                           "execution": execution, "execution_sha256": self.execution_sha256}, file, indent=2)
+                 file.flush(); os.fsync(file.fileno())
+             temp_fd, temp_name = tempfile.mkstemp(prefix=".budget-", dir=ledger.parent)
+             with os.fdopen(temp_fd, "w", encoding="utf-8") as file:
+@@ -326,7 +334,9 @@
+         if hashlib.sha256(paths[1].read_bytes()).hexdigest() != evidence["claim_sha256"]:
+             raise ValueError("Durable claim bytes changed")
+         claim, ledger = json.loads(paths[1].read_bytes()), json.loads(paths[0].read_bytes())
+-        if (claim["static_config_sha256"] != self.config_sha256 or ledger["static_config_sha256"] != self.config_sha256
++        if (claim["execution_sha256"] != self.execution_sha256 or digest(claim["execution"]) != self.execution_sha256
++                or claim["unit"].get("execution_sha256") != self.execution_sha256
++                or claim["static_config_sha256"] != self.config_sha256 or ledger["static_config_sha256"] != self.config_sha256
+                 or ledger["units"].get(evidence["key"]) != claim["unit"]
+                 or claim["unit"]["run_id"] != self.inputs["run_id"]
+                 or claim["unit"]["candidate"] != self.candidate
+@@ -358,6 +368,7 @@
+         state["units"][key] = {"run_id": self.inputs["run_id"], "candidate": self.candidate,
+             "phase": self.phase, "unit": self.unit,
+             "timing": dict(self.timing),
++            "execution_sha256": getattr(self, "execution_sha256", None),
+             "allocation": allocation, "state": "claimed_consumed_even_if_launch_fails",
+             "deploy_sha256": self.inputs["deploy_sha256"], "booking_sha256": self.inputs["booking_sha256"]}
+ 
+diff --git a/production_identity.py b/production_identity.py
+--- a/production_identity.py
++++ b/production_identity.py
+@@ -16,6 +16,13 @@
+     value = os.environ.get("REPRO_IDENTITY", "0")
+     if value not in ("0", "1"):
+         raise ValueError("REPRO_IDENTITY must be 0 or 1")
++    return value == "1"
++
++
++def requests_enabled():
++    value = os.environ.get("REPRO_REQUEST_IDENTITY", "0")
++    if value not in ("0", "1") or value == "1" and not enabled():
++        raise ValueError("Request diagnostics require registered startup identity")
+     return value == "1"
+ 
+ 
+@@ -38,7 +45,7 @@
+     uuids = json.loads(values["REPRO_GPU_UUIDS"])
+     if len(uuids) != 3 or len(set(uuids)) != 3 or any(not re.fullmatch(r"GPU-[0-9a-f-]{36}", uuid) for uuid in uuids):
+         raise ValueError("Qualification identity requires exactly three full GPU UUIDs")
+-    return {"REPRO_IDENTITY": "1", **values}
++    return {"REPRO_IDENTITY": "1", "REPRO_REQUEST_IDENTITY": "1" if requests_enabled() else "0", **values}
+ 
+ 
+ def scope():
+diff --git a/tests/test_controller_cpu.py b/tests/test_controller_cpu.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_controller_cpu.py
+@@ -0,0 +1,108 @@
++"""v12 controller test SOURCE ONLY, UNEXECUTED. CPU mocks never authorize hardware."""
++import copy
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT))
++from experiment_plan import candidate_id, config_sha256, qualification_schedule
++import fixed_unit
++import preflight_controller as controller
++import production_identity as identity
++from test_preflight_v5 import Fixture
++
++
++class FixedVectorCPU(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory(dir=Path(os.environ["EPD_CPU_TEST_TMP"]).resolve(strict=True))
++        self.addCleanup(self.temp.cleanup)
++        self.root = Path(self.temp.name).resolve()
++        self.config = {"root": str(self.root), "gpu_uuids": ["CPU-MOCK-uuid0", "CPU-MOCK-uuid1", "CPU-MOCK-uuid2"]}
++        manifest = self.root / 'manifest.json'; manifest.write_text('{"CPU-MOCK":true}')
++        self.candidate = ('replicas', 0, 0, 4)
++        self.spec = {"schema": "epd-fixed-unit-v1", "source_manifest_sha256": 'a'*64,
++            "phase": "qualification", "unit": candidate_id(self.candidate), "candidate": candidate_id(self.candidate),
++            "candidate_config_sha256": config_sha256(self.candidate), "max_requests": 15, "wall_seconds": 300,
++            "request_diagnostics": True, "runtime_binding_sha256": 'b'*64, "model": '/CPU-MOCK/MiniCPM-V-2_6',
++            "dataset": str(self.root), "rgb_manifest": str(manifest),
++            "rgb_manifest_sha256": fixed_unit.hashlib.sha256(manifest.read_bytes()).hexdigest(),
++            "urls": ['http://127.0.0.1:' + str(port) for port in (17780,17781,17782)], "batches": []}
++        dispatch = 0
++        for case in qualification_schedule():
++            if case['candidate'] != self.spec['candidate']: continue
++            requests = []
++            for index in range(case['requests']):
++                requests.append({"fixture_id": 'CPU-MOCK-' + str(dispatch), "dispatch_index": dispatch,
++                    "input": {"prompt": 'CPU-MOCK-prompt', "images": [{"path": str(self.root/'CPU-MOCK-image.png'),
++                    "rgb_sha256": 'c'*64}] * case['images']}})
++                dispatch += 1
++            self.spec['batches'].append({"case":case['case'],"images":case['images'],"tokens":case['tokens'],
++                "concurrency":case['concurrency'],"warmup":False,"requests":requests})
++        self.spec['servers'] = fixed_unit.official_servers(self.spec, self.config)
++
++    def test_exact_fifteen_vector_and_three_official_single_uuid_servers(self):
++        self.assertEqual(fixed_unit.validate_spec(self.spec, self.config, 'a'*64), 15)
++        self.assertEqual([server['CUDA_VISIBLE_DEVICES'] for server in self.spec['servers']], self.config['gpu_uuids'])
++        self.assertTrue(all('baseline_server.py' in server['argv'][1] for server in self.spec['servers']))
++
++    def test_argv_extra_request_wrong_profile_or_dispatch_rejected(self):
++        for mode in ('argv','extra','profile','dispatch','diagnostic'):
++            spec = copy.deepcopy(self.spec)
++            if mode == 'argv': spec['servers'][0]['argv'].append('--unapproved')
++            elif mode == 'extra': spec['batches'][0]['requests'].append(copy.deepcopy(spec['batches'][0]['requests'][0]))
++            elif mode == 'profile': spec['candidate_config_sha256'] = 'f'*64
++            elif mode == 'dispatch': spec['batches'][0]['requests'][0]['dispatch_index'] = 1
++            else: spec['request_diagnostics'] = False
++            with self.subTest(mode=mode), self.assertRaises(ValueError): fixed_unit.validate_spec(spec,self.config,'a'*64)
++
++    def test_unimplemented_numeric_and_restart_stop_before_claim(self):
++        for phase in ('numeric','selected_g3'):
++            spec = copy.deepcopy(self.spec)
++            spec.update(phase=phase, unit='numeric' if phase=='numeric' else 'replicas')
++            with self.assertRaises(NotImplementedError): fixed_unit.validate_spec(spec,self.config,'a'*64)
++
++    def test_candidate_gpu_scope_refused_before_nvml_or_popen(self):
++        with patch.object(controller, 'NvmlBackend') as nvml, patch.object(controller.subprocess, 'Popen') as spawn:
++            with self.assertRaises(ValueError): controller.authorize({'schema':'epd-preflight-static-v1','state':'candidate'}, {}, None)
++            nvml.assert_not_called(); spawn.assert_not_called()
++
++    def test_startup_registration_independent_of_request_diagnostics(self):
++        with patch.dict(os.environ, {'REPRO_IDENTITY':'1','REPRO_REQUEST_IDENTITY':'0'}):
++            self.assertTrue(identity.enabled()); self.assertFalse(identity.requests_enabled())
++        with patch.dict(os.environ, {'REPRO_IDENTITY':'0','REPRO_REQUEST_IDENTITY':'1'}):
++            with self.assertRaises(ValueError): identity.requests_enabled()
++
++    def test_unknown_identity_refused_without_signal(self):
++        from types import SimpleNamespace
++        proc = SimpleNamespace(identity=lambda *args: (_ for _ in ()).throw(ValueError('CPU-MOCK-unknown')))
++        with patch.object(controller.os,'kill') as kill:
++            result = controller.stop_owned({'pid':123}, {}, 'CPU-MOCK-run', proc, controller.time.perf_counter()+1)
++            self.assertEqual(result['state'],'identity_unknown_refused'); kill.assert_not_called()
++
++
++class BoundClaimCPU(Fixture):
++    def test_actual_posix_claim_binds_execution_and_rejects_tampering(self):
++        claim = self.claim()
++        execution = {"schema":"epd-fixed-unit-v1","phase":"numeric","unit":"numeric","candidate":None,
++                     "source_manifest_sha256":self.source_sha,"argv":["CPU-MOCK-never-spawn"],"vector":[]}
++        with patch('preflight_guard.time.time',return_value=self.now/1000):
++            claim.reserve(self.data/'CPU-MOCK-ledger.json', execution)
++            claim.verify_reservation()
++            path = Path(claim.reservation_receipt['claim'])
++            raw = json.loads(path.read_bytes()); raw['execution']['argv']=['CPU-MOCK-tampered']
++            path.write_text(json.dumps(raw))
++            with self.assertRaises(ValueError): claim.verify_reservation()
++
++    def test_missing_or_wrong_execution_scope_never_claims(self):
++        claim=self.claim()
++        with patch('preflight_guard.time.time',return_value=self.now/1000), self.assertRaises(ValueError):
++            claim.reserve(self.data/'CPU-MOCK-ledger.json', {"schema":"CPU-MOCK-wrong"})
++        self.assertFalse((self.data/'CPU-MOCK-ledger.json').exists())
++
++
++if __name__ == '__main__': unittest.main()
+diff --git a/tests/test_preflight_v5.py b/tests/test_preflight_v5.py
+--- a/tests/test_preflight_v5.py
++++ b/tests/test_preflight_v5.py
+@@ -44,7 +44,8 @@
+             "runtime_prefix": "runtime/", "max_idle_bytes": 100, "max_auto_retries": 0}
+         source_files = []
+         for name in ("preflight_guard.py", "live_evidence.py", "selected_g3.py", "admission.py",
+-                     "experiment_plan.py", "benchmark.py", "client_window.py"):
++                     "experiment_plan.py", "benchmark.py", "client_window.py",
++                     "fixed_unit.py", "preflight_controller.py", "production_identity.py"):
+             shutil.copy2(ROOT / name, self.root / name)
+             source_files.append({"path": name, "sha256": self.sha(self.root / name)})
+         (self.root / "preflight-static.json").write_text(json.dumps(self.config), encoding="utf-8")
+diff --git a/tests/test_production_identity.py b/tests/test_production_identity.py
+--- a/tests/test_production_identity.py
++++ b/tests/test_production_identity.py
+@@ -20,7 +20,7 @@
+         self.root = Path(self.temp.name).resolve()
+         assert self.root.is_relative_to(self.tmp_root)
+         self.uuids = ["GPU-" + str(i) * 8 + "-1111-1111-1111-111111111111" for i in range(3)]
+-        self.env = {"REPRO_IDENTITY": "1", "EXP_ROOT": str(self.root), "REPRO_RUN_ID": "cpu-unit-only",
++        self.env = {"REPRO_IDENTITY": "1", "REPRO_REQUEST_IDENTITY": "1", "EXP_ROOT": str(self.root), "REPRO_RUN_ID": "cpu-unit-only",
+                     "REPRO_SOURCE_COMMIT": "a" * 40, "REPRO_DEPLOY_SHA256": "b" * 64,
+                     "REPRO_PROFILE_SHA256": config_sha256(("replicas", 0, 0, 4)),
+                     "REPRO_ENDPOINT": "http://127.0.0.1:17778", "REPRO_GPU_UUIDS": json.dumps(self.uuids)}

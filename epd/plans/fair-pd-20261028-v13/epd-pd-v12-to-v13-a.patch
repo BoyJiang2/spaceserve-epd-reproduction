@@ -1,0 +1,252 @@
+diff --git a/fixed_unit.py b/fixed_unit.py
+--- a/fixed_unit.py
++++ b/fixed_unit.py
+@@ -1,5 +1,7 @@
+ """Fixed preflight request vectors, raw client and exact official argv. No GPU imports."""
+ import asyncio
++import base64
++import signal
+ import hashlib
+ import json
+ import math
+@@ -88,7 +90,7 @@
+     return n
+ 
+ 
+-async def run_client(spec, runtime, output):
++async def _run_client(spec, runtime, output):
+     """Called only by the claimed benchmark subprocess, one POST per frozen vector item."""
+     import aiohttp
+     output = Path(output)
+@@ -104,7 +106,11 @@
+     connector = aiohttp.TCPConnector(force_close=True)
+     timeout = aiohttp.ClientTimeout(total=120)
+     issued, windows = 0, []
+-    with (output / "requests.jsonl").open("x", encoding="utf-8") as raw:
++    with (output / "requests.jsonl").open("x", encoding="utf-8") as raw, \
++         (output / "request-events.jsonl").open("x", encoding="utf-8") as events:
++        def event(kind, row, **fields):
++            events.write(json.dumps({"event": kind, "request_id": row["request_id"], "unit_id": row["unit_id"],
++                "run_id": row["run_id"], **fields}) + "\n"); events.flush()
+         async with aiohttp.ClientSession(connector=connector, timeout=timeout, trust_env=False) as session:
+             if hasattr(session, "_retry_connection"): session._retry_connection = False
+             for batch in spec["batches"]:
+@@ -131,12 +137,18 @@
+                             "dispatch_index": item["dispatch_index"], "endpoint": endpoint, "warmup": batch["warmup"],
+                             "submit_monotonic": time.perf_counter()}
+                         if spec["phase"] == "calibration": row.update(repeat=spec["repeat"], load=spec["load"])
++                        row.update(request_body=body, status="submitted")
++                        event("submitted", row, submitted=dict(row))  # Flush submission before POST; no per-request fsync/hash.
++                        cancelled = False
+                         try:
+                             async with session.post(endpoint + "/generate", json=body, allow_redirects=False) as response:
+-                                text = await response.text()
+-                                row.update(http_status=response.status, raw_response=text, end_monotonic=time.perf_counter())
++                                body_bytes = await response.read()
++                                received = time.perf_counter()
++                                event("http_body", row, http_status=response.status, received_monotonic=received,
++                                      body_base64=base64.b64encode(body_bytes).decode("ascii"))
++                                row.update(http_status=response.status, raw_response=body_bytes.decode("utf-8", errors="replace"), end_monotonic=received)
+                                 if response.status != 200: raise RuntimeError("HTTP status " + str(response.status))
+-                                result = json.loads(text)
++                                result = json.loads(body_bytes)
+                             row.update(response=result, processed_prompt_token_ids=result["processed_prompt_token_ids"],
+                                 output_token_ids=result["output_token_ids"], observed_api_identity=result.get("repro_api_identity"),
+                                 observed_worker_route=result.get("repro_worker_route"), server_request_id=result.get("repro_request_id"))
+@@ -147,11 +159,18 @@
+                                 raise ValueError("Actual token IDs/count/server clock differ")
+                             if spec["request_diagnostics"] and (row["server_request_id"] is None or not row["observed_worker_route"]):
+                                 raise ValueError("Actual server RID/worker route missing")
+-                            row["success"] = True
++                            row.update(success=True, status="complete")
++                            event("complete", row, end_monotonic=row["end_monotonic"])
+                         except BaseException as error:
+-                            row.update(success=False, end_monotonic=time.perf_counter(), error=repr(error))
+-                            stop_file.touch(exist_ok=True)
++                            cancelled = isinstance(error, asyncio.CancelledError)
++                            row.update(success=False, status="cancelled" if cancelled else "failed",
++                                       end_monotonic=time.perf_counter(), error=repr(error))
++                            event(row["status"], row, end_monotonic=row["end_monotonic"], error=row["error"])
+                         raw.write(json.dumps(row) + "\n"); raw.flush()
++                        try:
++                            if not row["success"]: stop_file.touch(exist_ok=True)
++                        finally:
++                            if cancelled: raise asyncio.CancelledError()
+                         return row
+                 start = time.perf_counter()
+                 results = await asyncio.gather(*(one(item) for item in batch["requests"]), return_exceptions=True)
+@@ -174,3 +193,19 @@
+         write_window(output, metadata, warm["start_monotonic"], warm["end_monotonic"], measured["start_monotonic"], measured["end_monotonic"])
+         (output / "summary.json").write_text(json.dumps({"requests_per_s": 16 / (measured["end_monotonic"] - measured["start_monotonic"])}))
+     return windows
++
++
++async def run_client(spec, runtime, output):
++    """TERM/INT cancel in-flight tasks so their submitted/cancelled journal survives."""
++    loop, task = asyncio.get_running_loop(), asyncio.current_task()
++    previous = {number: signal.getsignal(number) for number in (signal.SIGTERM, signal.SIGINT)}
++    installed = []
++    try:
++        for number in previous:
++            loop.add_signal_handler(number, task.cancel)
++            installed.append(number)
++        return await _run_client(spec, runtime, output)
++    finally:
++        for number in installed:
++            loop.remove_signal_handler(number)
++            signal.signal(number, previous[number])
+diff --git a/preflight_controller.py b/preflight_controller.py
+--- a/preflight_controller.py
++++ b/preflight_controller.py
+@@ -40,6 +40,16 @@
+     require_review(owner, inputs["G2_file"], inputs["G2_sha256"], "G2", digest({
+         "static_config_sha256": digest(config), "source_manifest_sha256": inputs["source_manifest_sha256"]}), config)
+     return verify_checkout(config, inputs, owner)
++
++
++def booking_for_unit(config, inputs, owner, spec, now_ms):
++    raw = load_bound(owner, inputs["booking_file"], inputs["booking_sha256"])
++    if type(raw.get("observed_ms")) is not int or raw["observed_ms"] > now_ms:
++        raise ValueError("GPU booking observation is missing or from the future")
++    remaining = booking_remaining(raw, config, now_ms)  # Also validates exact user/ticket/window/freshness.
++    if spec["wall_seconds"] > remaining:
++        raise ValueError("Complete fixed unit plus cleanup cannot fit owned booking")
++    return raw
+ 
+ 
+ def load_execution(template_path, config, inputs, owner):
+@@ -172,11 +182,13 @@
+         active = runtime / "controller-active.json"
+         if active.exists() and json.loads(active.read_bytes()).get("state") != "released":
+             raise ValueError("Previous unit release unconfirmed; no next unit")
+-        backend = NvmlBackend()  # Original GPU grant/source already verified; metadata-only admission.
++        booking_for_unit(config, inputs, owner, spec, int(time.time()*1000))
++        backend = NvmlBackend()  # Original GPU grant, current booking and complete-unit time already verified.
+         try:
+             fresh = snapshot(config, inputs["run_id"], deployed, backend, proc)
+             if any(gpu["processes"] for gpu in fresh["gpus"].values()):
+                 raise ValueError("Startup requires all three approved GPUs free of compute PIDs")
++            booking_for_unit(config, inputs, owner, spec, int(time.time()*1000))
+             claim = Claim(config, inputs, owner, spec["unit"], spec["phase"], spec["candidate"], fresh,
+                           now_ms=int(time.time()*1000))
+             envs = [child_environment(server, spec, config, inputs, deployed) for server in spec["servers"]]
+diff --git a/tests/test_controller_cpu.py b/tests/test_controller_cpu.py
+--- a/tests/test_controller_cpu.py
++++ b/tests/test_controller_cpu.py
+@@ -86,6 +86,25 @@
+ 
+ 
+ class BoundClaimCPU(Fixture):
++    def test_expired_future_wrong_or_short_booking_never_constructs_nvml(self):
++        for mode in ('expired','future','wrong_ticket','wrong_owner','short','before_window'):
++            config, inputs = copy.deepcopy(self.config), copy.deepcopy(self.inputs)
++            raw = self.booking(self.now)
++            if mode == 'expired': config['authorized_end_ms'] = self.now - 1
++            elif mode == 'future': raw['observed_ms'] = self.now + 1
++            elif mode == 'wrong_ticket': raw['bookings'][0]['id'] = 'CPU-MOCK-wrong'
++            elif mode == 'wrong_owner': raw['bookings'][0]['user'] = 'CPU-MOCK-other'
++            elif mode == 'short': config['authorized_end_ms'] = self.now + 300000
++            else: config['authorized_start_ms'] = self.now + 1
++            desc = self.write('booking-' + mode + '.json', raw)
++            inputs.update(booking_file=desc['path'], booking_sha256=desc['sha256'])
++            with self.subTest(mode=mode), patch.object(controller,'authorize',return_value={}), \
++                 patch.object(controller,'load_execution',return_value={'wall_seconds':300}), \
++                 patch.object(controller,'NvmlBackend') as backend, patch.object(controller,'Claim') as claim, \
++                 patch.object(controller.time,'time',return_value=self.now/1000):
++                with self.assertRaises(ValueError): controller.run(config,inputs,self.owner,None)
++                backend.assert_not_called(); claim.assert_not_called()
++
+     def test_actual_posix_claim_binds_execution_and_rejects_tampering(self):
+         claim = self.claim()
+         execution = {"schema":"epd-fixed-unit-v1","phase":"numeric","unit":"numeric","candidate":None,
+@@ -105,4 +124,90 @@
+         self.assertFalse((self.data/'CPU-MOCK-ledger.json').exists())
+ 
+ 
++async def journal_fixture(directory, cancel_locally=False):
++    """Fake HTTP transport only; actual async cancellation/signals, no sockets or GPU."""
++    import asyncio
++    import hashlib
++    from types import SimpleNamespace as NS
++    directory = Path(directory)
++    image = str(directory / 'CPU-MOCK-image.png')
++    item = lambda index: {'fixture_id':str(index),'dispatch_index':index,
++        'input':{'prompt':'CPU-MOCK', 'images':[{'path':image,'rgb_sha256':'c'*64}]}}
++    spec = {'phase':'qualification','candidate':'CPU-MOCK','max_requests':2,'request_diagnostics':False,
++        'urls':['http://127.0.0.1:1'],'batches':[{'case':'CPU-MOCK','images':1,'tokens':1,
++        'concurrency':1,'warmup':False,'requests':[item(0),item(1)]}]}
++    claim = {'execution':spec,'execution_sha256':fixed_unit.digest(spec),
++             'timing':{'deadline_monotonic':fixed_unit.time.perf_counter()+30}}
++    path=directory/'CPU-MOCK-claim.json';path.write_text(json.dumps(claim))
++    runtime={'claim':{'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()},
++        'stop_file':str(directory/'STOP'),'unit_id':'CPU-MOCK-unit','run_id':'CPU-MOCK-run','uid':0,
++        'rgb_by_path':{image:'c'*64},'clock_scope':{'host':'CPU-MOCK','boot_id':'CPU-MOCK','run_id':'CPU-MOCK-run'}}
++    waiting=asyncio.Event()
++    class Response:
++        status=200
++        async def read(self):
++            return json.dumps({'processed_prompt_token_ids':[1],'output_token_ids':[2],
++                'timestamps':[fixed_unit.time.perf_counter()]}).encode()
++    class Context:
++        def __init__(self,index):self.index=index
++        async def __aenter__(self):
++            if self.index==1:
++                waiting.set();(directory/'waiting-HTTP').write_text('CPU-MOCK waiting inside POST')
++                await asyncio.Future()
++            return Response()
++        async def __aexit__(self,*args):pass
++    class Session:
++        def __init__(self,*args,**kwargs):self.index=0
++        async def __aenter__(self):return self
++        async def __aexit__(self,*args):pass
++        def post(self,*args,**kwargs):
++            context=Context(self.index);self.index+=1;return context
++    transport=NS(ClientSession=Session,TCPConnector=lambda **kwargs:None,ClientTimeout=lambda **kwargs:None)
++    with patch.dict(sys.modules,{'aiohttp':transport}):
++        task=asyncio.create_task(fixed_unit.run_client(spec,runtime,directory))
++        if cancel_locally:
++            await waiting.wait();task.cancel()
++        return await task
++
++
++class SubmittedJournalCPU(unittest.TestCase):
++    def assert_journal(self,directory):
++        events=[json.loads(line) for line in (directory/'request-events.jsonl').read_text().splitlines()]
++        self.assertEqual([e['event'] for e in events if e['request_id']=='0'],['submitted','http_body','complete'])
++        self.assertEqual([e['event'] for e in events if e['request_id']=='1'],['submitted','cancelled'])
++        first=next(e for e in events if e['event']=='http_body')
++        import base64
++        self.assertEqual(json.loads(base64.b64decode(first['body_base64']))['output_token_ids'],[2])
++        rows=[json.loads(line) for line in (directory/'requests.jsonl').read_text().splitlines()]
++        self.assertEqual([r['status'] for r in rows],['complete','cancelled'])
++
++    def test_first_success_then_second_cancel_is_preserved_and_propagated(self):
++        import asyncio
++        with tempfile.TemporaryDirectory(dir=os.environ['EPD_CPU_TEST_TMP']) as folder:
++            directory=Path(folder)
++            with self.assertRaises(asyncio.CancelledError):asyncio.run(journal_fixture(directory,cancel_locally=True))
++            self.assert_journal(directory)
++
++    def test_real_TERM_while_waiting_HTTP_preserves_submission_and_cancellation(self):
++        import signal,subprocess,time
++        with tempfile.TemporaryDirectory(dir=os.environ['EPD_CPU_TEST_TMP']) as folder:
++            directory=Path(folder).resolve()
++            command=[sys.executable,'-I','-S','-B','-c',
++                'import asyncio,sys;from pathlib import Path;sys.path.insert(0,sys.argv[1]);sys.path.insert(0,sys.argv[2]);from test_controller_cpu import journal_fixture;asyncio.run(journal_fixture(Path(sys.argv[3])))',
++                str(ROOT),str(ROOT/'tests'),str(directory)]
++            process=subprocess.Popen(command,cwd=ROOT,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
++            try:
++                deadline=time.monotonic()+10
++                while not (directory/'waiting-HTTP').exists() and time.monotonic()<deadline:
++                    if process.poll() is not None:self.fail('CPU HTTP fixture exited before POST wait')
++                    time.sleep(.01)
++                self.assertTrue((directory/'waiting-HTTP').exists())
++                process.send_signal(signal.SIGTERM)
++                self.assertNotEqual(process.wait(timeout=10),0)
++                self.assert_journal(directory)
++            finally:
++                if process.poll() is None:
++                    process.terminate();process.wait(timeout=10)
++
++
+ if __name__ == '__main__': unittest.main()

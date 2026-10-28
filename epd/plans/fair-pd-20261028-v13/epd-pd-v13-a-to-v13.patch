@@ -1,0 +1,30 @@
+diff --git a/work/epd-pd-followup-20261027/v13-a/cpu_target_runner.py b/work/epd-pd-followup-20261027/v13/cpu_target_runner.py
+index 9328854..103897d 100644
+--- a/work/epd-pd-followup-20261027/v13-a/cpu_target_runner.py
++++ b/work/epd-pd-followup-20261027/v13/cpu_target_runner.py
+@@ -21,11 +21,11 @@ from admission import bound_bytes, integer
+ from preflight_guard import digest, require_review
+ 
+ POLICY = {"host": "qjh000", "uid": 2147, "boot_id": "c57aee5b-05dd-4c39-81fc-4c76b492d3d6",
+-          "source_root": "/var/tmp/boyjiang-epd-cpu-qjh000-20261027/epd/code/fair-pd-candidate-20261027-v11",
+-          "booking_id": "bk-20261027T1130-99a32163", "cpu": 50, "memory_bytes": 1073741824,
+-          "wall_seconds": 300, "cleanup_seconds": 30, "earliest_ms": 1793098800000,
+-          "safe_end_ms": 1793145600000, "booking_start_ms": 1793098800000,
+-          "booking_end_ms": 1793145600000}
++          "source_root": "/var/tmp/boyjiang-epd-cpu-qjh000-20261028/epd/code/fair-pd-candidate-20261028-v13",
++          "booking_id": "bk-20261028T0141-8936eb9c", "cpu": 50, "memory_bytes": 1073741824,
++          "wall_seconds": 300, "cleanup_seconds": 30, "earliest_ms": 1793149200000,
++          "safe_end_ms": 1793185200000, "booking_start_ms": 1793149200000,
++          "booking_end_ms": 1793185200000}
+ GPU_MODULES = {"torch", "ray", "vllm", "pynvml", "nvidia", "cupy", "tensorflow", "jax"}
+ 
+ 
+@@ -74,7 +74,7 @@ def validate_observations(scope, booking, host_probe, now_ms):
+             "kind": "cpu", "node": "qjh000", "user": scope["booking_user"],
+             "resource_id": "h20/qjh000", "start_ms": POLICY["booking_start_ms"],
+             "end_ms": POLICY["booking_end_ms"]}.items()):
+-        raise ValueError("Exact fresh qjh000 19:00-to-08:00 CPU booking differs")
++        raise ValueError("Exact fresh qjh000 09:00-to-19:00 CPU booking differs")
+     if (any(host_probe.get(key) != value for key, value in {
+             "origin": "actual_read_only_host_probe", "host": "qjh000", "uid": POLICY["uid"],
+             "boot_id": POLICY["boot_id"], "source_root": POLICY["source_root"]}.items())
