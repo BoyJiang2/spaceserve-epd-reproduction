@@ -1,0 +1,9 @@
+独立只读G1/G2请求 /root/space2300_review。禁止测试、写入、网络、SSH、GPU、凭据；仅本地文件/SHA。
+
+work/space2300-tools/prepare_manifest.py原机械派生保留六个旧review文件名，本窗口实际只有reviews/g1g2-final-codex.md及reviews/CPU-stage-G2.json。新修改只替换paths列表两当前原件，其他56source/CPU31校验和phase边界不变。新增tests/test_prepare_manifest.py中的test_numeric_uses_current_window_reviews_without_historical_approvals（实际文件在work/space2300-tools/test_prepare_manifest.py）：纯CPU-MOCK临时文件/无通过marker、只形成mock manifest，验证无需历史批准即可正确绑定当前文件。其余两旧negative未改。
+
+SHA prepare_manifest d8a3b163146271398d33220288e387c2f6fc3aa30e073a2bf948dd31a0ea918f；test_prepare_manifest 0d82a20a4a1e45bf1ca4c0893c049070806e71070f4f96cb1d543772b69bc1f2。
+
+请求G2确认最小修复和新增回归测试设计，不声称已跑。另窄G1：在当前本人CPU票到19点、独立G5/push/指定commit检出后，用qjh000 CPU50/nice10、系统python -I -S -B运行仅该新增stdlib CPU测试一次，timeout60秒，不网络/GPU、不运行旧87或staging12；测试暂存文件写在自有checkout内TemporaryDirectory自动清理、运行前后Git/sourceSHA不变，日志/失败原样保留。这是辅助工具契约验证，不模型G3/预算扩展。若无法在18:58前安全完成则不运行。不要求重新staging，runtime56无变化。
+
+给G1/G2各结论、BLOCKING数、真实UTC。主线程会把全部12个实际phase helper源/测试作为orchestration/phase-tools快照发布，明确相对路径依赖原项目work目录布局，归档本身非通用启动入口；在服务器指定commit下测试该单独fixture不依赖原目录实际数据。
