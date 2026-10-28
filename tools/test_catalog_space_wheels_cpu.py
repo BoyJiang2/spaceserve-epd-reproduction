@@ -62,5 +62,17 @@ class CatalogTests(unittest.TestCase):
         with self.assertRaises(TimeoutError):catalog.read_metadata(response,expired)
         self.assertEqual(response.timeouts,[])
 
+    def test_remaining_scope_requires_original89_prefix_and_exact_incomplete_state(self):
+        rows=[('package-'+str(i),'1.0') for i in range(154)]
+        rows[89]=('opentelemetry-semantic-conventions','0.66b1')
+        old=[{'name':name,'version':version} for name,version in rows[:89]]
+        terminal={'complete':False,'completed_packages':89,'requests':154,
+                  'failure':{'type':'URLError','package':{'name':rows[89][0],'version':rows[89][1]},'http_status':None}}
+        self.assertEqual(catalog.remaining_rows(rows,old,terminal),rows[89:])
+        for changed in (old[:-1],old+[old[0]],list(reversed(old)),[{**old[0],'name':'unknown'},*old[1:]]):
+            with self.assertRaises(ValueError):catalog.remaining_rows(rows,changed,terminal)
+        for key,value in (('complete',True),('completed_packages',90),('requests',65),('failure',None)):
+            with self.assertRaises(ValueError):catalog.remaining_rows(rows,old,{**terminal,key:value})
+
 
 if __name__=='__main__':unittest.main(verbosity=2)

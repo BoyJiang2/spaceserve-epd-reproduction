@@ -1,3 +1,11 @@
+实际更新：第一单元72.112秒结束，前89/154项HTTP200及原JSON SHA通过，第90项URLError/HTTPstatus未知，已按规则停止；不能据此认定具体网络根因或完整catalog。[原始终态](catalog-first/terminal.json)、[已取89目录](catalog-first/catalog.json)、[270原件SHA索引](catalog-first-index.json)保留。旧89项不会再GET。
+
+[续接G1](g1-catalog-remaining.md)/[G2](g2-catalog-remaining.md)只批准一个remaining65新单元：先核旧270原件每SHA与旧3摘要/严格89prefix，再把严格余65写独占remaining子目录，不改旧原件。原失败第90项明确重取一次，其余64首次。新一次7HTTP-MOCK全PASS/0skip0.003秒（父0.340秒），e9eb/9405前后等、temp空。实际续接仍待G5/push/源码核，120工作/180父及首失败停保持，不自动第三单元；不下载或安装artifact，不服务器/GPU。
+
+下面为初始准备历史。
+
+---
+
 # Space 环境的官方制品目录准备
 
 原freeze逐字节保留，3,140B、SHA12cc7ae16e15cb32a58d197b10c139df7d715a8c3eeb4246b77eebe5d4814b0f，共154个exact name==version。仅版本锁不是wheel字节锁；此阶段在本机Windows读取官方PyPI版本JSON，为后续Linux制品选择保留URL、tag、bytes、SHA、Requires-Python和yanked信息，不下载/执行wheel/sdist，不安装环境或修改protected pins。
