@@ -2,6 +2,7 @@ import copy
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -54,7 +55,8 @@ class FormalCellTests(unittest.TestCase):
             root=Path(directory).resolve()
             case,rows,samples=fixture(root)
             planned={'images':4,'concurrency':4,'role':'baseline-space','block':0}
-            with patch.object(audit_formal_cell,'ROOT',root):
+            config=SimpleNamespace(asset=lambda relative:root/relative,gpu_devices=(4,))
+            with patch.object(audit_formal_cell,'ROOT',root), patch.object(audit_formal_cell,'CONFIG',config):
                 self.assertEqual(audit_formal_cell.audit(case,planned)['formal_requests'],100)
                 for key,value in (('endpoint','http://wrong'),('response',{'processed_prompt_token_ids':[0]*1024})):
                     bad=copy.deepcopy(rows)

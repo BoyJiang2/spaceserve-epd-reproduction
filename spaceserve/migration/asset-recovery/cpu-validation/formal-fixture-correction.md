@@ -1,0 +1,1 @@
+旧a3f目标CPU suite实际58项：57PASS/1ERROR/0skip，自有进程全部释放。错误fixture只patch ROOT而production通过CONFIG读共享assets；只补测试的SimpleNamespace CONFIG(asset→临时root，gpu_devices=(4,))，生产auditor及120条模拟请求/全部负例不改。G1 handoff19:47:22、G2 space reviewer19:47:38批准，仅一次本机stdlib回归已PASS0skip0.240s，源前后b901同。旧失败cohort保留，不追溯改源或结果；CPU日志的模拟请求统计不是GPU性能数据。新指定commit/新CPU cohort须单独G2/G5/fresh准入，禁止GPU阶段。
