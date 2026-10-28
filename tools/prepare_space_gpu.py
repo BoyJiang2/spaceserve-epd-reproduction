@@ -3,9 +3,9 @@ import base64,hashlib,importlib.util,json,os,secrets,socket,sys,time,types
 from pathlib import Path
 
 ROOT=Path('/local/boyjiang/spaceserve')
-RUN_ID='space-pathfix-20261029'
+RUN_ID='space-http-20261029'
 RUN=ROOT/'runs'/RUN_ID
-COMMIT='f5ec7a4fc8f2b97ba2c3a68325bc229f86c6d0cb'
+COMMIT='beadff9c4cc4693cd2ea8675020f757e313659e8'
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 
 def main():
@@ -31,12 +31,12 @@ def main():
         if migration.sha(Path(path))!=digest:raise ValueError('Startup file changed')
     site=ROOT/'assets/envs/space/lib/python3.10/site-packages'
     if {str(p) for p in site.glob('*.pth')}!={p for p in helper.SITE if p.startswith(str(site))}:raise ValueError('Unexpected pth')
-    evidence=ROOT/'staging/gpu-preparation-pathfix'
-    config=ROOT/'staging/gpu-pathfix-project.json'
+    evidence=ROOT/'staging/gpu-preparation-http'
+    config=ROOT/'staging/gpu-http-project.json'
     for path in (evidence,RUN,config.parent,ROOT/'tmp/cpu'):migration.real_ancestry(path)
     if config.is_symlink():raise ValueError('Linked config')
     raw=base64.b64decode(data['config'],validate=True)
-    config_sha='2fb9536130e507f1ad776d637c64ac3fdef07070e2a2a71ffc9bf8a4a7407e4b'
+    config_sha='1bdadc8e98a5de137709f8f23b9dd18465c2c5242db391c0589a59dad303193d'
     if hashlib.sha256(raw).hexdigest()!=config_sha:raise ValueError('Exact approved configuration required')
     if migration.sha(ROOT/'assets/manifest.json')!=helper.ASSETS_SHA:raise ValueError('Asset manifest changed')
     if phase=='deploy':
@@ -58,7 +58,7 @@ def main():
     for path in (ROOT/'tmp/cpu',ROOT/'tmp/cpu-hf',ROOT/'tmp/cpu-torch'):
         migration.real_ancestry(path);path.mkdir(mode=0o700,parents=True,exist_ok=True)
     if any((ROOT/'tmp/cpu').iterdir()):raise ValueError('Nonempty short TMP; preserve')
-    expected_head='7fc3877e4f67cfcaecc6da1b47dbaf60ebdef61c' if phase=='deploy' else COMMIT
+    expected_head='f5ec7a4fc8f2b97ba2c3a68325bc229f86c6d0cb' if phase=='deploy' else COMMIT
     if (ROOT/'repo/.git/HEAD').read_text().strip()!=expected_head:raise ValueError('Runtime HEAD differs')
     spec=importlib.util.spec_from_file_location('asset_inventory',ROOT/'repo/spaceserve/runtime/scripts/stage_cpu.py')
     inventory=importlib.util.module_from_spec(spec);spec.loader.exec_module(inventory)
@@ -79,10 +79,10 @@ def main():
     try:
         with (evidence/(phase+'.log')).open('xb') as stream:
             if phase=='deploy':
-                old_roots={str(ROOT/'runs/space-003-20261029'),str(ROOT/'runs/space-mask56-20261029')}
+                old_roots={str(ROOT/'runs/space-003-20261029'),str(ROOT/'runs/space-mask56-20261029'),str(ROOT/'runs/space-pathfix-20261029')}
                 if any(row.get('root') in old_roots for row in helper.process_records(0).values()):raise ValueError('Old project process remains; no deployment')
-                bundle=ROOT/'staging/space-correctness-path.bundle'
-                if bundle.is_symlink() or bundle.stat().st_uid!=2147 or bundle.stat().st_size!=47436 or migration.sha(bundle)!='0d7d7d878d9e88a81383e8997dfc7fcb114cfeee0e0bd93165002c7b9da2c1f1':raise ValueError('Pinned source bundle differs')
+                bundle=ROOT/'staging/space-correctness-connection.bundle'
+                if bundle.is_symlink() or bundle.stat().st_uid!=2147 or bundle.stat().st_size!=16111 or migration.sha(bundle)!='fb9a67a0e63294b90ec5b1f0748c10fbed118d7b99dfa446570615ede499ad8f':raise ValueError('Pinned source bundle differs')
                 os.environ.clear();os.environ.update(environment)
                 git=['git','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-c','core.excludesFile=/dev/null','-c','core.attributesFile=/dev/null','-C',str(ROOT/'repo')]
                 def command(args):

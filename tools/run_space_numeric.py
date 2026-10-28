@@ -2,7 +2,7 @@
 import base64,hashlib,json,os,secrets,signal,subprocess,sys,time,types
 from pathlib import Path
 ROOT=Path('/local/boyjiang/spaceserve')
-RUN_ID='space-pathfix-20261029'
+RUN_ID='space-http-20261029'
 RUN=ROOT/'runs'/RUN_ID
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 def supervise(helper,argv,environment,stream,check,budget=900):
@@ -79,16 +79,16 @@ def main():
     def check():
         if Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT or int(time.time()*1000)+120000>=expected['end_ms']:raise ValueError('Boot/window boundary')
     check()
-    if (ROOT/'repo/.git/HEAD').read_text().strip()!='f5ec7a4fc8f2b97ba2c3a68325bc229f86c6d0cb':raise ValueError('Runtime HEAD changed')
+    if (ROOT/'repo/.git/HEAD').read_text().strip()!='beadff9c4cc4693cd2ea8675020f757e313659e8':raise ValueError('Runtime HEAD changed')
     if migration.sha(ROOT/'assets/manifest.json')!=helper.ASSETS_SHA:raise ValueError('Assets manifest changed')
-    for path in (RUN,ROOT/'staging/gpu-execution-pathfix',ROOT/'tmp/cpu'):migration.real_ancestry(path)
-    execution=ROOT/'staging/gpu-execution-pathfix';execution.mkdir(mode=0o700,exist_ok=True)
+    for path in (RUN,ROOT/'staging/gpu-execution-http',ROOT/'tmp/cpu'):migration.real_ancestry(path)
+    execution=ROOT/'staging/gpu-execution-http';execution.mkdir(mode=0o700,exist_ok=True)
     evidence=execution/phase
     marker='NUMERIC_STARTED.json' if phase=='numeric' else 'MODELS_ATTEMPT1_STARTED.json'
     if evidence.exists() or (RUN/'evidence'/marker).exists():raise ValueError('Existing numeric attempt; no automatic retry')
     evidence.mkdir(mode=0o700)
-    prior=json.loads((ROOT/'staging/gpu-preparation-pathfix/cpu.terminal.json').read_bytes())
-    if prior['exit_code']!=0 or prior['boot']!=BOOT or prior['run_id']!=RUN_ID or prior['log_sha256']!=migration.sha(ROOT/'staging/gpu-preparation-pathfix/cpu.log'):raise ValueError('Actual CPU success missing')
+    prior=json.loads((ROOT/'staging/gpu-preparation-http/cpu.terminal.json').read_bytes())
+    if prior['exit_code']!=0 or prior['boot']!=BOOT or prior['run_id']!=RUN_ID or prior['log_sha256']!=migration.sha(ROOT/'staging/gpu-preparation-http/cpu.log'):raise ValueError('Actual CPU success missing')
     config=json.loads((RUN/'configs/project.json').read_bytes())
     proof=ROOT/'staging/sm-driver13-port/terminal.json'
     if config.get('mask_off')!=56 or config.get('mask_compatibility_proof_sha256')!=migration.sha(proof) or migration.sha(proof)!='f8cff8a12b7a613d2ccb1241f8126945fef5935425c13f1851ca961957b89aa4' or json.loads(proof.read_bytes()).get('passed') is not True:raise ValueError('Unverified mask compatibility setting')
