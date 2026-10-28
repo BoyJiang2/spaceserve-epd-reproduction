@@ -18,7 +18,7 @@
 
 服务器直接连接 GitHub 先后发生 TLS 中断和连接超时；两次失败未启动实验。随后从已推送的 main 生成完整 Git bundle，经 SCP 传输后在新 staging checkout 检出同一8520791，bundle SHA、commit/tree和61文件校验通过。没有用工作目录压缩包代替 Git 版本。完整 bundle 只是部署传输件，代码已在仓库可读，故不重复上传 Release；权重、环境和缓存也未上传。
 
-CPU staging 源 root 为 `/var/tmp/boyjiang-spaceserve-revision-20261027`，新 root 为 `/var/tmp/boyjiang-spaceserve-window-20261028-2300`。环境和模型复制独立，未使用共享可写硬链接。stage清单和部署工具留在[候选代码目录](../code/h20-window-20261028/README.md)。后续辅助工具修复和版本独立记录，不能将后续提交追溯标成此次 staging 的执行版本。
+CPU staging 源 root 为 `/var/tmp/boyjiang-spaceserve-revision-20261027`，新 root 为 `/var/tmp/boyjiang-spaceserve-window-20261028-2300`。环境和模型复制独立，未使用共享可写硬链接。stage清单和部署工具留在[候选代码目录](https://github.com/BoyJiang2/spaceserve-epd-reproduction/blob/ecad958fdc9f09f8f3d39e3eef7c08d43db634df/spaceserve/code/h20-window-20261028/README.md)。后续辅助工具修复和版本独立记录，不能将后续提交追溯标成此次 staging 的执行版本。
 
 ## 今晚执行边界
 
@@ -26,4 +26,4 @@ CPU staging 源 root 为 `/var/tmp/boyjiang-spaceserve-revision-20261027`，新 
 
 开窗后仍须刷新预约、boot、GPU4空闲状态，完成指定commit部署、完整目标CPU验证、数值实际G3、唯一313模型预检及实际G3，再按formal G2与201分钟入场门槛执行54单元。07:58前受控收尾，身份不明不清理，不触碰他人。未验证decoder互斥时，不称完整SM分区。12项staging通过不能替代这些条件。
 
-[计划](../code/h20-window-20261028/plan-20261028-2300.md) · [G1/G2复审](../code/h20-window-20261028/reviews/g1g2-final-codex.md) · [辅助工具修复审查](../code/h20-window-20261028/reviews/g2-current-review-links-result.md) · [返回SpaceServe](../README.md)
+[计划](https://github.com/BoyJiang2/spaceserve-epd-reproduction/blob/ecad958fdc9f09f8f3d39e3eef7c08d43db634df/spaceserve/code/h20-window-20261028/plan-20261028-2300.md) · [G1/G2复审](https://github.com/BoyJiang2/spaceserve-epd-reproduction/blob/ecad958fdc9f09f8f3d39e3eef7c08d43db634df/spaceserve/code/h20-window-20261028/reviews/g1g2-final-codex.md) · [辅助工具修复审查](https://github.com/BoyJiang2/spaceserve-epd-reproduction/blob/ecad958fdc9f09f8f3d39e3eef7c08d43db634df/spaceserve/code/h20-window-20261028/reviews/g2-current-review-links-result.md) · [返回SpaceServe](../README.md)

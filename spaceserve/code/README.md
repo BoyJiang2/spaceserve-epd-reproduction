@@ -1,5 +1,7 @@
 # 冻结代码与复跑
 
+后续唯一维护入口为 [`../runtime/`](../runtime/README.md)；历史批次继续按其真实commit及原件解释。
+
 最新顺序平衡补充的[实际冻结入口](../../outputs/spaceserve-revision-20261027/scripts)、[CPU分析](../../outputs/spaceserve-revision-20261027/analysis)、[版本与部署映射](../../outputs/spaceserve-revision-20261027/configs/executed-model-config-map.md)、[补丁恢复](../../outputs/spaceserve-revision-20261027/patches/README.md)单独保存；48/54部分G4通过，六项未执行。完整离线重算须恢复[本批Release-only成员](../REVISION_ASSETS.md)，历史批准不构成新GPU许可。
 
 这里提供本项目历史批次实际执行过的脚本副本；逐文件上游路径及SHA见[来源映射](../SOURCE_FILES.json)。副本未改算法或硬编码路径，不能把换目录称已完成可移植性验证。
@@ -11,4 +13,4 @@
 
 新增[H20指定commit部署候选](h20-window-20261027/README.md)按本地→审查→GitHub→指定commit部署执行；代码发布不等于新模型或54单元验收，旧48/54保持独立。
 
-[2026-10-28 23:00 新窗口](h20-window-20261028/README.md)按指定commit独立部署；CPU准备与后续GPU结果分开记录，旧48/54不拼接。
+[2026-10-28 23:00 新窗口](https://github.com/BoyJiang2/spaceserve-epd-reproduction/blob/ecad958fdc9f09f8f3d39e3eef7c08d43db634df/spaceserve/code/h20-window-20261028/README.md)按指定commit独立部署；CPU准备与后续GPU结果分开记录，旧48/54不拼接。

@@ -1,5 +1,7 @@
 # SpaceServe 与 EPD：两个独立复现项目
 
+当前 qjh003 迁移准备与固定代码入口见 [SpaceServe 状态页](spaceserve/migration/README.md)；代码审查通过尚不代表本次迁移或新实验通过。
+
 本仓库分别展示两个项目的代码、baseline对照、图表和复跑方法。每个项目只与自己的同机、同模型、同GPU预算基线比较；主机、模型及批次分别列出，不作跨系统绝对排名。所有退化、失败和解释限制保留。
 
 [English](README.en.md) · [SpaceServe项目](spaceserve/README.md) · [EPD项目](epd/README.md)
