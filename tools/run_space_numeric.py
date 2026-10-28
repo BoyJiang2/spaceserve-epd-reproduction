@@ -1,12 +1,12 @@
-"""One fixed numeric launch; reuse reviewed PID/nonce supervision, no model requests."""
+"""Fixed numeric/model launches with independent phase Gates and explicit mask compatibility."""
 import base64,hashlib,json,os,secrets,signal,subprocess,sys,time,types
 from pathlib import Path
 ROOT=Path('/local/boyjiang/spaceserve')
-RUN_ID='space-003-20261029'
+RUN_ID='space-mask56-20261029'
 RUN=ROOT/'runs'/RUN_ID
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
-def supervise(helper,argv,environment,stream,check):
-    started=time.monotonic();hard=started+1020;known={};signals=[];requested=[]
+def supervise(helper,argv,environment,stream,check,budget=900):
+    started=time.monotonic();hard=started+budget+120;known={};signals=[];requested=[]
     ticks=int(time.clock_gettime(time.CLOCK_BOOTTIME)*os.sysconf('SC_CLK_TCK'))-1
     previous={n:signal.getsignal(n) for n in (signal.SIGTERM,signal.SIGINT)}
     for number in previous:signal.signal(number,lambda n,f:requested.append(n))
@@ -32,7 +32,7 @@ def supervise(helper,argv,environment,stream,check):
         known[child.pid]=record
         while child.poll() is None:
             current();check()
-            if requested or time.monotonic()>=started+900:raise TimeoutError('Numeric exit requested or 900 second budget')
+            if requested or time.monotonic()>=started+budget:raise TimeoutError('Phase exit requested or work budget')
             time.sleep(.1)
         if child.returncode:raise RuntimeError('Numeric entry exit '+str(child.returncode))
     except BaseException as error:failure=error
@@ -61,7 +61,10 @@ def supervise(helper,argv,environment,stream,check):
     if failure is not None:raise failure
 
 def main():
-    data=json.load(sys.stdin);modules=[]
+    data=json.load(sys.stdin);phase=data.get('phase','numeric')
+    if phase not in ('numeric','model'):raise ValueError('Numeric/model phases only')
+    budget=900 if phase=='numeric' else 1800
+    modules=[]
     for name,digest in [('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),('validate_space_cpu','c9d895c8567fac7f2248c8af63996e6eb4b60080edf493b51002c1c4da4a641b')]:
         raw=base64.b64decode(data[name],validate=True)
         if hashlib.sha256(raw).hexdigest()!=digest:raise ValueError('Supervisor source changed')
@@ -72,29 +75,35 @@ def main():
     snapshot=data['booking'];now=int(time.time()*1000)
     tickets=[b for b in snapshot['bookings'] if b.get('id')=='bk-20261028T0925-cb01ec55']
     expected=dict(id='bk-20261028T0925-cb01ec55',resource_id='h20/qjh003',node='qjh003',user='boyjiang',kind='gpu',start_ms=1793192400000,end_ms=1793235600000)
-    if len(tickets)!=1 or any(tickets[0].get(k)!=v for k,v in expected.items()) or now+1020000>expected['end_ms']:raise ValueError('Fresh exact GPU booking required')
+    if len(tickets)!=1 or any(tickets[0].get(k)!=v for k,v in expected.items()) or now+(budget+120)*1000>expected['end_ms']:raise ValueError('Fresh exact GPU booking required')
     def check():
         if Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT or int(time.time()*1000)+120000>=expected['end_ms']:raise ValueError('Boot/window boundary')
     check()
     if (ROOT/'repo/.git/HEAD').read_text().strip()!='7fc3877e4f67cfcaecc6da1b47dbaf60ebdef61c':raise ValueError('Runtime HEAD changed')
     if migration.sha(ROOT/'assets/manifest.json')!=helper.ASSETS_SHA:raise ValueError('Assets manifest changed')
-    for path in (RUN,ROOT/'staging/gpu-numeric',ROOT/'tmp/cpu'):migration.real_ancestry(path)
-    evidence=ROOT/'staging/gpu-numeric'
-    if evidence.exists() or (RUN/'evidence/NUMERIC_STARTED.json').exists():raise ValueError('Existing numeric attempt; no automatic retry')
+    for path in (RUN,ROOT/'staging/gpu-execution-mask56',ROOT/'tmp/cpu'):migration.real_ancestry(path)
+    execution=ROOT/'staging/gpu-execution-mask56';execution.mkdir(mode=0o700,exist_ok=True)
+    evidence=execution/phase
+    marker='NUMERIC_STARTED.json' if phase=='numeric' else 'MODELS_ATTEMPT1_STARTED.json'
+    if evidence.exists() or (RUN/'evidence'/marker).exists():raise ValueError('Existing numeric attempt; no automatic retry')
     evidence.mkdir(mode=0o700)
-    prior=json.loads((ROOT/'staging/gpu-preparation/cpu.terminal.json').read_bytes())
-    if prior['exit_code']!=0 or prior['boot']!=BOOT or prior['run_id']!=RUN_ID or prior['log_sha256']!=migration.sha(ROOT/'staging/gpu-preparation/cpu.log'):raise ValueError('Actual CPU success missing')
-    migration.exclusive_json(evidence/'claim.json',dict(pid=os.getpid(),start_ticks=helper.process_records(0)[os.getpid()]['start_ticks'],boot=BOOT,run_id=RUN_ID,started_ms=int(time.time()*1000)))
+    prior=json.loads((ROOT/'staging/gpu-preparation-mask56/cpu.terminal.json').read_bytes())
+    if prior['exit_code']!=0 or prior['boot']!=BOOT or prior['run_id']!=RUN_ID or prior['log_sha256']!=migration.sha(ROOT/'staging/gpu-preparation-mask56/cpu.log'):raise ValueError('Actual CPU success missing')
+    config=json.loads((RUN/'configs/project.json').read_bytes())
+    proof=ROOT/'staging/sm-driver13-port/terminal.json'
+    if config.get('mask_off')!=56 or config.get('mask_compatibility_proof_sha256')!=migration.sha(proof) or migration.sha(proof)!='f8cff8a12b7a613d2ccb1241f8126945fef5935425c13f1851ca961957b89aa4' or json.loads(proof.read_bytes()).get('passed') is not True:raise ValueError('Unverified mask compatibility setting')
     nonce=secrets.token_hex(24);environment=helper.child_environment(nonce)
+    environment['MASK_OFF']='56'
     environment['SPACESERVE_CONFIG']=str(RUN/'configs/project.json')
     environment['EXP_ROOT']=str(RUN)
-    environment['REPRO_PHASE']='numeric'
+    environment['REPRO_PHASE']=phase
     environment['PATH']='/usr/local/cuda-12.8/bin:/usr/bin:/bin'
-    argv=['/usr/bin/python3','-I','-S','-B',str(ROOT/'repo/spaceserve/runtime/entry.py'),'numeric','--config',str(RUN/'configs/project.json')]
-    started=time.monotonic();result=dict(exit_code=1,boot=BOOT,run_id=RUN_ID)
+    migration.exclusive_json(evidence/'claim.json',dict(pid=os.getpid(),start_ticks=helper.process_records(0)[os.getpid()]['start_ticks'],boot=BOOT,run_id=RUN_ID,phase=phase,started_ms=int(time.time()*1000),config_sha256=migration.sha(RUN/'configs/project.json'),actual_environment={k:environment[k] for k in ('MASK_OFF','SPACESERVE_CONFIG','EXP_ROOT','REPRO_PHASE','CUDA_VISIBLE_DEVICES')},compatibility_proof_sha256=migration.sha(proof)))
+    argv=['/usr/bin/python3','-I','-S','-B',str(ROOT/'repo/spaceserve/runtime/entry.py'),phase,'--config',str(RUN/'configs/project.json')]
+    started=time.monotonic();result=dict(exit_code=1,boot=BOOT,run_id=RUN_ID,phase=phase,mask_off=56,compatibility_proof_sha256=migration.sha(proof))
     try:
         with (evidence/'numeric.log').open('xb') as stream:
-            supervise(helper,argv,environment,stream,check)
+            supervise(helper,argv,environment,stream,check,budget)
         result['exit_code']=0
     except BaseException as error:result['error']=repr(error);raise
     finally:

@@ -3,7 +3,7 @@ import base64,hashlib,importlib.util,json,os,secrets,socket,sys,time,types
 from pathlib import Path
 
 ROOT=Path('/local/boyjiang/spaceserve')
-RUN_ID='space-003-20261029'
+RUN_ID='space-mask56-20261029'
 RUN=ROOT/'runs'/RUN_ID
 COMMIT='7fc3877e4f67cfcaecc6da1b47dbaf60ebdef61c'
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
@@ -31,12 +31,12 @@ def main():
         if migration.sha(Path(path))!=digest:raise ValueError('Startup file changed')
     site=ROOT/'assets/envs/space/lib/python3.10/site-packages'
     if {str(p) for p in site.glob('*.pth')}!={p for p in helper.SITE if p.startswith(str(site))}:raise ValueError('Unexpected pth')
-    evidence=ROOT/'staging/gpu-preparation'
-    config=ROOT/'staging/gpu-project.json'
+    evidence=ROOT/'staging/gpu-preparation-mask56'
+    config=ROOT/'staging/gpu-mask56-project.json'
     for path in (evidence,RUN,config.parent,ROOT/'tmp/cpu'):migration.real_ancestry(path)
     if config.is_symlink():raise ValueError('Linked config')
     raw=base64.b64decode(data['config'],validate=True)
-    config_sha='45eddf57463c906144afceff5b1a0c1348bdb2738fa4e4ffcb578161ef3cb563'
+    config_sha='c67c3b0c3456ca06522d7a320889187d5672326226300ef2a3ef6b27f9a34810'
     if hashlib.sha256(raw).hexdigest()!=config_sha:raise ValueError('Exact approved configuration required')
     if migration.sha(ROOT/'assets/manifest.json')!=helper.ASSETS_SHA:raise ValueError('Asset manifest changed')
     if phase=='prepare':
