@@ -1,0 +1,3 @@
+# 独立G2
+
+space2300_review，reviewed_at_utc 2026-10-28T17:07:33Z。APPROVE BLOCKING0。相对880c仅三行，真实diagnosis支持Git警告合流误判；新目录保留原件，其他守卫不变。生产e8755bda577c5247aee980e152865c7beb8234cc0952e3d200164c5fe3321639，测试5d98a979838213d616d8c608605ac0a035182ed56e0b84d4fe60b73caef98d52，依赖9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405。原4mock合同足够；真实Git警告通过诊断与窄diff支持。恢复仍须G1/G5/push/wrapper/三端字节及fresh准入。

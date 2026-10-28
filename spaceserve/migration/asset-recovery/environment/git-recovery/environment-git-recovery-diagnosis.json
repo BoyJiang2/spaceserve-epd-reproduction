@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "-l",
+    "boyjiang",
+    "qjh003",
+    "cat /local/boyjiang/spaceserve/staging/env-build/bootstrap.terminal.json; cat /local/boyjiang/spaceserve/staging/env-build/bootstrap.log; git -c core.fsmonitor=false -c core.excludesFile=/dev/null -C /local/boyjiang/spaceserve/repo status --porcelain --untracked-files=all; test ! -e /local/boyjiang/spaceserve/assets/envs/space; test ! -e /local/boyjiang/spaceserve/assets/tools/uv"
+  ],
+  "exit_code": 0,
+  "observed_utc": "2026-10-28T17:07:13.449511+00:00",
+  "stdout_sha256": "16fddc5f4e52100e491fa6fef3faeb9e6e61a01747a36c1c094dbf21546ab376",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

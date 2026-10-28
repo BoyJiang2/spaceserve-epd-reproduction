@@ -1,0 +1,58 @@
+{
+  "action": "bootstrap",
+  "tool_commit": "880c21c51eed81a191de362c471cd7f703879a24",
+  "runtime_commit": "a3f03b9dd5956db92add454f9b3afd5663f84609",
+  "input_sha256s": {
+    "space-freeze.txt": "12cc7ae16e15cb32a58d197b10c139df7d715a8c3eeb4246b77eebe5d4814b0f",
+    "prepare_space.py": "3775d95a2e1ed4deefb49c6db1d2efe8480e46aba553d349804347751eab721c",
+    "apply_space_compat.py": "8718c981961ca4812e16b0bce2dcd36639c4bdf0e923ba178b9761a4a75fd2ed"
+  },
+  "host": "qjh003",
+  "uid": 2147,
+  "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+  "booking": {
+    "origin": "gputime_read_only_api",
+    "read_only": true,
+    "observed_ms": 1793206941200,
+    "resources": [
+      {
+        "id": "h20/qjh003",
+        "node": "qjh003",
+        "active": true
+      }
+    ],
+    "bookings": [
+      {
+        "id": "bk-20261028T0925-0332cf80",
+        "resource_id": "h20/qjh003",
+        "cluster_id": "h20",
+        "node": "qjh003",
+        "start_ms": 1793192400000,
+        "end_ms": 1793235600000,
+        "user": "boyjiang",
+        "kind": "cpu",
+        "created_ms": 1793179531066
+      }
+    ]
+  },
+  "pid": 3277823,
+  "start_ticks": "14209878",
+  "affinity": [
+    50
+  ],
+  "nice": 10,
+  "started_ms": 1793206946951,
+  "ended_ms": 1793206947079,
+  "elapsed_seconds": 0.12897887697909027,
+  "failure": "ValueError('Frozen runtime is dirty')",
+  "state": "FAILED_PARTIAL_PRESERVED",
+  "details": {},
+  "log_sha256": "1a99bd8b7f057560f91b2a0f748a96940c09e4e6bd605f867b9d7ee6488d61f1",
+  "CPU_STAGED": false,
+  "actual_CPU_suite_passed": false,
+  "GPU_requests": 0
+}{"argv": ["git", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/spaceserve/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793206946952}
+warning: unable to access '/nonexistent/.config/git/ignore': Permission denied
+warning: unable to access '/nonexistent/.config/git/ignore': Permission denied
+
+{"exit_code": 0, "elapsed_seconds": 0.12688117299694568, "failure": null, "output_bytes": 158, "output_sha256": "cfc34ae18dc79fe8bf517bcbeceea8f9fc27100af92e23c2f44249565f2439be", "cleanup": []}

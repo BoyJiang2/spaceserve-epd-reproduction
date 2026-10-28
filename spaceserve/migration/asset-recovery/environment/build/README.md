@@ -9,3 +9,5 @@
 首次4CPU-MOCK实际3PASS/1FAIL为Windows字符串前缀fixture问题，原件保留；[恢复G2](g2-space-environment-test-recovery.md)后仅fixture改Path.is_relative_to，生产512f不改。一次纠正4PASS/0skip0.002秒（父0.311秒），source前后相同temp空，不证明实际安装。实际执行仍待G5/push/三端源码与wrapper/fresh准入。
 
 [纠正原始测试](environment-build-tests-corrected.json) · [首失败](environment-build-tests.stderr.log) · [真实软件只读资料](software-inventory.json) · [具体wrapper](environment-build-wrapper.py)
+
+实际首次bootstrap被Git配置权限警告合流误判为dirty，写前停止；env与uv尚未创建，后四action未运行。[最小恢复方案](../git-recovery/environment-git-recovery-plan.md)保留原失败，显式空Git排除文件和独立恢复证据目录；实际环境仍未通过。

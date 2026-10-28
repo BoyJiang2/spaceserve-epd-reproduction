@@ -58,7 +58,7 @@ def verify_lock(text,expected):
 
 def controlled_environment(root):
     return {'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LC_ALL':'C.UTF-8',
-        'TMPDIR':str(root/'staging/env-build/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
+        'TMPDIR':str(root/'staging/env-build-git-recovery/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
         'UV_CACHE_DIR':str(root/'assets/cache/uv'),'UV_NO_CONFIG':'1','UV_PYTHON_DOWNLOADS':'never',
         'UV_HTTP_TIMEOUT':'30','UV_HTTP_RETRIES':'2','UV_CONCURRENT_DOWNLOADS':'4',
         'UV_CONCURRENT_INSTALLS':'1','UV_CONCURRENT_BUILDS':'1','UV_NO_PROGRESS':'1',
@@ -84,7 +84,7 @@ def run(data):
     check();migration.validate_executor()
     if (sys.version_info[:3]!=(3,10,12) or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT):
         raise ValueError('Exact system Python/boot required')
-    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build'
+    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-git-recovery'
     for path in (assets,repo/'.git',evidence):migration.real_ancestry(path)
     if (repo/'.git/HEAD').is_symlink() or (repo/'.git/HEAD').read_text().strip()!=RUNTIME:
         raise ValueError('Frozen runtime differs')
@@ -125,7 +125,7 @@ def run(data):
             def command(argv):
                 left=check()
                 return migration.command_output(argv,stream,max(0.1,left-1),start+360)
-            if command(['git','-c','core.fsmonitor=false','-C',str(repo),'status','--porcelain','--untracked-files=all']).strip():
+            if command(['git','-c','core.fsmonitor=false','-c','core.excludesFile=/dev/null','-C',str(repo),'status','--porcelain','--untracked-files=all']).strip():
                 raise ValueError('Frozen runtime is dirty')
             for name,raw in inputs.items():
                 path=evidence/name
