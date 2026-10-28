@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "-l",
+    "boyjiang",
+    "qjh003",
+    "taskset -c 50 nice -n 10 timeout --signal=TERM --kill-after=120s 60s python3 -I -S -B -c 'import base64\nimport hashlib\nimport io\nimport json\nimport sys\nimport types\n\nraw=sys.stdin.buffer.read(8*1024**2+1)\nif len(raw)>8*1024**2:raise ValueError('\"'\"'8MiB payload budget exceeded'\"'\"')\ndata=json.loads(raw)\nif set(data)!={'\"'\"'tool_commit'\"'\"','\"'\"'runtime_commit'\"'\"','\"'\"'booking'\"'\"','\"'\"'files'\"'\"','\"'\"'modules'\"'\"'}:raise ValueError('\"'\"'Unexpected payload keys'\"'\"')\nexpected=[('\"'\"'migrate_code_cpu'\"'\"','\"'\"'9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'\"'\"'),\n          ('\"'\"'restore_space_small_cpu'\"'\"','\"'\"'25f4756eeb8b9f547503c98ff719e8974036de5e8bf812892a84653d26d83a7f'\"'\"')]\nmodules=data.pop('\"'\"'modules'\"'\"')\nif len(modules)!=2:raise ValueError('\"'\"'Exact two modules required'\"'\"')\nsources=[]\nfor row,(name,digest) in zip(modules,expected):\n    source=base64.b64decode(row['\"'\"'base64'\"'\"'],validate=True)\n    if row['\"'\"'name'\"'\"']!=name or row['\"'\"'sha256'\"'\"']!=digest or hashlib.sha256(source).hexdigest()!=digest:\n        raise ValueError('\"'\"'Published source bytes differ'\"'\"')\n    sources.append(source)\nbody=json.dumps(data).encode()\nprint(json.dumps({'\"'\"'wire_payload_sha256'\"'\"':hashlib.sha256(raw).hexdigest(),\n                  '\"'\"'business_payload_sha256'\"'\"':hashlib.sha256(body).hexdigest(),\n                  '\"'\"'verified_modules'\"'\"':expected,'\"'\"'tool_commit'\"'\"':data['\"'\"'tool_commit'\"'\"']}),flush=True)\nhelper=types.ModuleType('\"'\"'migrate_code_cpu'\"'\"');sys.modules['\"'\"'migrate_code_cpu'\"'\"']=helper\nexec(compile(sources[0],data['\"'\"'tool_commit'\"'\"']+'\"'\"':tools/migrate_code_cpu.py'\"'\"','\"'\"'exec'\"'\"'),helper.__dict__)\nsys.stdin=io.TextIOWrapper(io.BytesIO(body),encoding='\"'\"'utf8'\"'\"')\nexec(compile(sources[1],data['\"'\"'tool_commit'\"'\"']+'\"'\"':tools/restore_space_small_cpu.py'\"'\"','\"'\"'exec'\"'\"'),{'\"'\"'__name__'\"'\"':'\"'\"'__main__'\"'\"'})\n'"
+  ],
+  "wrapper_sha256": "a0c2fc01d675b83ecfc7f9d56b00c4ddcc85709efec495e61b01c532689d2aa2",
+  "stdin": "exact two approved source modules, eight asset bytes, actual future published tool commit and fresh booking"
+}

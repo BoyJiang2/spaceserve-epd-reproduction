@@ -1,3 +1,13 @@
+# 2026-10-28 实际最新状态
+
+三个raw复制单元全部exit0并通过[独立完整性审查](asset-bytes-audit.md)：23,080,280,259B，24份原始回执/完整清单31,285,351B已下载并逐SHA验证。两旧写前失败保留。成功仅RELOCATION_PENDING，环境路径、IPC库依赖与目标suite/GPU均未通过；旧源不得删除。
+
+Space数据集已复制；[八份精确小素材恢复](../../spaceserve/migration/asset-recovery/README.md)本地4CPU-MOCK过，实际上传尚待G5/push与fresh准入。原Qwen下载清单10,162B已精确恢复，完整环境与权重仍待取得。EPD库raw副本在assets/build/epd-cuda/，runtime期望assets/build/，后续须显式处理路径及原RUNPATH，不用链接掩盖旧依赖。
+
+以下为逐阶段历史，当前状态以本节及实际回执为准，不重复已完成代码/资产单元。
+
+---
+
 最新：两个data前置守卫失败均发生于写前，原件和[系统PAM/SSH身份恢复记录](pam-recovery/README.md)完整保留。两代码repo已迁移；资产复制成功仍0，模型/环境单位尚未启动，GPU0。
 
 当前补充：原始资产data首次执行因系统PAM服务cwd不可读在写前停止；[窄恢复及原始证据](pam-recovery/README.md)单独保存。尚无资产复制成功，环境/模型未启动，未运行GPU。

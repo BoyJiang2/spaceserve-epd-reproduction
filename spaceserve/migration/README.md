@@ -1,3 +1,5 @@
+最新CPU迁移：数据集已实际复制且独立SHA审查通过；[八份精确素材恢复](asset-recovery/README.md)仍待实际上传。完整Space环境、Qwen权重和新host GPU Gates尚未完成。
+
 # qjh003 固定目录迁移：准备状态
 
 代码已分别发布；[共同CPU部署准备与本机5项工具测试](../../docs/migration/README.md)单独记录，尚未在qjh003部署或迁移资产。

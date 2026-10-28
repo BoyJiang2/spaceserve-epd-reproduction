@@ -1,3 +1,5 @@
+最新CPU迁移：EPD环境6,866,027,252B、MiniCPM16,210,140,997B、数据集和IPC库原字节已复制，[独立完整性审查](../../docs/migration/asset-bytes-audit.md)通过。仅RELOCATION_PENDING；库平铺路径和旧RUNPATH/环境入口待处理，未过目标suite/GPU，不删除旧源。
+
 # EPD 固定目录迁移准备
 
 代码已分别发布；[共同CPU部署准备与本机5项工具测试](../../docs/migration/README.md)单独记录，尚未在qjh003部署或迁移资产。
