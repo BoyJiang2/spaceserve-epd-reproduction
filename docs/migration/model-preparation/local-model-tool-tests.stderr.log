@@ -1,0 +1,223 @@
+test_exact_names_revisions_and_existing_pins_required (__main__.ModelFetchTests.test_exact_names_revisions_and_existing_pins_required) ... ok
+test_failed_curl_keeps_partial_and_original_diagnostic (__main__.ModelFetchTests.test_failed_curl_keeps_partial_and_original_diagnostic) ... ERROR
+test_near_deadline_both_timeouts_keep_the_cleanup_reserve (__main__.ModelFetchTests.test_near_deadline_both_timeouts_keep_the_cleanup_reserve) ... ERROR
+test_success_is_hashed_before_final_rename (__main__.ModelFetchTests.test_success_is_hashed_before_final_rename) ... ERROR
+test_wrong_actual_bytes_are_preserved_without_success (__main__.ModelFetchTests.test_wrong_actual_bytes_are_preserved_without_success) ... ERROR
+
+======================================================================
+ERROR: test_failed_curl_keeps_partial_and_original_diagnostic (__main__.ModelFetchTests.test_failed_curl_keeps_partial_and_original_diagnostic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 37, in attempt
+    root=Path(directory).resolve();destination=root/'models';logs=root/'logs';destination.mkdir();logs.mkdir()
+                                                                              ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpv1d02jzf\\models'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpv1d02jzf'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 79, in test_failed_curl_keeps_partial_and_original_diagnostic
+    def test_failed_curl_keeps_partial_and_original_diagnostic(self):self.attempt(b'ab',7)
+                                                                     ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 36, in attempt
+    with tempfile.TemporaryDirectory() as directory:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpv1d02jzf'
+
+======================================================================
+ERROR: test_near_deadline_both_timeouts_keep_the_cleanup_reserve (__main__.ModelFetchTests.test_near_deadline_both_timeouts_keep_the_cleanup_reserve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 62, in test_near_deadline_both_timeouts_keep_the_cleanup_reserve
+    root=Path(directory).resolve();destination=root/'models';logs=root/'logs';destination.mkdir();logs.mkdir()
+                                                                              ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpq_jzu1uh\\models'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpq_jzu1uh'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 61, in test_near_deadline_both_timeouts_keep_the_cleanup_reserve
+    with tempfile.TemporaryDirectory() as directory:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpq_jzu1uh'
+
+======================================================================
+ERROR: test_success_is_hashed_before_final_rename (__main__.ModelFetchTests.test_success_is_hashed_before_final_rename)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 37, in attempt
+    root=Path(directory).resolve();destination=root/'models';logs=root/'logs';destination.mkdir();logs.mkdir()
+                                                                              ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmp21p4pe_p\\models'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmp21p4pe_p'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 78, in test_success_is_hashed_before_final_rename
+    def test_success_is_hashed_before_final_rename(self):self.attempt(b'abc',0)
+                                                         ~~~~~~~~~~~~^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 36, in attempt
+    with tempfile.TemporaryDirectory() as directory:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmp21p4pe_p'
+
+======================================================================
+ERROR: test_wrong_actual_bytes_are_preserved_without_success (__main__.ModelFetchTests.test_wrong_actual_bytes_are_preserved_without_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 37, in attempt
+    root=Path(directory).resolve();destination=root/'models';logs=root/'logs';destination.mkdir();logs.mkdir()
+                                                                              ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpu48fient\\models'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpu48fient'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 80, in test_wrong_actual_bytes_are_preserved_without_success
+    def test_wrong_actual_bytes_are_preserved_without_success(self):self.attempt(b'BAD',0)
+                                                                    ~~~~~~~~~~~~^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_fetch_space_model_cpu.py", line 36, in attempt
+    with tempfile.TemporaryDirectory() as directory:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{30d7c772-fef0-427f-aafa-7cd9e605469c}\\AC\\Temp\\tmpu48fient'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.023s
+
+FAILED (errors=4)

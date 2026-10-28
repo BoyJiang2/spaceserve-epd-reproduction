@@ -1,0 +1,33 @@
+{
+  "observed_utc": "2026-10-28T12:23:56.168834+00:00",
+  "command": [
+    "python",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import tempfile,sys,runpy; tempfile.tempdir=sys.argv[1]; target=sys.argv[2]; sys.argv=[target,\"-v\"]; print(\"actual_temp_root=\"+tempfile.gettempdir(),flush=True); runpy.run_path(target,run_name=\"__main__\")",
+    "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\migration-qjh003\\model-test-tmp",
+    "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\work\\repository-upload\\checkout\\tools\\test_fetch_space_model_cpu.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 0.18021089999820106,
+  "actual_temp_root": "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\migration-qjh003\\model-test-tmp",
+  "temporary_root_entries_after_test": [],
+  "source_before": {
+    "tools/fetch_space_model_cpu.py": "20b649bb9732e8cdcdaaebac8a9bdb9d25f0b16dd368a94022e263deda7c90b6",
+    "tools/test_fetch_space_model_cpu.py": "031b62504bd3d5b3b886e2bc6d43ed9562cee216137ef8dba9e872b8205f2456"
+  },
+  "source_after": {
+    "tools/fetch_space_model_cpu.py": "20b649bb9732e8cdcdaaebac8a9bdb9d25f0b16dd368a94022e263deda7c90b6",
+    "tools/test_fetch_space_model_cpu.py": "031b62504bd3d5b3b886e2bc6d43ed9562cee216137ef8dba9e872b8205f2456"
+  },
+  "source_unchanged": true,
+  "prior_failed_receipt": "local-model-tool-tests.json",
+  "stdout_sha256": "90ad8f41b7b475390b8bc177841c8aba7c25fd61626ef24cb2da872d57b9fe52",
+  "stderr_sha256": "464688b359c6a493602f9e7c52b98e40c3b8dd21b75871474861b5db1ac28c7b",
+  "network_operations": 0,
+  "server_operations": 0,
+  "GPU_requests": 0,
+  "scope": "one independently approved local Windows environment-corrected CPU-MOCK unit"
+}
