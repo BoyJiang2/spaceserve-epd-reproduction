@@ -24,11 +24,11 @@ def remote_read(code,label):
     return json.loads(result.stdout)
 
 commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
-assert json.loads((BASE/'environment-source-publication-verified.json').read_bytes())['commit']==commit
+assert json.loads((BASE/'environment-source-io-publication-verified.json').read_bytes())['commit']==commit
 wrapper=(BASE/'environment-source-wrapper.py').read_text()
-assert sha(wrapper.encode())=='a21c737e39f46497261037bf9bf75efc5095c61c23f7ef182fea8fd89997d11b'
+assert sha(wrapper.encode())=='14b793aaf6ddc3b0edc193357434da1a9070b565c2035c5d0376d533e424fd8c'
 modules=[]
-for name,digest in [('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),('build_space_environment_cpu','518a10684c7713d1c8007ac6bf02a34966099418d3f4a2a848feec00d7be101b')]:
+for name,digest in [('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),('build_space_environment_cpu','707773868437472eb0f79e8fa86b32002a6ce535b5ed07753bbd8bf171953e16')]:
     raw=subprocess.check_output(['git','show',commit+':tools/'+name+'.py'],cwd=REPO);assert sha(raw)==digest
     modules.append(dict(name=name,sha256=digest,base64=base64.b64encode(raw).decode()))
 descriptor=(BASE/'upstream-git-archives.json').read_bytes()
@@ -36,10 +36,10 @@ assert sha(descriptor)=='7f2c0ef2769f1f3dfdbb8c8a5d4d5e833a5655e5f625e983353e626
 assert descriptor==subprocess.check_output(['git','show',commit+':spaceserve/migration/asset-recovery/environment/source-transfer/upstream-git-archives.json'],cwd=REPO)
 archives={row['name']:row for row in json.loads(descriptor)}
 inputs=json.loads((BASE/'env-action-bootstrap-payload.json').read_bytes())['inputs']
-save('environment-source-controller.json',dict(driver_pid=os.getpid(),started_ms=int(time.time()*1000),tool_commit=commit,stop_on_failure=True))
+save('environment-source-io-controller.json',dict(driver_pid=os.getpid(),started_ms=int(time.time()*1000),tool_commit=commit,stop_on_failure=True))
 progress=[]
-for action in ('transfer-SpaceServe','transfer-mysmctrl','framework','verify'):
-    prefix='environment-source-'+action
+for action in ('framework','verify'):
+    prefix='environment-source-io-'+action
     api=subprocess.run([sys.executable,'-X','utf8','C:/Users/23520/.codex/skills/gputime-booking-agent/scripts/gputime_agent.py','snapshot'],capture_output=True,timeout=45)
     assert api.returncode==0
     snapshot=json.loads(api.stdout);now=int(time.time()*1000)
@@ -53,8 +53,8 @@ for action in ('transfer-SpaceServe','transfer-mysmctrl','framework','verify'):
     save(prefix+'-booking.json',proof)
     transfer=action.startswith('transfer-')
     row=archives[action.removeprefix('transfer-')] if transfer else None
-    paths=['/local/boyjiang/spaceserve/staging/'+row['archive_name']] if transfer else ['/local/boyjiang/spaceserve/staging/env-build-source-transfer/'+action+'.claim.json']
-    if action=='framework':paths.append('/local/boyjiang/spaceserve/staging/env-build-source-transfer')
+    paths=['/local/boyjiang/spaceserve/staging/'+row['archive_name']] if transfer else ['/local/boyjiang/spaceserve/staging/env-build-source-io/'+action+'.claim.json']
+    if action=='framework':paths.append('/local/boyjiang/spaceserve/staging/env-build-source-io')
     code="""import json,os,socket,time,shutil
 from pathlib import Path
 root=Path('/local/boyjiang/spaceserve');pinned=[]
@@ -96,7 +96,7 @@ print(json.dumps(dict(observed_ms=int(time.time()*1000),host=socket.gethostname(
             if transfer:stream.close()
     result=dict(action=action,exit_code=process.returncode,elapsed_seconds=time.monotonic()-started,tool_commit=commit)
     save(prefix+'-exit.json',result);progress.append(result)
-    (BASE/'environment-source-progress.json').write_text(json.dumps(progress,indent=2))
+    (BASE/'environment-source-io-progress.json').write_text(json.dumps(progress,indent=2))
     print(json.dumps(result),flush=True)
     if process.returncode:sys.exit(process.returncode)
     if transfer:
@@ -104,4 +104,4 @@ print(json.dumps(dict(observed_ms=int(time.time()*1000),host=socket.gethostname(
         actual=remote_read(code,prefix+'-postcheck');assert actual==dict(bytes=row['archive_bytes'],sha256=row['archive_sha256'],uid=2147,link=False)
         save(prefix+'-verified.json',dict(actual=actual,local_source_still_matches=sha(source.read_bytes())==row['archive_sha256']))
         assert sha(source.read_bytes())==row['archive_sha256']
-save('environment-source-sequence-complete.json',dict(actions=progress,actual_asset_audit_pending=True,GPU_requests=0))
+save('environment-source-io-sequence-complete.json',dict(actions=progress,actual_asset_audit_pending=True,GPU_requests=0))

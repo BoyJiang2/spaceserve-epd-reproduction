@@ -12,7 +12,7 @@ if set(data)!={'action','tool_commit','runtime_commit','booking','inputs','modul
 if data['action'] not in ('framework','verify'):raise ValueError('Unknown environment action')
 if data['runtime_commit']!='a3f03b9dd5956db92add454f9b3afd5663f84609':raise ValueError('Unexpected frozen runtime')
 expected=[('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),
-          ('build_space_environment_cpu','518a10684c7713d1c8007ac6bf02a34966099418d3f4a2a848feec00d7be101b')]
+          ('build_space_environment_cpu','707773868437472eb0f79e8fa86b32002a6ce535b5ed07753bbd8bf171953e16')]
 modules=data.pop('modules')
 if len(modules)!=2:raise ValueError('Exact two approved modules required')
 sources=[]

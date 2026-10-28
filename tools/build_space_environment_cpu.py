@@ -23,6 +23,7 @@ BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 RUNTIME='a3f03b9dd5956db92add454f9b3afd5663f84609'
 ACTIONS=('framework','verify')
 MIRROR_TOOL='ac30bfb7255a49738ca1450c92799b803c983208'
+SOURCE_TRANSFER_TOOL='6822451dcc449d051f579e2218753a64d7e9529a'
 SOURCE_ARCHIVES_SHA='7f2c0ef2769f1f3dfdbb8c8a5d4d5e833a5655e5f625e983353e6262f5080a43'
 PARTIAL_GIT_SHA='68719988769a6fe6f6f7f57ba9d0ff3d07f32032ae61c7712b701e08ec5b9922'
 LOCK_TOOL='999d479ff855dd25d9eb50ee073a6421209ff7d9'
@@ -121,7 +122,7 @@ def partial_git_inventory(path):
 
 def controlled_environment(root):
     return {'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LC_ALL':'C.UTF-8',
-        'TMPDIR':str(root/'staging/env-build-source-transfer/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
+        'TMPDIR':str(root/'staging/env-build-source-io/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
         'UV_CACHE_DIR':str(root/'assets/cache/uv'),'UV_NO_CONFIG':'1','UV_PYTHON_DOWNLOADS':'never',
         'UV_HTTP_TIMEOUT':'30','UV_HTTP_RETRIES':'2','UV_CONCURRENT_DOWNLOADS':'4',
         'UV_CONCURRENT_INSTALLS':'1','UV_CONCURRENT_BUILDS':'1','UV_NO_PROGRESS':'1',
@@ -148,7 +149,7 @@ def run(data):
     check();migration.validate_executor()
     if (sys.version_info[:3]!=(3,10,12) or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT):
         raise ValueError('Exact system Python/boot required')
-    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-source-transfer';locks_root=root/'staging/env-build-batched';mirror=root/'staging/env-build-mirror'
+    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-source-io';source_previous=root/'staging/env-build-source-transfer';locks_root=root/'staging/env-build-batched';mirror=root/'staging/env-build-mirror'
     for path in (assets,repo/'.git',evidence):migration.real_ancestry(path)
     if (repo/'.git/HEAD').is_symlink() or (repo/'.git/HEAD').read_text().strip()!=RUNTIME:
         raise ValueError('Frozen runtime differs')
@@ -180,13 +181,13 @@ def run(data):
         return prior
     prior_success(prior_root,previous)
     if first:
-        failed=json.loads((mirror/'framework.terminal.json').read_bytes())
+        failed=json.loads((source_previous/'framework.terminal.json').read_bytes())
         if (failed['action']!='framework' or failed['state']!='FAILED_PARTIAL_PRESERVED'
-                or failed['failure']!="TimeoutError('CPU environment action interrupted')"
-                or failed['tool_commit']!=MIRROR_TOOL or failed['runtime_commit']!=RUNTIME
+                or failed['failure']!="ValueError('write to closed file')"
+                or failed['tool_commit']!=SOURCE_TRANSFER_TOOL or failed['runtime_commit']!=RUNTIME
                 or failed['boot_id']!=BOOT or failed['host']!='qjh003' or failed['uid']!=2147
                 or failed['input_sha256s']!=INPUTS
-                or migration.sha(mirror/'framework.log')!=failed['log_sha256']):
+                or migration.sha(source_previous/'framework.log')!=failed['log_sha256']):
             raise ValueError('Exact known failed framework evidence required')
         evidence.mkdir(mode=0o700)
     claim={'action':action,'tool_commit':data['tool_commit'],'runtime_commit':RUNTIME,'input_sha256s':INPUTS,
@@ -224,8 +225,8 @@ def run(data):
                            for d in importlib.metadata.distributions(path=[str(site)])}
                 if installed!=expected:raise ValueError('Actual154 installed versions changed')
                 (evidence/'tmp').mkdir(mode=0o700)
-                save('failed-framework-reference.json',{'terminal_sha256':migration.sha(mirror/'framework.terminal.json'),
-                    'log_sha256':migration.sha(mirror/'framework.log'),'actual_installed_versions':installed})
+                save('failed-framework-reference.json',{'terminal_sha256':migration.sha(source_previous/'framework.terminal.json'),
+                    'log_sha256':migration.sha(source_previous/'framework.log'),'actual_installed_versions':installed})
             lock_receipts={}
             for number,raw in enumerate(parts,1):
                 path=locks_root/f'part-{number:02}.txt';lock=locks_root/f'part-{number:02}.lock'
@@ -241,7 +242,7 @@ def run(data):
             if [(row['name'],row['url'],row['commit']) for row in archives]!=list(UPSTREAM):raise ValueError('Official source identities differ')
             if action=='framework':
                 for number in range(2,11):prior_success(mirror,f'install-{number:02}')
-                for pid in (3430795,3430819,3430820):
+                for pid in (3523931,3430795,3430819,3430820):
                     if Path(f'/proc/{pid}').exists():raise ValueError('Original process PID exists; refuse recovery')
                 for folder in Path('/proc').iterdir():
                     if not folder.name.isdigit():continue
@@ -256,28 +257,32 @@ def run(data):
                     if archive_path.is_symlink() or not archive_path.is_file() or archive_path.stat().st_uid!=2147:
                         raise ValueError('Owned regular transferred archive required')
                     contents=validate_git_archive(archive_path,row)
+                    gitdir=target/'.git'
                     if name=='SpaceServe':
-                        migration.real_ancestry(target/'.git')
-                        if sorted(f.name for f in target.iterdir())!=['.git']:raise ValueError('Partial worktree is not empty')
-                        before=partial_git_inventory(target/'.git')
+                        migration.real_ancestry(gitdir)
+                        if sorted(f.name for f in target.iterdir())!=['.git']:raise ValueError('Restored worktree is not empty')
+                        expected_hashes={name:hashlib.sha256(raw).hexdigest() for name,raw in contents.items()}
+                        expected_hashes['config']=hashlib.sha256(git_configuration(url)).hexdigest()
+                        entries=list(gitdir.rglob('*'))
+                        if any(path.is_symlink() or path.stat().st_uid!=2147 for path in entries):raise ValueError('Unknown restored metadata owner/link')
+                        actual={path.relative_to(gitdir).as_posix():migration.sha(path) for path in entries if path.is_file()}
+                        if actual!=expected_hashes:raise ValueError('Exact previously restored metadata required')
+                        backup=source_previous/'failed-SpaceServe.git';migration.real_ancestry(backup)
+                        before=partial_git_inventory(backup)
                         if hashlib.sha256(json.dumps(before,sort_keys=True,separators=(',',':')).encode()).hexdigest()!=PARTIAL_GIT_SHA:
-                            raise ValueError('Original partial Git changed')
-                        save('failed-SpaceServe-git-before.json',before)
-                        backup=evidence/'failed-SpaceServe.git'
-                        if os.path.lexists(backup):raise ValueError('Existing failed Git archive refused')
-                        (target/'.git').rename(backup)
-                        if partial_git_inventory(backup)!=before:raise ValueError('Failed Git archive changed')
+                            raise ValueError('Original failed Git archive changed')
+                        save('existing-SpaceServe-metadata.json',{'members':actual,'original_backup_sha256':PARTIAL_GIT_SHA})
                     else:
                         migration.real_ancestry(target)
                         if os.path.lexists(target):raise ValueError('Existing mysmctrl source refused')
-                        target.mkdir(mode=0o700)
-                    gitdir=target/'.git';gitdir.mkdir(mode=0o700)
-                    for relative,raw in contents.items():
-                        path=gitdir/relative;migration.real_ancestry(path.parent);path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
-                        with path.open('xb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
-                    if any(migration.sha(gitdir/name)!=hashlib.sha256(raw).hexdigest() for name,raw in contents.items()):
-                        raise ValueError('Restored Git metadata differs')
-                    original=migration.sha(gitdir/'config');(gitdir/'config').write_bytes(git_configuration(url))
+                        target.mkdir(mode=0o700);gitdir.mkdir(mode=0o700)
+                        for relative,raw in contents.items():
+                            path=gitdir/relative;migration.real_ancestry(path.parent);path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+                            with path.open('xb') as writer:writer.write(raw);writer.flush();os.fsync(writer.fileno())
+                        if any(migration.sha(gitdir/name)!=hashlib.sha256(raw).hexdigest() for name,raw in contents.items()):
+                            raise ValueError('Restored Git metadata differs')
+                        (gitdir/'config').write_bytes(git_configuration(url))
+                    original=hashlib.sha256(contents['config']).hexdigest()
                     command(['git','-c','core.hooksPath=/dev/null','-C',str(target),'fsck','--full'])
                     command(['git','-c','core.hooksPath=/dev/null','-c','core.autocrlf=false','-C',str(target),'checkout','--detach',commit])
                     if command(['git','-C',str(target),'rev-parse','HEAD']).decode().strip()!=commit:raise ValueError('Materialized official HEAD differs')
