@@ -5,7 +5,7 @@ import math
 import os
 from pathlib import Path
 import time
-from resource_guard import RunInterrupted
+from resource_guard import RunInterrupted,CONFIG
 
 
 def journal(path,event):
@@ -86,7 +86,7 @@ def validate(row,reference=None):
 async def run(root,output,reference_path=None):
     import aiohttp
     from transformers import AutoTokenizer
-    dataset=root/'dataset'
+    dataset=CONFIG.asset('dataset')
     suites=cases(dataset)
     references=json.loads(reference_path.read_text()) if reference_path else None
     if references is not None:
@@ -97,7 +97,7 @@ async def run(root,output,reference_path=None):
     else:
         selected=suites
         expected=[None]*7
-    tokenizer=AutoTokenizer.from_pretrained(str(root/'models/Qwen2-VL-7B-Instruct'),trust_remote_code=True)
+    tokenizer=AutoTokenizer.from_pretrained(str(CONFIG.asset('models/Qwen2-VL-7B-Instruct')),trust_remote_code=True)
     raw_path=output.with_suffix('.jsonl')
     with raw_path.open('x',encoding='utf-8') as raw:
         raw.write(json.dumps({'event':'suite-start','expected_requests':len(selected)})+'\n')

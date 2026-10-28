@@ -5,6 +5,10 @@ from pathlib import Path
 import tempfile
 import unittest
 from correctness_suite import validate,recorded_request
+import correctness_suite as suite
+import time
+import types
+from unittest.mock import patch
 
 
 class CorrectnessTests(unittest.TestCase):
@@ -26,6 +30,45 @@ class CorrectnessTests(unittest.TestCase):
         multi['case']['keywords']=['cat','bear']
         self.assertTrue(validate(multi)['reference_semantic_limit'])
         self.assertTrue(validate(multi,multi)['reference_semantic_limit'])
+
+    def test_shared_assets_route_outside_empty_run(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
+            base=Path(directory);root=base/'run';root.mkdir()
+            assets=base/'assets';dataset=assets/'dataset';dataset.mkdir(parents=True)
+            (dataset/'manifest.json').write_text(json.dumps({'prompt':'Describe the image.','images':[{'file':str(i)+'.jpg'} for i in range(20)]}))
+            model=assets/'models/Qwen2-VL-7B-Instruct';loaded=[];sent=[]
+            class Tokenizer:
+                @classmethod
+                def from_pretrained(cls,path,**kwargs):loaded.append(path);return cls()
+                def apply_chat_template(self,messages,**kwargs):return messages[0]['content']
+            class Response:
+                status=200
+                def __init__(self,body):self.body=body
+                async def __aenter__(self):return self
+                async def __aexit__(self,*args):pass
+                async def text(self):
+                    paths=self.body['input']['multi_modal_data']['images_paths']
+                    words={'0':'bench','1':'dog','2':'bear','5':'cat'}
+                    output=' '.join(words.get(Path(p).stem,'object') for p in paths)
+                    tokens=self.body['max_tokens'];stamp=time.perf_counter()
+                    return json.dumps({'output':output,'output_token_ids':[1]*tokens,'timestamps':[stamp]*tokens,'processed_prompt_token_ids':[9]})
+            class Session:
+                def __init__(self,**kwargs):pass
+                async def __aenter__(self):return self
+                async def __aexit__(self,*args):pass
+                def post(self,url,json):sent.append(json);return Response(json)
+            modules={'aiohttp':types.SimpleNamespace(ClientSession=Session,ClientTimeout=lambda **kwargs:None),
+                     'transformers':types.SimpleNamespace(AutoTokenizer=Tokenizer)}
+            config=types.SimpleNamespace(asset=lambda relative:assets/relative)
+            # The failing version has no CONFIG import; create=True keeps this a behavioral regression.
+            with patch.object(suite,'CONFIG',config,create=True),patch.dict('sys.modules',modules):
+                self.assertEqual(asyncio.run(suite.run(root,root/'reference.json')),7)
+                self.assertEqual(asyncio.run(suite.run(root,root/'target.json',root/'reference.json')),15)
+            self.assertEqual(loaded,[str(model),str(model)])
+            self.assertEqual(len(sent),22)
+            self.assertTrue(all(Path(p).parent==dataset for body in sent for p in body['input']['multi_modal_data']['images_paths']))
+            self.assertFalse((root/'dataset').exists())
+            self.assertFalse((root/'models').exists())
 
     def test_partial_responses_survive_cancellation(self):
         class Response:
