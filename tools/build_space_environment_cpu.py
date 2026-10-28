@@ -1,5 +1,9 @@
 """Bounded dependency batches and framework actions for the original Space environment. No model/GPU import."""
 import base64
+import configparser
+import io
+import stat
+import tarfile
 import hashlib
 import importlib.metadata
 import importlib.util
@@ -17,7 +21,10 @@ import migrate_code_cpu as migration
 
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 RUNTIME='a3f03b9dd5956db92add454f9b3afd5663f84609'
-ACTIONS=tuple(f'install-{part:02}' for part in range(2,11))+('framework','verify')
+ACTIONS=('framework','verify')
+MIRROR_TOOL='ac30bfb7255a49738ca1450c92799b803c983208'
+SOURCE_ARCHIVES_SHA='7f2c0ef2769f1f3dfdbb8c8a5d4d5e833a5655e5f625e983353e6262f5080a43'
+PARTIAL_GIT_SHA='68719988769a6fe6f6f7f57ba9d0ff3d07f32032ae61c7712b701e08ec5b9922'
 LOCK_TOOL='999d479ff855dd25d9eb50ee073a6421209ff7d9'
 INPUTS={'space-freeze.txt':'12cc7ae16e15cb32a58d197b10c139df7d715a8c3eeb4246b77eebe5d4814b0f',
         'prepare_space.py':'3775d95a2e1ed4deefb49c6db1d2efe8480e46aba553d349804347751eab721c',
@@ -65,14 +72,62 @@ def dependency_parts(raw):
     return [b''.join(line.encode() for line in lines[start:start+16]) for start in range(0,154,16)]
 
 
+def git_configuration(url):
+    return ('[core]\n\trepositoryformatversion = 0\n\tbare = false\n\tfilemode = true\n'
+        '\tsymlinks = true\n\tignorecase = false\n[remote "origin"]\n\turl = '+url+'\n').encode()
+
+
+def validate_git_archive(path,row):
+    raw=Path(path).read_bytes()
+    if len(raw)!=row['archive_bytes'] or hashlib.sha256(raw).hexdigest()!=row['archive_sha256']:
+        raise ValueError('Git metadata archive bytes differ')
+    expected={r['path']:r for r in row['members']}
+    if len(expected)!=len(row['members']):raise ValueError('Duplicate expected metadata')
+    allowed=r'(?:config|HEAD|FETCH_HEAD|shallow|refs/heads/pinned|objects/[0-9a-f]{2}/[0-9a-f]{38}|objects/pack/pack-[0-9a-f]{40}\.(?:idx|pack|rev))'
+    if not all(re.fullmatch(allowed,name) for name in expected):raise ValueError('Unexpected Git metadata path')
+    if not {'config','HEAD','FETCH_HEAD','shallow','refs/heads/pinned'}<=set(expected):raise ValueError('Incomplete shallow Git metadata')
+    contents={};end=0
+    with tarfile.open(fileobj=io.BytesIO(raw),mode='r:') as archive:
+        for member in archive.getmembers():
+            if (not member.isfile() or member.name not in expected or member.name in contents
+                    or member.linkname or member.mode!=0o600 or member.pax_headers):
+                raise ValueError('Unexpected archive member/type/mode')
+            value=archive.extractfile(member).read();record=expected[member.name]
+            if len(value)!=record['bytes'] or hashlib.sha256(value).hexdigest()!=record['sha256']:
+                raise ValueError('Git metadata member differs')
+            contents[member.name]=value;end=max(end,member.offset_data+(member.size+511)//512*512)
+    if set(contents)!=set(expected) or len(raw)-end<1024 or any(raw[end:]) or len(raw)%512:
+        raise ValueError('Incomplete archive or unexpected trailing data')
+    config=configparser.RawConfigParser();config.read_string(contents['config'].decode())
+    if config.sections()!=['core'] or dict(config['core'])!={'repositoryformatversion':'0','filemode':'false','bare':'true','symlinks':'false','ignorecase':'true'}:
+        raise ValueError('Imported config is not the original empty-template bare config')
+    if (contents['shallow']!=(row['commit']+'\n').encode()
+            or contents['refs/heads/pinned']!=(row['commit']+'\n').encode()
+            or contents['HEAD']!=b'ref: refs/heads/master\n'):
+        raise ValueError('Exact shallow boundary/refs required')
+    return contents
+
+
+def partial_git_inventory(path):
+    rows=[]
+    for entry in sorted(path.rglob('*')):
+        info=entry.lstat()
+        if info.st_uid!=2147 or entry.is_symlink() or entry.name.endswith('.lock') or not (stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode)):
+            raise ValueError('Unknown partial Git state; refuse mutation')
+        rows.append({'path':entry.relative_to(path).as_posix(),'uid':info.st_uid,'mode':info.st_mode,
+            'bytes':info.st_size,'sha256':migration.sha(entry) if entry.is_file() else None,'link':None})
+    return rows
+
+
 def controlled_environment(root):
     return {'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LC_ALL':'C.UTF-8',
-        'TMPDIR':str(root/'staging/env-build-mirror/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
+        'TMPDIR':str(root/'staging/env-build-source-transfer/tmp'),'XDG_CACHE_HOME':str(root/'assets/cache'),
         'UV_CACHE_DIR':str(root/'assets/cache/uv'),'UV_NO_CONFIG':'1','UV_PYTHON_DOWNLOADS':'never',
         'UV_HTTP_TIMEOUT':'30','UV_HTTP_RETRIES':'2','UV_CONCURRENT_DOWNLOADS':'4',
         'UV_CONCURRENT_INSTALLS':'1','UV_CONCURRENT_BUILDS':'1','UV_NO_PROGRESS':'1',
         'PYTHONDONTWRITEBYTECODE':'1','SETUPTOOLS_USE_DISTUTILS':'stdlib',
-        'GIT_CONFIG_GLOBAL':'/dev/null','GIT_CONFIG_SYSTEM':'/dev/null','GIT_TERMINAL_PROMPT':'0'}
+        'GIT_CONFIG_GLOBAL':'/dev/null','GIT_CONFIG_SYSTEM':'/dev/null','GIT_TERMINAL_PROMPT':'0',
+        'GIT_LFS_SKIP_SMUDGE':'1','GIT_ATTR_NOSYSTEM':'1'}
 
 
 def install_arguments(uv,python,lock):
@@ -93,7 +148,7 @@ def run(data):
     check();migration.validate_executor()
     if (sys.version_info[:3]!=(3,10,12) or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT):
         raise ValueError('Exact system Python/boot required')
-    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-mirror';locks_root=root/'staging/env-build-batched'
+    root=migration.PARENT/'spaceserve';assets=root/'assets';repo=root/'repo';evidence=root/'staging/env-build-source-transfer';locks_root=root/'staging/env-build-batched';mirror=root/'staging/env-build-mirror'
     for path in (assets,repo/'.git',evidence):migration.real_ancestry(path)
     if (repo/'.git/HEAD').is_symlink() or (repo/'.git/HEAD').read_text().strip()!=RUNTIME:
         raise ValueError('Frozen runtime differs')
@@ -110,7 +165,7 @@ def run(data):
     first=action==ACTIONS[0]
     if first:
         if evidence.exists():raise ValueError('Existing batch preparation/partial; inspect without retry')
-        prior_root=locks_root;previous='install-01'
+        prior_root=mirror;previous='install-10'
     else:
         prior_root=evidence;previous=ACTIONS[ACTIONS.index(action)-1]
     def prior_success(folder,name):
@@ -120,21 +175,22 @@ def run(data):
                 or prior['host']!='qjh003' or prior['uid']!=2147 or prior['input_sha256s']!=INPUTS
                 or migration.sha(folder/(name+'.log'))!=prior['log_sha256']):
             raise ValueError('Previous actual action has not succeeded with the same inputs')
-        expected_tool=data['tool_commit'] if folder==evidence else LOCK_TOOL
+        expected_tool=data['tool_commit'] if folder==evidence else (MIRROR_TOOL if folder==mirror else LOCK_TOOL)
         if prior['tool_commit']!=expected_tool:raise ValueError('Actual action tool commit changed')
         return prior
     prior_success(prior_root,previous)
     if first:
-        failed=json.loads((locks_root/'install-02.terminal.json').read_bytes())
-        if (failed['action']!='install-02' or failed['state']!='FAILED_PARTIAL_PRESERVED'
+        failed=json.loads((mirror/'framework.terminal.json').read_bytes())
+        if (failed['action']!='framework' or failed['state']!='FAILED_PARTIAL_PRESERVED'
                 or failed['failure']!="TimeoutError('CPU environment action interrupted')"
-                or failed['tool_commit']!=LOCK_TOOL or failed['runtime_commit']!=RUNTIME
+                or failed['tool_commit']!=MIRROR_TOOL or failed['runtime_commit']!=RUNTIME
                 or failed['boot_id']!=BOOT or failed['host']!='qjh003' or failed['uid']!=2147
                 or failed['input_sha256s']!=INPUTS
-                or migration.sha(locks_root/'install-02.log')!=failed['log_sha256']):
-            raise ValueError('Exact known failed install02 evidence required')
+                or migration.sha(mirror/'framework.log')!=failed['log_sha256']):
+            raise ValueError('Exact known failed framework evidence required')
         evidence.mkdir(mode=0o700)
     claim={'action':action,'tool_commit':data['tool_commit'],'runtime_commit':RUNTIME,'input_sha256s':INPUTS,
+           'source_archive_manifest_sha256':SOURCE_ARCHIVES_SHA,
            'host':socket.gethostname(),'uid':os.getuid(),'boot_id':BOOT,'booking':proof,
            'pid':os.getpid(),'start_ticks':Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],
            'affinity':sorted(os.sched_getaffinity(0)),'nice':os.getpriority(os.PRIO_PROCESS,0),'started_ms':int(time.time()*1000)}
@@ -166,10 +222,10 @@ def run(data):
                 site=assets/'envs/space/lib/python3.10/site-packages'
                 installed={re.sub('[-_.]+','-',d.metadata['Name']).lower():d.version
                            for d in importlib.metadata.distributions(path=[str(site)])}
-                if installed!=versions(parts[0].decode()):raise ValueError('Actual first16 bootstrap-installed versions changed')
+                if installed!=expected:raise ValueError('Actual154 installed versions changed')
                 (evidence/'tmp').mkdir(mode=0o700)
-                save('failed-install02-reference.json',{'terminal_sha256':migration.sha(locks_root/'install-02.terminal.json'),
-                    'log_sha256':migration.sha(locks_root/'install-02.log'),'actual_installed_versions':installed})
+                save('failed-framework-reference.json',{'terminal_sha256':migration.sha(mirror/'framework.terminal.json'),
+                    'log_sha256':migration.sha(mirror/'framework.log'),'actual_installed_versions':installed})
             lock_receipts={}
             for number,raw in enumerate(parts,1):
                 path=locks_root/f'part-{number:02}.txt';lock=locks_root/f'part-{number:02}.lock'
@@ -179,23 +235,55 @@ def run(data):
                     raise ValueError('Actual original successful batch lock differs')
                 verify_lock(lock.read_text(),versions(raw.decode()));lock_receipts[number]=prior['details']['lock_sha256']
             if first:save('original-lock-references.json',lock_receipts)
-            if action.startswith('install-'):
-                number=int(action.split('-')[1]);subset=versions(parts[number-1].decode())
-                lock=locks_root/f'part-{number:02}.lock'
-                command(install_arguments(uv,python,lock))
-                details.update(installed_packages=len(subset),lock_sha256=lock_receipts[number],
-                    index_url='https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple')
-            elif action=='framework':
-                for batch in ACTIONS[:-2]:prior_success(evidence,batch)
-                src=assets/'src';migration.real_ancestry(src);src.mkdir(mode=0o700,exist_ok=True)
-                for name,url,commit in UPSTREAM:
-                    target=src/name
-                    if os.path.lexists(target):raise ValueError('Existing framework source refused')
-                    command(['git','-c','core.hooksPath=/dev/null','init',str(target)])
-                    command(['git','-C',str(target),'remote','add','origin',url])
-                    command(['git','-C',str(target),'fetch','--depth=1','origin',commit])
-                    command(['git','-c','core.hooksPath=/dev/null','-C',str(target),'checkout','--detach',commit])
-                    if command(['git','-C',str(target),'rev-parse','HEAD']).decode().strip()!=commit:raise ValueError('Official framework HEAD differs')
+            archive_raw=base64.b64decode(data['source_archives_base64'],validate=True)
+            if hashlib.sha256(archive_raw).hexdigest()!=SOURCE_ARCHIVES_SHA:raise ValueError('Approved source archive manifest differs')
+            archives=json.loads(archive_raw)
+            if [(row['name'],row['url'],row['commit']) for row in archives]!=list(UPSTREAM):raise ValueError('Official source identities differ')
+            if action=='framework':
+                for number in range(2,11):prior_success(mirror,f'install-{number:02}')
+                for pid in (3430795,3430819,3430820):
+                    if Path(f'/proc/{pid}').exists():raise ValueError('Original process PID exists; refuse recovery')
+                for folder in Path('/proc').iterdir():
+                    if not folder.name.isdigit():continue
+                    try:
+                        if folder.stat().st_uid!=2147 or not (folder/'comm').read_text().startswith('git'):continue
+                        cwd=(folder/'cwd').resolve(strict=True)
+                        if cwd.is_relative_to(root):raise ValueError('Active project Git process')
+                    except (FileNotFoundError,ProcessLookupError):continue
+                for row in archives:
+                    name,url,commit=row['name'],row['url'],row['commit'];target=assets/'src'/name
+                    archive_path=root/'staging'/row['archive_name']
+                    if archive_path.is_symlink() or not archive_path.is_file() or archive_path.stat().st_uid!=2147:
+                        raise ValueError('Owned regular transferred archive required')
+                    contents=validate_git_archive(archive_path,row)
+                    if name=='SpaceServe':
+                        migration.real_ancestry(target/'.git')
+                        if sorted(f.name for f in target.iterdir())!=['.git']:raise ValueError('Partial worktree is not empty')
+                        before=partial_git_inventory(target/'.git')
+                        if hashlib.sha256(json.dumps(before,sort_keys=True,separators=(',',':')).encode()).hexdigest()!=PARTIAL_GIT_SHA:
+                            raise ValueError('Original partial Git changed')
+                        save('failed-SpaceServe-git-before.json',before)
+                        backup=evidence/'failed-SpaceServe.git'
+                        if os.path.lexists(backup):raise ValueError('Existing failed Git archive refused')
+                        (target/'.git').rename(backup)
+                        if partial_git_inventory(backup)!=before:raise ValueError('Failed Git archive changed')
+                    else:
+                        migration.real_ancestry(target)
+                        if os.path.lexists(target):raise ValueError('Existing mysmctrl source refused')
+                        target.mkdir(mode=0o700)
+                    gitdir=target/'.git';gitdir.mkdir(mode=0o700)
+                    for relative,raw in contents.items():
+                        path=gitdir/relative;migration.real_ancestry(path.parent);path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+                        with path.open('xb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+                    if any(migration.sha(gitdir/name)!=hashlib.sha256(raw).hexdigest() for name,raw in contents.items()):
+                        raise ValueError('Restored Git metadata differs')
+                    original=migration.sha(gitdir/'config');(gitdir/'config').write_bytes(git_configuration(url))
+                    command(['git','-c','core.hooksPath=/dev/null','-C',str(target),'fsck','--full'])
+                    command(['git','-c','core.hooksPath=/dev/null','-c','core.autocrlf=false','-C',str(target),'checkout','--detach',commit])
+                    if command(['git','-C',str(target),'rev-parse','HEAD']).decode().strip()!=commit:raise ValueError('Materialized official HEAD differs')
+                    if command(['git','-C',str(target),'rev-parse','HEAD^{tree}']).decode().strip()!=row['tree']:raise ValueError('Official tree differs')
+                    save('source-'+name+'-restored.json',{'commit':commit,'tree':row['tree'],'archive_sha256':row['archive_sha256'],
+                        'original_config_sha256':original,'sanitized_config_sha256':migration.sha(gitdir/'config'),'full_history':False})
                 # System Python -S reads the new wheel metadata without executing installed .pth files.
                 prefix=('import importlib.metadata,pathlib,sys\n'
                     'site=pathlib.Path(sys.argv[1])/"envs/space/lib/python3.10/site-packages"\n'

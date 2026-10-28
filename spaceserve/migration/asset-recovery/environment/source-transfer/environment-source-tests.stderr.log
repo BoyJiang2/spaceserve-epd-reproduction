@@ -1,0 +1,417 @@
+test_archive_container_accepts_only_exact_safe_metadata (__main__.BuildTests.test_archive_container_accepts_only_exact_safe_metadata) ... ERROR
+test_archive_rejects_data_after_tar_terminator (__main__.BuildTests.test_archive_rejects_data_after_tar_terminator) ... ERROR
+test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) ... 
+  test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'changes': {'../outside': b'x'}}) ... ERROR
+  test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'duplicate': True}) ... ERROR
+  test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'link': True}) ... ERROR
+  test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'changes': {'config': b'[include]\npath=/outside\n'}}) ... ERROR
+  test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'changes': {'shallow': b'wrong boundary\n'}}) ... ERROR
+test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection (__main__.BuildTests.test_controlled_environment_does_not_inherit_index_credentials_or_GPU_injection) ... ok
+test_exact_versions_reject_floating_urls_and_duplicates (__main__.BuildTests.test_exact_versions_reject_floating_urls_and_duplicates) ... ok
+test_fixed_batches_preserve_exact_original_freeze (__main__.BuildTests.test_fixed_batches_preserve_exact_original_freeze) ... ok
+test_hash_lock_requires_full_original_version_and_hashes (__main__.BuildTests.test_hash_lock_requires_full_original_version_and_hashes) ... ok
+test_install_never_drops_hash_binary_or_fixed_python_flags (__main__.BuildTests.test_install_never_drops_hash_binary_or_fixed_python_flags) ... ok
+
+======================================================================
+ERROR: test_archive_container_accepts_only_exact_safe_metadata (__main__.BuildTests.test_archive_container_accepts_only_exact_safe_metadata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 35, in test_archive_container_accepts_only_exact_safe_metadata
+    path,row=self.archive_fixture(root)
+             ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 28, in archive_fixture
+    raw=buffer.getvalue();path=Path(root)/'metadata.tar';path.write_bytes(raw)
+                                                         ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpu47g5g5b\\metadata.tar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpu47g5g5b'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 34, in test_archive_container_accepts_only_exact_safe_metadata
+    with tempfile.TemporaryDirectory() as root:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpu47g5g5b'
+
+======================================================================
+ERROR: test_archive_rejects_data_after_tar_terminator (__main__.BuildTests.test_archive_rejects_data_after_tar_terminator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 51, in test_archive_rejects_data_after_tar_terminator
+    path,row=self.archive_fixture(root);raw=path.read_bytes()+b'UNEXPECTED'+b'\0'*502;path.write_bytes(raw)
+             ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 28, in archive_fixture
+    raw=buffer.getvalue();path=Path(root)/'metadata.tar';path.write_bytes(raw)
+                                                         ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmp63ayu_gt\\metadata.tar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmp63ayu_gt'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 50, in test_archive_rejects_data_after_tar_terminator
+    with tempfile.TemporaryDirectory() as root:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmp63ayu_gt'
+
+======================================================================
+ERROR: test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'changes': {'../outside': b'x'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 46, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    path,row=self.archive_fixture(root,**case)
+             ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 28, in archive_fixture
+    raw=buffer.getvalue();path=Path(root)/'metadata.tar';path.write_bytes(raw)
+                                                         ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpgo7x5n0i\\metadata.tar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpgo7x5n0i'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 45, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    with self.subTest(case=case),tempfile.TemporaryDirectory() as root:
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpgo7x5n0i'
+
+======================================================================
+ERROR: test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'duplicate': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 46, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    path,row=self.archive_fixture(root,**case)
+             ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 28, in archive_fixture
+    raw=buffer.getvalue();path=Path(root)/'metadata.tar';path.write_bytes(raw)
+                                                         ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpb1ij1etd\\metadata.tar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpb1ij1etd'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 45, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    with self.subTest(case=case),tempfile.TemporaryDirectory() as root:
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpb1ij1etd'
+
+======================================================================
+ERROR: test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'link': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 46, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    path,row=self.archive_fixture(root,**case)
+             ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 28, in archive_fixture
+    raw=buffer.getvalue();path=Path(root)/'metadata.tar';path.write_bytes(raw)
+                                                         ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpzonlfqme\\metadata.tar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpzonlfqme'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 45, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    with self.subTest(case=case),tempfile.TemporaryDirectory() as root:
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpzonlfqme'
+
+======================================================================
+ERROR: test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'changes': {'config': b'[include]\npath=/outside\n'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 46, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    path,row=self.archive_fixture(root,**case)
+             ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 28, in archive_fixture
+    raw=buffer.getvalue();path=Path(root)/'metadata.tar';path.write_bytes(raw)
+                                                         ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmp28vpulhk\\metadata.tar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmp28vpulhk'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 45, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    with self.subTest(case=case),tempfile.TemporaryDirectory() as root:
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmp28vpulhk'
+
+======================================================================
+ERROR: test_archive_rejects_escape_links_duplicate_and_unsafe_git_config (__main__.BuildTests.test_archive_rejects_escape_links_duplicate_and_unsafe_git_config) (case={'changes': {'shallow': b'wrong boundary\n'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 46, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    path,row=self.archive_fixture(root,**case)
+             ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 28, in archive_fixture
+    raw=buffer.getvalue();path=Path(root)/'metadata.tar';path.write_bytes(raw)
+                                                         ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpae8bve40\\metadata.tar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 631, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpae8bve40'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_build_space_environment_cpu.py", line 45, in test_archive_rejects_escape_links_duplicate_and_unsafe_git_config
+    with self.subTest(case=case),tempfile.TemporaryDirectory() as root:
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 946, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 950, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 930, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\23520\Python\Python313\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 902, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 286, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\tempfile.py", line 275, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] ¾Ü¾ø·ÃÎÊ¡£: 'C:\\Users\\23520\\AppData\\Local\\Packages\\sandbox.{18f28fbf-fc18-47a7-8e9a-587c48c3683e}\\AC\\Temp\\tmpae8bve40'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.043s
+
+FAILED (errors=7)

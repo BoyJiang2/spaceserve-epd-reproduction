@@ -1,0 +1,148 @@
+[
+  {
+    "name": "SpaceServe",
+    "commit": "66de079af4234b27f7f82ff91d238ef1351324ba",
+    "commands": [
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\SpaceServe.git",
+          "rev-parse",
+          "FETCH_HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "66de079af4234b27f7f82ff91d238ef1351324ba\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\SpaceServe.git",
+          "fsck",
+          "--full"
+        ],
+        "exit_code": 0,
+        "stdout": "dangling commit 66de079af4234b27f7f82ff91d238ef1351324ba\n",
+        "stderr": "notice: No default references\n"
+      },
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\SpaceServe.git",
+          "update-ref",
+          "refs/heads/pinned",
+          "66de079af4234b27f7f82ff91d238ef1351324ba"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\SpaceServe.git",
+          "bundle",
+          "create",
+          "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\migration-qjh003\\upstream-SpaceServe.bundle",
+          "refs/heads/pinned"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "clone",
+          "--bare",
+          "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\migration-qjh003\\upstream-SpaceServe.bundle",
+          "work\\upstream-source-cache\\SpaceServe-bundle-validation.git"
+        ],
+        "exit_code": 128,
+        "stdout": "",
+        "stderr": "Cloning into bare repository 'work\\upstream-source-cache\\SpaceServe-bundle-validation.git'...\nerror: Could not read e2cb7e9158d258663008e9cacc1a87e824249db2\nfatal: Failed to traverse parents of commit 66de079af4234b27f7f82ff91d238ef1351324ba\nfatal: remote did not send all necessary objects\n"
+      }
+    ],
+    "initial_fetch_exit_unrecorded": true,
+    "initial_fetch_PIDs_absent": true,
+    "bundle_bytes": 5872294,
+    "bundle_sha256": "c1d3373a4336c13212a8b0d9a7684347da85cbf578987725d27582b8180f8695"
+  },
+  {
+    "name": "mysmctrl",
+    "commit": "6ff57356968a3f04158b9273aa881ee6bdf04229",
+    "commands": [
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\mysmctrl.git",
+          "rev-parse",
+          "FETCH_HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "6ff57356968a3f04158b9273aa881ee6bdf04229\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\mysmctrl.git",
+          "fsck",
+          "--full"
+        ],
+        "exit_code": 0,
+        "stdout": "dangling commit 6ff57356968a3f04158b9273aa881ee6bdf04229\n",
+        "stderr": "notice: No default references\n"
+      },
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\mysmctrl.git",
+          "update-ref",
+          "refs/heads/pinned",
+          "6ff57356968a3f04158b9273aa881ee6bdf04229"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-C",
+          "work\\upstream-source-cache\\mysmctrl.git",
+          "bundle",
+          "create",
+          "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\migration-qjh003\\upstream-mysmctrl.bundle",
+          "refs/heads/pinned"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "clone",
+          "--bare",
+          "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\outputs\\migration-qjh003\\upstream-mysmctrl.bundle",
+          "work\\upstream-source-cache\\mysmctrl-bundle-validation.git"
+        ],
+        "exit_code": 128,
+        "stdout": "",
+        "stderr": "Cloning into bare repository 'work\\upstream-source-cache\\mysmctrl-bundle-validation.git'...\nerror: Could not read 5173f55d57a944c4f6a3e018892fc1da55e15571\nfatal: Failed to traverse parents of commit 6ff57356968a3f04158b9273aa881ee6bdf04229\nfatal: remote did not send all necessary objects\n"
+      }
+    ],
+    "initial_fetch_exit_unrecorded": true,
+    "initial_fetch_PIDs_absent": true,
+    "bundle_bytes": 16910,
+    "bundle_sha256": "2e42cac3fb476d3e0f8b5d012392d45991acc086c77084b6562db44be63fd66a"
+  }
+]
