@@ -1,0 +1,35 @@
+{
+  "observed_utc": "2026-10-28T11:51:10.868583+00:00",
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu-22.04",
+    "--exec",
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=15s",
+    "30s",
+    "python3",
+    "-I",
+    "-S",
+    "-B",
+    "/mnt/d/Documents/codex/2026-10-23/new-chat-2/work/repository-upload/checkout/tools/test_migrate_code_cpu.py",
+    "-v"
+  ],
+  "elapsed_seconds": 6.261922121047974,
+  "exit_code": 0,
+  "source_before": {
+    "tools/migrate_code_cpu.py": "9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405",
+    "tools/test_migrate_code_cpu.py": "7bc6ac36b68a37dcf1053cc4b03ec65b9fda7d08a91d4b7f131e1ade68b2761a"
+  },
+  "source_after": {
+    "tools/migrate_code_cpu.py": "9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405",
+    "tools/test_migrate_code_cpu.py": "7bc6ac36b68a37dcf1053cc4b03ec65b9fda7d08a91d4b7f131e1ade68b2761a"
+  },
+  "source_unchanged": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "aaf86d55edcf985b4ce16285686368fecb295085af190319aa4ca033a87b3d57",
+  "GPU_requests": 0,
+  "remote_operations": 0,
+  "scope": "one local WSL pure CPU deployment-tool test unit; not Space/EPD suite"
+}

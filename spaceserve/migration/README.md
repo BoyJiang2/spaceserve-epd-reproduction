@@ -1,5 +1,7 @@
 # qjh003 固定目录迁移：准备状态
 
+代码已分别发布；[共同CPU部署准备与本机5项工具测试](../../docs/migration/README.md)单独记录，尚未在qjh003部署或迁移资产。
+
 Space 固定源码已收敛到 [`spaceserve/runtime`](../runtime/README.md)，独立 G2 APPROVE / BLOCKING 0。源快照85项、冻结索引80项；仅静态语法检查，**本次 CPU 测试未执行、尚未部署、尚未迁移资产、没有新 GPU 或性能结果**。
 
 最终根 `/local/boyjiang/spaceserve/` 下分为 repo、assets、runs、staging、archives。EPD 独立使用 `/local/boyjiang/epd/`，当前仍在重构；Space 本次通过不覆盖 EPD。模型/环境/缓存不进入Git，真实独立run只冻结少量源码与两份实验库。旧 qjh000 根保护，目标SHA/环境验收之前不清理。
