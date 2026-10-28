@@ -1,3 +1,5 @@
+最新：数据集和八份原pin素材已在qjh003实际落地并独立SHA审查通过；[小素材实际原件](asset-recovery/actual/space-small-bytes-audit.md)、[剩余固定权重准备](asset-recovery/model-download/README.md)分开。完整Space环境及Qwen权重仍缺，目标suite/GPU未通过，不以旧预检补新证据。
+
 最新CPU迁移：数据集已实际复制且独立SHA审查通过；[八份精确素材恢复](asset-recovery/README.md)仍待实际上传。完整Space环境、Qwen权重和新host GPU Gates尚未完成。
 
 # qjh003 固定目录迁移：准备状态

@@ -1,3 +1,5 @@
+实际更新：八份素材已于qjh003复制exit0，额外真实目标SHA及[独立实际结果审查](actual/space-small-bytes-audit.md)通过，2,710,088B；[原始终态](actual/terminal.json)与[独立目标重hash](actual/space-small-capture-index.json)可查。下文“上传尚待”为旧准备记录。仍非完整Space环境/权重或GPU通过。[剩余十个模型文件新获取准备](model-download/README.md)另列。
+
 # SpaceServe 精确小资产恢复准备
 
 原下载清单已从既有封存输出恢复：download_manifest.json原字节10,162B，SHA256=1bb637d5a3ca359e9e1cd4656012ead4fa3257878fa4f95d56b2c1847dec39e5。此处保留逐字节副本，不重新序列化；旧不匹配副本及旧下载失败证据继续保留，不追溯改写。
