@@ -1,0 +1,25 @@
+test_connection_reuse_does_not_retry_posts (test_correctness_suite.CorrectnessTests.test_connection_reuse_does_not_retry_posts) ... ok
+test_input_length_routing_and_multimage_limit (test_correctness_suite.CorrectnessTests.test_input_length_routing_and_multimage_limit) ... ok
+test_partial_responses_survive_cancellation (test_correctness_suite.CorrectnessTests.test_partial_responses_survive_cancellation) ... ok
+test_shared_assets_route_outside_empty_run (test_correctness_suite.CorrectnessTests.test_shared_assets_route_outside_empty_run) ... FAIL
+
+======================================================================
+FAIL: test_shared_assets_route_outside_empty_run (test_correctness_suite.CorrectnessTests.test_shared_assets_route_outside_empty_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\spaceserve/runtime/scripts\test_correctness_suite.py", line 69, in test_shared_assets_route_outside_empty_run
+    self.assertEqual(connectors,[{'force_close':True},{'force_close':True}])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [{'force_close': True}, {'force_close': True}]
+
+Second list contains 2 additional elements.
+First extra element 0:
+{'force_close': True}
+
+- []
++ [{'force_close': True}, {'force_close': True}]
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.094s
+
+FAILED (failures=1)

@@ -101,7 +101,7 @@ async def run(root,output,reference_path=None):
     raw_path=output.with_suffix('.jsonl')
     with raw_path.open('x',encoding='utf-8') as raw:
         raw.write(json.dumps({'event':'suite-start','expected_requests':len(selected)})+'\n')
-    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=120)) as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(force_close=True),timeout=aiohttp.ClientTimeout(total=120)) as session:
         async def request(index,case):
             prompt=tokenizer.apply_chat_template([{'role':'user','content':
                 '<|vision_start|><|image_pad|><|vision_end|>'*len(case['files'])+case['question']}],

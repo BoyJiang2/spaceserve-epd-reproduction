@@ -1,0 +1,15 @@
+SOURCE G2 + LOCAL CPU REGRESSION + NARROW PUBLICATION G5: APPROVE; BLOCKING0. reviewed_at2026-10-28T22:33:05Z.
+
+Independent local read-only source/log/hash inspection and static compile; no tests, HTTP, SSH, network or GPU actions executed by reviewer. Only this requested review file written.
+
+Production correctness_suite.py SHA256 f8428612652064efa393e793f52d7a8a34ecb5c37bd08b733ea2bec60c452b59 changes exactly the correctness ClientSession connector to TCPConnector(force_close=True). Original120s request timeout,7reference/15target vectors, C4/C8 ordering/concurrency, cancellation/error journaling, semantic/input/output checks and313 total budget remain. No HTTP retry, exception swallowing, benchmark/server/model change or performance-protocol modification is introduced; reference and targets use the same connection policy.
+
+test_correctness_suite.py SHA2569142618533b208c23e1449676157e220bf4a8f265515a34be4e68784e0f8688d retains original tests, checks production connector arguments for both full7+15 fake suites and adds a bounded actual127.0.0.1 temporary HTTP fixture. Reuse trace abort injects a stale-connection failure: normal pooled mode receives one of two submitted POSTs and records the second error, force-close mode receives two successful POSTs with exactly two submitted journal events and no retry. Each exercise is limited5s, each HTTP request2s, server is closed in finally; no external destination or model is used. Both files statically compile.
+
+Before log SHA2567b83de9c1ec78451de0ab853dd4ba44e5dfdeeec7e775101aaf9dc8a0d8ab197 records4tests with only the production connector argument assertion failing. After log SHA2565bee2725cead8a5afa77e1ba4a0a95acabf2e7f0a853915e42dad13f581007d9 records4PASS/0skip in0.454s. This is local aiohttp3.13.5 software evidence, not targetaiohttp3.14.5 validation or actualmodel G3.
+
+Actual historical model timing records15 attempts/14 responses at the failing cell and a32ms ServerDisconnected around a reuse boundary. It supports investigating the connection failure class, not a proved unique keepalive root cause. Preserve the original failed model124attempts/123responses, exact exit/transport identities and cleanup evidence. The new successful CPU fixture must not relabel any original request or failed run.
+
+G5 permits ordinary publication of these exact two source changes plus truthful test/G1/G2 evidence; no unspecified broader tree is approved. Actual recovery must use new designated producer commit/deployment/Gitblob SHA, fresh exclusive cohort and fulltargetCPU60 with targetaiohttp, new numeric manifestG2 and complete numeric/MPS G3, then new archived consumer/input/model G2 and one complete original313preflight. No automatic old-attempt retry, lowered threshold or reused old-source approval. 本窗不启动formal54；09结束/08:58清理和各预算保持。
+
+GATE_RESULT: {"gate":"G2-source+G3-local-CPU-regression+G5-narrow-publication","decision":"APPROVE","blocking":0,"reviewed_at":"2026-10-28T22:33:05Z","target_or_GPU_execution_approved":false,"formal_this_window":false}
