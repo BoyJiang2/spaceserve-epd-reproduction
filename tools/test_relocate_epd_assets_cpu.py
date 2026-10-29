@@ -6,6 +6,15 @@ import relocate_epd_assets_cpu as relocation
 from relocate_epd_assets_cpu import OLD_ENV,NEW_ENV,rewrite,cpu_permission,known_startup,terminal_report,window_end
 
 class RelocationTests(unittest.TestCase):
+    def test_owned_CPU_ticket_required_before_any_claim(self):
+        now=1793304000000
+        ticket=dict(id='bk-20261029T1809-58743aa0',node='qjh003',resource_id='h20/qjh003',kind='cpu',user='boyjiang',start_ms=now,end_ms=1793329200000)
+        proof=dict(origin='gputime_read_only_api',read_only=True,observed_ms=now,resources=[dict(id='h20/qjh003',node='qjh003',active=True)],bookings=[ticket])
+        cpu_permission(proof,now,240,ticket['end_ms'])
+        for rows in ([],[ticket|{'id':'different'}],[ticket,ticket],[ticket|{'end_ms':ticket['end_ms']+1}]):
+            with self.subTest(rows=rows),self.assertRaises(ValueError):
+                cpu_permission(proof|{'bookings':rows},now,240,ticket['end_ms'])
+
     def test_apply_persists_permission_before_dependency_failure(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as name:
             root=Path(name);self.assertTrue(root.resolve().is_relative_to(Path(__file__).resolve().parent))
@@ -18,10 +27,10 @@ class RelocationTests(unittest.TestCase):
                 rows.append(dict(path=path.relative_to(root).as_posix(),bytes=path.stat().st_size,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),kind='unchanged'))
             original=root/'assets/build/epd-cuda/libcuda_ipc_utils.so';original.parent.mkdir(parents=True);original.write_bytes(b'fixture')
             (root/'staging').mkdir()
-            permission=dict(origin='direct_user_instruction',quote='虽然后面的cpu没有预约 但是你可以随便用',valid_from_ms=1793260800000,valid_until_ms=1793264400000)
+            permission=dict(origin='owned_cpu_booking',booking=dict(relocation.CPU_BOOKING))
             cfg=dict(root=str(root),boot=relocation.BOOT,files=rows,python_links=[],stage='staging/apply-fixture',cpu_permission=permission,original_library=dict(path=original.relative_to(root).as_posix(),bytes=7,sha256=hashlib.sha256(b'fixture').hexdigest()),flat_library='assets/build/libcuda_ipc_utils.so',rpath=[str(root/f'missing{n}') for n in range(3)])
-            raw=json.dumps(cfg).encode();now=1793260800000
-            proof=dict(origin='gputime_read_only_api',read_only=True,observed_ms=now,resources=[dict(id='h20/qjh003',node='qjh003',active=True)],bookings=[])
+            raw=json.dumps(cfg).encode();now=relocation.CPU_BOOKING['start_ms']
+            proof=dict(origin='gputime_read_only_api',read_only=True,observed_ms=now,resources=[dict(id='h20/qjh003',node='qjh003',active=True)],bookings=[dict(relocation.CPU_BOOKING)])
             read_text=Path.read_text;iterdir=Path.iterdir
             def read(path,*args,**kwargs):
                 if path.as_posix()=='/proc/sys/kernel/random/boot_id':return relocation.BOOT
@@ -43,16 +52,18 @@ class RelocationTests(unittest.TestCase):
                     relocation.relocate(dict(phase='apply',config=base64.b64encode(raw).decode(),booking=proof))
             claim=json.loads((root/'staging/apply-fixture/claim.json').read_bytes())
             self.assertEqual(claim['cpu_permission'],permission)
-            self.assertFalse(claim['reservation_claimed'])
+            self.assertTrue(claim['reservation_claimed'])
             self.assertFalse((root/'assets/build/libcuda_ipc_utils.so').exists())
     def test_exact_window_start_end_and_old_scope_refused(self):
-        permission={'origin':'direct_user_instruction','quote':'虽然后面的cpu没有预约 但是你可以随便用',
-                    'valid_from_ms':1793260800000,'valid_until_ms':1793264400000}
-        self.assertEqual(window_end(permission,1793260800000),1793264400000)
-        for now in (1793260799999,1793264400000,True,'1793260800000'):
+        permission={'origin':'owned_cpu_booking','booking':dict(relocation.CPU_BOOKING)}
+        start,end=relocation.CPU_BOOKING['start_ms'],relocation.CPU_BOOKING['end_ms']
+        self.assertEqual(window_end(permission,start),end)
+        for now in (start-1,end,True,str(start)):
             with self.subTest(now=now),self.assertRaises(ValueError):window_end(permission,now)
-        for change in ({'valid_until_ms':1793246400000},{'valid_from_ms':True},{'valid_until_ms':1793268000000}):
-            with self.subTest(change=change),self.assertRaises(ValueError):window_end(permission|change,1793260800000)
+        for change in ({'end_ms':end+1},{'start_ms':True},{'id':'other'}):
+            bad=permission|{'booking':permission['booking']|change}
+            with self.subTest(change=change),self.assertRaises(ValueError):window_end(bad,start)
+        with self.assertRaises(ValueError):window_end({'origin':'direct_user_instruction','quote':'虽然后面的cpu没有预约 但是你可以随便用','valid_from_ms':1793260800000,'valid_until_ms':1793264400000},start)
     def test_console_only_first_line_changes(self):
         raw=b'#!'+OLD_ENV+b'/bin/python\nbody='+OLD_ENV+b'\n'
         self.assertEqual(rewrite(raw,'console'),b'#!'+NEW_ENV+b'/bin/python\nbody='+OLD_ENV+b'\n')
@@ -85,14 +96,15 @@ class RelocationTests(unittest.TestCase):
                 path.unlink()
 
     def test_cpu_permission_conflict_stale_and_reserve(self):
-        now=1000000;proof=dict(origin='gputime_read_only_api',read_only=True,observed_ms=now,resources=[dict(id='h20/qjh003',node='qjh003',active=True)],bookings=[])
-        cpu_permission(proof,now,240,now+600000)
-        bad=copy.deepcopy(proof);bad['bookings']=[dict(resource_id='h20/qjh003',kind='cpu',user='other',start_ms=now,end_ms=now+600000)]
-        with self.assertRaises(ValueError):cpu_permission(bad,now,240,now+600000)
+        now=relocation.CPU_BOOKING['start_ms'];end=relocation.CPU_BOOKING['end_ms']
+        proof=dict(origin='gputime_read_only_api',read_only=True,observed_ms=now,resources=[dict(id='h20/qjh003',node='qjh003',active=True)],bookings=[dict(relocation.CPU_BOOKING)])
+        cpu_permission(proof,now,240,end)
+        bad=copy.deepcopy(proof);bad['bookings'].append(dict(resource_id='h20/qjh003',kind='cpu',user='other',start_ms=now,end_ms=now+600000))
+        with self.assertRaises(ValueError):cpu_permission(bad,now,240,end)
         bad=copy.deepcopy(proof);bad['observed_ms']=now-300001
-        with self.assertRaises(ValueError):cpu_permission(bad,now,240,now+600000)
-        with self.assertRaises(ValueError):cpu_permission(proof,now,240,now+300000)
-        bad=copy.deepcopy(proof);bad['bookings']=[dict(resource_id='h20/qjh003',kind=None,user='other',start_ms=now,end_ms=now+600000)]
-        with self.assertRaises(ValueError):cpu_permission(bad,now,240,now+600000)
+        with self.assertRaises(ValueError):cpu_permission(bad,now,240,end)
+        with self.assertRaises(ValueError):cpu_permission(proof|{'observed_ms':end-300000},end-300000,240,end)
+        bad=copy.deepcopy(proof);bad['bookings'].append(dict(resource_id='h20/qjh003',kind=None,user='other',start_ms=now,end_ms=now+600000))
+        with self.assertRaises(ValueError):cpu_permission(bad,now,240,end)
 
 if __name__=='__main__':unittest.main()

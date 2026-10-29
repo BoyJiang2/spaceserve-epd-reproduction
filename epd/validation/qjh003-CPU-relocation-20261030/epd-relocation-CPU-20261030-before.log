@@ -1,0 +1,46 @@
+test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) ... 
+  test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[]) ... FAIL
+  test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[{'id': 'different', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200000}]) ... FAIL
+  test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[{'id': 'bk-20261029T1809-58743aa0', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200000}, {'id': 'bk-20261029T1809-58743aa0', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200000}]) ... FAIL
+  test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[{'id': 'bk-20261029T1809-58743aa0', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200001}]) ... FAIL
+
+======================================================================
+FAIL: test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_relocate_epd_assets_cpu.py", line 15, in test_owned_CPU_ticket_required_before_any_claim
+    with self.subTest(rows=rows),self.assertRaises(ValueError):
+                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[{'id': 'different', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200000}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_relocate_epd_assets_cpu.py", line 15, in test_owned_CPU_ticket_required_before_any_claim
+    with self.subTest(rows=rows),self.assertRaises(ValueError):
+                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[{'id': 'bk-20261029T1809-58743aa0', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200000}, {'id': 'bk-20261029T1809-58743aa0', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200000}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_relocate_epd_assets_cpu.py", line 15, in test_owned_CPU_ticket_required_before_any_claim
+    with self.subTest(rows=rows),self.assertRaises(ValueError):
+                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_owned_CPU_ticket_required_before_any_claim (test_relocate_epd_assets_cpu.RelocationTests.test_owned_CPU_ticket_required_before_any_claim) (rows=[{'id': 'bk-20261029T1809-58743aa0', 'node': 'qjh003', 'resource_id': 'h20/qjh003', 'kind': 'cpu', 'user': 'boyjiang', 'start_ms': 1793304000000, 'end_ms': 1793329200001}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_relocate_epd_assets_cpu.py", line 15, in test_owned_CPU_ticket_required_before_any_claim
+    with self.subTest(rows=rows),self.assertRaises(ValueError):
+                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=4)

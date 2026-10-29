@@ -50,7 +50,8 @@ def main():
 
 OLD_ENV=b'/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd'
 NEW_ENV=b'/local/boyjiang/epd/assets/envs/epd'
-CONFIG_SHA='5e2ad79aaca28dbc9588540ecd8e0e4c4f222176335b30e6063f33a73e5af1d7'
+CONFIG_SHA='218bfc2d53f623d98aa64286c1d132c9c74a8f6db0c75aa8e48cfaa9f82f0e70'
+CPU_BOOKING=dict(id='bk-20261029T1809-58743aa0',node='qjh003',resource_id='h20/qjh003',kind='cpu',user='boyjiang',start_ms=1793304000000,end_ms=1793329200000)
 
 def rewrite(raw,kind):
     if kind=='console':
@@ -69,18 +70,21 @@ def known_startup(site):
         if path.exists() or path.is_symlink():raise ValueError('Unexpected startup customization')
 
 def window_end(permission,now):
-    expected={'origin':'direct_user_instruction','quote':'虽然后面的cpu没有预约 但是你可以随便用',
-              'valid_from_ms':1793260800000,'valid_until_ms':1793264400000}
+    expected={'origin':'owned_cpu_booking','booking':CPU_BOOKING}
     if (permission!=expected or type(now) is not int
-            or not expected['valid_from_ms']<=now<expected['valid_until_ms']):
-        raise ValueError('Exact16–17 direct user CPU scope required; not before16:00')
-    return expected['valid_until_ms']
+            or not CPU_BOOKING['start_ms']<=now<CPU_BOOKING['end_ms']):
+        raise ValueError('Exact04–11 owned CPU booking scope required')
+    return CPU_BOOKING['end_ms']
 
 
 def cpu_permission(proof,now,seconds,end):
     if (proof.get('origin')!='gputime_read_only_api' or proof.get('read_only') is not True or type(proof.get('observed_ms')) is not int or not 0<=now-proof['observed_ms']<=300000 or now+int(seconds*1000)+120000>end):raise ValueError('Fresh actual CPU availability/full cleanup reserve required')
     resources=[r for r in proof['resources'] if r.get('id')=='h20/qjh003']
     if len(resources)!=1 or resources[0].get('node')!='qjh003' or resources[0].get('active') is not True:raise ValueError('Resource differs')
+    tickets=[row for row in proof['bookings'] if row.get('id')==CPU_BOOKING['id']]
+    if (len(tickets)!=1 or any(tickets[0].get(key)!=value for key,value in CPU_BOOKING.items())
+            or end!=CPU_BOOKING['end_ms'] or now<CPU_BOOKING['start_ms']):
+        raise ValueError('Fresh exact owned CPU ticket required before claim')
     for row in proof['bookings']:
         if row.get('resource_id')!='h20/qjh003' or row.get('kind')=='gpu':continue
         if row.get('kind') not in (None,'cpu'):raise ValueError('Unknown resource lane')
@@ -173,7 +177,7 @@ def relocate(data):
             try:
                 stage.mkdir(mode=0o700);owned_stage=True
             finally:signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
-            save(stage/'claim.json',dict(pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],boot=BOOT,phase=phase,config_sha256=CONFIG_SHA,started_ms=now,cpu_permission=permission,availability=data['booking'],reservation_claimed=False))
+            save(stage/'claim.json',dict(pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],boot=BOOT,phase=phase,config_sha256=CONFIG_SHA,started_ms=now,cpu_permission=permission,availability=data['booking'],reservation_claimed=True))
             (stage/'before').mkdir(mode=0o700)
             for row in cfg['files']:
                 if row['kind']=='unchanged':continue
