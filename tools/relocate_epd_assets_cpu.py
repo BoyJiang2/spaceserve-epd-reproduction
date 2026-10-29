@@ -50,7 +50,7 @@ def main():
 
 OLD_ENV=b'/local/boyjiang/spaceserve-epd-qjh003-20261023/envs/epd'
 NEW_ENV=b'/local/boyjiang/epd/assets/envs/epd'
-CONFIG_SHA='afab6795c25600d7fdfa3de215e30ab97ae367d81deb3897cc2a7f29f3e09a66'
+CONFIG_SHA='5e2ad79aaca28dbc9588540ecd8e0e4c4f222176335b30e6063f33a73e5af1d7'
 
 def rewrite(raw,kind):
     if kind=='console':
@@ -67,6 +67,15 @@ def known_startup(site):
     for name in ('sitecustomize.py','usercustomize.py'):
         path=site/name
         if path.exists() or path.is_symlink():raise ValueError('Unexpected startup customization')
+
+def window_end(permission,now):
+    expected={'origin':'direct_user_instruction','quote':'虽然后面的cpu没有预约 但是你可以随便用',
+              'valid_from_ms':1793260800000,'valid_until_ms':1793264400000}
+    if (permission!=expected or type(now) is not int
+            or not expected['valid_from_ms']<=now<expected['valid_until_ms']):
+        raise ValueError('Exact16–17 direct user CPU scope required; not before16:00')
+    return expected['valid_until_ms']
+
 
 def cpu_permission(proof,now,seconds,end):
     if (proof.get('origin')!='gputime_read_only_api' or proof.get('read_only') is not True or type(proof.get('observed_ms')) is not int or not 0<=now-proof['observed_ms']<=300000 or now+int(seconds*1000)+120000>end):raise ValueError('Fresh actual CPU availability/full cleanup reserve required')
@@ -94,8 +103,7 @@ def relocate(data):
     if socket.gethostname()!='qjh003' or os.getuid()!=2147 or os.sched_getaffinity(0)!={50} or os.getpriority(os.PRIO_PROCESS,0)!=10 or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT:raise ValueError('Executor or boot differs')
     raw_config=base64.b64decode(data['config'],validate=True)
     if hashlib.sha256(raw_config).hexdigest()!=CONFIG_SHA:raise ValueError('Exact reviewed relocation allowlist required')
-    cfg=json.loads(raw_config);permission=cfg['cpu_permission'];end=permission['valid_until_ms']
-    if permission!={'origin':'direct_user_instruction','quote':'虽然后面的cpu没有预约 但是你可以随便用','valid_until_ms':1793246400000}:raise ValueError('Direct user CPU scope differs')
+    cfg=json.loads(raw_config);permission=cfg['cpu_permission'];end=window_end(permission,now)
     cpu_permission(data['booking'],now,240 if phase=='apply' else 90,end)
     if cfg['root']!=str(ROOT) or cfg['boot']!=BOOT or len(cfg['files'])!=61 or len({r['path'] for r in cfg['files']})!=61:raise ValueError('Pinned root/allowlist differs')
     limit=120 if phase=='apply' else 60;stage=ROOT/cfg['stage'];journal=[]

@@ -1,0 +1,36 @@
+{
+  "observed_utc": "2026-10-29T04:59:28.856837+00:00",
+  "command": [
+    "python",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'tools');suite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(n) for n in ('test_relocate_epd_assets_cpu','test_run_epd_relocation_cpu'));r=unittest.TextTestRunner(verbosity=2).run(suite);raise SystemExit(not r.wasSuccessful())"
+  ],
+  "exit": 0,
+  "tests": 10,
+  "scope": "Pure CPU fixture/mock only; resource/signal/UID/boot mocked; no SSH/API/GPU; claim persisted only in owned local temporary fixture",
+  "files": [
+    {
+      "path": "tools/relocate_epd_assets_cpu.py",
+      "sha256": "117825a06f38c6cd70221132e87ac09aa204ac16c83783c2c181c6d95d9a74c2"
+    },
+    {
+      "path": "tools/test_relocate_epd_assets_cpu.py",
+      "sha256": "af855c3c2a6a20fc77115a33bcdd4a9b91dad3efbee6fa2dfda2f990c41da76e"
+    },
+    {
+      "path": "tools/run_epd_relocation_cpu.py",
+      "sha256": "7e1e827b7091ed67aaad5981804674b176fba4c815176d5e3473014d67288fbd"
+    },
+    {
+      "path": "tools/test_run_epd_relocation_cpu.py",
+      "sha256": "16ea9a80bdead30c04b763cf76faec2537751108a75023f15cb41175616d1c45"
+    },
+    {
+      "path": "epd/migration/qjh003-asset-relocation.json",
+      "sha256": "5e2ad79aaca28dbc9588540ecd8e0e4c4f222176335b30e6063f33a73e5af1d7"
+    }
+  ]
+}

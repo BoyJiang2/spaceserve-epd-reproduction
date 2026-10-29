@@ -1,0 +1,18 @@
+test_apply_persists_permission_before_dependency_failure (test_relocate_epd_assets_cpu.RelocationTests.test_apply_persists_permission_before_dependency_failure) ... ERROR
+
+======================================================================
+ERROR: test_apply_persists_permission_before_dependency_failure (test_relocate_epd_assets_cpu.RelocationTests.test_apply_persists_permission_before_dependency_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_relocate_epd_assets_cpu.py", line 43, in test_apply_persists_permission_before_dependency_failure
+    relocation.relocate(dict(phase='apply',config=base64.b64encode(raw).decode(),booking=proof))
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\relocate_epd_assets_cpu.py", line 176, in relocate
+    save(stage/'claim.json',dict(pid=os.getpid(),start_ticks=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19],boot=BOOT,phase=phase,config_sha256=CONFIG_SHA,started_ms=now,cpu_permission=permission,availability=data['booking'],reservation_claimed=False))
+                                                                                                                                                                                                           ^^^^^^^^^^
+NameError: name 'permission' is not defined. Did you mean: 'cpu_permission'?
+
+----------------------------------------------------------------------
+Ran 1 test in 0.121s
+
+FAILED (errors=1)

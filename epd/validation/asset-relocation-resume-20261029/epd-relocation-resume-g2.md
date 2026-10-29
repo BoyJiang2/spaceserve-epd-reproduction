@@ -1,0 +1,50 @@
+decision：REQUEST_CHANGES
+BLOCKING：1
+reviewed_at_utc：2026-10-29T04:57:44Z
+审查者：独立 Codex subagent /root/handoff_cpu_review
+范围：16–17 CPU重定位恢复工具/config/controller的窄G2；非目标执行许可。
+
+已只读核五份源码、旧controller保存副本与最小迁入diff、原G1及本地controller-result/stderr原件。未运行测试、Git远端/API/SSH/GPU、未改实现；仅按请求保存本审查。
+
+B1 — apply创建stage后会必然NameError，不能进入真实资产恢复。
+路径：work/repository-upload/checkout/tools/relocate_epd_assets_cpu.py:106、176。
+
+106行把旧permission赋值删除，改成cfg=json.loads(raw_config);end=window_end(cfg['cpu_permission'],now)，但176行claim仍构造cpu_permission=permission。window_end的同名参数属于另一函数，不会成为relocate的局部或全局变量。因此实际apply若通过前置检查，将先stage.mkdir，再在构造claim参数时报NameError，留下固定stage，后续按无重试规则被阻断。九项mock未执行到此路径，PASS不能否定静态可确定的运行错误。
+
+最小修复仅恢复permission=cfg['cpu_permission']并传window_end(permission,now)，保留claim中实际permission原文绑定；同步controller的source SHA。新增一项纯CPU-MOCK回归，覆盖relocate实际apply首次claim构造（host/resource/proc/资产与文件操作均mock或专属temp，不碰真实目录），断言claim绑定已核permission且不会NameError；不需要新框架或远端试跑来发现它。修后重新核精确五源SHA及controller pin，旧九项结果原件保留。
+
+已确认的其他窄范围：配置仅改valid_from/valid_until，61文件/56文本/3链接和IPC/RUNPATH allowlist未变；当前精确config SHA5e2ad79aaca28dbc9588540ecd8e0e4c4f222176335b30e6063f33a73e5af1d7。window_end明确16:00–17:00并写前调用，旧inspect分支不改；CPU50/nice10/1GiB、120/60+30、END120、fresh冲突和固定stage排他不变。controller从原维护入口迁入Git的差异限路径、source/config pin、自身Git字节核、窗口/完整余量以及resume16本地证据标签，未引入循环重试或改变远端stage。旧失败目录不会被新路径覆盖。真实时间窗检查在资源API与SSH之前；ls-remote/Git字节读取在此前，不把mock测试描述成无Git前置调用。
+
+已独立重算五文件SHA，与controller-result.json全部相同：工具e67903643b2342ea00443962a3c667282f58eab6b8afdfb0b8173998ee23199e；工具测试10db652437b3feb903ef12736f624999df284ef2076e8bd3a4b10bedad743eb5；controller ea27529d152ea5fecd5f8a4fa8fdc56c1d03df4cde9468c64b9b1c11a989ef51；controller测试16ea9a80bdead30c04b763cf76faec2537751108a75023f15cb41175616d1c45；config如上。原stderr真实Ran9/OK、0skip，与result exit0一致，但覆盖范围是rewrite/startup/terminal/window/冲突和controller界外拒绝，不能称apply路径已完整验证。
+
+修复B1前不批准发布为可执行恢复单元或16点目标操作。G1范围仍有效，修后窄G2/G5/Git-first及实际fresh条件仍必要。没有要求重复用户例行批准，也没有新增GPU许可。
+
+GATE_RESULT: {"gate":"G2","decision":"REQUEST_CHANGES","blocking":1,"scope":"EPD_relocation_resume16_tools_config_controller","source_sha256":"e67903643b2342ea00443962a3c667282f58eab6b8afdfb0b8173998ee23199e","execute_now":false,"GPU_approved":false}
+
+未运行测试或目标操作；当前确定风险是B1在首次stage写入后失败并留下不可重试状态。
+
+## B1窄复审：关闭
+
+reviewed_at_utc：2026-10-29T04:59:46Z
+decision：APPROVE
+BLOCKING：0
+
+原REQUEST_CHANGES及九项弱覆盖结果保留。已只读确认工具106行恢复permission=cfg['cpu_permission']并以window_end(permission,now)核窗；176行claim引用现在有明确同函数赋值。生产逻辑仅此一行恢复，controller同步精确工具pin，配置allowlist不变。
+
+最终五源SHA与claim-fixed-result.json逐份独立重算匹配：
+
+- tools/relocate_epd_assets_cpu.py：117825a06f38c6cd70221132e87ac09aa204ac16c83783c2c181c6d95d9a74c2
+- tools/test_relocate_epd_assets_cpu.py：af855c3c2a6a20fc77115a33bcdd4a9b91dad3efbee6fa2dfda2f990c41da76e
+- tools/run_epd_relocation_cpu.py：7e1e827b7091ed67aaad5981804674b176fba4c815176d5e3473014d67288fbd
+- tools/test_run_epd_relocation_cpu.py：16ea9a80bdead30c04b763cf76faec2537751108a75023f15cb41175616d1c45
+- epd/migration/qjh003-asset-relocation.json：5e2ad79aaca28dbc9588540ecd8e0e4c4f222176335b30e6063f33a73e5af1d7
+
+新增test_apply_persists_permission_before_dependency_failure实际调用relocate而非重写其claim表达式；在专属本地temp构造61文件和原库fixture，mock host/UID/resource/signal/proc，执行到stage与claim创建，断言保存的cpu_permission等于原授权、reservation_claimed=False，并在缺依赖处按预期停止、flat不存在。fixture中的原库是7字节占位数据，不是实际ELF验证，不能描述成真实patchelf或目标环境通过。
+
+claim-regression-before-stderr.log真实Ran1/ERROR，定位176行NameError，SHA d277e32ba0176080a3278a8657e41eaf62d32ebbbc7bc9d345ff8a8329d1bd6d。claim-fixed-stderr.log真实Ran10/0.132s/OK、无skip，SHA a4743295820c478c53e3f9d6e12b40625ca1c9174aa47154294e086f6ebe2fad；result exit0及五SHA闭合。我未复跑测试。
+
+批准上述精确源码的本地CPU恢复实现；仍须G5/Git-first和实际公开源码/config核验，再在16–17合法窗口fresh无他人CPU/整机冲突下有条件执行一次apply、仅成功后首次verify。旧失败原件与固定stage排他不变；没有目标执行、GPU/native36许可或运行就绪结论。无需再用户routine批准。
+
+GATE_RESULT: {"gate":"G2","decision":"APPROVE","blocking":0,"scope":"EPD_relocation_resume16_tools_config_controller_B1_re_review","source_sha256":"117825a06f38c6cd70221132e87ac09aa204ac16c83783c2c181c6d95d9a74c2","controller_sha256":"7e1e827b7091ed67aaad5981804674b176fba4c815176d5e3473014d67288fbd","execute_now":false,"GPU_approved":false}
+
+未执行测试或远端操作；目标资源与实际资产重定位结果仍待后续真实核验。
