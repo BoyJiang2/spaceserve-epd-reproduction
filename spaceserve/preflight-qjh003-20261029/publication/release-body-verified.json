@@ -1,0 +1,6 @@
+{
+  "id": 427341677,
+  "tag": "untagged-23ecabff87691eabf67c",
+  "commit": "2f3cf04df1299039c791ec42473b0758fa606b4e",
+  "body": "SpaceServe qjh003迁移后机制预检，单H20/Qwen2-VL-7B-Instruct/FP16/TP1：7 reference＋90 target＋216 diagnostic＝313，实际模型G3及报告G4通过。正式0/54，无本批性能比值；不与旧48/54拼接。5条target输出token不完全相同，按既定输入、长度与语义契约验收，不声称数值完全等价。encoder mask不证明decoder互斥，带profiler overlap不证明off性能收益或因果瓶颈。\n\n本Release含本次完整原始tar.gz与逐文件SHA；前序失败、可读报告和必要原件在[SpaceServe本批页面](https://github.com/BoyJiang2/spaceserve-epd-reproduction/tree/main/spaceserve/preflight-qjh003-20261029)。runtime beadff9、helper236e889分别记录；实际remote exit0与本地SSH观察timeout分开。无权重、环境或认证材料，既有四Release十三资产不改。本批不代表完整性能目标验收。\n"
+}

@@ -1,5 +1,7 @@
 # EPD Disaggregation 复现项目
 
+[qjh003固定目录迁移状态与静态证据](migration-qjh003-20261029/README.md)：原始资产已迁移，flat IPC/RUNPATH/shebang待重定位；没有本批新性能数据，历史baseline对照保持独立。
+
 当前 [qjh003 固定目录代码与迁移状态](migration/README.md)：本地 G2 通过，目标迁移与新测试未执行；公平 PD 的 native36/selected360 接线仍未完成。
 
 [本项目baseline完整对照](comparison/README.md) · [实际代码](code) · [版本配置](configs) · [补丁](patches) · [原始数据与证据](data/README.md) · [源文件SHA映射](SOURCE_FILES.json)
