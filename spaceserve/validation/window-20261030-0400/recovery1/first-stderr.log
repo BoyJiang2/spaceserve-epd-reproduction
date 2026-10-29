@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "git:730452dce69081ad7f668f890087362f1dd06326:tools/materialize_assets_cpu.py", line 149, in guard_processes
+  File "/usr/lib/python3.10/pathlib.py", line 1077, in resolve
+    s = self._accessor.realpath(self, strict=strict)
+  File "/usr/lib/python3.10/posixpath.py", line 393, in realpath
+    path, ok = _joinrealpath(filename[:0], filename, strict, {})
+  File "/usr/lib/python3.10/posixpath.py", line 453, in _joinrealpath
+    path, ok = _joinrealpath(path, os.readlink(newpath), strict, seen)
+PermissionError: [Errno 13] Permission denied: '/proc/3818273/cwd'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 23, in <module>
+  File "git:730452dce69081ad7f668f890087362f1dd06326:tools/materialize_assets_cpu.py", line 155, in guard_processes
+ValueError: Own process cwd cannot be verified

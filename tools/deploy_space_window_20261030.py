@@ -41,7 +41,10 @@ for name in ('migrate_code_cpu','materialize_assets_cpu'):
  raw=subprocess.check_output(git+['show',base+':tools/'+name+'.py'],timeout=10)
  module=types.ModuleType(name);module.__file__='git:'+base+':tools/'+name+'.py';sys.modules[name]=module
  exec(compile(raw,module.__file__,'exec'),module.__dict__)
-assets=sys.modules['materialize_assets_cpu'];migration=sys.modules['migrate_code_cpu'];check();exceptions=assets.guard_processes()
+assets=sys.modules['materialize_assets_cpu'];migration=sys.modules['migrate_code_cpu']
+guard=types.ModuleType('space_user_service_guard')
+exec(compile(base64.b64decode(p['user_service_guard']),'<published-user-service-guard>','exec'),guard.__dict__)
+check();exceptions=guard.guard_processes(assets)
 for path in (stage,repo,*repo.parents,stage.parent):
  assert not path.is_symlink()
  if path.exists() and path.is_relative_to(root):assert path.is_dir() and path.stat().st_uid==2147
@@ -67,7 +70,7 @@ try:
   command(['bundle','verify',str(bundle)])
   command(['fetch',str(bundle),commit])
   assert not subprocess.check_output(git+['status','--porcelain','--untracked-files=all'],text=True,timeout=10).strip()
-  assets.guard_processes()
+  guard.guard_processes(assets)
   command(['sparse-checkout','init','--cone'])
   command(['sparse-checkout','set','spaceserve/runtime','tests','tools'])
   command(['checkout','--detach',commit])
@@ -84,7 +87,7 @@ try:
   assert actual==expected;rows.append(dict(path=name,bytes=len(actual),sha256=hashlib.sha256(actual).hexdigest()))
  for name in ('tools/run_space_window_20261030.py','tools/control_space_window_20261030.py','spaceserve/runtime/entry.py','spaceserve/runtime/configs/qjh003-20261030-0400.proposed.json'):
   assert any(row['path']==name for row in rows)
- terminal.update(exit_code=0,files=rows,exceptions_after=assets.guard_processes(),new_GPU_requests=0,grants_no_runtime_Gate=True)
+ terminal.update(exit_code=0,files=rows,exceptions_after=guard.guard_processes(assets),new_GPU_requests=0,grants_no_runtime_Gate=True)
 except BaseException as error:
  terminal['error']=repr(error);raise
 finally:
@@ -99,7 +102,7 @@ def main():
     for name in ('commit','bundle','approval','review','output'):parser.add_argument('--'+name,required=True)
     args=parser.parse_args();code=server_command(args.commit)
     if git('rev-parse','HEAD').decode().strip()!=args.commit:raise ValueError('Local commit differs')
-    for name in ('tools/deploy_space_window_20261030.py','tools/control_space_window_20261030.py','tools/control_space_temporary_cpu.py','tools/space_window_20261030.py','spaceserve/runtime/configs/qjh003-20261030-0400.proposed.json'):
+    for name in ('tools/deploy_space_window_20261030.py','tools/space_user_service_guard.py','tools/control_space_window_20261030.py','tools/control_space_temporary_cpu.py','tools/space_window_20261030.py','spaceserve/runtime/configs/qjh003-20261030-0400.proposed.json'):
         if verified_file(args.commit,name)!=(CHECKOUT/name).read_bytes():raise ValueError('Local/GitHub exact source differs')
     review=Path(args.review).read_bytes();approval=json.loads(Path(args.approval).read_bytes())
     if (approval.get('passed') is not True or approval.get('source_commit')!=args.commit or approval.get('phase')!='deploy'
@@ -109,6 +112,7 @@ def main():
     raw=Path(args.bundle).read_bytes()
     wire=json.dumps(dict(approval=approval,review=base64.b64encode(review).decode(),config=cfg,snapshot=proof,
         policy=base64.b64encode(git('show',args.commit+':tools/space_window_20261030.py')).decode(),
+        user_service_guard=base64.b64encode(git('show',args.commit+':tools/space_user_service_guard.py')).decode(),
         bundle=base64.b64encode(raw).decode(),bundle_bytes=len(raw),bundle_sha256=hashlib.sha256(raw).hexdigest())).encode()
     output=Path(args.output).resolve()
     if not output.is_relative_to(CHECKOUT.parents[2]/'outputs'):raise ValueError('Evidence outside workspace outputs')

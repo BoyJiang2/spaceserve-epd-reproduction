@@ -19,7 +19,7 @@ class DeploymentTests(unittest.TestCase):
     def test_no_retry_and_new_scope_is_explicit(self):
         source=deployment.server_command('b'*40)
         self.assertIn('stage.mkdir(mode=0o700,exist_ok=False)',source)
-        self.assertIn("assets.guard_processes()",source)
+        self.assertIn("guard.guard_processes(assets)",source)
         self.assertIn("command(['sparse-checkout','set','spaceserve/runtime','tests','tools'])",source)
         self.assertNotIn("['reset'",source)
         self.assertNotIn("['clean'",source)
