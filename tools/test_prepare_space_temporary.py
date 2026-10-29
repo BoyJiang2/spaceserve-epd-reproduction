@@ -6,9 +6,11 @@ import copy
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
+import shutil
 import time
 from types import SimpleNamespace
 import unittest
@@ -18,6 +20,23 @@ import prepare_space_temporary as prepare
 
 
 class PrepareTests(unittest.TestCase):
+    def test_recovery_requires_exact_failure_and_unchanged_window(self):
+        repo=Path(__file__).resolve().parents[1]
+        originals=repo/'spaceserve/validation/temporary-idle-gpu2-20261029/deploy-failure'
+        with tempfile.TemporaryDirectory(prefix='recovery-test-',dir=Path(__file__).resolve().parent) as name:
+            root=Path(name);evidence=root/'staging/temporary-gpu2-preparation';evidence.mkdir(parents=True)
+            for filename in ('deploy.terminal.json','deploy.log'):shutil.copyfile(originals/filename,evidence/filename)
+            raw=(originals/'original-config.json').read_bytes();config=json.loads(raw);config['source_commit']='c'*40
+            bundle=root/'staging/temporary-gpu2-recovery.bundle';payload=b'CPU-MOCK bundle';bundle.write_bytes(payload)
+            data={'prior_config':base64.b64encode(raw).decode(),'bundle':{'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}}
+            with patch.object(prepare,'ROOT',root),patch.object(prepare.os,'getuid',return_value=root.stat().st_uid,create=True):
+                self.assertEqual(prepare.recovery_bundle(evidence,config,data),bundle)
+                changed=copy.deepcopy(config);changed['temporary_gpu_use']['end_ms']+=1
+                with self.assertRaisesRegex(ValueError,'never extend'):prepare.recovery_bundle(evidence,changed,data)
+                with self.assertRaises(ValueError):prepare.recovery_bundle(evidence,config,data|{'bundle':{'bytes':True,'sha256':hashlib.sha256(payload).hexdigest()}})
+                with self.assertRaises(ValueError):prepare.recovery_bundle(evidence,config,data|{'bundle':{'bytes':len(payload),'sha256':'0'*64}})
+                (evidence/'deploy.terminal.json').write_bytes(b'changed')
+                with self.assertRaisesRegex(ValueError,'original failed'):prepare.recovery_bundle(evidence,config,data)
     def config(self):
         path=Path(__file__).resolve().parents[1]/'spaceserve/runtime/configs/project.temporary-idle.candidate.json'
         config=json.loads(path.read_bytes());user=(prepare.QUOTE+'\n').encode()
@@ -112,6 +131,8 @@ class PrepareTests(unittest.TestCase):
                 with patch.object(sys,'stdin',io.StringIO(json.dumps(payload|{'phase':'cpu'}))):
                     with self.assertRaisesRegex(ValueError,'Live repository'):prepare.main()
                 self.assertEqual(imported.call_count,2)
+                with patch.object(sys,'stdin',io.StringIO(json.dumps(payload|{'phase':'deploy-recovery'}))):
+                    with self.assertRaisesRegex(ValueError,'existing run'):prepare.main()
             self.assertEqual(len(commands),2)
             for folder in ('cpu','cpu-hf','cpu-torch'):self.assertIn(root/'tmp'/folder,ancestry)
             for phase in ('prepare','cpu'):

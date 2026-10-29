@@ -18,6 +18,8 @@ RUN=ROOT/'runs'/RUN_ID
 BOOT='65f52a67-afe4-4919-8646-4694255b48ee'
 UUID='GPU-c005197e-747d-2dc8-b77b-b123b41efd75'
 QUOTE='如果gpu暂时没人用 你可以先暂时用一下'
+FAILED_DEPLOY_SHA='b4dda733def170f1d7a840e4ee9160648b7f02c5dedaccac96c3972b78097584'
+ORIGINAL_CONFIG_SHA='ebe8ae33a2bebd80da88328ef268900c459853bbb913857a311a88059acd1c8f'
 
 
 def validate_config(raw,commit,user):
@@ -41,10 +43,33 @@ def validate_config(raw,commit,user):
     return config
 
 
+def recovery_bundle(evidence,config,data):
+    prior=evidence/'deploy.terminal.json';log=evidence/'deploy.log'
+    for path in (prior,log):
+        if path.is_symlink() or not path.is_file() or path.stat().st_uid!=os.getuid():raise ValueError('Original owned failure required')
+    raw=prior.read_bytes()
+    if hashlib.sha256(raw).hexdigest()!=FAILED_DEPLOY_SHA:raise ValueError('Exact original failed deployment required')
+    failed=json.loads(raw)
+    if (failed['exit_code']!=1 or failed.get('error_type')!='TimeoutExpired'
+            or hashlib.sha256(log.read_bytes()).hexdigest()!=failed['log_sha256']):raise ValueError('Original network failure/log differs')
+    original=base64.b64decode(data['prior_config'],validate=True)
+    if hashlib.sha256(original).hexdigest()!=ORIGINAL_CONFIG_SHA:raise ValueError('Original configuration bytes required')
+    previous=json.loads(original)
+    if {k:v for k,v in config.items() if k!='source_commit'}!={k:v for k,v in previous.items() if k!='source_commit'}:
+        raise ValueError('Recovery may only update source version; never extend the window')
+    bundle=ROOT/'staging/temporary-gpu2-recovery.bundle';metadata=data['bundle']
+    if (bundle.is_symlink() or not bundle.is_file() or bundle.stat().st_uid!=os.getuid()
+            or type(metadata['bytes']) is not int or not 0<metadata['bytes']<=16*1024**2
+            or bundle.stat().st_size!=metadata['bytes'] or hashlib.sha256(bundle.read_bytes()).hexdigest()!=metadata['sha256']):
+        raise ValueError('Exact owned bounded source bundle required')
+    return bundle
+
+
 def main():
     import subprocess
     data=json.load(sys.stdin);phase=data['phase'];started=time.monotonic()
-    if not __debug__ or phase not in ('deploy','prepare','cpu'):raise ValueError('Only bounded CPU auxiliary phases')
+    if not __debug__ or phase not in ('deploy','deploy-recovery','prepare','cpu'):raise ValueError('Only bounded CPU auxiliary phases')
+    deploying=phase in ('deploy','deploy-recovery')
     modules=[]
     for name,expected in [('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),
                           ('validate_space_cpu','c9d895c8567fac7f2248c8af63996e6eb4b60080edf493b51002c1c4da4a641b')]:
@@ -78,7 +103,7 @@ def main():
     if {str(p) for p in site.glob('*.pth')}!={p for p in helper.SITE if p.startswith(str(site))}:raise ValueError('Unknown startup code')
     if migration.sha(ROOT/'assets/manifest.json')!=helper.ASSETS_SHA:raise ValueError('Shared asset manifest changed')
     git=['git','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-c','core.excludesFile=/dev/null','-c','core.attributesFile=/dev/null','-C',str(ROOT/'repo')]
-    if phase!='deploy':
+    if not deploying:
         environment=helper.child_environment(secrets.token_hex(24))
         head=subprocess.check_output(git+['rev-parse','HEAD'],env=environment,text=True,timeout=15).strip()
         status=subprocess.check_output(git+['status','--porcelain','--untracked-files=all'],env=environment,text=True,timeout=15).strip()
@@ -90,8 +115,13 @@ def main():
     if phase=='deploy':
         if evidence.exists() or RUN.exists() or candidate.exists():raise ValueError('Preserve existing attempt; no retry')
         evidence.mkdir(mode=0o700)
+    elif phase=='deploy-recovery':
+        if RUN.exists() or candidate.exists():raise ValueError('Recovery cannot replace an existing run')
+        if any((evidence/(phase+suffix)).exists() for suffix in ('.claim.json','.log','.terminal.json')):raise ValueError('No repeated deployment recovery')
+        bundle=recovery_bundle(evidence,config,data)
     else:
-        previous='deploy' if phase=='prepare' else 'prepare';prior=json.loads((evidence/(previous+'.terminal.json')).read_bytes())
+        previous=('deploy-recovery' if (evidence/'deploy-recovery.terminal.json').exists() else 'deploy') if phase=='prepare' else 'prepare'
+        prior=json.loads((evidence/(previous+'.terminal.json')).read_bytes())
         if (prior['exit_code']!=0 or prior['runtime_commit']!=commit or prior['config_sha256']!=config_sha
                 or prior['log_sha256']!=migration.sha(evidence/(previous+'.log'))):raise ValueError('Matching successful previous unit required')
         if phase=='prepare' and (RUN.exists() or candidate.exists()):raise ValueError('Existing prepare; no retry')
@@ -107,14 +137,18 @@ def main():
     log=evidence/(phase+'.log')
     try:
         with log.open('xb') as stream:
-            if phase=='deploy':
+            if deploying:
                 if any((row.get('root') or '').startswith(str(ROOT)+'/runs/') for row in helper.process_records(0).values()):raise ValueError('Another own project process active')
                 def command(arguments):
                     check();return migration.command_output(git+arguments,stream,min(60,max(.1,started+239-time.monotonic())),started+359)
                 if command(['status','--porcelain','--untracked-files=all']).strip():raise ValueError('Target repository dirty')
                 if command(['rev-parse','HEAD']).decode().strip()!='beadff9c4cc4693cd2ea8675020f757e313659e8':raise ValueError('Target prior HEAD changed')
                 os.environ.clear();os.environ.update(environment)
-                command(['fetch','--no-tags','https://github.com/BoyJiang2/spaceserve-epd-reproduction.git',commit])
+                if phase=='deploy-recovery':
+                    command(['bundle','verify',str(bundle)])
+                    if command(['bundle','list-heads',str(bundle)]).decode().strip()!=commit+' HEAD':raise ValueError('Bundle HEAD differs')
+                    command(['fetch',str(bundle),'HEAD'])
+                else:command(['fetch','--no-tags','https://github.com/BoyJiang2/spaceserve-epd-reproduction.git',commit])
                 if command(['rev-parse','FETCH_HEAD']).decode().strip()!=commit:raise ValueError('Fetched different source')
                 command(['checkout','--detach',commit]);command(['fsck','--full'])
                 if command(['rev-parse','HEAD']).decode().strip()!=commit or command(['status','--porcelain','--untracked-files=all']).strip():raise ValueError('Deployment differs')

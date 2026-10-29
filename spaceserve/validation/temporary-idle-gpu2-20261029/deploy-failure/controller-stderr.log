@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<reviewed-temporary-cpu-unit>", line 146, in <module>
+  File "<reviewed-temporary-cpu-unit>", line 117, in main
+  File "<reviewed-temporary-cpu-unit>", line 113, in command
+  File "migrate_code_cpu", line 147, in command_output
+  File "migrate_code_cpu", line 103, in command_output
+  File "/usr/lib/python3.10/subprocess.py", line 1154, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 2022, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/usr/lib/python3.10/subprocess.py", line 1198, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['git', '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false', '-c', 'core.excludesFile=/dev/null', '-c', 'core.attributesFile=/dev/null', '-C', '/local/boyjiang/spaceserve/repo', 'fetch', '--no-tags', 'https://github.com/BoyJiang2/spaceserve-epd-reproduction.git', '9754419d570c97c08d40b7a7f674cead8707618b']' timed out after 60 seconds

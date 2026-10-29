@@ -1,0 +1,32 @@
+{
+  "observed_utc": "2026-10-29T05:50:39.302272+00:00",
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "-l",
+    "boyjiang",
+    "qjh003",
+    "/usr/bin/python3 -I -S -B -c 'import json;from pathlib import Path;print(json.dumps(dict(boot=Path('\"'\"'/proc/sys/kernel/random/boot_id'\"'\"').read_text().strip(),processes={str(pid):dict(exists=Path('\"'\"'/proc/'\"'\"'+str(pid)).exists()) for pid in (1194798,1194829,1194832)})))'"
+  ],
+  "exit": 0,
+  "actual": {
+    "boot": "65f52a67-afe4-4919-8646-4694255b48ee",
+    "processes": {
+      "1194798": {
+        "exists": false
+      },
+      "1194829": {
+        "exists": false
+      },
+      "1194832": {
+        "exists": false
+      }
+    }
+  },
+  "scope": "Only read original own failed-helper/fetch PID paths; no signals"
+}

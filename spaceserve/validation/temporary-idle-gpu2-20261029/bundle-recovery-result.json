@@ -1,0 +1,31 @@
+{
+  "observed_utc": "2026-10-29T05:59:56.821685+00:00",
+  "command": [
+    "python",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'tools');s=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(n) for n in ('test_prepare_space_temporary','test_control_space_temporary_cpu'));r=unittest.TextTestRunner(verbosity=2).run(s);raise SystemExit(not r.wasSuccessful())"
+  ],
+  "exit": 0,
+  "scope": "Local CPU fixtures/mocks only, no actual Git/API/SSH/GPU/signal",
+  "files": [
+    {
+      "path": "tools/prepare_space_temporary.py",
+      "sha256": "acf3c4f3213336ee8495868cac4dee33592588ce722287a53e8d4018cd3c40ff"
+    },
+    {
+      "path": "tools/control_space_temporary_cpu.py",
+      "sha256": "931cf156515b4c439a146cd8a8f17b4ccdf449070abf8e982e5278362d898aa0"
+    },
+    {
+      "path": "tools/test_prepare_space_temporary.py",
+      "sha256": "dad10c9ac0effa5415eb24e9a910b3be1added4ca201f657721a0a12bea02e06"
+    },
+    {
+      "path": "tools/test_control_space_temporary_cpu.py",
+      "sha256": "1a24408d8c60354624178c3e177df9e389c746853bd9aa243f03ea8a4f4021a1"
+    }
+  ]
+}

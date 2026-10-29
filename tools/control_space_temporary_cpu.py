@@ -75,9 +75,42 @@ def launch_cpu(argv,output,payload_sha256):
     return process
 
 
+def transfer_code(source,config,user,resource_snapshot,commit):
+    data={'source':base64.b64encode(source).decode(),'source_sha256':hashlib.sha256(source).hexdigest(),
+          'config':base64.b64encode(config).decode(),'user':base64.b64encode(user).decode(),
+          'resource_snapshot':resource_snapshot,'commit':commit}
+    return """import base64,hashlib,json,os,socket,subprocess,time
+from pathlib import Path
+data=json.loads(%r)
+source=base64.b64decode(data['source']);assert hashlib.sha256(source).hexdigest()==data['source_sha256']
+policy={'__name__':'reviewed_transfer_policy'};exec(compile(source,'<reviewed-transfer-policy>','exec'),policy)
+raw=base64.b64decode(data['config']);user=base64.b64decode(data['user']);cfg=policy['validate_config'](raw,data['commit'],user)
+assert socket.gethostname()=='qjh003' and os.getuid()==2147 and os.sched_getaffinity(0)=={50} and os.getpriority(os.PRIO_PROCESS,0)==10
+assert Path('/proc/sys/kernel/random/boot_id').read_text().strip()==policy['BOOT']
+now=int(time.time()*1000);grant=cfg['temporary_gpu_use'];proof=data['resource_snapshot']
+assert grant['start_ms']<=now and now+360000<grant['end_ms']
+assert proof['origin']=='gputime_read_only_api' and proof['read_only'] is True and 0<=now-proof['observed_ms']<=300000
+resources=[r for r in proof['resources'] if r.get('id')=='h20/qjh003'];assert len(resources)==1 and resources[0].get('active') is True
+root=Path('/local/boyjiang/spaceserve');target=root/'staging/temporary-gpu2-recovery.bundle'
+for path in (root.parent,root,root/'staging'):
+ assert path.is_dir() and not path.is_symlink() and path.stat().st_uid==2147
+assert not any(p.is_symlink() for p in root.parents) and not os.path.lexists(target)
+prior=root/'staging/temporary-gpu2-preparation/deploy.terminal.json'
+assert not prior.is_symlink() and prior.stat().st_uid==2147 and hashlib.sha256(prior.read_bytes()).hexdigest()==policy['FAILED_DEPLOY_SHA']
+assert not os.path.lexists(root/'runs/space-idle2-20261029') and not os.path.lexists(root/'staging/temporary-gpu2-project.json')
+for pid in (1194798,1194829,1194832):assert not Path('/proc/'+str(pid)).exists()
+gpu=subprocess.check_output(['nvidia-smi','--id=2','--query-gpu=uuid,memory.used,utilization.gpu','--format=csv,noheader,nounits'],text=True,timeout=5)
+fields=[v.strip() for v in gpu.strip().split(',')];assert len(fields)==3 and fields[0]==policy['UUID'] and int(fields[1])<=100 and int(fields[2])==0
+assert not subprocess.check_output(['nvidia-smi','--id=2','--query-compute-apps=pid','--format=csv,noheader,nounits'],text=True,timeout=5).strip()
+print(json.dumps(dict(scope='CPU source bundle transfer only',booking_claimed=False,host=socket.gethostname(),uid=os.getuid(),boot=policy['BOOT'],gpu_raw=gpu,config_sha256=hashlib.sha256(raw).hexdigest(),target=str(target))),flush=True)
+os.umask(0o077)
+os.execv('/usr/bin/dd',['/usr/bin/dd','of='+str(target),'bs=4M','conv=excl','oflag=nofollow','status=none'])
+""" % json.dumps(data)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('phase',choices=('deploy','prepare','cpu'));args=parser.parse_args()
+    parser.add_argument('phase',choices=('deploy','transfer-recovery','deploy-recovery','prepare','cpu'));args=parser.parse_args()
     if os.name!='nt' or not __debug__:raise ValueError('Use the approved Windows controller')
     commit=git('rev-parse','HEAD').decode().strip()
     if git('ls-remote','origin','refs/heads/main').decode().split()[0]!=commit:raise ValueError('GitHub main differs')
@@ -102,8 +135,17 @@ def main():
         'bookings':[{k:row.get(k) for k in ('id','kind','resource_id','user','start_ms','end_ms')} for row in snapshot['bookings'] if row.get('resource_id')=='h20/qjh003' and row.get('end_ms',0)>now]}
     payload={'phase':args.phase,'runtime_commit':commit,'config':base64.b64encode(config).decode(),
              'user':base64.b64encode(user).decode(),'resource_snapshot':resource_snapshot,**modules}
-    wire=json.dumps(payload).encode();digest=hashlib.sha256(source).hexdigest()
-    wrapper='import base64,hashlib;source=base64.b64decode('+repr(base64.b64encode(source).decode())+');assert hashlib.sha256(source).hexdigest()=='+repr(digest)+';exec(compile(source,"<reviewed-temporary-cpu-unit>","exec"))'
+    if args.phase in ('transfer-recovery','deploy-recovery'):
+        bundle=EVIDENCE/'temporary-gpu2-recovery.bundle';raw_bundle=bundle.read_bytes()
+        if not 0<len(raw_bundle)<=16*1024**2 or git('bundle','list-heads',str(bundle)).decode().strip()!=commit+' HEAD':raise ValueError('Exact bounded local source bundle required')
+        payload['bundle']={'bytes':len(raw_bundle),'sha256':hashlib.sha256(raw_bundle).hexdigest()}
+        payload['prior_config']=base64.b64encode((EVIDENCE/'temporary-gpu2-config-before-bundle-recovery.json').read_bytes()).decode()
+    digest=hashlib.sha256(source).hexdigest()
+    if args.phase=='transfer-recovery':
+        wire=raw_bundle;wrapper=transfer_code(source,config,user,resource_snapshot,commit)
+    else:
+        wire=json.dumps(payload).encode()
+        wrapper='import base64,hashlib;source=base64.b64decode('+repr(base64.b64encode(source).decode())+');assert hashlib.sha256(source).hexdigest()=='+repr(digest)+';exec(compile(source,"<reviewed-temporary-cpu-unit>","exec"))'
     argv=['ssh','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','ConnectTimeout=15','-l','boyjiang','qjh003',
           'taskset -c 50 nice -n 10 timeout --foreground --signal=TERM --kill-after=120s 240s /usr/bin/python3 -I -S -B -c '+shlex.quote(wrapper)]
     if len(subprocess.list2cmdline(argv))>=30000:raise ValueError('Reviewed inline command exceeds Windows limit')

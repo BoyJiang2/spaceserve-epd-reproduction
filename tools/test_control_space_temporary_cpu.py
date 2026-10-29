@@ -11,9 +11,18 @@ import unittest
 from unittest.mock import patch,Mock
 
 import control_space_temporary_cpu as control
+import prepare_space_temporary as prepare
 
 
 class ControllerTests(unittest.TestCase):
+    def test_transfer_bootstrap_refuses_wrong_executor_before_gpu_or_write(self):
+        root=Path(__file__).resolve().parents[1]
+        source=(root/'tools/prepare_space_temporary.py').read_bytes()
+        config=(root/'spaceserve/validation/temporary-idle-gpu2-20261029/deploy-failure/original-config.json').read_bytes()
+        code=control.transfer_code(source,config,(prepare.QUOTE+'\n').encode(),{},'9754419d570c97c08d40b7a7f674cead8707618b')
+        with patch('socket.gethostname',return_value='CPU-MOCK wrong executor'),patch.object(control.subprocess,'check_output') as query:
+            with self.assertRaises(AssertionError):exec(compile(code,'<CPU-MOCK-transfer>','exec'),{'__name__':'CPU_MOCK_TEST'})
+            query.assert_not_called()
     def test_api_refuses_other_repository_without_network(self):
         with patch.object(control.subprocess,'check_output') as network:
             with self.assertRaises(ValueError):control.api('repos/another/repository')

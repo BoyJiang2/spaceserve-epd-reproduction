@@ -1,6 +1,6 @@
 # SpaceServe GPU2临时空闲预检准备
 
-**当前仅本地代码/CPU mocks，未部署，numeric/model均未执行；新正式矩阵仍0/54。** 这是响应用户直接授权“如果gpu暂时没人用 你可以先暂时用一下”的独立条件准入，不是本人预约记录或正式性能结果。此前的完整GPU0预检、旧48/54及所有失败原件独立保留，不转授GPU2 PASS。
+**975版本CPU部署已实际失败并收口；numeric/model均未执行，新正式矩阵仍0/54。** 这是响应用户直接授权“如果gpu暂时没人用 你可以先暂时用一下”的独立条件准入，不是本人预约记录或正式性能结果。此前的完整GPU0预检、旧48/54及所有失败原件独立保留，不转授GPU2 PASS。
 
 用户已确认三组共享NUMA0逻辑CPU0–89、OMP4，监督器仍CPU50。选同NUMA0单H20 GPU2/UUID `GPU-c005197e-747d-2dc8-b77b-b123b41efd75`，不碰其他卡任务；当前快照仅选择背景，实际启动还要fresh空闲核验。一个临时batch固定不超过60分钟，120秒收口，numeric/model只作机制验证，formal/EPD及混合booking scope均拒绝。其他GPU的背景负载不作为可比较的正式吞吐/延迟数据。
 
@@ -20,3 +20,11 @@
 ## 尚未完成
 
 精确发布G5、GitHub/服务器指定版本与全部SHA、实际config/window、目标CPU suite、GPU2 native/MPS numeric实际G3、完整313冷启/重启模型与并发/encoder mask实际G3，均须据真实回执分别验收。MASK_OFF56及旧GPU0端口诊断只是GPU2待测候选；未验证decoder互斥，不称完整SM分区。任何失败保留，不缩预算/自动重试；临时预检通过也不等于正式54或两项目目标完成。
+
+## 实际部署失败与一次恢复准备
+
+9754419完成Git/API前验后，真实CPU部署的GitHub HTTPS fetch在60秒Timeout，实际exit1；[目标terminal原文](deploy-failure/deploy.terminal.json)、[Git命令日志](deploy-failure/deploy.log)、[原配置](deploy-failure/original-config.json)和[三个原PID实际消失回执](deploy-failure/process-release.json)保留。目标仍beadff9/Gitclean，run/candidate不存在，GPU2空闲；不是观察超时，也没有启动GPU。原三文件下载后SHA与目标逐项相同，见[原始readback](deploy-failure/readback-original.json)。
+
+[恢复G1](space-temporary-bundle-recovery-g1.md)/[G2](space-temporary-bundle-recovery-g2.md)批准仅一次CPU bundle恢复准备：新增transfer-recovery/deploy-recovery，固定staging接收≤16MiB精确C1 HEAD bundle，先原始失败terminal/log SHA、旧配置与未变化窗口、实际资源/UID/boot/CPU50/目标空闲、owner/file/hash与Git bundle验，再本地fetch/checkout/fsck；保留旧deploy文件，新recovery独立claim/log/terminal。prepare只接受匹配的新成功前驱。新代码不改变Space84源与共享GPU代码，只更新维护入口；由于run尚不存在，首次prepare将冻结全C1，旧实际失败永远记975。
+
+[10项本地回归](bundle-recovery-result.json)PASS/0skip，明确CPU fixture/mock；原临时窗口13:40:34.579–14:40:34.579及END120不延长，完整模型仍需1800秒入场。精确G5/Git-first/实际C1配置与bundle前验未完成前，不执行恢复。恢复成功也不等于目标CPU suite、numeric或模型G3通过。
