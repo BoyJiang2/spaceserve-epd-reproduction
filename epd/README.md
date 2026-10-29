@@ -1,5 +1,7 @@
 # EPD Disaggregation 复现项目
 
+[native36有限编排与24项本地CPU-MOCK验证](validation/numeric-orchestration-cpu-20261029/README.md)已准备；真实Ray/NVML后端和生产numeric入口尚未接通，不是GPU通过。
+
 [qjh003固定目录迁移状态与静态证据](migration-qjh003-20261029/README.md)：原始资产已迁移，flat IPC/RUNPATH/shebang待重定位；没有本批新性能数据，历史baseline对照保持独立。
 
 当前 [qjh003 固定目录代码与迁移状态](migration/README.md)：本地 G2 通过，目标迁移与新测试未执行；公平 PD 的 native36/selected360 接线仍未完成。

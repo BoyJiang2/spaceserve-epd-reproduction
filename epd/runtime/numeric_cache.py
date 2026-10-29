@@ -68,7 +68,10 @@ def allocate(worker, kind, torch):
     worker_policy(worker, kind)
     if getattr(worker, '_numeric_probe_state', None) is not None:
         raise ValueError('One payload allocation per fresh worker lifetime')
-    identity = worker.qualification_identity()
+    identity = getattr(worker, '_numeric_probe_identity', None)
+    if identity is None:
+        identity = worker.qualification_identity()
+        worker._numeric_probe_identity = identity
     if identity is None:
         raise ValueError('Actual registered CUDA worker identity required before payload allocation')
     cache, model, parallel = worker.cache_config, worker.model_config, worker.parallel_config
@@ -191,6 +194,19 @@ def probe(worker, action, argument, torch):
     if getattr(worker, '_numeric_probe_failed', False):
         raise ValueError('Failed numeric worker cannot continue or retry')
     try:
+        if action in ('identity', 'sync'):
+            worker_policy(worker, 'kv')
+            if argument is not None: raise ValueError('No external numeric identity or sync payload allowed')
+            identity = getattr(worker, '_numeric_probe_identity', None)
+            if action == 'identity':
+                if identity is not None: raise ValueError('Numeric identity already captured; no retry')
+                identity = worker.qualification_identity()
+                if identity is None: raise ValueError('Actual numeric worker identity required')
+                worker._numeric_probe_identity = identity
+                return identity
+            if identity is None: raise ValueError('Register numeric identity before synchronization')
+            torch.cuda.synchronize(worker.device)
+            return {'identity': identity, 'synchronized': True}
         if action == 'allocate': return allocate(worker, argument, torch)
         if action == 'prepare': return prepare_source(worker, argument, torch)
         if action == 'copy': return copy_full_cache(worker, argument['transfer'], argument['source'], torch)

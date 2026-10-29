@@ -1,0 +1,77 @@
+test_changed_native_ve_capacity_is_not_replaced_by_smaller_payload (test_numeric_cache_cpu.NativeCacheContracts.test_changed_native_ve_capacity_is_not_replaced_by_smaller_payload) ... ok
+test_context_and_encoding_refused_before_any_allocator_or_identity (test_numeric_cache_cpu.NativeCacheContracts.test_context_and_encoding_refused_before_any_allocator_or_identity) ... ok
+test_finite_vector_has_36_unique_ordered_directed_copies_and_seeds (test_numeric_cache_cpu.NativeCacheContracts.test_finite_vector_has_36_unique_ordered_directed_copies_and_seeds) ... ok
+test_kv_uses_only_official_kv_allocator_and_zero_cpu_blocks (test_numeric_cache_cpu.NativeCacheContracts.test_kv_uses_only_official_kv_allocator_and_zero_cpu_blocks) ... ok
+test_missing_identity_and_insufficient_memory_refuse_before_allocator (test_numeric_cache_cpu.NativeCacheContracts.test_missing_identity_and_insufficient_memory_refuse_before_allocator) ... ok
+test_model_or_non_six_component_parallel_refused (test_numeric_cache_cpu.NativeCacheContracts.test_model_or_non_six_component_parallel_refused) ... ok
+test_second_allocation_or_copy_after_failure_refused (test_numeric_cache_cpu.NativeCacheContracts.test_second_allocation_or_copy_after_failure_refused) ... ok
+test_shape_stride_and_cache_block_differences_refuse_without_truncation (test_numeric_cache_cpu.NativeCacheContracts.test_shape_stride_and_cache_block_differences_refuse_without_truncation) ... ok
+test_tail_chunk_covers_every_element_and_fourth_copy_refuses (test_numeric_cache_cpu.NativeCacheContracts.test_tail_chunk_covers_every_element_and_fourth_copy_refuses) ... ok
+test_ve_uses_full_official_geometry_and_no_kv_allocator (test_numeric_cache_cpu.NativeCacheContracts.test_ve_uses_full_official_geometry_and_no_kv_allocator) ... ok
+test_external_identity_rejected_before_capture (test_numeric_unit_cpu.NumericIdentityCPU.test_external_identity_rejected_before_capture) ... ok
+test_identity_is_captured_once_then_reused_by_allocate_and_sync (test_numeric_unit_cpu.NumericIdentityCPU.test_identity_is_captured_once_then_reused_by_allocate_and_sync) ... ok
+test_real_model_path_not_given_numeric_identity (test_numeric_unit_cpu.NumericIdentityCPU.test_real_model_path_not_given_numeric_identity) ... ok
+test_repeated_identity_is_not_retried (test_numeric_unit_cpu.NumericIdentityCPU.test_repeated_identity_is_not_retried) ... ok
+test_sync_requires_registered_identity (test_numeric_unit_cpu.NumericIdentityCPU.test_sync_requires_registered_identity) ... ok
+test_common_deadline_does_not_restart_per_group (test_numeric_unit_cpu.NumericUnitCPU.test_common_deadline_does_not_restart_per_group) ... ok
+test_complete_vector_charges_journals_and_uses_fresh_lifetimes (test_numeric_unit_cpu.NumericUnitCPU.test_complete_vector_charges_journals_and_uses_fresh_lifetimes) ... ok
+test_copy_failure_stops_without_refund_or_retry (test_numeric_unit_cpu.NumericUnitCPU.test_copy_failure_stops_without_refund_or_retry) ... FAIL
+test_different_full_geometry_refused_before_copy (test_numeric_unit_cpu.NumericUnitCPU.test_different_full_geometry_refused_before_copy) ... ok
+test_failed_native_copy_with_unconfirmed_importer_retains_exporter (test_numeric_unit_cpu.NumericUnitCPU.test_failed_native_copy_with_unconfirmed_importer_retains_exporter) ... FAIL
+test_importer_exits_before_source_and_unused_actor (test_numeric_unit_cpu.NumericUnitCPU.test_importer_exits_before_source_and_unused_actor) ... ok
+test_partial_numeric_result_not_boolean_success (test_numeric_unit_cpu.NumericUnitCPU.test_partial_numeric_result_not_boolean_success) ... ok
+test_unconfirmed_importer_exit_stops_next_group_and_cleans_siblings (test_numeric_unit_cpu.NumericUnitCPU.test_unconfirmed_importer_exit_stops_next_group_and_cleans_siblings) ... FAIL
+test_unknown_identity_is_not_signalled_known_siblings_are_cleaned (test_numeric_unit_cpu.NumericUnitCPU.test_unknown_identity_is_not_signalled_known_siblings_are_cleaned) ... ok
+
+======================================================================
+FAIL: test_copy_failure_stops_without_refund_or_retry (test_numeric_unit_cpu.NumericUnitCPU.test_copy_failure_stops_without_refund_or_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_unit_cpu.py", line 160, in test_copy_failure_stops_without_refund_or_retry
+    self.assertEqual(len(closed), 3); self.assertEqual(closed[0], UUIDS[1])
+                                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'CPU-MOCK-C' != 'CPU-MOCK-B'
+- CPU-MOCK-C
+?          ^
++ CPU-MOCK-B
+?          ^
+
+
+======================================================================
+FAIL: test_failed_native_copy_with_unconfirmed_importer_retains_exporter (test_numeric_unit_cpu.NumericUnitCPU.test_failed_native_copy_with_unconfirmed_importer_retains_exporter)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_unit_cpu.py", line 185, in test_failed_native_copy_with_unconfirmed_importer_retains_exporter
+    self.assertEqual(closed, [UUIDS[1], UUIDS[2]])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['CPU-MOCK-C', 'CPU-MOCK-B', 'CPU-MOCK-A'] != ['CPU-MOCK-B', 'CPU-MOCK-C']
+
+First differing element 0:
+'CPU-MOCK-C'
+'CPU-MOCK-B'
+
+First list contains 1 additional elements.
+First extra element 2:
+'CPU-MOCK-A'
+
+- ['CPU-MOCK-C', 'CPU-MOCK-B', 'CPU-MOCK-A']
+?  --------------                        ^
+
++ ['CPU-MOCK-B', 'CPU-MOCK-C']
+?                          ^
+
+
+======================================================================
+FAIL: test_unconfirmed_importer_exit_stops_next_group_and_cleans_siblings (test_numeric_unit_cpu.NumericUnitCPU.test_unconfirmed_importer_exit_stops_next_group_and_cleans_siblings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_unit_cpu.py", line 178, in test_unconfirmed_importer_exit_stops_next_group_and_cleans_siblings
+    self.assertEqual(set(closed), {UUIDS[1], UUIDS[2]})
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Items in the first set but not the second:
+'CPU-MOCK-A'
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.074s
+
+FAILED (failures=3)

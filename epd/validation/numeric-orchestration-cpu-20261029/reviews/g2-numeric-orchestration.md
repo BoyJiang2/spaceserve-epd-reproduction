@@ -1,0 +1,51 @@
+结论：REQUEST_CHANGES
+BLOCKING：1
+reviewed_at_utc：2026-10-29T03:09:30Z
+审查者：独立 Codex subagent /root/handoff_cpu_review
+
+本次只读G2绑定G1计划 SHA256 6730137b450a94815012e47a3f0a22e86c09a60bf518db8ae5656a331a51e4b9，仅审本地有限编排/identity缓存、相应CPU-MOCK源码及已存在的本地原始结果。未运行测试、网络、SSH、GPU或Ray/Torch/NVML初始化；按请求仅保存本审查文件。
+
+受审源码SHA256：
+- epd/runtime/numeric_unit.py：03b0fa3f4e5feabfe2528fb0e2cf6ae0cfea50031357f4ebe8a0c22a77490f2b
+- epd/runtime/numeric_cache.py：7262cb3f91b36ca01f0ed9cd4f571d3436eb8b6c3ef907caee973097758bd939
+- epd/runtime/tests/test_numeric_unit_cpu.py：d6eabde62c34b00fdc449ef0ef03dcce9fefb98429f6f0466765e2fe05168d7a
+- epd/runtime/tests/test_numeric_cache_cpu.py：759beb99ed524d4d75516e96a57a8cf9c487da1842d25cac77b0ed8ea2d9f0b3
+
+B1 — 异常清理没有保持importer退出先于source释放的IPC生命周期。
+路径：work/repository-upload/checkout/epd/runtime/numeric_unit.py:149（涉及88–95、143–157）；测试路径：epd/runtime/tests/test_numeric_unit_cpu.py:171。
+
+正常路径143–144按target、source、third退出正确。异常路径却直接按backend.known_identities()返回顺序逐个close，没有按本组实际import关系排序；发生copy异常时，backend若先枚举source，会先释放仍被importer映射的export allocation。更直接的已存在反例：正常target.close后validate_release报PID仍存在（测试bad_release）时，target已进入attempted，finally跳过它但仍close source。test_unconfirmed_importer_exit_stops_next_group_and_cleans_siblings当前断言三个actor都调用close，恰好把这种不安全释放作为通过条件。VE没有unregister；停止下一组不能代替本组source存活到importer真实context退出的要求。
+
+最小修正：记录当前组source/target及是否已尝试导入（copy调用前置位，失败也可能已建立IPC映射）。失败清理先处理已验证importer并校验原始退出receipt，只有确认其PID/context已退出后才释放该组source；独立third仍应清理。没有发生导入的身份核验/分配前失败仍可清理各已验证actor。importer未知、退出不确认或清理deadline耗尽时拒杀未知者，保留受依赖的source并明确记录unconfirmed/deferred release和原失败，阻断后续组，不把source保留写成已释放。不要求自动重试失败close或扩预算。对应增加copy中途失败且known_identities先列source的顺序负例，并将未确认importer测试改为断言source未提前close；保留正常顺序、未知身份拒杀、独立第三actor清理与零重试测试。后续真实backend仍必须有外层有界收口，不能将本地fixture记录视作GPU释放证明。
+
+已核实的非阻塞结果：
+- finite vector为12个pair/载荷组、每组3transfer；每次admit_transfer先于submitted，再prepare/copy。异常停止后续transfer/group，不退款。传入共同deadline的剩余时间，工作阶段预留cleanup_seconds；组件没有Ray/native backend实现。
+- numeric-only identity缓存来自同一worker实际qualification_identity，拒外部身份、重复identity与失败后继续；allocate复用缓存；sync要求已登记。普通qualification_identity实现未修改。
+- 分配校验完整shape/stride/storage/blocks/FP16/.65及handle；prepared/copy证据核完整checked_elements、seed、identity、geometry和source/target配置SHA相等。三个SHA目前只验证格式与两端相等；后续真实adapter/G2仍须把这些原始摘要同受审source/model配置固定清单比较，不能把相等本身当实际来源授权。
+- numeric-orchestration-local-tests/command.json记录隔离Python -I -S -B、unittest discover、60秒和CUDA_VISIBLE_DEVICES空；stderr.log真实记录Ran 23 tests / OK，逐项解析23个唯一ID与inputs.json expected_test_ids集合完全相同，无skip。result.json记录exit0/0.2927373秒、source_unchanged=true、temp_children=[]。我独立重算上述四份当前源码bytes/SHA与inputs.json全部一致，当前专属temp目录确为空；未复跑测试。
+- fixed_unit.py及preflight_controller.py与当前Git HEAD字节相同；fixed_unit.py:50仍NotImplemented拒绝numeric/完整cold-restart接线。没有因组件存在放行native36/selected360，0模型/36transfer/1800秒/三卡/.65预算未被本次修改扩大。
+
+上述23PASS仅证明这些CPU-MOCK断言当前通过，不能消除B1，不能认作真实native/Ray/NVML/G3。当前结论不批准目标CPU、GPU、controller放行或真实adapter；无需重跑旧87套件。修正仅应围绕异常IPC依赖顺序与对应小回归，不新增通用清理框架。
+
+GATE_RESULT: {"gate":"G2","plan_sha256":"6730137b450a94815012e47a3f0a22e86c09a60bf518db8ae5656a331a51e4b9","scope":"local_finite_numeric_orchestration_identity_cache_CPU_MOCK_only","decision":"REQUEST_CHANGES","blocking":1}
+
+未检查或执行真实GPU/backend行为；已知风险是B1导致失败路径过早释放exporter，必须修正后重新窄审。
+
+## B1窄复审（原初审及原23项记录保留）
+
+reviewed_at_utc：2026-10-29T03:18:14Z
+decision：APPROVE
+BLOCKING：0（本次关闭B1，承接原G2其余范围与限制）
+
+绑定修订numeric_unit.py SHA256 93a2956353f764fd6f90c5b08e6fb7398c192c30f94bc16e1923971fb322ca5e、test_numeric_unit_cpu.py SHA256 5802c2dc9b2e03c69a9a6bf9d059517875549d3413b030f05cab752dc2f17b6a。numeric_cache.py和test_numeric_cache_cpu.py仍为上述原SHA。
+
+已只读确认numeric_unit.py:134在调用copy前设置mapping_possible；异常清理168–185固定target→source→独立third，并在173–179核原importer的PID/startticks已进入真实receipt校验后的released集合，否则保留exporter并记录cleanup_blocked。已尝试但未确认的importer不再重试close，第三actor仍独立清理。尚未尝试导入的身份核验/分配失败可继续清理已知合法兄弟。registry调用异常退回本组已验证身份，未知/同UUID多身份拒绝信号，不以其抑制独立兄弟处理。B1所述两个提前释放入口已修复，没有扩大执行入口或GPU预算。
+
+已核原始反例与修后记录：importer-regression-before.json绑定原unit SHA03b0fa3f…且exit1；stderr真实Ran24/3FAIL，分别复现失败清理顺序、copy失败后importer不确认仍释放source、正常copy后importer不确认仍释放source。修后after.json绑定上述新unit/test SHA，exit0/0.2763115秒；stderr实际24个唯一测试ID全部ok、Ran24/OK、无skip，专属temp当前为空。before stderr SHA256 8829e4ae18b20b0a8b43f142e753f5d02fa0f41f01076c2f9cf69a848a8bd373；after stderr SHA256 232f1c09790323b540044ef0b93586f0d749511d02033e3a5c3383ed0e83c68e。未复跑测试，旧23PASS没有改写为本次24PASS。
+
+本批准仅Phase A本地CPU契约与窄源码修改；真实backend尚不存在，production numeric仍blocked。不能对外称已完成36次真实copy、GPU释放或G3；真实adapter的source固定清单比对及受控收口仍按原后续G2要求处理。
+
+GATE_RESULT: {"gate":"G2","plan_sha256":"6730137b450a94815012e47a3f0a22e86c09a60bf518db8ae5656a331a51e4b9","scope":"local_finite_numeric_orchestration_identity_cache_CPU_MOCK_only_B1_re_review","decision":"APPROVE","blocking":0,"numeric_unit_sha256":"93a2956353f764fd6f90c5b08e6fb7398c192c30f94bc16e1923971fb322ca5e"}
+
+未执行测试或访问远端/GPU；真实Ray/NVML/backend和生产numeric接线仍需后续独立审查。
+
