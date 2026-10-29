@@ -1,0 +1,20 @@
+test_exact_bootstrap_compiles_without_execution (test_deploy_space_window_20261030.DeploymentTests.test_exact_bootstrap_compiles_without_execution) ... ERROR
+test_no_retry_and_new_scope_is_explicit (test_deploy_space_window_20261030.DeploymentTests.test_no_retry_and_new_scope_is_explicit) ... ok
+test_revision_injection_rejected (test_deploy_space_window_20261030.DeploymentTests.test_revision_injection_rejected) ... ok
+
+======================================================================
+ERROR: test_exact_bootstrap_compiles_without_execution (test_deploy_space_window_20261030.DeploymentTests.test_exact_bootstrap_compiles_without_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_deploy_space_window_20261030.py", line 9, in test_exact_bootstrap_compiles_without_execution
+    source=deployment.server_command('a'*40);ast.parse(source)
+                                             ~~~~~~~~~^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\ast.py", line 54, in parse
+    return compile(source, filename, mode, flags,
+                   _feature_version=feature_version, optimize=optimize)
+SyntaxError: source code string cannot contain null bytes
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.011s
+
+FAILED (errors=1)

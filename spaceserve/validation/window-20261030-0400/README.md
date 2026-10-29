@@ -13,3 +13,13 @@
 本地测试命令：`python -B -m unittest discover -s tools -p "test_*space_window_20261030.py" -v`。目前9项窗口策略、6项服务端参数/末次准入、6项控制端构造/真实本地输入FD测试，不等于Linux/POSIX/Ray/GPU生命周期通过。初始预算G2阻塞与修复、Windows路径fixture原失败均保存。
 
 本批GPU正式测量与EPD GPU实验顺序执行；旧48/54和旧GPU2 313预检分别保留，不能补拼为完整区组。最终报告、comparison图表与逐请求原始记录需实际G4/G5、Release及远端下载SHA验收。
+
+## 已有checkout的部署入口（本地准备，尚未部署）
+
+初始clone工具不用于更新已有repo。本批先调用 `python tools/deploy_space_window_20261030.py --commit COMMIT --bundle BUNDLE --approval DEPLOY_APPROVAL_JSON --review REVIEW_MD --output NEW_EVIDENCE_DIRECTORY`，且须独立审查和实际发布commit后使用。BASE固定为服务器上次实核730；若当前HEAD不同，停止核实，不自动覆盖。新bundle须覆盖730以来的实际发布源码，不能用旧2092 bundle假装包含新增部署工具。
+
+部署工具只核fresh双lane/boot/CPU50nice10/GPU2严格idle/已有clean checkout/旧实际proc归属规则，排他创建新部署证据，bundle verify/fetch后仅检出指定commit；将tools、Space运行代码与测试显式纳入稀疏检出，并逐实际文件比Git原字节。不存在的新run、旧资产与旧运行目录不会被改写；未检出的稀疏Git对象不冒称已部署文件。失败保留partial，UNKNOWN跟原进程，不自动重试。
+
+Git突变命令复用已审的migration.command_output（稳定pidfd与已验证自有session清理）；外层240工作+120清理，受控取消后不启动后续Git。该工具不产生CPU/numeric/model/formal通过凭据，也不执行模型。完成部署审计后，才按上文逐phase入口进行新run预检与正式阶段准入。
+
+部署源码有两个初审阻塞（Git子进程收口、来源比对缺项），以及首轮嵌入命令转义测试错误，均保留原件。最终本地统一28项不同测试通过；生产命令注入验证不等于新目标POSIX/Git清理实测。
