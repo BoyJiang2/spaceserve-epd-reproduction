@@ -14,6 +14,7 @@ from run_models import command,PYTHON
 from audit_formal_cell import audit
 from numeric_launcher import terminate_owned
 from runtime_config import context, device_argument
+from cpu_placement import validate as validate_cpu
 CONFIG = context()
 
 SCHEDULE_SHA='7248d8829180d3df25f04204cd7e1e89b7b7462ea5f39651986f118418c0d8d3'
@@ -49,6 +50,7 @@ def validate_devices(folder,role):
     if any(options.get(name)!=value for name,value in expected.items()):
         raise RuntimeError('formal engine options differ from approved preflight')
     for row in rows:
+        validate_cpu(row.get('cpu_placement'), CONFIG.config)
         if row['system']!=role or row['cuda_visible_devices']!=CONFIG.single_uuid or row['parameters_by_device'].keys()!={'cuda:0'} or row['parameters_by_dtype'].keys()!={'torch.float16'}:
             raise RuntimeError('formal loaded parameters differ from reviewed model/device/precision')
         if row['mps_active_thread_percentage']!='100' or row['mps_pipe']!=str(ROOT/'tmp/mps'):
@@ -66,6 +68,8 @@ def validate_devices(folder,role):
 def boundary(destination,environment,pid,suffix):
     command([PYTHON,str(ROOT/'scripts/check_rgb_cache.py'),'--dataset',str(CONFIG.asset('dataset')),'--urls','http://127.0.0.1:19770','--output',str(destination/f'rgb-{suffix}.json')],environment,destination/f'rgb-{suffix}.log')
     command([PYTHON,str(ROOT/'scripts/capture_mps_clients.py'),'--api-pid',str(pid),'--output',str(destination/f'mps-{suffix}.json')],environment,destination/f'mps-{suffix}.log')
+    if suffix=='after' and 'workload_cpu_affinity' in CONFIG.config:
+        command([PYTHON,str(ROOT/'scripts/capture_runtime.py'),str(destination/'runtime-after.json'),'--server-pids',str(pid),'--devices',device_argument(CONFIG),'--note','CPU placement after formal measurement'],environment,destination/'runtime-after.log')
 
 
 def supervised_benchmark(arguments,environment,path,monitor):

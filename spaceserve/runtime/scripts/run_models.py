@@ -17,6 +17,7 @@ from owned_processes import stop
 from correctness_suite import run as correctness
 from check_mask_sets import validate as validate_mask
 from runtime_config import context, device_argument
+from cpu_placement import validate as validate_cpu
 CONFIG = context()
 
 PYTHON=str(CONFIG.asset('envs/space/bin/python'))
@@ -95,6 +96,7 @@ def validate_devices(folder,role):
     if len(rows)!=(1 if role=='baseline-space' else 2):
         raise RuntimeError('actual worker count differs')
     for row in rows:
+        validate_cpu(row.get('cpu_placement'), CONFIG.config)
         if row['system']!=role or row['cuda_visible_devices']!=UUIDS[0] or row['parameters_by_device'].keys()!={'cuda:0'} or row['parameters_by_dtype'].keys()!={'torch.float16'}:
             raise RuntimeError('actual loaded model role/device/precision differs')
         if row['mps_active_thread_percentage']!='100' or row['mps_pipe']!=str(ROOT/'tmp/mps'):
@@ -150,6 +152,8 @@ def main():
                         '--output',str(destination/'trace-export.json')],environment,destination/'trace-export.log',330)
                     command([PYTHON,str(ROOT/'scripts/check_rgb_cache.py'),'--dataset',str(CONFIG.asset('dataset')),'--urls','http://127.0.0.1:19770','--output',str(destination/'rgb-after.json')],environment,destination/'rgb-after.log')
                     command([PYTHON,str(ROOT/'scripts/capture_mps_clients.py'),'--api-pid',str(pid),'--output',str(destination/'mps-after.json')],environment,destination/'mps-after.log')
+                    if 'workload_cpu_affinity' in CONFIG.config:
+                        command([PYTHON,str(ROOT/'scripts/capture_runtime.py'),str(destination/'runtime-after.json'),'--server-pids',str(pid),'--devices',device_argument(CONFIG),'--note','CPU placement after diagnostic requests'],environment,destination/'runtime-after.log')
                 shutil.copytree(device_records,destination/'device-records')
                 if role!='baseline-space':
                     command([PYTHON,str(ROOT/'scripts/analyze_trace.py'),str(destination/'traces'),

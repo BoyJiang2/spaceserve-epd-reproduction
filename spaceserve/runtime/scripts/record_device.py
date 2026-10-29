@@ -8,6 +8,7 @@ import re
 import time
 import torch
 from runtime_config import context
+from cpu_placement import snapshot, validate
 CONFIG = context()
 
 
@@ -42,6 +43,8 @@ def record(worker):
               'mps_active_thread_percentage': os.environ.get('CUDA_MPS_ACTIVE_THREAD_PERCENTAGE'),
               'loaded_smctrl': sorted({line.split()[-1] for line in Path('/proc/self/maps').read_text().splitlines() if 'libsmctrl' in line})}
     record['loaded_smctrl_sha256'] = {}
+    record['cpu_placement'] = snapshot()
+    validate(record['cpu_placement'], CONFIG.config)
     for library in record['loaded_smctrl']:
         value = hashlib.sha256()
         with Path(library).open('rb') as source:

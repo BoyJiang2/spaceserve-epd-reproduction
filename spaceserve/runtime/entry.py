@@ -1,5 +1,7 @@
 """Stable SpaceServe entry; code is frozen once per real run, assets are shared."""
 import argparse
+import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -42,6 +44,21 @@ def main():
     if (receipt['commit'] != layout.config['source_commit']
             or receipt['source_manifest_sha256'] != layout.config['source_manifest_sha256']):
         raise ValueError('This run is not bound to its designated deployed source')
+    if args.action in ('numeric', 'model', 'formal') and any(
+            name in layout.config for name in ('workload_cpu_affinity', 'workload_numa_node')):
+        manifest = layout.run_root/'configs/runtime-extension-source-manifest.json'
+        helper = layout.run_root/'scripts/cpu_placement.py'
+        if manifest.is_symlink() or helper.is_symlink():
+            raise ValueError('Linked CPU profile source refused')
+        if hashlib.sha256(manifest.read_bytes()).hexdigest() != receipt['source_manifest_sha256']:
+            raise ValueError('Frozen CPU profile manifest differs')
+        rows = [row for row in json.loads(manifest.read_text()) if row['path'] == 'scripts/cpu_placement.py']
+        if len(rows) != 1 or hashlib.sha256(helper.read_bytes()).hexdigest() != rows[0]['sha256']:
+            raise ValueError('Frozen CPU profile implementation differs')
+        spec = importlib.util.spec_from_file_location('frozen_cpu_placement', helper)
+        placement = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(placement)
+        placement.apply(layout.config, args.action)
     scripts = {'numeric':'numeric_launcher.py','model':'model_launcher.py','formal':'formal_launcher.py',
                'cpu':'../tools/verify_deployment_cpu.py'}
     python = str(layout.asset('envs/space/bin/python'))

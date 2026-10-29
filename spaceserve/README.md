@@ -175,3 +175,6 @@ GPU复跑按[原命令与前提](../docs/reading/outputs/qjh000-migration/README
 | 首轮4090/L20 Space及双H20 EPD最终选用封包 | [reproduction-h20.zip](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/download/experiments-2026-10-25/reproduction-h20.zip) | 79,894,392 / 76.19 | `3d12536a846208e3202b67650adeee2f424cc4da1bb0a6cc28c67a494941be38` |
 
 [2026-10-28 夜间窗口 CPU 准备](preparation-20261028-2300/README.md)：12 项 staging 用例通过，约23.74 GB冻结输入独立复制校验完成；GPU尚未启动、正式0/54，未产生新性能结论。
+
+
+后续本地准备：[CPU放置候选与验证](validation/cpu-placement-candidate-20261029/README.md)（尚未采用，不是正式性能结果）。
