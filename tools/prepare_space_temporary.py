@@ -20,9 +20,13 @@ UUID='GPU-c005197e-747d-2dc8-b77b-b123b41efd75'
 QUOTE='如果gpu暂时没人用 你可以先暂时用一下'
 FAILED_DEPLOY_SHA='b4dda733def170f1d7a840e4ee9160648b7f02c5dedaccac96c3972b78097584'
 ORIGINAL_CONFIG_SHA='ebe8ae33a2bebd80da88328ef268900c459853bbb913857a311a88059acd1c8f'
+SCHEDULED_RUN_ID='space-16-20261029'
+SCHEDULED_QUOTE='等到16点如果显存占用是0 你就开始'
+SCHEDULED_START_MS=1793260800000
+SCHEDULED_CPU_END_MS=1793262000000
 
 
-def validate_config(raw,commit,user):
+def validate_config(raw,commit,user,scheduled=False):
     config=json.loads(raw)
     grant=config.get('temporary_gpu_use',{})
     if not re.fullmatch('[0-9a-f]{40}',commit):raise ValueError('Exact published commit required')
@@ -32,6 +36,16 @@ def validate_config(raw,commit,user):
         mask_compatibility_proof_sha256='f8cff8a12b7a613d2ccb1241f8126945fef5935425c13f1851ca961957b89aa4',
         correctness_http_connection='new_connection_no_retry',workload_cpu_affinity=list(range(90)),workload_numa_node=0,
         temporary_gpu_use=grant)
+    if scheduled:
+        expected.pop('temporary_gpu_use')
+        expected.update(state='candidate',run_id=SCHEDULED_RUN_ID,allowed_actions=[],
+            scheduled_gpu_start_ms=SCHEDULED_START_MS,cpu_preparation_deadline_ms=SCHEDULED_CPU_END_MS,
+            scheduled_user_sha256=hashlib.sha256(user).hexdigest())
+        if (config!=expected or any(type(cpu) is not int for cpu in config['workload_cpu_affinity'])
+                or any(type(config[k]) is not int for k in ('scheduled_gpu_start_ms','cpu_preparation_deadline_ms'))
+                or user.decode('utf8').strip()!=SCHEDULED_QUOTE):
+            raise ValueError('Exact scheduled CPU-only candidate and original16 instruction required')
+        return config
     if (config!=expected or any(type(cpu) is not int for cpu in config['workload_cpu_affinity'])
             or set(grant)!={'schema','start_ms','end_ms','boot_id','user_sha256'}
             or grant['schema']!='temporary-idle-single-gpu-v1' or grant['boot_id']!=BOOT
@@ -43,7 +57,7 @@ def validate_config(raw,commit,user):
     return config
 
 
-def recovery_bundle(evidence,config,data):
+def recovery_bundle(evidence,config,data,scheduled=False):
     prior=evidence/'deploy.terminal.json';log=evidence/'deploy.log'
     for path in (prior,log):
         if path.is_symlink() or not path.is_file() or path.stat().st_uid!=os.getuid():raise ValueError('Original owned failure required')
@@ -55,8 +69,12 @@ def recovery_bundle(evidence,config,data):
     original=base64.b64decode(data['prior_config'],validate=True)
     if hashlib.sha256(original).hexdigest()!=ORIGINAL_CONFIG_SHA:raise ValueError('Original configuration bytes required')
     previous=json.loads(original)
-    if {k:v for k,v in config.items() if k!='source_commit'}!={k:v for k,v in previous.items() if k!='source_commit'}:
-        raise ValueError('Recovery may only update source version; never extend the window')
+    changed={'source_commit'}
+    if scheduled:
+        changed|={'state','run_id','allowed_actions','temporary_gpu_use','scheduled_gpu_start_ms',
+                  'cpu_preparation_deadline_ms','scheduled_user_sha256'}
+    if {k:v for k,v in config.items() if k not in changed}!={k:v for k,v in previous.items() if k not in changed}:
+        raise ValueError('Recovery may only change reviewed source/CPU metadata; never extend the old GPU window')
     bundle=ROOT/'staging/temporary-gpu2-recovery.bundle';metadata=data['bundle']
     if (bundle.is_symlink() or not bundle.is_file() or bundle.stat().st_uid!=os.getuid()
             or type(metadata['bytes']) is not int or not 0<metadata['bytes']<=16*1024**2
@@ -70,6 +88,9 @@ def main():
     data=json.load(sys.stdin);phase=data['phase'];started=time.monotonic()
     if not __debug__ or phase not in ('deploy','deploy-recovery','prepare','cpu'):raise ValueError('Only bounded CPU auxiliary phases')
     deploying=phase in ('deploy','deploy-recovery')
+    scheduled=data.get('scheduled_cpu') is True
+    run_id=SCHEDULED_RUN_ID if scheduled else RUN_ID
+    run=ROOT/'runs'/run_id if scheduled else RUN
     modules=[]
     for name,expected in [('migrate_code_cpu','9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'),
                           ('validate_space_cpu','c9d895c8567fac7f2248c8af63996e6eb4b60080edf493b51002c1c4da4a641b')]:
@@ -77,10 +98,11 @@ def main():
         if hashlib.sha256(raw).hexdigest()!=expected:raise ValueError('Auxiliary process/asset helper differs')
         module=types.ModuleType(name);sys.modules[name]=module
         exec(compile(raw,name,'exec'),module.__dict__);modules.append(module)
-    migration,helper=modules;helper.RUN_ID=RUN_ID;helper.RUN=RUN
+    migration,helper=modules;helper.RUN_ID=run_id;helper.RUN=run
     commit=data['runtime_commit'];raw_config=base64.b64decode(data['config'],validate=True)
-    user=base64.b64decode(data['user'],validate=True);config=validate_config(raw_config,commit,user)
-    end=config['temporary_gpu_use']['end_ms'];config_sha=hashlib.sha256(raw_config).hexdigest()
+    user=base64.b64decode(data['user'],validate=True);config=validate_config(raw_config,commit,user,scheduled)
+    end=SCHEDULED_CPU_END_MS if scheduled else config['temporary_gpu_use']['end_ms']
+    config_sha=hashlib.sha256(raw_config).hexdigest()
     def check():
         migration.validate_executor()
         now=int(time.time()*1000);snapshot=data['resource_snapshot']
@@ -89,14 +111,20 @@ def main():
                 or type(snapshot.get('observed_ms')) is not int or not 0<=now-snapshot['observed_ms']<=300000
                 or len(resources)!=1 or resources[0].get('active') is not True
                 or Path('/proc/sys/kernel/random/boot_id').read_text().strip()!=BOOT
-                or now<config['temporary_gpu_use']['start_ms'] or now+120000>=end
+                or now<(SCHEDULED_START_MS if scheduled else config['temporary_gpu_use']['start_ms']) or now+120000>=end
                 or time.monotonic()-started>=239):raise ValueError('Direct CPU auxiliary scope/time/resource differs')
+        if scheduled:
+            for row in snapshot.get('bookings',[]):
+                if (row.get('resource_id')=='h20/qjh003' and row.get('kind') in (None,'cpu')
+                        and row.get('user')!='boyjiang' and row['start_ms']<now+360000 and row['end_ms']>now):
+                    raise ValueError('Other CPU/whole-node reservation overlaps this complete unit')
     check()
     if int(time.time()*1000)+360000>=end:raise TimeoutError('Full240+120 CPU unit does not fit temporary batch')
     gpu=subprocess.check_output(['nvidia-smi','--id=2','--query-gpu=uuid,memory.used,utilization.gpu','--format=csv,noheader,nounits'],text=True,timeout=5)
     processes=subprocess.check_output(['nvidia-smi','--id=2','--query-compute-apps=pid','--format=csv,noheader,nounits'],text=True,timeout=5)
     fields=[v.strip() for v in gpu.strip().split(',')]
-    if len(fields)!=3 or fields[0]!=UUID or int(fields[1])>100 or int(fields[2])!=0 or processes.strip():raise ValueError('Direct idle condition absent; no CPU preparation writes')
+    if len(fields)!=3 or fields[0]!=UUID:raise ValueError('Selected GPU identity differs')
+    if not scheduled and (int(fields[1])>100 or int(fields[2])!=0 or processes.strip()):raise ValueError('Direct idle condition absent; no CPU preparation writes')
     for path,digest in helper.SITE.items():
         if migration.sha(Path(path))!=digest:raise ValueError('Environment startup file changed')
     site=ROOT/'assets/envs/space/lib/python3.10/site-packages'
@@ -109,31 +137,34 @@ def main():
         status=subprocess.check_output(git+['status','--porcelain','--untracked-files=all'],env=environment,text=True,timeout=15).strip()
         if head!=commit or status:raise ValueError('Live repository source differs before importing code')
         check()
-    evidence=ROOT/'staging/temporary-gpu2-preparation';candidate=ROOT/'staging/temporary-gpu2-project.json'
-    for path in (evidence,RUN,candidate.parent,ROOT/'tmp/cpu'):migration.real_ancestry(path)
+    evidence=ROOT/('staging/space-16-preparation' if scheduled else 'staging/temporary-gpu2-preparation')
+    candidate=ROOT/('staging/space-16-project.json' if scheduled else 'staging/temporary-gpu2-project.json')
+    for path in (evidence,run,candidate.parent,ROOT/'tmp/cpu'):migration.real_ancestry(path)
     if candidate.is_symlink():raise ValueError('Linked candidate')
     if phase=='deploy':
-        if evidence.exists() or RUN.exists() or candidate.exists():raise ValueError('Preserve existing attempt; no retry')
+        if evidence.exists() or run.exists() or candidate.exists():raise ValueError('Preserve existing attempt; no retry')
         evidence.mkdir(mode=0o700)
     elif phase=='deploy-recovery':
-        if RUN.exists() or candidate.exists():raise ValueError('Recovery cannot replace an existing run')
+        if run.exists() or candidate.exists():raise ValueError('Recovery cannot replace an existing run')
+        if scheduled and evidence.exists():raise ValueError('Preserve existing scheduled attempt')
         if any((evidence/(phase+suffix)).exists() for suffix in ('.claim.json','.log','.terminal.json')):raise ValueError('No repeated deployment recovery')
-        bundle=recovery_bundle(evidence,config,data)
+        bundle=recovery_bundle(ROOT/'staging/temporary-gpu2-preparation' if scheduled else evidence,config,data,scheduled)
+        if scheduled:evidence.mkdir(mode=0o700)
     else:
         previous=('deploy-recovery' if (evidence/'deploy-recovery.terminal.json').exists() else 'deploy') if phase=='prepare' else 'prepare'
         prior=json.loads((evidence/(previous+'.terminal.json')).read_bytes())
         if (prior['exit_code']!=0 or prior['runtime_commit']!=commit or prior['config_sha256']!=config_sha
                 or prior['log_sha256']!=migration.sha(evidence/(previous+'.log'))):raise ValueError('Matching successful previous unit required')
-        if phase=='prepare' and (RUN.exists() or candidate.exists()):raise ValueError('Existing prepare; no retry')
+        if phase=='prepare' and (run.exists() or candidate.exists()):raise ValueError('Existing prepare; no retry')
     for folder in ('cpu','cpu-hf','cpu-torch'):
         path=ROOT/'tmp'/folder;migration.real_ancestry(path)
         path.mkdir(parents=True,mode=0o700,exist_ok=True)
     if any((ROOT/'tmp/cpu').iterdir()):raise ValueError('CPU fixture residue; preserve')
     migration.exclusive_json(evidence/(phase+'.claim.json'),dict(pid=os.getpid(),phase=phase,started_ms=int(time.time()*1000),
-        run_id=RUN_ID,config_sha256=config_sha,origin='direct_user_conditional_idle_use',booking_claimed=False,
+        run_id=run_id,config_sha256=config_sha,origin='direct_user_scheduled_CPU_only' if scheduled else 'direct_user_conditional_idle_use',booking_claimed=False,
         gpu_metadata=gpu,compute_processes=processes,resource_snapshot=data['resource_snapshot']))
     environment=helper.child_environment(secrets.token_hex(24))
-    terminal=dict(phase=phase,exit_code=1,runtime_commit=commit,config_sha256=config_sha,run_id=RUN_ID,boot=BOOT,GPU_requests=0)
+    terminal=dict(phase=phase,exit_code=1,runtime_commit=commit,config_sha256=config_sha,run_id=run_id,boot=BOOT,GPU_requests=0)
     log=evidence/(phase+'.log')
     try:
         with log.open('xb') as stream:
@@ -160,9 +191,9 @@ def main():
                 if phase=='prepare':
                     with candidate.open('xb') as output:output.write(raw_config)
                 else:
-                    frozen=json.loads((RUN/'configs/project.json').read_bytes());generated={'source_manifest_sha256','asset_manifest_sha256'}
+                    frozen=json.loads((run/'configs/project.json').read_bytes());generated={'source_manifest_sha256','asset_manifest_sha256'}
                     if {k:v for k,v in frozen.items() if k not in generated}!={k:v for k,v in config.items() if k not in generated}:raise ValueError('Frozen configuration changed')
-                argv=['/usr/bin/python3','-I','-S','-B',str(ROOT/'repo/spaceserve/runtime/entry.py'),phase,'--config',str(candidate if phase=='prepare' else RUN/'configs/project.json')]
+                argv=['/usr/bin/python3','-I','-S','-B',str(ROOT/'repo/spaceserve/runtime/entry.py'),phase,'--config',str(candidate if phase=='prepare' else run/'configs/project.json')]
                 if phase=='prepare':argv+=['--commit',commit]
                 helper.execute(argv,environment,stream,check,started+239,started+359)
                 if inventory.inventory(ROOT/'assets')!=before:raise ValueError('Assets changed during unit')

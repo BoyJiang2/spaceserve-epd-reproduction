@@ -31,6 +31,10 @@ class PrepareTests(unittest.TestCase):
             data={'prior_config':base64.b64encode(raw).decode(),'bundle':{'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}}
             with patch.object(prepare,'ROOT',root),patch.object(prepare.os,'getuid',return_value=root.stat().st_uid,create=True):
                 self.assertEqual(prepare.recovery_bundle(evidence,config,data),bundle)
+                scheduled,user=self.scheduled_config();scheduled['source_commit']='c'*40
+                self.assertEqual(prepare.recovery_bundle(evidence,scheduled,data,True),bundle)
+                with self.assertRaisesRegex(ValueError,'never extend'):
+                    prepare.recovery_bundle(evidence,scheduled|{'mask_off':48},data,True)
                 changed=copy.deepcopy(config);changed['temporary_gpu_use']['end_ms']+=1
                 with self.assertRaisesRegex(ValueError,'never extend'):prepare.recovery_bundle(evidence,changed,data)
                 with self.assertRaises(ValueError):prepare.recovery_bundle(evidence,config,data|{'bundle':{'bytes':True,'sha256':hashlib.sha256(payload).hexdigest()}})
@@ -60,15 +64,36 @@ class PrepareTests(unittest.TestCase):
                 with self.assertRaises(ValueError):prepare.main()
                 query.assert_not_called()
 
-    def test_prepare_then_cpu_control_flow_with_mocked_helpers(self):
+    def scheduled_config(self):
+        config,_=self.config();user=(prepare.SCHEDULED_QUOTE+'\n').encode()
+        config.pop('temporary_gpu_use')
+        config.update(state='candidate',run_id=prepare.SCHEDULED_RUN_ID,allowed_actions=[],
+            scheduled_gpu_start_ms=prepare.SCHEDULED_START_MS,cpu_preparation_deadline_ms=prepare.SCHEDULED_CPU_END_MS,
+            scheduled_user_sha256=hashlib.sha256(user).hexdigest())
+        return config,user
+
+    def test_scheduled_candidate_cannot_authorize_gpu_or_change_geometry(self):
+        config,user=self.scheduled_config()
+        self.assertEqual(prepare.validate_config(json.dumps(config).encode(),'a'*40,user,True),config)
+        for change in ({'state':'approved_scope'},{'allowed_actions':['numeric']},{'booking':{}},
+                       {'gpu_devices':[0]},{'workload_cpu_affinity':[False]+list(range(1,90))},
+                       {'scheduled_gpu_start_ms':prepare.SCHEDULED_START_MS-1}):
+            with self.subTest(change=change),self.assertRaises(ValueError):
+                prepare.validate_config(json.dumps(config|change).encode(),'a'*40,user,True)
+
+    def test_scheduled_prepare_then_cpu_remains_candidate(self):
+        self.test_prepare_then_cpu_control_flow_with_mocked_helpers(scheduled=True)
+
+    def test_prepare_then_cpu_control_flow_with_mocked_helpers(self,scheduled=False):
         repo=Path(__file__).resolve().parents[1]
-        config,user=self.config()
+        config,user=self.scheduled_config() if scheduled else self.config()
+        now_ms=prepare.SCHEDULED_START_MS if scheduled else 1100000
         modules={name:base64.b64encode((repo/'tools'/f'{name}.py').read_bytes()).decode() for name in ('migrate_code_cpu','validate_space_cpu')}
         with tempfile.TemporaryDirectory(prefix='temporary-prepare-test-',dir=Path(__file__).resolve().parent) as name:
-            root=Path(name);run=root/'runs'/prepare.RUN_ID
+            root=Path(name);run=root/'runs'/(prepare.SCHEDULED_RUN_ID if scheduled else prepare.RUN_ID)
             (root/'assets/envs/space/lib/python3.10/site-packages').mkdir(parents=True)
             (root/'assets/manifest.json').write_bytes(b'[]')
-            evidence=root/'staging/temporary-gpu2-preparation';evidence.mkdir(parents=True)
+            evidence=root/('staging/space-16-preparation' if scheduled else 'staging/temporary-gpu2-preparation');evidence.mkdir(parents=True)
             (evidence/'deploy.log').write_bytes(b'CPU-MOCK deploy')
             config['project_root']=root.as_posix();raw=json.dumps(config).encode()
             sha=lambda path:hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -99,8 +124,8 @@ class PrepareTests(unittest.TestCase):
             def read(path,*args,**kwargs):
                 if path.as_posix()=='/proc/sys/kernel/random/boot_id':return prepare.BOOT
                 return read_text(path,*args,**kwargs)
-            snapshot={'origin':'gputime_read_only_api','read_only':True,'observed_ms':1100000,'resources':[{'id':'h20/qjh003','active':True}]}
-            payload={**modules,'runtime_commit':'a'*40,'config':base64.b64encode(raw).decode(),'user':base64.b64encode(user).decode(),'resource_snapshot':snapshot}
+            snapshot={'origin':'gputime_read_only_api','read_only':True,'observed_ms':now_ms,'resources':[{'id':'h20/qjh003','active':True}],'bookings':[]}
+            payload={**modules,'runtime_commit':'a'*40,'scheduled_cpu':scheduled,'config':base64.b64encode(raw).decode(),'user':base64.b64encode(user).decode(),'resource_snapshot':snapshot}
             loader=SimpleNamespace(exec_module=lambda module:None)
             wrong_head=False
             def output(argv,**kwargs):
@@ -112,7 +137,7 @@ class PrepareTests(unittest.TestCase):
                 stack.enter_context(patch.dict(sys.modules))
                 stack.enter_context(patch.object(prepare,'ROOT',root));stack.enter_context(patch.object(prepare,'RUN',run))
                 stack.enter_context(patch.object(builtins,'exec',modules_exec))
-                stack.enter_context(patch.object(prepare.time,'time',return_value=1100))
+                stack.enter_context(patch.object(prepare.time,'time',return_value=now_ms/1000))
                 stack.enter_context(patch.object(Path,'read_text',read))
                 imported=stack.enter_context(patch.object(prepare.importlib.util,'spec_from_file_location',return_value=SimpleNamespace(loader=loader)))
                 stack.enter_context(patch.object(prepare.importlib.util,'module_from_spec',return_value=SimpleNamespace(inventory=lambda path:[])))
@@ -125,6 +150,16 @@ class PrepareTests(unittest.TestCase):
                     self.assertFalse(blocked_path.exists())
                     self.assertFalse((evidence/'prepare.claim.json').exists())
                 blocked_path=None
+                if scheduled:
+                    for bad_time in (prepare.SCHEDULED_START_MS-1,prepare.SCHEDULED_CPU_END_MS-360000):
+                        with patch.object(prepare.time,'time',return_value=bad_time/1000),patch.object(sys,'stdin',io.StringIO(json.dumps(payload|{'phase':'prepare'}))):
+                            with self.assertRaises((ValueError,TimeoutError)):prepare.main()
+                    for kind in ('cpu',None):
+                        conflicting=copy.deepcopy(payload)
+                        conflicting['resource_snapshot']['bookings']=[{'resource_id':'h20/qjh003','kind':kind,'user':'other','start_ms':now_ms,'end_ms':now_ms+500000}]
+                        with patch.object(sys,'stdin',io.StringIO(json.dumps(conflicting|{'phase':'prepare'}))):
+                            with self.assertRaisesRegex(ValueError,'reservation overlaps'):prepare.main()
+                    self.assertFalse((evidence/'prepare.claim.json').exists())
                 for phase in ('prepare','cpu'):
                     with patch.object(sys,'stdin',io.StringIO(json.dumps(payload|{'phase':phase}))):prepare.main()
                 wrong_head=True
@@ -134,6 +169,9 @@ class PrepareTests(unittest.TestCase):
                 with patch.object(sys,'stdin',io.StringIO(json.dumps(payload|{'phase':'deploy-recovery'}))):
                     with self.assertRaisesRegex(ValueError,'existing run'):prepare.main()
             self.assertEqual(len(commands),2)
+            if scheduled:
+                frozen=json.loads((run/'configs/project.json').read_bytes())
+                self.assertEqual(frozen['state'],'candidate');self.assertEqual(frozen['allowed_actions'],[])
             for folder in ('cpu','cpu-hf','cpu-torch'):self.assertIn(root/'tmp'/folder,ancestry)
             for phase in ('prepare','cpu'):
                 self.assertEqual(json.loads((evidence/(phase+'.terminal.json')).read_bytes())['exit_code'],0)
