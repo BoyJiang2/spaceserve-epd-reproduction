@@ -178,3 +178,6 @@ GPU复跑按[原命令与前提](../docs/reading/outputs/qjh000-migration/README
 
 
 后续本地准备：[CPU放置候选与验证](validation/cpu-placement-candidate-20261029/README.md)（尚未采用，不是正式性能结果）。
+
+
+后续实现：[GPU2临时空闲预检准入准备](validation/temporary-idle-gpu2-20261029/README.md)（只用于机制预检，尚无新GPU结果）。

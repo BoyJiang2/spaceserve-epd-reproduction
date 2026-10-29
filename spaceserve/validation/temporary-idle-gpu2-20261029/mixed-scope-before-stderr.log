@@ -1,0 +1,16 @@
+test_wrong_scope_and_formal_or_epd_rejected (test_temporary_gpu_use.TemporaryTests.test_wrong_scope_and_formal_or_epd_rejected) ... 
+  test_wrong_scope_and_formal_or_epd_rejected (test_temporary_gpu_use.TemporaryTests.test_wrong_scope_and_formal_or_epd_rejected) (change={'booking': {'CPU-MOCK': 'actual booking cannot be mixed'}}) ... FAIL
+
+======================================================================
+FAIL: test_wrong_scope_and_formal_or_epd_rejected (test_temporary_gpu_use.TemporaryTests.test_wrong_scope_and_formal_or_epd_rejected) (change={'booking': {'CPU-MOCK': 'actual booking cannot be mixed'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\spaceserve/runtime/scripts\test_temporary_gpu_use.py", line 70, in test_wrong_scope_and_formal_or_epd_rejected
+    with self.subTest(change=change), self.assertRaises(ValueError):temporary.scope(config|change,'numeric')
+                                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+FAILED (failures=1)

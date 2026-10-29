@@ -1,0 +1,44 @@
+{
+  "observed_utc": "2026-10-29T05:13:20.052885+00:00",
+  "command": [
+    "python",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path[:0]=['spaceserve/runtime/scripts','tests','.'];names=['test_temporary_gpu_use','test_window_booking','test_reproduction_paths','test_cpu_placement','test_runtime_config'];s=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromName(n) for n in names);r=unittest.TextTestRunner(verbosity=2).run(s);raise SystemExit(not r.wasSuccessful())"
+  ],
+  "exit": 0,
+  "scope": "Windows CPU mocks only; no actual GPU/SSH/API/signal/affinity",
+  "files": [
+    {
+      "path": "reproduction_paths.py",
+      "sha256": "9901fb6f43c094a6f298af360a289f8222f56443072c58ad5b7f92b8e6ed45cc"
+    },
+    {
+      "path": "tests/test_reproduction_paths.py",
+      "sha256": "9811f89218a9a9d4d44957fd3bc0b7145887ab49c64e870510a319f4fb156f1e"
+    },
+    {
+      "path": "spaceserve/runtime/configs/source-files.json",
+      "sha256": "8bc39663973ecb5c5f93f4250dd2c352ed79501422050cbeac1038d0c418678d"
+    },
+    {
+      "path": "spaceserve/runtime/scripts/temporary_gpu_use.py",
+      "sha256": "aa88be9acf01db9de7268ef949b4a63952f23bad4ceb4eed61c99f1907de4468"
+    },
+    {
+      "path": "spaceserve/runtime/scripts/test_temporary_gpu_use.py",
+      "sha256": "b20ce420fa128d593316aa9ff159687c1cf0b7b8f8b0ba153ef00ce813ce9216"
+    },
+    {
+      "path": "spaceserve/runtime/scripts/booking_window.py",
+      "sha256": "aeaf77876c935dcddd4b13533d38404e8d75233f8bbfeff5e44df08034cdbb45"
+    },
+    {
+      "path": "spaceserve/runtime/scripts/resource_guard.py",
+      "sha256": "46d5e8a749256491a99ca25f29037f42c46a49554f66e2f58e1b747f04eeefc6"
+    }
+  ],
+  "tests": 38
+}

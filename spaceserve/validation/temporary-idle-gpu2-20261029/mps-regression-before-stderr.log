@@ -1,0 +1,15 @@
+test_owned_identity_reuse_and_private_mps (test_temporary_gpu_use.TemporaryTests.test_owned_identity_reuse_and_private_mps) ... FAIL
+
+======================================================================
+FAIL: test_owned_identity_reuse_and_private_mps (test_temporary_gpu_use.TemporaryTests.test_owned_identity_reuse_and_private_mps)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\spaceserve/runtime/scripts\test_temporary_gpu_use.py", line 150, in test_owned_identity_reuse_and_private_mps
+    with self.assertRaisesRegex(RuntimeError,'MPS'):temporary.owned_process({'pid':555},root)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+FAILED (failures=1)

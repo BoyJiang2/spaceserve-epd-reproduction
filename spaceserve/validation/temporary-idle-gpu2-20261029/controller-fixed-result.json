@@ -1,0 +1,24 @@
+{
+  "observed_utc": "2026-10-29T05:33:36.916946+00:00",
+  "command": [
+    "python",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'tools');r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromName('test_control_space_temporary_cpu'));raise SystemExit(not r.wasSuccessful())"
+  ],
+  "exit": 0,
+  "scope": "Windows CPU mocks only; no API/Git/SSH calls",
+  "files": [
+    {
+      "path": "tools/control_space_temporary_cpu.py",
+      "sha256": "8dc92fd564690537d8243a131181edfaac5b2388809f860c07f18df6aa93bcc9"
+    },
+    {
+      "path": "tools/test_control_space_temporary_cpu.py",
+      "sha256": "46947298c1989a91a82032bef9871b4124c2dcb12bf010549d1879edd16db1dd"
+    }
+  ],
+  "tests": 5
+}

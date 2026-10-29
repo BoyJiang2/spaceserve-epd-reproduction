@@ -70,5 +70,17 @@ class LayoutTests(unittest.TestCase):
             path = Path(folder)/'CPU-MOCK.json'; path.write_text(json.dumps(self.candidate))
             with self.assertRaises(ValueError): ProjectLayout.read(path,'epd')
 
+    def test_temporary_scope_is_structural_only_and_never_formal_or_epd(self):
+        good={**self.approved(),'booking':None,'temporary_gpu_use':{'CPU-MOCK':'not actual authorization'},
+              'allowed_actions':['numeric','model','formal']}
+        with patch('reproduction_paths.socket.gethostname',return_value='qjh003'), \
+             patch('reproduction_paths.os.getuid',return_value=2147,create=True):
+            ProjectLayout(good).require_scope('numeric')
+            ProjectLayout(good).require_scope('model')
+            with self.assertRaises(ValueError):ProjectLayout(good).require_scope('formal')
+            epd={**good,'project':'epd','project_root':'/local/boyjiang/epd',
+                 'gpu_devices':[0,1,2],'gpu_uuids':['GPU-'+str(n).zfill(8)+'-0000-0000-0000-000000000001' for n in range(3)]}
+            with self.assertRaises(ValueError):ProjectLayout(epd).require_scope('numeric')
+
 
 if __name__ == '__main__': unittest.main()

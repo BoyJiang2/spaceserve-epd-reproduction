@@ -132,7 +132,10 @@ def _exclusive(action, phase=None):
             fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
         acquired = True
         idle()
-        yield code_identity(action)
+        code = code_identity(action)
+        from temporary_gpu_use import supervise
+        with supervise(CONFIG.config, ROOT, phase or action):
+            yield code
         idle()
     finally:
         if acquired:

@@ -54,5 +54,9 @@ def validate(receipt, now_ms, fresh):
 
 
 def require(fresh=False):
+    if CONFIG.config.get('temporary_gpu_use'):
+        import os
+        from temporary_gpu_use import remaining
+        return remaining(CONFIG.config, ROOT, os.environ.get('REPRO_PHASE'), fresh=fresh)
     receipt = json.loads((ROOT / 'evidence/BOOKING_VERIFIED.json').read_text())
     return validate(receipt, int(time.time() * 1000), fresh)

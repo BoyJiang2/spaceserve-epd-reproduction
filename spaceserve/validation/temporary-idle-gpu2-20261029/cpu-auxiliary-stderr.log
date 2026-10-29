@@ -1,0 +1,19 @@
+test_exact_config_and_changed_budget_geometry_or_origin (test_prepare_space_temporary.PrepareTests.test_exact_config_and_changed_budget_geometry_or_origin) ... ERROR
+test_non_cpu_action_or_changed_helper_refused_before_processes (test_prepare_space_temporary.PrepareTests.test_non_cpu_action_or_changed_helper_refused_before_processes) ... ok
+test_prepare_then_cpu_control_flow_with_mocked_helpers (test_prepare_space_temporary.PrepareTests.test_prepare_then_cpu_control_flow_with_mocked_helpers) ... ok
+
+======================================================================
+ERROR: test_exact_config_and_changed_budget_geometry_or_origin (test_prepare_space_temporary.PrepareTests.test_exact_config_and_changed_budget_geometry_or_origin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_prepare_space_temporary.py", line 29, in test_exact_config_and_changed_budget_geometry_or_origin
+    config,user=self.config();self.assertEqual(prepare.validate_config(json.dumps(config).encode(),'a'*40,user),config)
+                                               ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\prepare_space_temporary.py", line 40, in validate_config
+    raise ValueError('Exact direct-user GPU2/CPU90 preflight configuration required')
+ValueError: Exact direct-user GPU2/CPU90 preflight configuration required
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.040s
+
+FAILED (errors=1)

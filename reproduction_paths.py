@@ -108,7 +108,10 @@ class ProjectLayout:
             if not isinstance(data.get(key), str) or not re.fullmatch('[0-9a-f]{%d}' % size, data[key]):
                 raise ValueError('Exact source version/manifest required')
         if not isinstance(data.get('booking'), dict) or not data['booking']:
-            raise ValueError('Explicit booking scope required; no old-host fallback')
+            if not (self.project == 'spaceserve' and phase in ('numeric', 'model')
+                    and isinstance(data.get('temporary_gpu_use'), dict)):
+                raise ValueError('Explicit booking scope required; no old-host fallback')
+            # Runtime source/grant/idle checks remain mandatory; this grants no GPU work.
         # Existing fresh booking, source/deploy, phase G2/G3 and cleanup guards must still run.
 
     def describe(self):

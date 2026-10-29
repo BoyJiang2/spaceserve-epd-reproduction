@@ -1,0 +1,28 @@
+{
+  "observed_utc": "2026-10-29T05:26:34.065633+00:00",
+  "command": [
+    "python",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'tools');r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromName('test_prepare_space_temporary'));raise SystemExit(not r.wasSuccessful())"
+  ],
+  "exit": 0,
+  "scope": "Windows CPU fixture + helper/OS/GPU metadata/child execution mocks only; no real deployment/GPU/SSH",
+  "files": [
+    {
+      "path": "tools/prepare_space_temporary.py",
+      "sha256": "c80aee88fc9f140dea7e5c844f197db47fc4008536465abd263488b3c21c1c99"
+    },
+    {
+      "path": "tools/test_prepare_space_temporary.py",
+      "sha256": "c9a29792da7dbff17b219d4cfaba3f7212349dbcc73e36576692aa938fcfd384"
+    },
+    {
+      "path": "spaceserve/runtime/configs/project.temporary-idle.candidate.json",
+      "sha256": "d0286c0126439edd653477f803fc2080df178524835df5eacf6dc04203bd0fe8"
+    }
+  ],
+  "tests": 3
+}
