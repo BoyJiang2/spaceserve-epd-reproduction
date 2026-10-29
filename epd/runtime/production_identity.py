@@ -38,8 +38,17 @@ def environment():
     for key, length in (("REPRO_SOURCE_COMMIT", 40), ("REPRO_DEPLOY_SHA256", 64), ("REPRO_PROFILE_SHA256", 64)):
         if not re.fullmatch("[0-9a-f]{%d}" % length, values[key]):
             raise ValueError("Invalid qualification source/deploy/profile hash")
+    numeric = os.environ.get("REPRO_NUMERIC_ONLY", "0")
+    if numeric not in ("0", "1"):
+        raise ValueError("REPRO_NUMERIC_ONLY must be 0 or 1")
     url = urlsplit(values["REPRO_ENDPOINT"])
-    if (url.scheme != "http" or url.hostname not in ("127.0.0.1", "::1") or not url.port
+    if numeric == "1":
+        if (requests_enabled() or url.scheme != "gcs" or not url.port
+                or url.netloc != "127.0.0.1:" + str(url.port)
+                or url.path or url.query or url.fragment):
+            raise ValueError("Numeric identity requires the owned loopback GCS endpoint, without HTTP diagnostics")
+        values["REPRO_NUMERIC_ONLY"] = "1"
+    elif (url.scheme != "http" or url.hostname not in ("127.0.0.1", "::1") or not url.port
             or url.path or url.query or url.fragment or url.username or url.password):
         raise ValueError("Qualification endpoint must be an exact loopback URL")
     uuids = json.loads(values["REPRO_GPU_UUIDS"])
@@ -59,6 +68,8 @@ def worker_identity(device, stage):
     if not enabled():
         return None
     values = environment()
+    if values.get("REPRO_NUMERIC_ONLY") == "1" and stage != "DECODING":
+        raise ValueError("Numeric identity is limited to no-model DECODING workers")
     # Actual CUDA device property, never the expected placement or a Ray GPU index.
     import torch
     uuid = str(torch.cuda.get_device_properties(device).uuid)
@@ -70,6 +81,8 @@ def worker_identity(device, stage):
 
 
 def publish_service(workers, port):
+    if os.environ.get("REPRO_NUMERIC_ONLY", "0") != "0":
+        raise ValueError("Numeric workers cannot publish HTTP service evidence")
     values = environment()
     url = values["REPRO_ENDPOINT"]
     if urlsplit(url).port != port or not workers:
@@ -108,6 +121,8 @@ def response_identity(service, route):
 
 def assemble_services(paths, output):
     """Join server-produced sidecars after rechecking only their exact owned PIDs."""
+    if os.environ.get("REPRO_NUMERIC_ONLY", "0") != "0":
+        raise ValueError("Numeric workers cannot assemble HTTP service evidence")
     values, current, proc = environment(), scope(), ProcReader()
     services = []
     boot = proc.boot()

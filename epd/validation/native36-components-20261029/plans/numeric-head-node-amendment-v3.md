@@ -1,0 +1,21 @@
+# Native36 head启动的最小实现补充
+
+继承numeric-production-backend-plan-v2.md全部预算、模型/载荷、三卡/零请求、工作1680+清理120、失败终态及真实Gate。本补充仅把私有head的启动从非block CLI改为监督器直接持有固定Ray2.10.0 Node，减少CLI正常退出前登记子进程的竞态；不改native IPC，不增加请求/卡数/时间，不授实际执行。
+
+官方原文已由GitHub connector取得，重算Git blob完全一致，source-evidence保存完整文件：
+
+- node.py：75ac87f9e3ae22cada48d6848c0ead7908b00020；SHA923e30633a4d2ea2ccfbe67b5c6211bbcb670738abb866825cbc318398c95b24。
+- services.py：b0a39b293c3d5152451f2c42061b9c02a9905cff；SHA385604d4ecda5febb280435e1129512c5802c3d520581b6a7470ceeef4c8c60f。
+- parameter.py：1770dd2fa00d9652eab99855c8010d4130c9fb43；SHA1242f4110da8f8acafeb1a6cd816addc8a8f322aa3f56fad5bf23cdbe3e1a0f2。
+
+监督器惰性导入已核版本的RayParams/Node，实际安装文件须逐一匹配上述源SHA后才启动。RayParams固定num_cpus=3/num_gpus=3、node_ip_address与raylet_ip_address=127.0.0.1、私有短temp_dir、审定端口gcs_server_port、include_dashboard=False、no_monitor=True、include_log_monitor=False、_system_config={}；object_store_memory和memory显式小预算、agent/worker端口及目录进入实际参数冻结，冲突不换端口重试。实际资源和NUMA/GPU可见性仍受原三UUID绑定。CPU-only生命周期Gate用num_gpus=0、CUDA_VISIBLE_DEVICES空和无torch轻actor，不把该Gate等同numeric。
+
+调用Node(...head=True,shutdown_at_exit=False,spawn_reaper=False)，明确不调用Node.kill_all_processes/kill_raylet通用出口。node.py构造器83起kernel_fate_share绑定spawn_reaper、305起reaper受其控制；services.py966–1007仅fate_share时设置Linux父死亡信号。实际node.all_processes的Popen对象提供直接归属，driver另进程只连接本Node的真实loopback地址/唯一namespace，不调用创建head的ray.init。
+
+具体实现必须处理Node构造中途失败及Popen→登记间信号：启动期间仅在已核services.start_ray_process的有界Popen/登记小区间暂阻TERM/INT/ALRM，包装原函数后立即将返回的实际Popen及UID/startticks/boot/root/RUNID记入内存所有权表，持久化后才解除信号屏蔽；不在整个Node构造/网络等待期间屏蔽信号，也不替换原进程命令、IPC、fate_share。失败时原wrapper在finally恢复，已验证归属的进程可有界收口；未知进程不发信号、不签released。无法完成身份登记则禁止任何actor创建/IPC提交并记录BOOTSTRAP_RELEASE_UNCONFIRMED。SIGKILL或内核/磁盘失效无法由Python保证恢复，依原故障策略如实报告，不构成延期。
+
+all_processes不是完整后代清单。监督器在actor启动前，从已验证Popen的/proc/task/<pid>/children逐层绑定新agent/子进程，每项核UID/boot/startticks、原父链与私有session，并保存原件。不可只按UID/名字/端口认领，不扫描或停止别人。Raylet可产生GPU actor；其身份仍须真实worker sidecar与CUDA UUID、source/profile等核对，release对象的register不能单独代替head后代归属证明。driver死亡时监督器持有已fsync的mapping依赖与已验证后代，不从HTTP通用cleanup兜底。
+
+父进程的正常/异常/TERM路径共用已审NumericRelease组件（当前仅本地mock验收），mapping登记并持久化成功后才允许driver发copy；先importer、再exporter及第三actor，全部真实/proc+NVML释放后，才按实际身份及稳定pidfd清理daemon/agent。工作deadline和120收口不变。supervisor自身无法受控退出则为基础设施失败，不借Node的自动全杀伪造顺序或released。
+
+真实CPU生命周期Gate必须改测该直接Node路径、实际源码SHA、父死亡/driver退出/TERM、部分bootstrap失败/登记竞态、agent后代归属和逐个pidfd清理，禁止以旧非block CLI证据替代。完成G2/G5和Git-first后再审实际CPU/GPU输入；本地实现/CPU mocks通过不开放生产GPU路径。当前Space730/main和已审bundle不动，EPD实现不commit/push/部署，Space正式期间不并行本批。

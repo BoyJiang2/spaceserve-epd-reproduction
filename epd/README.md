@@ -1,5 +1,7 @@
 # EPD Disaggregation 复现项目
 
+[新增native36准备组件与40项CPU-MOCK记录](validation/native36-components-20261029/README.md)：身份、pidfd释放与私有head构造已分组件审查；完整后端和真实Ray/GPU验证仍待，不是新性能结果。
+
 [native36有限编排与24项本地CPU-MOCK验证](validation/numeric-orchestration-cpu-20261029/README.md)已准备；真实Ray/NVML后端和生产numeric入口尚未接通，不是GPU通过。
 
 [qjh003固定目录迁移状态与静态证据](migration-qjh003-20261029/README.md)：原始资产已迁移，flat IPC/RUNPATH/shebang待重定位；没有本批新性能数据，历史baseline对照保持独立。

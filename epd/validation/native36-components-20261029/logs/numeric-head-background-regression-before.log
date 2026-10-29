@@ -1,0 +1,22 @@
+test_background_signal_during_popen_keeps_child_owned (test_numeric_head_cpu.NumericHeadTests.test_background_signal_during_popen_keeps_child_owned) ... FAIL
+
+======================================================================
+FAIL: test_background_signal_during_popen_keeps_child_owned (test_numeric_head_cpu.NumericHeadTests.test_background_signal_during_popen_keeps_child_owned)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_head_cpu.py", line 151, in test_background_signal_during_popen_keeps_child_owned
+    self.assertEqual(processes,self.created)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [<numeric_head.registered_spawns.<locals>.[41 chars]8C0>]
+
+Second list contains 1 additional elements.
+First extra element 0:
+<numeric_head.registered_spawns.<locals>.RegisteredPopen object at 0x0000025B81A338C0>
+
+- []
++ [<numeric_head.registered_spawns.<locals>.RegisteredPopen object at 0x0000025B81A338C0>]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

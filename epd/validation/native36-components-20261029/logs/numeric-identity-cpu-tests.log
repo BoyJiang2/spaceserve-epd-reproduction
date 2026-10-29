@@ -1,0 +1,30 @@
+test_http_mode_stays_http_and_rejects_gcs (test_numeric_identity_cpu.NumericIdentityTests.test_http_mode_stays_http_and_rejects_gcs) ... ok
+test_numeric_cannot_publish_or_assemble_http_evidence (test_numeric_identity_cpu.NumericIdentityTests.test_numeric_cannot_publish_or_assemble_http_evidence) ... ok
+test_numeric_cuda_identity_uses_observed_uuid_and_gcs_endpoint (test_numeric_identity_cpu.NumericIdentityTests.test_numeric_cuda_identity_uses_observed_uuid_and_gcs_endpoint) ... ok
+test_numeric_invalid_endpoint_or_http_diagnostics_rejected (test_numeric_identity_cpu.NumericIdentityTests.test_numeric_invalid_endpoint_or_http_diagnostics_rejected) ... ok
+test_numeric_mode_and_actual_gcs_endpoint_are_preserved (test_numeric_identity_cpu.NumericIdentityTests.test_numeric_mode_and_actual_gcs_endpoint_are_preserved) ... ok
+test_numeric_non_decoding_stage_rejected_before_torch_or_capture (test_numeric_identity_cpu.NumericIdentityTests.test_numeric_non_decoding_stage_rejected_before_torch_or_capture) ... ok
+test_actual_profile_and_cli_mismatch_refused (test_production_identity.ProductionIdentityTests.test_actual_profile_and_cli_mismatch_refused) ... ok
+test_actual_uuid_forwarded_to_self_capture_not_expected_rank (test_production_identity.ProductionIdentityTests.test_actual_uuid_forwarded_to_self_capture_not_expected_rank) ... ok
+test_bad_endpoint_and_missing_source_fail_closed (test_production_identity.ProductionIdentityTests.test_bad_endpoint_and_missing_source_fail_closed) ... ok
+test_baseline_only_accepts_loaded_local_TP1_driver (test_production_identity.ProductionIdentityTests.test_baseline_only_accepts_loaded_local_TP1_driver) ... ok
+test_disabled_does_not_read_identity_inputs (test_production_identity.ProductionIdentityTests.test_disabled_does_not_read_identity_inputs) ... ok
+test_foreign_uuid_refused_before_sidecar (test_production_identity.ProductionIdentityTests.test_foreign_uuid_refused_before_sidecar) ... ok
+test_port_mismatch_does_not_publish_service (test_production_identity.ProductionIdentityTests.test_port_mismatch_does_not_publish_service) ... ok
+test_route_uses_only_selected_stage_workers_and_does_not_grow_per_token (test_production_identity.ProductionIdentityTests.test_route_uses_only_selected_stage_workers_and_does_not_grow_per_token) ... ok
+test_server_produces_manifest_and_actual_cached_response (test_production_identity.ProductionIdentityTests.test_server_produces_manifest_and_actual_cached_response) ... ERROR
+
+======================================================================
+ERROR: test_server_produces_manifest_and_actual_cached_response (test_production_identity.ProductionIdentityTests.test_server_produces_manifest_and_actual_cached_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd/runtime/tests\test_production_identity.py", line 98, in test_server_produces_manifest_and_actual_cached_response
+    manifest = bridge.assemble_services(paths, self.root / "runtime/endpoints-merged.json")
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\production_identity.py", line 133, in assemble_services
+    raise ValueError("Endpoint sidecar outside owned runtime folder")
+ValueError: Endpoint sidecar outside owned runtime folder
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.052s
+
+FAILED (errors=1)
