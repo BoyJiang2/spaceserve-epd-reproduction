@@ -1,0 +1,89 @@
+.........................................................................E..........E...E..E.......E...........................................................................................
+======================================================================
+ERROR: test_child_exits_between_two_identity_observations (test_numeric_descendants_cpu.DescendantsTests.test_child_exits_between_two_identity_observations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 219, in test_child_exits_between_two_identity_observations
+    self.proc.snapshot=snapshot;self.collector.collect();self.assertEqual(set(self.collector.known),{10})
+                                ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 143, in collect
+    parent_after = self.stable(parent); child_after = self.stable(child)
+                                                      ~~~~~~~~~~~^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 82, in stable
+    actual = self.observe(observed['identity']['pid'])
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 65, in observe
+    row = self.proc.snapshot(pid, self.uid)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 217, in snapshot
+    del self.rows[11];raise FileNotFoundError('exit after first identity')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: exit after first identity
+
+======================================================================
+ERROR: test_known_child_exits_after_parent_list_without_erasing_history (test_numeric_descendants_cpu.DescendantsTests.test_known_child_exits_after_parent_list_without_erasing_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 193, in test_known_child_exits_after_parent_list_without_erasing_history
+    self.collector.collect();self.assertEqual(self.collector.known,previous)
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 139, in collect
+    child = self.observe(child_pid)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 65, in observe
+    row = self.proc.snapshot(pid, self.uid)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 192, in <lambda>
+    self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('exited child')) if pid==12 else original(pid,uid)
+                                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 192, in <genexpr>
+    self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('exited child')) if pid==12 else original(pid,uid)
+FileNotFoundError: exited child
+
+======================================================================
+ERROR: test_parent_exits_between_identity_and_children_read (test_numeric_descendants_cpu.DescendantsTests.test_parent_exits_between_identity_and_children_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 231, in test_parent_exits_between_identity_and_children_read
+    self.proc.children=children;self.collector.collect();self.assertEqual(set(self.collector.known),{10})
+                                ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 132, in collect
+    tasks = self.proc.children(pid, self.check)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 230, in children
+    def children(pid,check):del self.rows[pid];raise FileNotFoundError('parent exited')
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: parent exited
+
+======================================================================
+ERROR: test_parent_reuse_while_child_disappears_is_refused (test_numeric_descendants_cpu.DescendantsTests.test_parent_reuse_while_child_disappears_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 247, in test_parent_reuse_while_child_disappears_is_refused
+    with self.assertRaisesRegex(ValueError,'reused'):self.collector.collect()
+                                                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 139, in collect
+    child = self.observe(child_pid)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 65, in observe
+    row = self.proc.snapshot(pid, self.uid)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 244, in snapshot
+    raise FileNotFoundError('child exited')
+FileNotFoundError: child exited
+
+======================================================================
+ERROR: test_unknown_child_exits_without_new_ownership (test_numeric_descendants_cpu.DescendantsTests.test_unknown_child_exits_without_new_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 200, in test_unknown_child_exits_without_new_ownership
+    self.collector.collect();self.assertEqual(set(self.collector.known),{10})
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 139, in collect
+    child = self.observe(child_pid)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 65, in observe
+    row = self.proc.snapshot(pid, self.uid)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 199, in <lambda>
+    self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('exited child')) if pid==11 else original(pid,uid)
+                                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 199, in <genexpr>
+    self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('exited child')) if pid==11 else original(pid,uid)
+FileNotFoundError: exited child
+
+----------------------------------------------------------------------
+Ran 191 tests in 0.915s
+
+FAILED (errors=5)

@@ -186,6 +186,66 @@ class DescendantsTests(unittest.TestCase):
         with self.assertRaises(TimeoutError):self.collector.collect()
         self.assertNotIn(11,self.collector.known)
 
+    def test_known_child_exits_after_parent_list_without_erasing_history(self):
+        self.collector.register(self.process);self.collector.collect();previous=copy.deepcopy(self.collector.known)
+        del self.rows[12];original=self.proc.snapshot
+        self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('exited child')) if pid==12 else original(pid,uid)
+        self.collector.collect();self.assertEqual(self.collector.known,previous)
+        missing=[data for name,data in self.events if name=='head_child_pid_absent_during_inventory'][-1]
+        self.assertEqual(missing['pid'],12);self.assertFalse(missing['release_or_quiescence_granted'])
+
+    def test_unknown_child_exits_without_new_ownership(self):
+        self.collector.register(self.process);del self.rows[11];original=self.proc.snapshot
+        self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('exited child')) if pid==11 else original(pid,uid)
+        self.collector.collect();self.assertEqual(set(self.collector.known),{10})
+        missing=[data for name,data in self.events if name=='head_child_pid_absent_during_inventory'][-1]
+        self.assertIsNone(missing['known_identity']);self.assertFalse(missing['release_or_quiescence_granted'])
+
+    def test_missing_child_field_with_live_pid_is_still_refused(self):
+        self.collector.register(self.process);original=self.proc.snapshot
+        self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('field missing')) if pid==11 else original(pid,uid)
+        with self.assertRaises(FileNotFoundError):self.collector.collect()
+        self.assertFalse(any(name=='head_child_pid_absent_during_inventory' for name,data in self.events))
+
+    def test_child_exits_between_two_identity_observations(self):
+        self.collector.register(self.process);original=self.proc.snapshot;reads=0
+        def snapshot(pid,uid):
+            nonlocal reads
+            if pid==11:
+                reads+=1
+                if reads==2:
+                    del self.rows[11];raise FileNotFoundError('exit after first identity')
+            return original(pid,uid)
+        self.proc.snapshot=snapshot;self.collector.collect();self.assertEqual(set(self.collector.known),{10})
+
+    def test_child_pid_reappearing_during_absence_check_is_refused(self):
+        self.collector.register(self.process);del self.rows[11];original=self.proc.snapshot;observations=iter((False,True))
+        self.proc.snapshot=lambda pid,uid:(_ for _ in ()).throw(FileNotFoundError('field')) if pid==11 else original(pid,uid)
+        self.proc.exists=lambda pid:next(observations) if pid==11 else pid in self.rows
+        with self.assertRaises(FileNotFoundError):self.collector.collect()
+        self.assertEqual(set(self.collector.known),{10})
+
+    def test_parent_exits_between_identity_and_children_read(self):
+        self.collector.register(self.process)
+        def children(pid,check):del self.rows[pid];raise FileNotFoundError('parent exited')
+        self.proc.children=children;self.collector.collect();self.assertEqual(set(self.collector.known),{10})
+        self.assertTrue(any(name=='head_known_pid_absent' for name,data in self.events))
+
+    def test_parent_missing_children_field_with_live_pid_is_refused(self):
+        self.collector.register(self.process)
+        self.proc.children=lambda *a:(_ for _ in ()).throw(FileNotFoundError('field'))
+        with self.assertRaises(FileNotFoundError):self.collector.collect()
+
+    def test_parent_reuse_while_child_disappears_is_refused(self):
+        self.collector.register(self.process);original=self.proc.snapshot
+        def snapshot(pid,uid):
+            if pid==11:
+                del self.rows[11];self.rows[10]['identity']['proc_start_ticks']+=1
+                raise FileNotFoundError('child exited')
+            return original(pid,uid)
+        self.proc.snapshot=snapshot
+        with self.assertRaisesRegex(ValueError,'reused'):self.collector.collect()
+
     def test_deadline_prevents_discovery(self):
         self.collector.register(self.process)
         def expired():raise TimeoutError('deadline')

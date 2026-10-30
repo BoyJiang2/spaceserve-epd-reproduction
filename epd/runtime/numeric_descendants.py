@@ -123,24 +123,34 @@ class HeadDescendants:
             if len(visited) > 4096: raise ValueError('Head descendant inventory exceeds frozen bound')
             try:
                 parent = self.observe(pid)
+                if not self.same_identity(parent['identity'], self.known[pid]): raise ValueError('Known parent identity changed')
+                tasks = self.proc.children(pid, self.check)
+                parent_after = self.stable(parent)
             except (FileNotFoundError, ProcessLookupError):
                 if self.proc.exists(pid):raise
                 self.record('head_known_pid_absent',identity=dict(self.known[pid]),
                     release_or_quiescence_granted=False)
                 continue
-            if not self.same_identity(parent['identity'], self.known[pid]): raise ValueError('Known parent identity changed')
-            tasks = self.proc.children(pid, self.check)
-            parent_after = self.stable(parent)
             self.record('head_children_observed', parent_before=parent, parent_after=parent_after, tasks=tasks)
             for child_pid in sorted({child for task in tasks for child in task['children']}):
                 self.check()
                 if len(self.known) >= 4096 and child_pid not in self.known:
                     raise ValueError('Head descendant inventory exceeds frozen bound')
-                child = self.observe(child_pid)
-                value = child['identity']
-                if value['ppid'] != pid or value['proc_start_ticks'] < parent['identity']['proc_start_ticks']:
-                    raise ValueError('Actual child parent/start relation differs')
-                parent_after = self.stable(parent); child_after = self.stable(child)
+                try:
+                    child = self.observe(child_pid)
+                    value = child['identity']
+                    if value['ppid'] != pid or value['proc_start_ticks'] < parent['identity']['proc_start_ticks']:
+                        raise ValueError('Actual child parent/start relation differs')
+                    parent_after = self.stable(parent); child_after = self.stable(child)
+                except (FileNotFoundError, ProcessLookupError):
+                    if self.proc.exists(child_pid):raise
+                    parent_after = self.stable(parent)
+                    self.check()
+                    if self.proc.exists(child_pid):raise
+                    self.record('head_child_pid_absent_during_inventory',pid=child_pid,
+                        known_identity=self.known.get(child_pid),parent_before=parent,parent_after=parent_after,
+                        release_or_quiescence_granted=False)
+                    continue
                 if child_pid in self.known and not self.same_identity(self.known[child_pid], value):
                     raise ValueError('Known descendant identity changed')
                 event = 'head_descendant_verified' if child_pid in self.known else 'head_descendant_registered'
