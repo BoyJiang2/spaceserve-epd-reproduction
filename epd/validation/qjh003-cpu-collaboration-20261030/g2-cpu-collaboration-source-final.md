@@ -1,0 +1,13 @@
+# G2/G4 — final CPU collaboration source and document
+
+APPROVE_WITH_NITS / BLOCKING 0. This binds the six source files in cpu-collaboration-source-candidate.json, not a future commit/tree or deployment. Prior conditional G1 original remains unchanged.
+
+Read-only byte verification: all six files match candidate size/SHA. The collaborator's lifecycle_policy.py, numeric_cpu_lifecycle.py, and test_lifecycle_policy.py are exactly Git e0fada6b435917e065bc4e7ab9a41dfb66c0b156 bytes. Driver and driver tests remain exactly Git6550b48ae8d80588ccd73db5e1f97828fff06a3d bytes, including the actor lifetime fix. Remaining lifecycle test delta, ignoring newline encoding, is exactly three Windows OS mocks for sched_getaffinity/getpriority/PRIO_PROCESS and a terminal assertion checking (False,[50],10). No lifecycle safety assertions were removed. The source preserves default four-scenario order,30second observation per scenario,180seconds work+120cleanup, strict CPU50/nice10 and zeroGPU settings. The unchanged invocation passes no --smoke; the newly available smoke/relaxed branch is not approved for this full regression.
+
+Primary's cpu-collaboration-numeric-final-v2.log records176tests OK; cpu-collaboration-policy-tests.log records4tests OK, total180. Reviewer did not execute them. The earlier five Windows mock failures remain in the old log and are not relabeled successful. These are local fixtures only, not actual Ray or GPU evidence.
+
+G4: the collaboration README accurately separates published6550/unexecuted correction, the actual prior-HEAD deployment refusal, retained collaborator code, local tests, and actual previous cleanup. It does not claim four-scenario or model success. The previous failedIP2 raw/terminal and cleanup limits are preserved. The page says integration uses two parents; the actual merge commit/tree still needs explicit G5 binding before publication and must not be represented as already deployed.
+
+Nits: lifecycle test file carries doubled CR before LF in physical bytes; Python accepts these as blank lines and the normalized semantic diff remains four additions, but future edits should preserve existing line endings. This is a test-format nit, not a runtime change or reason to rerun GPU work. No code was altered by reviewer.
+
+Still required: exact tree publicationG5, actual published merged commit/bundle, fresh server prior e0 identity/no-live checks and new executionG2, actual physical deploymentG3, and only then a new full4 CPU run. No previous prior2d2 deployment approval reuse. No network, SSH, tests, Ray or GPU execution by reviewer.

@@ -14,6 +14,7 @@ from numeric_descendants import HeadDescendants, HeadProc
 from numeric_gcs import GCSActorReader
 from numeric_head import construct_node, node_parameters
 from numeric_cpu_receipts import publish as write
+from lifecycle_policy import budgets as lifecycle_budgets, scenario_deadline, scenarios as lifecycle_scenarios, scope as lifecycle_scope
 
 
 def control_service_exception(proc,pid):
@@ -70,10 +71,12 @@ def terminate(identity,proc,record,check,*,clock=time.monotonic,sleep=time.sleep
 
 
 class Diagnostic:
-    def __init__(self,root,run_id,folder,base,port,package):
+    def __init__(self,root,run_id,folder,base,port,package,smoke=False):
         self.root,self.run_id,self.folder,self.base,self.port,self.package=Path(root),run_id,Path(folder),Path(base),port,Path(package)
         self.uid=os.getuid();self.proc=HeadProc();self.boot=self.proc.boot()
-        self.started=time.monotonic();self.work_end=self.started+180;self.end=self.started+300
+        self.smoke=smoke;self.started=time.monotonic()
+        self.work_end,self.end=lifecycle_budgets(smoke,self.started)
+        self.scenarios=lifecycle_scenarios(smoke)
         self.cleaning=False;self.cancelled=set();self.collector=None;self.processes=[];self.reader=None
         self.expected=[];self.pending_scenarios=set();self.journal=self.folder/'lifecycle.jsonl'
         with self.journal.open('x',encoding='utf8'):pass
@@ -156,7 +159,7 @@ class Diagnostic:
         try:
             driver=subprocess.Popen(args,cwd=self.root,stdin=subprocess.DEVNULL,stdout=out,stderr=err)
             self.processes.append(driver);self.register(driver)
-            deadline=min(self.work_end,time.monotonic()+30);expected=identity=None;stopped=actor_stopped=False
+            deadline=scenario_deadline(self.work_end,time.monotonic());expected=identity=None;stopped=actor_stopped=False
             while time.monotonic()<deadline:
                 self.poll();events=self.events(folder)
                 submitted=[e['expected'] for e in events if e['event']=='actor_submitted']
@@ -236,7 +239,7 @@ class Diagnostic:
             node=construct_node(node_parameters(self.base,self.port,gpu_count=0),self.check,self.register,self.processes)
             if Path(node.get_session_dir_path())!=self.collector.session:raise ValueError('Actual Node session differs')
             self.poll();self.reader=GCSActorReader.connect(node.address,self.package,self.record,self.check)
-            for index,(detached,controlled) in enumerate(((False,False),(True,False),(False,True),(True,True))):
+            for index,(detached,controlled) in enumerate(self.scenarios):
                 self.scenario(detached,controlled,index)
         except BaseException as error:
             failure=error;self.record('CPU_diagnostic_failed',error=repr(error))
@@ -271,17 +274,23 @@ class Diagnostic:
             if self.reader:self.reader.close()
             for number,handler in old.items():signal.signal(number,handler)
             write(self.folder/'terminal.json',dict(exit_code=1 if failure else 0,error=repr(failure) if failure else None,
-                scope='four-scenario CPU diagnostic only; no GPU/backend approval'))
+                scope=lifecycle_scope(self.smoke),smoke=self.smoke,affinity=sorted(os.sched_getaffinity(0)),
+                nice=os.getpriority(os.PRIO_PROCESS,0)))
         if failure:raise failure
 
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--config',type=Path,required=True)
+    parser.add_argument('--smoke',action='store_true',
+        help='single scenario; proves the real Ray connect path without GPU or a full window')
     args=parser.parse_args();cfg=small_json(args.config,os.getuid())
     root=Path('/local/boyjiang/epd')
+    affinity=os.sched_getaffinity(0);nice=os.getpriority(os.PRIO_PROCESS,0)
+    exact=(affinity=={50} and nice==10)
+    relaxed=args.smoke and len(affinity)==1 and nice>=0
     if (set(cfg)!={'run_id','folder','ray_base','port','ray_package'}
-            or os.uname().nodename!='qjh003' or os.getuid()!=2147 or os.sched_getaffinity(0)!={50}
-            or os.getpriority(os.PRIO_PROCESS,0)!=10 or os.environ.get('CUDA_VISIBLE_DEVICES')!=''
+            or os.uname().nodename!='qjh003' or os.getuid()!=2147 or not (exact or relaxed)
+            or os.environ.get('CUDA_VISIBLE_DEVICES')!=''
             or os.environ.get('EXP_ROOT')!=str(root) or os.environ.get('REPRO_RUN_ID')!=cfg['run_id']):
         raise ValueError('Actual single-core CPU diagnostic scope differs')
     for path in (root,Path(cfg['folder']),Path(cfg['ray_base'])):
@@ -290,7 +299,7 @@ def main():
     if Path.cwd()!=root:raise ValueError('CPU parent actual cwd differs')
     os.environ['PYTHONPATH']=str(Path(__file__).parent)
     os.environ['PYTHONDONTWRITEBYTECODE']='1'
-    Diagnostic(root,cfg['run_id'],cfg['folder'],cfg['ray_base'],cfg['port'],cfg['ray_package']).run()
+    Diagnostic(root,cfg['run_id'],cfg['folder'],cfg['ray_base'],cfg['port'],cfg['ray_package'],smoke=args.smoke).run()
 
 
 if __name__=='__main__':main()

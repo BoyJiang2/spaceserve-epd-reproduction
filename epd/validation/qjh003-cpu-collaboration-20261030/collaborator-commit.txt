@@ -1,0 +1,10 @@
+tree a40313615e60348993faa01e4bc95e708ebb3acc
+parent 2d2f8018f3f9125ead3da169bf7ea8753141f5b9
+author Boy Jiang <2352027372@qq.com> 1793332005 +0800
+committer Boy Jiang <2352027372@qq.com> 1793332005 +0800
+
+Add single-scenario CPU Ray smoke leg
+
+--smoke runs scenario 0 only with a 120/180 s budget so the real Ray connect can be
+exercised outside a GPU window. The four-scenario budget, identity checks, pidfd
+cleanup and GPU paths are unchanged; terminal.json now records smoke/affinity/nice.

@@ -1,0 +1,65 @@
+.....................................EEEEE......................................................................................................................................
+======================================================================
+ERROR: test_GCS_DEAD_with_existingPID_never_grants_head_cleanup (test_numeric_cpu_lifecycle_cpu.ParentTests.test_GCS_DEAD_with_existingPID_never_grants_head_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 98, in test_GCS_DEAD_with_existingPID_never_grants_head_cleanup
+    with patch.object(self.d.proc,'exists',return_value=True),self.assertRaisesRegex(RuntimeError,'actor; retain head'):self.d.run()
+                                                                                                                        ~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 277, in run
+    scope=lifecycle_scope(self.smoke),smoke=self.smoke,affinity=sorted(os.sched_getaffinity(0)),
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'os' has no attribute 'sched_getaffinity'
+
+======================================================================
+ERROR: test_four_distinct_scenarios_no_business_retry (test_numeric_cpu_lifecycle_cpu.ParentTests.test_four_distinct_scenarios_no_business_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 107, in test_four_distinct_scenarios_no_business_retry
+    self.d.run()
+    ~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 277, in run
+    scope=lifecycle_scope(self.smoke),smoke=self.smoke,affinity=sorted(os.sched_getaffinity(0)),
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'os' has no attribute 'sched_getaffinity'
+
+======================================================================
+ERROR: test_late_unregistered_scope_process_prevents_success (test_numeric_cpu_lifecycle_cpu.ParentTests.test_late_unregistered_scope_process_prevents_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 114, in test_late_unregistered_scope_process_prevents_success
+    with self.assertRaisesRegex(RuntimeError,'late CPU scope process'):self.d.run()
+                                                                       ~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 277, in run
+    scope=lifecycle_scope(self.smoke),smoke=self.smoke,affinity=sorted(os.sched_getaffinity(0)),
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'os' has no attribute 'sched_getaffinity'
+
+======================================================================
+ERROR: test_missing_identity_prevents_head_cleanup (test_numeric_cpu_lifecycle_cpu.ParentTests.test_missing_identity_prevents_head_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 103, in test_missing_identity_prevents_head_cleanup
+    with self.assertRaisesRegex(RuntimeError,'pending CPU actor'):self.d.run()
+                                                                  ~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 277, in run
+    scope=lifecycle_scope(self.smoke),smoke=self.smoke,affinity=sorted(os.sched_getaffinity(0)),
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'os' has no attribute 'sched_getaffinity'
+
+======================================================================
+ERROR: test_pending_even_without_returnedActorID_retains_head (test_numeric_cpu_lifecycle_cpu.ParentTests.test_pending_even_without_returnedActorID_retains_head)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 90, in test_pending_even_without_returnedActorID_retains_head
+    with self.assertRaisesRegex(RuntimeError,'creation/scenario pending'):self.d.run()
+                                                                          ~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 277, in run
+    scope=lifecycle_scope(self.smoke),smoke=self.smoke,affinity=sorted(os.sched_getaffinity(0)),
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'os' has no attribute 'sched_getaffinity'
+
+----------------------------------------------------------------------
+Ran 176 tests in 0.850s
+
+FAILED (errors=5)

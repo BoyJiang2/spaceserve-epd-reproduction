@@ -64,6 +64,9 @@ class ParentFixture:
         self.uid=self.root.stat().st_uid
         self.patches=__import__('contextlib').ExitStack();self.addCleanup(self.patches.close)
         self.patches.enter_context(patch.object(lifecycle.os,'getuid',return_value=self.uid,create=True))
+        self.patches.enter_context(patch.object(lifecycle.os,'sched_getaffinity',return_value={50},create=True))
+        self.patches.enter_context(patch.object(lifecycle.os,'getpriority',return_value=10,create=True))
+        self.patches.enter_context(patch.object(lifecycle.os,'PRIO_PROCESS',0,create=True))
         self.patches.enter_context(patch.object(lifecycle.os,'O_NOFOLLOW',0,create=True))
         self.patches.enter_context(patch.object(lifecycle.HeadProc,'boot',return_value='fixture-boot'))
         self.patches.enter_context(patch.object(lifecycle.signal,'SIGALRM',14,create=True))
@@ -108,6 +111,7 @@ class ParentTests(ParentFixture,unittest.TestCase):
         self.assertEqual([c.args for c in self.d.scenario.call_args_list],[(False,False,0),(True,False,1),(False,True,2),(True,True,3)])
         self.assertEqual(self.terminal()['exit_code'],0)
         self.assertIn('no GPU/backend approval',self.terminal()['scope'])
+        self.assertEqual((self.terminal()['smoke'],self.terminal()['affinity'],self.terminal()['nice']),(False,[50],10))
 
     def test_late_unregistered_scope_process_prevents_success(self):
         self.d.scenario=Mock();self.d.leftovers.return_value=[{'identity':{'pid':999}}]
