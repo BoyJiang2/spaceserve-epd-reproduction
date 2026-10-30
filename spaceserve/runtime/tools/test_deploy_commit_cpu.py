@@ -1,4 +1,5 @@
 """Temporary Git repositories only. No deployment to real project directories."""
+import ast
 import json
 from pathlib import Path
 import subprocess
@@ -9,6 +10,19 @@ import deploy_commit_cpu as deploy
 
 
 class DeployTests(unittest.TestCase):
+    def test_formal_local_imports_are_in_real_deployment_index(self):
+        runtime=Path(__file__).resolve().parents[1]
+        members=json.loads((runtime/'configs/source-files.json').read_text())
+        deployed={row['path'] for row in members}
+        tree=ast.parse((runtime/'scripts/run_formal.py').read_text())
+        for node in ast.walk(tree):
+            names=([alias.name for alias in node.names] if isinstance(node,ast.Import)
+                   else [node.module] if isinstance(node,ast.ImportFrom) and node.module else [])
+            for name in names:
+                local='scripts/'+name.split('.')[0]+'.py'
+                if (runtime/local).is_file():
+                    self.assertIn(local,deployed,'formal import omitted from deployment/freeze index')
+
     def fixture(self,base):
         checkout=base/'checkout';root=base/'run';checkout.mkdir()
         (root/'evidence').mkdir(parents=True);(root/'configs').mkdir()
