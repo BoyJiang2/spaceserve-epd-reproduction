@@ -1,0 +1,148 @@
+{
+  "passed": true,
+  "gate": "G2-numeric-cpu-ip2-source",
+  "decision": "APPROVE_WITH_NITS",
+  "blocking": 0,
+  "reviewer": "independent Codex subagent /root/fallback_g3",
+  "reviewed_at_utc": "2026-10-30T01:48:16Z",
+  "scope": "exact_local_CPU_loopback_and_readonly_final_scope_delta_only",
+  "candidate_sha256": "4626e500aee2b7933a742fee8f22829e1a2e9a4451f79db438c7783653ef9212",
+  "review_file": "g2-numeric-cpu-ip2-source.md",
+  "review_sha256": "5357f1f820e06f7359aec77209ec3769ef78459baa7853eb819b9b201977e6a7",
+  "parent": "529d4173a9ad960a246964974a107853133ec2d1",
+  "files": [
+    {
+      "path": "epd/runtime/numeric_head.py",
+      "bytes": 5049,
+      "sha256": "cf959e00da957944fb8759be33ed05500e958f475f3ddef156e203361f7bec72"
+    },
+    {
+      "path": "epd/runtime/numeric_gcs.py",
+      "bytes": 5468,
+      "sha256": "a9ab7ad366c55198dc1a08bc435030d54b7b9fc32c6b7284b6551f56f5c66341"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_driver.py",
+      "bytes": 7101,
+      "sha256": "9ab4e12fe770e7365e43c412bc34beea91754fa476f67871ecd2f3aa98b36733"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_lifecycle.py",
+      "bytes": 19314,
+      "sha256": "96b52e72845ee1fb5ba6c4c874ad5b8f2c6d9549adfe893c53babb91bb60b8cb"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_head_cpu.py",
+      "bytes": 9939,
+      "sha256": "829038fc48253be403ccc4da4aa747c3eca8dacbe663e9acb2a4fcbc1e7c3298"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_gcs_cpu.py",
+      "bytes": 5594,
+      "sha256": "ac766777750e70311d1554d4ef15ab84a41ac163dc6df411ec8ea10b3b6f8f0a"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_driver_cpu.py",
+      "bytes": 7121,
+      "sha256": "a0a85c868f18903742c64ab1f66d1594b766c2e03d225f9a82caa95fdf7c11b9"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_lifecycle_cpu.py",
+      "bytes": 15703,
+      "sha256": "7a8c0d595874e06f350e221acba4cb349950eb2a94da0f428c92479d53b5adb7"
+    },
+    {
+      "path": "tools/space_user_service_guard.py",
+      "bytes": 3303,
+      "sha256": "48fe3fc2bf9d4070f48db6b60b44671c40761850014f650a0f54b82678c357fd"
+    },
+    {
+      "path": "tools/test_space_user_service_guard.py",
+      "bytes": 4320,
+      "sha256": "ad3e238d2c62f6774cd569916b92a7b9b39e141ae7dba675eaaa17dcfd80d8e8"
+    }
+  ],
+  "published_helper_sources": [
+    {
+      "path": "tools/space_user_service_guard.py",
+      "sha256": "48fe3fc2bf9d4070f48db6b60b44671c40761850014f650a0f54b82678c357fd",
+      "Git_blob": "70fa044c2484961fff903a166a9c27d33a9dff62",
+      "source_commit": "24b441923119581ab1c5e3274eca7d654021675d"
+    },
+    {
+      "path": "tools/test_space_user_service_guard.py",
+      "sha256": "ad3e238d2c62f6774cd569916b92a7b9b39e141ae7dba675eaaa17dcfd80d8e8",
+      "Git_blob": "f2dd7da9854abe53de2c7716b8f46b146a1cd29f",
+      "source_commit": "24b441923119581ab1c5e3274eca7d654021675d"
+    },
+    {
+      "path": "tools/materialize_assets_cpu.py",
+      "sha256": "8ffccf7061b2ebc8ac90543d0d60c79efaf7ff87552cef8fcf1bd6555dbd0c0c",
+      "Git_blob": "3fa4687494040f918d5c0d1a049b336553107601",
+      "source_commit": "529d4173a9ad960a246964974a107853133ec2d1"
+    },
+    {
+      "path": "tools/migrate_code_cpu.py",
+      "sha256": "9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405",
+      "Git_blob": "a44d4888daf61174f3caf90ef5c16f89bd55be89",
+      "source_commit": "529d4173a9ad960a246964974a107853133ec2d1"
+    }
+  ],
+  "CPU_loopback": "127.0.0.2",
+  "explicit_driver_node_ip_address": "127.0.0.2",
+  "GPU3_parameters_unchanged": true,
+  "canonicalization_reproduction_sha256": "85be66963a1d16714afc325a36564eee2bd3ebf05b2339d9eb77ad8d5c2745af",
+  "before_fixture_log_sha256": "90162c847c1dce706785c421d826be9e8f90fe28e2a513ad3bbda75d714f33af",
+  "existing_test_logs": [
+    {
+      "path": "numeric-cpu-ip2-final-tests.log",
+      "bytes": 27032,
+      "sha256": "d3cded5473946f4114a80afb89dd5abaa2fdbaefd09419319b3cec41cfc2c0ce",
+      "unique_ids": 175,
+      "all_OK": true
+    },
+    {
+      "path": "numeric-cpu-ip2-service-guard-tests.log",
+      "bytes": 1529,
+      "sha256": "6126767a8d263ab0dfa819d9c259e8ef6f5602aaf94cb9eab3642afc9451fc52",
+      "unique_ids": 11,
+      "all_OK": true
+    }
+  ],
+  "existing_numeric_fixture_tests": 175,
+  "existing_service_guard_fixture_tests": 11,
+  "source_level_approved": true,
+  "physical_tools_deployment_required": true,
+  "required_new_deployment_scope": [
+    "epd/runtime",
+    "tools"
+  ],
+  "old_86_file_manifest_sufficient": false,
+  "required_runtime_helpers": [
+    {
+      "path": "tools/space_user_service_guard.py",
+      "sha256": "48fe3fc2bf9d4070f48db6b60b44671c40761850014f650a0f54b82678c357fd"
+    },
+    {
+      "path": "tools/materialize_assets_cpu.py",
+      "sha256": "8ffccf7061b2ebc8ac90543d0d60c79efaf7ff87552cef8fcf1bd6555dbd0c0c"
+    },
+    {
+      "path": "tools/migrate_code_cpu.py",
+      "sha256": "9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405"
+    }
+  ],
+  "old_failed_CPU_run_exit_code": 1,
+  "old_cleanup_exit_code": 1,
+  "old_cleanup_G3_scope": "supplemental observation only; original six PID absence and same-run scope",
+  "old_cleanup_G3_review_sha256": "e56f04fcef444b5a6513b2e773fde0b79ea177054552bba2967400566539af86",
+  "publication_approved": false,
+  "deployment_approved": false,
+  "remote_CPU_execution_approved": false,
+  "actual_new_Ray_lifecycle_passed": false,
+  "release_or_quiescence_granted": false,
+  "GPU_approved": false,
+  "native36_executable": false,
+  "tests_run_by_reviewer": false,
+  "remote_access_by_reviewer": false
+}

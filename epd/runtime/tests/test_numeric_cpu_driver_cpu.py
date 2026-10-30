@@ -2,7 +2,7 @@
 import os
 from pathlib import Path
 import tempfile
-from types import SimpleNamespace
+from types import SimpleNamespace,ModuleType
 import unittest
 from unittest.mock import Mock, patch
 
@@ -14,7 +14,7 @@ class DriverTests(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name).resolve();self.events=[]
         self.spec=dict(root=str(self.root),folder=str(self.root),session=str(self.root),
-            run_id='cpu-test',address='127.0.0.1:18765',namespace='test-ns',name='test-actor',detached=True,delay_seconds=0)
+            run_id='cpu-test',address='127.0.0.2:18765',namespace='test-ns',name='test-actor',detached=True,delay_seconds=0)
         self.expected=dict(actor_id='a'*32,job_id='b'*8,namespace='test-ns',name='test-actor',detached=True)
         self.ready=Mock(return_value=object());self.ref=SimpleNamespace(_actor_id=SimpleNamespace(hex=lambda:'a'*32),ready=SimpleNamespace(remote=self.ready))
         self.factory=Mock();self.factory.options.return_value.remote=Mock(return_value=self.ref)
@@ -86,6 +86,20 @@ class DriverTests(unittest.TestCase):
              patch.object(driver,'durable') as written,self.assertRaises(ValueError):
             driver.CPUActor(self.spec,self.root)
         written.assert_not_called()
+
+    def test_connect_binds_bootstrap_and_actual_node_loopback(self):
+        ray=SimpleNamespace(init=Mock());node=SimpleNamespace(is_head=lambda:False,all_processes={},address=self.spec['address'])
+        private=ModuleType('ray._private');private.worker=SimpleNamespace(_global_node=node)
+        with patch.dict(driver.sys.modules,{'ray._private':private}):
+            self.assertIs(driver.connect_existing(ray,self.spec),node)
+        ray.init.assert_called_once_with(address='127.0.0.2:18765',namespace='test-ns',log_to_driver=False,_node_ip_address='127.0.0.2')
+
+    def test_connect_never_accepts_foreign_address_or_owned_head(self):
+        for head,processes,address in [(True,{},self.spec['address']),(False,{'raylet':1},self.spec['address']),(False,{},'127.0.0.1:18765')]:
+            node=SimpleNamespace(is_head=lambda:head,all_processes=processes,address=address)
+            private=ModuleType('ray._private');private.worker=SimpleNamespace(_global_node=node)
+            with patch.dict(driver.sys.modules,{'ray._private':private}),self.assertRaises(ValueError):
+                driver.connect_existing(SimpleNamespace(init=Mock()),self.spec)
 
 
 if __name__=='__main__':unittest.main()

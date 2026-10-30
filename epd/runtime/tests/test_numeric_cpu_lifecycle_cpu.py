@@ -6,7 +6,7 @@ import signal
 import tempfile
 from types import SimpleNamespace
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, MagicMock, patch
 
 import numeric_cpu_lifecycle as lifecycle
 import numeric_cpu_receipts
@@ -79,7 +79,7 @@ class ParentFixture:
         self.term=self.patches.enter_context(patch.object(lifecycle,'terminate'))
     def construct(self,*args):
         self.d.collector=SimpleNamespace(session=self.session,known={},collect=Mock())
-        return SimpleNamespace(get_session_dir_path=lambda:str(self.session),address='127.0.0.1:18765')
+        return SimpleNamespace(get_session_dir_path=lambda:str(self.session),address='127.0.0.2:18765')
     def terminal(self):return json.loads((self.folder/'terminal.json').read_bytes())
 
 
@@ -113,6 +113,34 @@ class ParentTests(ParentFixture,unittest.TestCase):
         self.d.scenario=Mock();self.d.leftovers.return_value=[{'identity':{'pid':999}}]
         with self.assertRaisesRegex(RuntimeError,'late CPU scope process'):self.d.run()
         self.term.assert_not_called();self.assertEqual(self.terminal()['exit_code'],1)
+
+
+class ScopeTests(ParentFixture,unittest.TestCase):
+    def prepare_scope(self,error,proof,exists):
+        directory=MagicMock();directory.name='999999';directory.stat.return_value=SimpleNamespace(st_uid=self.uid)
+        child=SimpleNamespace(resolve=Mock(side_effect=error));directory.__truediv__.return_value=child
+        proc=SimpleNamespace(iterdir=lambda:iter([directory]));real_path=Path
+        self.patches.enter_context(patch.object(lifecycle,'Path',side_effect=lambda value:proc if str(value)=='/proc' else real_path(value)))
+        self.service=self.patches.enter_context(patch.object(lifecycle,'control_service_exception',return_value=proof))
+        self.d.proc.exists=Mock(return_value=exists)
+
+    def test_only_verified_service_proof_allows_cwd_exception(self):
+        self.prepare_scope(PermissionError('fixture'),{'verified':'exact chain'},True)
+        self.assertEqual(lifecycle.Diagnostic.leftovers(self.d),[]);self.service.assert_called_once()
+        self.assertIn('CPU_verified_control_service_exception',(self.folder/'lifecycle.jsonl').read_text())
+
+    def test_unknown_permission_denied_is_never_skipped_by_name(self):
+        self.prepare_scope(PermissionError('fixture'),None,True)
+        with self.assertRaisesRegex(RuntimeError,'cwd unconfirmed'):lifecycle.Diagnostic.leftovers(self.d)
+
+    def test_missing_cwd_while_PID_exists_is_not_empty_scope(self):
+        self.prepare_scope(FileNotFoundError('fixture cwd'),None,True)
+        with self.assertRaisesRegex(RuntimeError,'still exists'):lifecycle.Diagnostic.leftovers(self.d)
+        self.service.assert_not_called()
+
+    def test_actual_PID_absence_allows_racing_disappearance(self):
+        self.prepare_scope(FileNotFoundError('fixture PID'),None,False)
+        self.assertEqual(lifecycle.Diagnostic.leftovers(self.d),[]);self.service.assert_not_called()
 
 
 class ScenarioTests(ParentFixture,unittest.TestCase):

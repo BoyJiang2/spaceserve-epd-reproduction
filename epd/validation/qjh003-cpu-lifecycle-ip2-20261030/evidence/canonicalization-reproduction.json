@@ -1,0 +1,20 @@
+{
+  "scope": "exact official AST functions executed with physical-IP provider fixture; no Ray imports/remote execution",
+  "source_sha256": "385604d4ecda5febb280435e1129512c5802c3d520581b6a7470ceeef4c8c60f",
+  "results": [
+    {
+      "input": "127.0.0.1:49173",
+      "canonicalized": "172.31.35.35:49173",
+      "physical_IP_lookup_calls": [
+        "get_node_ip_address"
+      ]
+    },
+    {
+      "input": "127.0.0.2:49173",
+      "canonicalized": "127.0.0.2:49173",
+      "physical_IP_lookup_calls": []
+    }
+  ],
+  "actual_Ray": false,
+  "GPU": false
+}

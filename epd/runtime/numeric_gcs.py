@@ -20,7 +20,7 @@ class GCSActorReader:
 
     @classmethod
     def connect(cls,address,package,record,check):
-        match=re.fullmatch(r'127\.0\.0\.1:([0-9]{1,5})',address)
+        match=re.fullmatch(r'127\.0\.0\.2:([0-9]{1,5})',address)
         if not match or not 1024<=int(match[1])<=65535:raise ValueError('Exact private loopback GCS required')
         package=Path(package);verify_sources(package,PINNED_SOURCES,os.getuid())
         ray=sys.modules.get('ray')

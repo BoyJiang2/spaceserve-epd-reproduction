@@ -1,5 +1,11 @@
 # EPD：CPU 生命周期验证准备（2026-10-30）
 
+## 实际执行补充
+
+首版producer529d已实际部署，首次真实CPU运行在第一场超时，0/4完成、exit1，原失败完整保留；资源已按独立补充观察审计收口。详见[真实失败、清理边界与CPU地址最小修正](../qjh003-cpu-lifecycle-ip2-20261030/README.md)。以下“尚未运行”和166项测试为首次发布时的准备记录；不能用它覆盖后来真实失败。首版固定源码见[producer529d](https://github.com/BoyJiang2/spaceserve-epd-reproduction/tree/529d4173a9ad960a246964974a107853133ec2d1/epd/runtime)。
+
+## 首次发布时的准备记录
+
 本页记录原生跨卡数值预检所需的 Ray 生命周期接线，**不是新增性能结果，也不代表 CUDA IPC 已通过**。本批不加载模型、不初始化 NVML/CUDA、不占 GPU；实际 Ray 四场景尚未执行。EPD 的性能对照继续见[项目内比较页](../../comparison/README.md)，旧方案 A、旧 53/60 批次分别保留。
 
 ## 当前完成与边界

@@ -1,0 +1,31 @@
+test_CPU_head_uses_nonrewritten_loopback (test_numeric_head_cpu.NumericHeadTests.test_CPU_head_uses_nonrewritten_loopback) ... FAIL
+test_actual_address_or_fate_share_mismatch_rejected (test_numeric_head_cpu.NumericHeadTests.test_actual_address_or_fate_share_mismatch_rejected) ... ok
+test_background_signal_during_popen_keeps_child_owned (test_numeric_head_cpu.NumericHeadTests.test_background_signal_during_popen_keeps_child_owned) ... ok
+test_changed_parameters_rejected_before_runtime_import (test_numeric_head_cpu.NumericHeadTests.test_changed_parameters_rejected_before_runtime_import) ... ok
+test_claim_check_failure_does_not_spawn_or_import_runtime (test_numeric_head_cpu.NumericHeadTests.test_claim_check_failure_does_not_spawn_or_import_runtime) ... ok
+test_invalid_short_path_port_or_gpu_count (test_numeric_head_cpu.NumericHeadTests.test_invalid_short_path_port_or_gpu_count) ... ok
+test_node_disables_reaper_and_exit_hooks_and_preserves_child_signal_policy (test_numeric_head_cpu.NumericHeadTests.test_node_disables_reaper_and_exit_hooks_and_preserves_child_signal_policy) ... ok
+test_partial_constructor_failure_preserves_real_popen_registry (test_numeric_head_cpu.NumericHeadTests.test_partial_constructor_failure_preserves_real_popen_registry) ... ok
+test_refuses_already_blocked_term_mask_without_spawning (test_numeric_head_cpu.NumericHeadTests.test_refuses_already_blocked_term_mask_without_spawning) ... ok
+test_registration_failure_keeps_process_for_controlled_cleanup (test_numeric_head_cpu.NumericHeadTests.test_registration_failure_keeps_process_for_controlled_cleanup) ... ok
+test_runtime_loader_checks_exact_version_and_all_three_source_bytes (test_numeric_head_cpu.NumericHeadTests.test_runtime_loader_checks_exact_version_and_all_three_source_bytes) ... ok
+test_three_GPU_head_keeps_original_parameters (test_numeric_head_cpu.NumericHeadTests.test_three_GPU_head_keeps_original_parameters) ... ok
+
+======================================================================
+FAIL: test_CPU_head_uses_nonrewritten_loopback (test_numeric_head_cpu.NumericHeadTests.test_CPU_head_uses_nonrewritten_loopback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_head_cpu.py", line 83, in test_CPU_head_uses_nonrewritten_loopback
+    self.assertEqual(params['node_ip_address'],'127.0.0.2')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '127.0.0.1' != '127.0.0.2'
+- 127.0.0.1
+?         ^
++ 127.0.0.2
+?         ^
+
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.005s
+
+FAILED (failures=1)

@@ -30,8 +30,9 @@ def node_parameters(temp_dir, port, *, gpu_count=3):
             or len(str(path)) > 48 or type(port) is not int or not 1024 <= port <= 65535
             or type(gpu_count) is not int or gpu_count not in (0,3)):
         raise ValueError('Frozen short private head directory/port and exact GPU count required')
-    return dict(temp_dir=str(path), gcs_server_port=port, node_ip_address='127.0.0.1',
-        raylet_ip_address='127.0.0.1', num_cpus=3, num_gpus=gpu_count,
+    address='127.0.0.2' if gpu_count==0 else '127.0.0.1'
+    return dict(temp_dir=str(path), gcs_server_port=port, node_ip_address=address,
+        raylet_ip_address=address, num_cpus=3, num_gpus=gpu_count,
         object_store_memory=128<<20, memory=512<<20,
         include_dashboard=False, no_monitor=True, include_log_monitor=False, _system_config={})
 
@@ -98,6 +99,6 @@ def construct_node(parameters, check, register, processes):
         with registered_spawns(services, controlled_check, register, processes):
             node = Node(RayParams(**parameters), head=True, shutdown_at_exit=False, spawn_reaper=False)
         controlled_check()
-    if (node.kernel_fate_share is not False or node.address != '127.0.0.1:'+str(parameters['gcs_server_port'])):
+    if (node.kernel_fate_share is not False or node.address != parameters['node_ip_address']+':'+str(parameters['gcs_server_port'])):
         raise ValueError('Actual Node fate-sharing or loopback address differs')
     return node

@@ -1,0 +1,280 @@
+{
+  "passed": false,
+  "gate": "G3-numeric-cpu-lifecycle-failure",
+  "decision": "REQUEST_CHANGES",
+  "blocking": 2,
+  "reviewer": "independent Codex subagent /root/fallback_g3",
+  "reviewed_at_utc": "2026-10-30T01:03:40Z",
+  "review_file": "g3-numeric-cpu-lifecycle-failure.md",
+  "review_sha256": "ab4d008a175944d201627fac318736eca202947d24a0571c4b055c643bf797d1",
+  "scope": "actual_failed_first_CPU_Ray_scenario_diagnosis_and_local_native_loopback_repair_design",
+  "commit": "529d4173a9ad960a246964974a107853133ec2d1",
+  "run_id": "cpu-life-20261030-80d6425a5687c2379dbff33ceccd4027e4cae3a1c4d467869db6e26f5ba79621",
+  "actual_run_exit_code": 1,
+  "completed_scenarios": 0,
+  "first_scenario_observation_seconds": 30.04593541601207,
+  "raw_gzip_bytes": 2611809,
+  "raw_gzip_sha256": "ecbda901809e1613f0a893427b4279741d088bc06bfda67fefe9bf77439fb88f",
+  "actual_run_files_verified": 8,
+  "generated_inventory_files": 1,
+  "lifecycle_bytes": 66053977,
+  "lifecycle_sha256": "05888ed58bef4a070010d897b5eebff435def19bc4aec43dcf9a07070a4d2f85",
+  "analysis_sha256": "0a61978766522bab9432f598e2d83d27de3f7d54ef17fc371c1572ea76118baf",
+  "analysis_event_counts_independently_verified": true,
+  "event_counts": {
+    "CPU_preimport": 1,
+    "head_process_registered": 4,
+    "head_children_observed": 2746,
+    "head_descendant_registered": 2,
+    "head_descendant_verified": 914,
+    "CPU_driver_spawn_intent": 1,
+    "CPU_diagnostic_failed": 1,
+    "CPU_cleanup_unconfirmed": 1
+  },
+  "original_registered_identities": [
+    {
+      "pid": 500416,
+      "uid": 2147,
+      "proc_start_ticks": 25652019,
+      "ppid": 500374,
+      "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+      "cwd": "/local/boyjiang/epd",
+      "exe": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/core/src/ray/gcs/gcs_server",
+      "argv": [
+        "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/core/src/ray/gcs/gcs_server",
+        "--log_dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs",
+        "--config_list=eyJvYmplY3Rfc3BpbGxpbmdfY29uZmlnIjogIntcInR5cGVcIjogXCJmaWxlc3lzdGVtXCIsIFwicGFyYW1zXCI6IHtcImRpcmVjdG9yeV9wYXRoXCI6IFwiL2xvY2FsL2JveWppYW5nL2VwZC9yYXkvY3B1LTEwMzAvc2Vzc2lvbl8yMDI2LTEwLTMwXzA4LTQ5LTI4XzE2NDAzNV81MDAzNzRcIn19IiwgImlzX2V4dGVybmFsX3N0b3JhZ2VfdHlwZV9mcyI6IHRydWV9",
+        "--gcs_server_port=49173",
+        "--metrics-agent-port=52705",
+        "--node-ip-address=127.0.0.1",
+        "--session-name=session_2026-10-30_08-49-28_164035_500374"
+      ],
+      "environment": {
+        "EXP_ROOT": "/local/boyjiang/epd",
+        "REPRO_RUN_ID": "cpu-life-20261030-80d6425a5687c2379dbff33ceccd4027e4cae3a1c4d467869db6e26f5ba79621"
+      }
+    },
+    {
+      "pid": 500697,
+      "uid": 2147,
+      "proc_start_ticks": 25652121,
+      "ppid": 500374,
+      "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+      "cwd": "/local/boyjiang/epd",
+      "exe": "/usr/bin/python3.10",
+      "argv": [
+        "/local/boyjiang/epd/assets/envs/epd/bin/python",
+        "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/dashboard/dashboard.py",
+        "--host=127.0.0.1",
+        "--port=8265",
+        "--port-retries=0",
+        "--temp-dir=/local/boyjiang/epd/ray/cpu-1030",
+        "--log-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs",
+        "--session-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374",
+        "--logging-rotate-bytes=536870912",
+        "--logging-rotate-backup-count=5",
+        "--gcs-address=127.0.0.1:49173",
+        "--node-ip-address=127.0.0.1",
+        "--minimal",
+        "--modules-to-load=UsageStatsHead",
+        "--disable-frontend"
+      ],
+      "environment": {
+        "EXP_ROOT": "/local/boyjiang/epd",
+        "REPRO_RUN_ID": "cpu-life-20261030-80d6425a5687c2379dbff33ceccd4027e4cae3a1c4d467869db6e26f5ba79621"
+      }
+    },
+    {
+      "pid": 501249,
+      "uid": 2147,
+      "proc_start_ticks": 25652256,
+      "ppid": 500374,
+      "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+      "cwd": "/local/boyjiang/epd",
+      "exe": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/core/src/ray/raylet/raylet",
+      "argv": [
+        "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/core/src/ray/raylet/raylet",
+        "--raylet_socket_name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/raylet",
+        "--store_socket_name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/plasma_store",
+        "--object_manager_port=0",
+        "--min_worker_port=0",
+        "--max_worker_port=0",
+        "--node_manager_port=0",
+        "--node_ip_address=127.0.0.1",
+        "--maximum_startup_concurrency=3",
+        "--static_resource_list=node:127.0.0.1,1.0,node:__internal_head__,1.0,CPU,3,memory,536870912,object_store_memory,134217728",
+        "--python_worker_command=/local/boyjiang/epd/assets/envs/epd/bin/python /local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/_private/workers/setup_worker.py -s /local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/_private/workers/default_worker.py --node-ip-address=127.0.0.1 --node-manager-port=RAY_NODE_MANAGER_PORT_PLACEHOLDER --object-store-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/plasma_store --raylet-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/raylet --redis-address=None --metrics-agent-port=52705 --runtime-env-agent-port=62539 --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --runtime-env-agent-port=62539 --gcs-address=127.0.0.1:49173 --session-name=session_2026-10-30_08-49-28_164035_500374 --temp-dir=/local/boyjiang/epd/ray/cpu-1030 --webui= --cluster-id=d5b8e28208325e39312ddbac5aade18842664583a4682edbbd1bf497 RAY_WORKER_DYNAMIC_OPTION_PLACEHOLDER",
+        "--java_worker_command=/local/boyjiang/epd/assets/envs/epd/bin/python /local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/_private/workers/setup_worker.py -Dray.address=127.0.0.1:49173 -Dray.raylet.node-manager-port=RAY_NODE_MANAGER_PORT_PLACEHOLDER -Dray.object-store.socket-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/plasma_store -Dray.raylet.socket-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/raylet -Dray.redis.password= -Dray.node-ip=127.0.0.1 -Dray.home=/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/../.. -Dray.logging.dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs -Dray.session-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374 RAY_WORKER_DYNAMIC_OPTION_PLACEHOLDER io.ray.runtime.runner.worker.DefaultWorker",
+        "--cpp_worker_command=",
+        "--native_library_path=/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/cpp/lib",
+        "--temp_dir=/local/boyjiang/epd/ray/cpu-1030",
+        "--session_dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374",
+        "--log_dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs",
+        "--resource_dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/runtime_resources",
+        "--metrics-agent-port=52705",
+        "--metrics_export_port=62532",
+        "--runtime_env_agent_port=62539",
+        "--object_store_memory=134217728",
+        "--plasma_directory=/dev/shm",
+        "--ray-debugger-external=0",
+        "--gcs-address=127.0.0.1:49173",
+        "--session-name=session_2026-10-30_08-49-28_164035_500374",
+        "--labels=",
+        "--cluster-id=d5b8e28208325e39312ddbac5aade18842664583a4682edbbd1bf497",
+        "--head",
+        "--num_prestart_python_workers=3",
+        "--dashboard_agent_command=/local/boyjiang/epd/assets/envs/epd/bin/python -u /local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/dashboard/agent.py --node-ip-address=127.0.0.1 --metrics-export-port=62532 --dashboard-agent-port=52705 --listen-port=52365 --node-manager-port=RAY_NODE_MANAGER_PORT_PLACEHOLDER --object-store-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/plasma_store --raylet-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/raylet --temp-dir=/local/boyjiang/epd/ray/cpu-1030 --session-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374 --log-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --session-name=session_2026-10-30_08-49-28_164035_500374 --gcs-address=127.0.0.1:49173 --minimal",
+        "--runtime_env_agent_command=/local/boyjiang/epd/assets/envs/epd/bin/python -u /local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/_private/runtime_env/agent/main.py --node-ip-address=127.0.0.1 --runtime-env-agent-port=62539 --gcs-address=127.0.0.1:49173 --runtime-env-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/runtime_resources --logging-rotate-bytes=536870912 --logging-rotate-backup-count=5 --log-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs --temp-dir=/local/boyjiang/epd/ray/cpu-1030"
+      ],
+      "environment": {
+        "EXP_ROOT": "/local/boyjiang/epd",
+        "REPRO_RUN_ID": "cpu-life-20261030-80d6425a5687c2379dbff33ceccd4027e4cae3a1c4d467869db6e26f5ba79621"
+      }
+    },
+    {
+      "pid": 501307,
+      "uid": 2147,
+      "proc_start_ticks": 25652259,
+      "ppid": 501249,
+      "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+      "cwd": "/local/boyjiang/epd",
+      "exe": "/usr/bin/python3.10",
+      "argv": [
+        "/local/boyjiang/epd/assets/envs/epd/bin/python",
+        "-u",
+        "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/dashboard/agent.py",
+        "--node-ip-address=127.0.0.1",
+        "--metrics-export-port=62532",
+        "--dashboard-agent-port=52705",
+        "--listen-port=52365",
+        "--node-manager-port=34579",
+        "--object-store-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/plasma_store",
+        "--raylet-name=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/sockets/raylet",
+        "--temp-dir=/local/boyjiang/epd/ray/cpu-1030",
+        "--session-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374",
+        "--log-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs",
+        "--logging-rotate-bytes=536870912",
+        "--logging-rotate-backup-count=5",
+        "--session-name=session_2026-10-30_08-49-28_164035_500374",
+        "--gcs-address=127.0.0.1:49173",
+        "--minimal",
+        "--agent-id",
+        "424238335"
+      ],
+      "environment": {
+        "EXP_ROOT": "/local/boyjiang/epd",
+        "REPRO_RUN_ID": "cpu-life-20261030-80d6425a5687c2379dbff33ceccd4027e4cae3a1c4d467869db6e26f5ba79621"
+      }
+    },
+    {
+      "pid": 501309,
+      "uid": 2147,
+      "proc_start_ticks": 25652259,
+      "ppid": 501249,
+      "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+      "cwd": "/local/boyjiang/epd",
+      "exe": "/usr/bin/python3.10",
+      "argv": [
+        "/local/boyjiang/epd/assets/envs/epd/bin/python",
+        "-u",
+        "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray/_private/runtime_env/agent/main.py",
+        "--node-ip-address=127.0.0.1",
+        "--runtime-env-agent-port=62539",
+        "--gcs-address=127.0.0.1:49173",
+        "--runtime-env-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/runtime_resources",
+        "--logging-rotate-bytes=536870912",
+        "--logging-rotate-backup-count=5",
+        "--log-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374/logs",
+        "--temp-dir=/local/boyjiang/epd/ray/cpu-1030"
+      ],
+      "environment": {
+        "EXP_ROOT": "/local/boyjiang/epd",
+        "REPRO_RUN_ID": "cpu-life-20261030-80d6425a5687c2379dbff33ceccd4027e4cae3a1c4d467869db6e26f5ba79621"
+      }
+    },
+    {
+      "pid": 501363,
+      "uid": 2147,
+      "proc_start_ticks": 25652301,
+      "ppid": 500374,
+      "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+      "cwd": "/local/boyjiang/epd",
+      "exe": "/usr/bin/python3.10",
+      "argv": [
+        "/local/boyjiang/epd/assets/envs/epd/bin/python",
+        "-I",
+        "-B",
+        "-c",
+        "import runpy,sys;sys.path.insert(0,'/local/boyjiang/epd/repo/epd/runtime');sys.argv=sys.argv[1:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+        "/local/boyjiang/epd/repo/epd/runtime/numeric_cpu_driver.py",
+        "--session-dir=/local/boyjiang/epd/ray/cpu-1030/session_2026-10-30_08-49-28_164035_500374",
+        "--spec=/local/boyjiang/epd/runs/cpu-lifecycle-20261030/0/spec.json",
+        "--ray-package=/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray"
+      ],
+      "environment": {
+        "EXP_ROOT": "/local/boyjiang/epd",
+        "REPRO_RUN_ID": "cpu-life-20261030-80d6425a5687c2379dbff33ceccd4027e4cae3a1c4d467869db6e26f5ba79621"
+      }
+    }
+  ],
+  "observed_business_actor_creation_receipts": 0,
+  "before_actor_create_seen": false,
+  "driver_events": [
+    "preimport_verified"
+  ],
+  "driver_stderr_sha256": "e54fe8145f6e3764d7b952e8849df7f71334183cf6473a8039c2cd0203fbe1b0",
+  "terminal_sha256": "343598c91ae95a8d33ed6d707b57f6a39e9345d4e06b4d3c98d94c370aa638e9",
+  "configured_bootstrap": "127.0.0.1:49173",
+  "observed_driver_bootstrap": "172.31.35.35:49173",
+  "source_supported_address_mismatch": true,
+  "all_other_GCS_failure_causes_excluded": false,
+  "failure_evidence_accepted": true,
+  "release_confirmed_by_capture": false,
+  "release_current_state_checked": false,
+  "blocking_findings": [
+    {
+      "id": "F1",
+      "reason": "Actual first scenario timed out and driver GCS connection failed; zero scenarios completed."
+    },
+    {
+      "id": "F2",
+      "reason": "Captured pending state prevented head cleanup; actual release must be established by separately reviewed cleanup before a new run."
+    }
+  ],
+  "official_source_pins": [
+    {
+      "path": "ray-worker-2.10.0.py",
+      "bytes": 129956,
+      "sha256": "5e6a29a4f1c17f02c346eed207e5389dbb77b27cf3398fa373ea769ff5895263"
+    },
+    {
+      "path": "ray-services-2.10.0.py",
+      "bytes": 86690,
+      "sha256": "385604d4ecda5febb280435e1129512c5802c3d520581b6a7470ceeef4c8c60f"
+    },
+    {
+      "path": "ray-node-2.10.0.py",
+      "bytes": 69243,
+      "sha256": "923e30633a4d2ea2ccfbe67b5c6211bbcb670738abb866825cbc318398c95b24"
+    }
+  ],
+  "G1_minimal_CPU_repair": {
+    "decision": "APPROVE_WITH_NITS",
+    "blocking": 0,
+    "local_implementation_and_fixtures_approved": true,
+    "selected_CPU_loopback": "127.0.0.2",
+    "explicit_driver_node_ip_address": "127.0.0.2",
+    "preserve_gpu_count_3_existing_behavior": true,
+    "Ray_installation_patch_approved": false,
+    "Ray_atexit_hook_patch_approved": false,
+    "scope": "CPU path address consistency only; exact source/test G2 then Git-first and separately reviewed new execution required"
+  },
+  "cleanup_execution_approved": false,
+  "new_CPU_execution_approved": false,
+  "Ray_lifecycle_passed": false,
+  "GPU_approved": false,
+  "native36_executable": false,
+  "remote_access_by_reviewer": false,
+  "tests_run_by_reviewer": false,
+  "source_modified_by_reviewer": false
+}

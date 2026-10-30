@@ -90,7 +90,7 @@ class GCSMetadataTests(unittest.TestCase):
         with patch.dict(sys.modules,ray=ray),patch('numeric_gcs.verify_sources'), \
              patch('numeric_gcs.os.getuid',return_value=2147,create=True), \
              patch('numeric_gcs.importlib.import_module') as imported:
-            with self.assertRaises(ValueError):GCSActorReader.connect('127.0.0.1:1234',package,Mock(),lambda:None)
+            with self.assertRaises(ValueError):GCSActorReader.connect('127.0.0.2:1234',package,Mock(),lambda:None)
             imported.assert_not_called()
 
 

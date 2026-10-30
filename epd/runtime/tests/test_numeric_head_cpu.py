@@ -36,7 +36,7 @@ class NumericHeadTests(unittest.TestCase):
             kill_all_processes=Mock()
             def __init__(self,params,**kwargs):
                 owner.node_kwargs=kwargs; owner.param_kwargs=params
-                self.address='127.0.0.1:45127'; self.kernel_fate_share=False
+                self.address=params['node_ip_address']+':45127'; self.kernel_fate_share=False
                 for index in range(3):
                     def official_preexec(): owner.mask.add(owner.INT)
                     owner.services.ConsolePopen(['CPU-MOCK-Ray-child',str(index)],preexec_fn=official_preexec)
@@ -77,6 +77,22 @@ class NumericHeadTests(unittest.TestCase):
         self.assertEqual(self.children,[{self.INT}]*3)  # Official Ray SIGINT block; no inherited TERM/ALRM block.
         self.assertEqual(self.mask,set());self.assertIs(self.services.ConsolePopen,self.Popen)
         node.kill_all_processes.assert_not_called()
+
+    def test_CPU_head_uses_nonrewritten_loopback(self):
+        params=head.node_parameters(str(Path('/CPU-MOCK-n36').absolute()),45127,gpu_count=0)
+        self.assertEqual(params['node_ip_address'],'127.0.0.2')
+        self.assertEqual(params['raylet_ip_address'],'127.0.0.2')
+
+    def test_three_GPU_head_keeps_original_parameters(self):
+        self.assertEqual(self.parameters,dict(temp_dir=str(Path('/CPU-MOCK-n36').absolute()),
+            gcs_server_port=45127,node_ip_address='127.0.0.1',raylet_ip_address='127.0.0.1',
+            num_cpus=3,num_gpus=3,object_store_memory=128<<20,memory=512<<20,
+            include_dashboard=False,no_monitor=True,include_log_monitor=False,_system_config={}))
+
+    def test_CPU_construct_checks_actual_nonrewritten_address(self):
+        self.parameters=head.node_parameters(str(Path('/CPU-MOCK-n36').absolute()),45127,gpu_count=0)
+        node=self.run_construct([])
+        self.assertEqual(node.address,'127.0.0.2:45127');self.assertEqual(self.param_kwargs,self.parameters)
 
     def test_partial_constructor_failure_preserves_real_popen_registry(self):
         self.failing_constructor=True;processes=[]

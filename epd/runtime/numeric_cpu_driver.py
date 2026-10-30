@@ -28,7 +28,7 @@ def validate(spec):
             if member.is_symlink():raise ValueError('Linked CPU scenario path')
             if member.is_relative_to(root) and (not member.is_dir() or member.stat().st_uid!=os.getuid()):
                 raise ValueError('CPU scenario directory owner differs')
-    if (not re.fullmatch(r'127\.0\.0\.1:[0-9]{4,5}',spec['address'])
+    if (not re.fullmatch(r'127\.0\.0\.2:[0-9]{4,5}',spec['address'])
             or not 1024<=int(spec['address'].split(':')[1])<=65535
             or type(spec['detached']) is not bool or type(spec['delay_seconds']) is not int or spec['delay_seconds'] not in (0,15)
             or any(not isinstance(spec[key],str) or not re.fullmatch('[A-Za-z0-9_.:-]{1,100}',spec[key])
@@ -84,6 +84,16 @@ def scenario(ray,spec,record,actor_type=CPUActor):
     return expected
 
 
+def connect_existing(ray,spec):
+    ray.init(address=spec['address'],namespace=spec['namespace'],log_to_driver=False,
+        _node_ip_address='127.0.0.2')
+    from ray._private import worker
+    node=worker._global_node
+    if node is None or node.is_head() is not False or node.all_processes or node.address!=spec['address']:
+        raise ValueError('CPU driver owns unexpected Ray head/processes or address')
+    return node
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--session-dir',required=True,type=Path)
@@ -100,13 +110,8 @@ def main():
             output.write(json.dumps(dict(event=event,monotonic_s=time.monotonic(),**data))+'\n')
             output.flush();os.fsync(output.fileno())
     record('preimport_verified',facts=preimport)
-    ray.init(address=spec['address'],namespace=spec['namespace'],log_to_driver=False)
-    from ray._private import worker
-    node=worker._global_node
-    if node is None or node.is_head() is not False or node.all_processes:
-        raise ValueError('CPU driver owns unexpected Ray head/processes')
+    node=connect_existing(ray,spec)
     record('connected_existing_head',address=node.address,private_session=str(args.session_dir),owns_processes=False)
-    if node.address!=spec['address']:raise ValueError('Driver connected another head')
     expected=scenario(ray,spec,record)
     durable(folder/'driver-ready.json',expected)
     # Let the parent bind the live constructor PID before normal driver exit.

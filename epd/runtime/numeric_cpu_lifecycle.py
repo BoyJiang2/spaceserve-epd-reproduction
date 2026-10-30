@@ -1,5 +1,6 @@
 """Finite four-scenario CPU Ray diagnostic. Not a GPU/backend entrypoint."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -13,6 +14,21 @@ from numeric_descendants import HeadDescendants, HeadProc
 from numeric_gcs import GCSActorReader
 from numeric_head import construct_node, node_parameters
 from numeric_cpu_receipts import publish as write
+
+
+def control_service_exception(proc,pid):
+    tools=Path(__file__).resolve().parents[2]/'tools'
+    pins={'space_user_service_guard.py':'48fe3fc2bf9d4070f48db6b60b44671c40761850014f650a0f54b82678c357fd',
+        'materialize_assets_cpu.py':'8ffccf7061b2ebc8ac90543d0d60c79efaf7ff87552cef8fcf1bd6555dbd0c0c',
+        'migrate_code_cpu.py':'9cf2b505f671954a08fddeae65ab52a2cdf288f0757e663e4d2ddce49698b405'}
+    for name,expected in pins.items():
+        path=tools/name
+        if path.is_symlink() or hashlib.sha256(path.read_bytes()).hexdigest()!=expected:
+            raise ValueError('Published read-only control-service validator differs')
+    sys.path.insert(0,str(tools))
+    from space_user_service_guard import exception
+    from materialize_assets_cpu import ssh_exception
+    return exception(proc,pid) or ssh_exception(proc,pid)
 
 
 def small_json(path,uid):
@@ -100,14 +116,17 @@ class Diagnostic:
                 if path.stat().st_uid!=self.uid:continue
                 try:cwd=(path/'cwd').resolve(strict=True)
                 except PermissionError:
-                    command=(path/'cmdline').read_bytes()
-                    if b'python' in command or b'ray' in command:
-                        raise RuntimeError('Final CPU candidate cwd unconfirmed')
+                    proof=control_service_exception(Path('/proc'),int(path.name))
+                    if proof is None:raise RuntimeError('Final CPU candidate cwd unconfirmed')
+                    self.record('CPU_verified_control_service_exception',pid=int(path.name),proof=proof,
+                        scope='cwd permission only; no signalling or project ownership grant')
                     continue
                 if not cwd.is_relative_to(self.root):continue
                 if self.proc.environment(int(path.name))=={'EXP_ROOT':str(self.root),'REPRO_RUN_ID':self.run_id}:
                     selected.append(self.proc.snapshot(int(path.name),self.uid))
-            except (FileNotFoundError,ProcessLookupError):continue
+            except (FileNotFoundError,ProcessLookupError):
+                if self.proc.exists(int(path.name)):raise RuntimeError('Final CPU candidate still exists without identity')
+                continue
         self.record('CPU_final_scope_inventory',selected=selected,unknown_process_signal_authorized=False)
         return selected
 
@@ -124,7 +143,7 @@ class Diagnostic:
     def scenario(self,detached,controlled,index):
         self.poll();folder=self.folder/str(index);folder.mkdir(mode=0o700)
         spec=dict(root=str(self.root),run_id=self.run_id,session=str(self.collector.session),folder=str(folder),
-            address='127.0.0.1:'+str(self.port),namespace=self.run_id,name='CPU-'+str(index),
+            address='127.0.0.2:'+str(self.port),namespace=self.run_id,name='CPU-'+str(index),
             detached=detached,delay_seconds=15 if controlled else 0)
         write(folder/'spec.json',spec)
         script=Path(__file__).with_name('numeric_cpu_driver.py')
