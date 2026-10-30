@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import signal
@@ -160,10 +161,24 @@ class Diagnostic:
         try:
             driver=subprocess.Popen(args,cwd=self.root,stdin=subprocess.DEVNULL,stdout=out,stderr=err)
             self.processes.append(driver);self.register(driver)
-            deadline=scenario_deadline(self.work_end,time.monotonic());expected=identity=None;stopped=actor_stopped=False
+            deadline=scenario_deadline(self.work_end,time.monotonic());expected=identity=None;stopped=actor_stopped=False;connection_observed=False
             while time.monotonic()<deadline:
                 self.poll();events=self.events(folder)
+                connections=[e for e in events if e['event']=='connected_existing_head']
+                if len(connections)>1:raise ValueError('Duplicate driver connection fact')
+                if connections and not connection_observed:
+                    row=connections[0]
+                    if (set(row)!={'event','monotonic_s','address','private_session','owns_processes'}
+                            or row['address']!=spec['address'] or row['private_session']!=str(self.collector.session)
+                            or row['owns_processes'] is not False or type(row['monotonic_s']) not in (int,float)
+                            or not math.isfinite(row['monotonic_s']) or not 0<=row['monotonic_s']<=time.monotonic()):
+                        raise ValueError('Actual driver connection fact differs')
+                    self.record('connected_existing_head',address=row['address'],private_session=row['private_session'],
+                        owns_processes=row['owns_processes'],driver_pid=driver.pid,
+                        driver_event_monotonic_s=row['monotonic_s'],provenance='verified_current_driver_events')
+                    connection_observed=True
                 submitted=[e['expected'] for e in events if e['event']=='actor_submitted']
+                if submitted and not connection_observed:raise ValueError('Actor submission before verified connection')
                 if submitted and expected is None and (folder/'actor-submitted.json').exists():
                     if len(submitted)!=1:raise ValueError('Duplicate CPU actor submission')
                     expected=small_json(folder/'actor-submitted.json',self.uid)
@@ -205,6 +220,16 @@ class Diagnostic:
                         actual_after=self.collector.stable(actual)
                         self.record('CPU_normal_live_actor_bound',GCS=state,before=actual,after=actual_after)
                         write(folder/'parent-observed.json',expected)
+                        # Inventory resumes only after the held child has fully exited.
+                        self.record('CPU_normal_driver_exit_wait',expected=expected,driver_pid=driver.pid,deadline=deadline)
+                        while driver.poll() is None:
+                            self.check()
+                            if time.monotonic()>=deadline:raise TimeoutError('Normal CPU driver exit deadline')
+                            time.sleep(.05)
+                        self.check()
+                        if time.monotonic()>=deadline:raise TimeoutError('Normal CPU driver exit deadline')
+                        self.record('CPU_normal_driver_exit_observed',expected=expected,
+                            driver_pid=driver.pid,driver_exit=driver.returncode)
                     if driver.poll() is not None:
                         if not controlled and driver.returncode!=0:raise RuntimeError('Normal CPU driver failed')
                         state=self.reader.read(expected,deadline)

@@ -1,0 +1,68 @@
+............................................F.......FFF....F.FF..........................................................................................................................................
+======================================================================
+FAIL: test_connection_event_is_copied_only_from_verified_driver_fact (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_connection_event_is_copied_only_from_verified_driver_fact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 207, in test_connection_event_is_copied_only_from_verified_driver_fact
+    self.assertEqual(len(connection),1);row=connection[0]
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_driver_owning_head_cannot_be_promoted (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_driver_owning_head_cannot_be_promoted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 226, in test_driver_owning_head_cannot_be_promoted
+    with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_duplicate_connection_fact_is_refused (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_duplicate_connection_fact_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 230, in test_duplicate_connection_fact_is_refused
+    with self.assertRaisesRegex(ValueError,'Duplicate driver connection'):self.d.scenario(False,False,0)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_nonfinite_connection_timestamp_is_refused (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_nonfinite_connection_timestamp_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 238, in test_nonfinite_connection_timestamp_is_refused
+    with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_submission_without_actual_connection_fact_is_refused (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_submission_without_actual_connection_fact_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 234, in test_submission_without_actual_connection_fact_is_refused
+    with self.assertRaisesRegex(ValueError,'before verified connection'):self.d.scenario(False,False,0)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_wrong_connection_address_cannot_be_promoted (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_wrong_connection_address_cannot_be_promoted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 218, in test_wrong_connection_address_cannot_be_promoted
+    with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_wrong_connection_private_session_cannot_be_promoted (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_wrong_connection_private_session_cannot_be_promoted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 222, in test_wrong_connection_private_session_cannot_be_promoted
+    with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 201 tests in 1.312s
+
+FAILED (failures=7)

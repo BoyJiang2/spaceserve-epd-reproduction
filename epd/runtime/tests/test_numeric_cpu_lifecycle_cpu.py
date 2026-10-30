@@ -176,7 +176,8 @@ class ScenarioTests(ParentFixture,unittest.TestCase):
         def popen(args,**kwargs):
             folder=Path(next(a.split('=',1)[1] for a in args if a.startswith('--spec='))).parent
             expected=dict(actor_id='a'*32,job_id='b'*8,namespace='cpu',name='CPU-0',detached=detached)
-            (folder/'driver-events.jsonl').write_text(json.dumps(dict(event='actor_submitted',expected=expected))+'\n',encoding='utf8')
+            connected=dict(event='connected_existing_head',monotonic_s=lifecycle.time.monotonic(),address='127.0.0.2:18765',private_session=str(self.session),owns_processes=False)
+            (folder/'driver-events.jsonl').write_text(json.dumps(connected)+'\n'+json.dumps(dict(event='actor_submitted',expected=expected))+'\n',encoding='utf8')
             lifecycle.write(folder/'actor-submitted.json',expected)
             lifecycle.write(folder/'constructor-entered.json',dict(expected,process={'identity':self.identity},
                 constructor_monotonic_s=self.constructor_start,delay_seconds=15 if controlled else 0))
@@ -189,6 +190,93 @@ class ScenarioTests(ParentFixture,unittest.TestCase):
             return dict(controlled_signal_sent=True,already_absent=False)
         self.term.side_effect=term
         self.patches.enter_context(patch.object(lifecycle.subprocess,'Popen',side_effect=popen))
+
+    def prepare_connection_case(self,change=None):
+        self.prepare(False,False)
+        self.reader.read.side_effect=[dict(state='ALIVE',pid=123),dict(state='DEAD',pid=123),dict(state='DEAD',pid=123)]
+        if change:
+            def registered(process):
+                path=self.folder/'0/driver-events.jsonl';events=[json.loads(line) for line in path.read_text().splitlines()]
+                change(events);path.write_text(''.join(json.dumps(e)+'\n' for e in events),encoding='utf8')
+            self.d.register.side_effect=registered
+
+    def test_connection_event_is_copied_only_from_verified_driver_fact(self):
+        self.prepare_connection_case();self.d.scenario(False,False,0)
+        events=[json.loads(line) for line in self.d.journal.read_text().splitlines()]
+        connection=[e for e in events if e['event']=='connected_existing_head']
+        self.assertEqual(len(connection),1);row=connection[0]
+        self.assertEqual(row['address'],'127.0.0.2:18765');self.assertFalse(row['owns_processes'])
+        self.assertEqual(row['driver_pid'],456);self.assertEqual(row['private_session'],str(self.session))
+        original=json.loads((self.folder/'0/driver-events.jsonl').read_text().splitlines()[0])
+        self.assertEqual(row['driver_event_monotonic_s'],original['monotonic_s'])
+        self.assertEqual(row['provenance'],'verified_current_driver_events')
+        names=[e['event'] for e in events]
+        self.assertLess(names.index('connected_existing_head'),names.index('CPU_actor_submission_observed'))
+
+    def test_wrong_connection_address_cannot_be_promoted(self):
+        self.prepare_connection_case(lambda events:events[0].update(address='127.0.0.1:18765'))
+        with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+
+    def test_wrong_connection_private_session_cannot_be_promoted(self):
+        self.prepare_connection_case(lambda events:events[0].update(private_session='/foreign/session'))
+        with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+
+    def test_driver_owning_head_cannot_be_promoted(self):
+        self.prepare_connection_case(lambda events:events[0].update(owns_processes=True))
+        with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+
+    def test_duplicate_connection_fact_is_refused(self):
+        self.prepare_connection_case(lambda events:events.insert(0,dict(events[0])))
+        with self.assertRaisesRegex(ValueError,'Duplicate driver connection'):self.d.scenario(False,False,0)
+
+    def test_submission_without_actual_connection_fact_is_refused(self):
+        self.prepare_connection_case(lambda events:events.pop(0))
+        with self.assertRaisesRegex(ValueError,'before verified connection'):self.d.scenario(False,False,0)
+
+    def test_nonfinite_connection_timestamp_is_refused(self):
+        self.prepare_connection_case(lambda events:events[0].update(monotonic_s=float('nan')))
+        with self.assertRaisesRegex(ValueError,'connection fact'):self.d.scenario(False,False,0)
+
+    def prepare_normal_teardown(self,exit_code=0,forever=False):
+        self.prepare(False,False);marker=self.folder/'0/parent-observed.json';calls=0
+        def registered(process):
+            self.driver.returncode=None
+            def poll():
+                nonlocal calls
+                if marker.exists():
+                    calls+=1
+                    if calls>=3 and not forever:self.driver.returncode=exit_code
+                return self.driver.returncode
+            self.driver.poll=poll
+        self.d.register.side_effect=registered
+        original_poll=self.d.poll
+        def inventory():
+            if marker.exists() and self.driver.returncode is None:
+                raise FileNotFoundError(2,'driver teardown cwd missing','/proc/456/cwd')
+            original_poll()
+        self.d.poll=inventory
+        self.reader.read.side_effect=lambda *a:dict(state='DEAD' if self.driver.returncode is not None else 'ALIVE',pid=123)
+
+    def test_normal_driver_is_reaped_before_resuming_inventory(self):
+        self.prepare_normal_teardown()
+        with patch.object(lifecycle.time,'sleep'):self.d.scenario(False,False,0)
+        self.assertEqual(self.d.pending_scenarios,set());self.assertEqual(self.driver.returncode,0)
+        self.assertIn('CPU_normal_driver_exit_observed',self.d.journal.read_text());self.term.assert_not_called()
+
+    def test_normal_nonzero_exit_still_fails_after_barrier(self):
+        self.prepare_normal_teardown(exit_code=7)
+        with patch.object(lifecycle.time,'sleep'),self.assertRaisesRegex(RuntimeError,'Normal CPU driver failed'):
+            self.d.scenario(False,False,0)
+        self.assertEqual(self.d.pending_scenarios,{0});self.term.assert_not_called()
+
+    def test_normal_exit_barrier_respects_original_scenario_deadline(self):
+        self.prepare_normal_teardown(forever=True);now=[100.0]
+        with patch.object(lifecycle.time,'monotonic',side_effect=lambda:now[0]), \
+             patch.object(lifecycle.time,'sleep',side_effect=lambda delay:now.__setitem__(0,now[0]+1)), \
+             self.assertRaisesRegex(TimeoutError,'Normal CPU driver exit deadline'):
+            self.d.scenario(False,False,0)
+        self.assertEqual(self.d.pending_scenarios,{0});self.term.assert_not_called()
+        self.assertLessEqual(now[0],130.0)
 
     def test_detached_unexpected_death_cannot_pass(self):
         self.prepare(True,True);self.reader.read.side_effect=[dict(state='ALIVE',pid=123),dict(state='DEAD',pid=123),dict(state='DEAD',pid=123)]

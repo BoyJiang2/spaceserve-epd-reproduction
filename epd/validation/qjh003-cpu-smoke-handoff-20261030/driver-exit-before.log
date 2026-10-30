@@ -1,0 +1,47 @@
+...................................................EEE............................................................................................................................................
+======================================================================
+ERROR: test_normal_driver_is_reaped_before_resuming_inventory (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_normal_driver_is_reaped_before_resuming_inventory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 215, in test_normal_driver_is_reaped_before_resuming_inventory
+    with patch.object(lifecycle.time,'sleep'):self.d.scenario(False,False,0)
+                                              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 165, in scenario
+    self.poll();events=self.events(folder)
+    ~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 208, in inventory
+    raise FileNotFoundError(2,'driver teardown cwd missing','/proc/456/cwd')
+FileNotFoundError: [Errno 2] driver teardown cwd missing: '/proc/456/cwd'
+
+======================================================================
+ERROR: test_normal_exit_barrier_respects_original_scenario_deadline (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_normal_exit_barrier_respects_original_scenario_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 230, in test_normal_exit_barrier_respects_original_scenario_deadline
+    self.d.scenario(False,False,0)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 165, in scenario
+    self.poll();events=self.events(folder)
+    ~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 208, in inventory
+    raise FileNotFoundError(2,'driver teardown cwd missing','/proc/456/cwd')
+FileNotFoundError: [Errno 2] driver teardown cwd missing: '/proc/456/cwd'
+
+======================================================================
+ERROR: test_normal_nonzero_exit_still_fails_after_barrier (test_numeric_cpu_lifecycle_cpu.ScenarioTests.test_normal_nonzero_exit_still_fails_after_barrier)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 222, in test_normal_nonzero_exit_still_fails_after_barrier
+    self.d.scenario(False,False,0)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 165, in scenario
+    self.poll();events=self.events(folder)
+    ~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 208, in inventory
+    raise FileNotFoundError(2,'driver teardown cwd missing','/proc/456/cwd')
+FileNotFoundError: [Errno 2] driver teardown cwd missing: '/proc/456/cwd'
+
+----------------------------------------------------------------------
+Ran 194 tests in 1.388s
+
+FAILED (errors=3)
