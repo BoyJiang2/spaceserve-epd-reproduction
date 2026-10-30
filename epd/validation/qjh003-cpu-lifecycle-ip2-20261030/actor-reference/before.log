@@ -1,0 +1,23 @@
+.........FE
+======================================================================
+ERROR: test_submission_is_durable_before_wait_and_single_create (test_numeric_cpu_driver_cpu.DriverTests.test_submission_is_durable_before_wait_and_single_create)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_driver_cpu.py", line 38, in test_submission_is_durable_before_wait_and_single_create
+    expected,actor=driver.scenario(self.ray,self.spec,self.record)
+    ^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+
+======================================================================
+FAIL: test_scenario_keeps_handle_alive_for_parent_handshake (test_numeric_cpu_driver_cpu.DriverTests.test_scenario_keeps_handle_alive_for_parent_handshake)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_driver_cpu.py", line 58, in test_scenario_keeps_handle_alive_for_parent_handshake
+    self.assertIsNotNone(reference(),'actor handle released before parent ACK')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unexpectedly None : actor handle released before parent ACK
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.083s
+
+FAILED (failures=1, errors=1)

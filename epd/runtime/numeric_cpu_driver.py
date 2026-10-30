@@ -81,7 +81,7 @@ def scenario(ray,spec,record,actor_type=CPUActor):
     facts=ray.get(actor.ready.remote(),timeout=20)
     if any(facts.get(key)!=value for key,value in expected.items()):raise ValueError('Actor response identity differs')
     record('actor_ready',facts=facts)
-    return expected
+    return expected,actor
 
 
 def connect_existing(ray,spec):
@@ -112,7 +112,8 @@ def main():
     record('preimport_verified',facts=preimport)
     node=connect_existing(ray,spec)
     record('connected_existing_head',address=node.address,private_session=str(args.session_dir),owns_processes=False)
-    expected=scenario(ray,spec,record)
+    # Keep the handle alive until the parent has observed the live actor.
+    expected,actor=scenario(ray,spec,record)
     durable(folder/'driver-ready.json',expected)
     # Let the parent bind the live constructor PID before normal driver exit.
     # This handshake belongs only to this CPU diagnostic, never the GPU backend.

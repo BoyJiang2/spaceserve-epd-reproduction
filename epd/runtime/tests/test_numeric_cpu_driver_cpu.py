@@ -35,12 +35,29 @@ class DriverTests(unittest.TestCase):
     def record(self,event,**data):self.events.append((event,data))
 
     def test_submission_is_durable_before_wait_and_single_create(self):
-        self.assertEqual(driver.scenario(self.ray,self.spec,self.record),self.expected)
+        expected,actor=driver.scenario(self.ray,self.spec,self.record)
+        self.assertEqual(expected,self.expected)
+        self.assertIs(actor,self.ref)
         self.assertEqual([r[0] for r in self.events],['before_actor_create','actor_submitted','actor_ready'])
         self.ray.remote.assert_called_once_with(num_cpus=0,num_gpus=0,max_restarts=0,max_task_retries=0)
         self.factory.options.assert_called_once_with(name='test-actor',namespace='test-ns',lifetime='detached')
         self.factory.options.return_value.remote.assert_called_once()
         self.written.assert_called_once_with(self.root/'actor-submitted.json',self.expected)
+
+    def test_scenario_keeps_handle_alive_for_parent_handshake(self):
+        import gc,weakref
+        class Handle:
+            _actor_id=SimpleNamespace(hex=lambda:'a'*32)
+            ready=SimpleNamespace(remote=lambda:object())
+        handle=Handle();reference=weakref.ref(handle)
+        # Transfer the only strong reference into the actual creation callback.
+        pending=[handle];del handle
+        self.factory.options.return_value.remote=lambda *a:pending.pop()
+        result=driver.scenario(self.ray,self.spec,self.record)
+        gc.collect()
+        self.assertIsNotNone(reference(),'actor handle released before parent ACK')
+        self.assertIs(result[1],reference())
+        del result;gc.collect();self.assertIsNone(reference())
 
     def test_non_detached_is_explicit(self):
         self.spec['detached']=False;self.expected['detached']=False
