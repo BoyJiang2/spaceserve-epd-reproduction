@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "gate": "G2-numeric-cpu-parent-outcome",
+  "decision": "APPROVE_WITH_NITS",
+  "blocking": 0,
+  "reviewer": "independent Codex subagent /root/fallback_g3",
+  "reviewed_at_utc": "2026-10-30T00:14:00Z",
+  "scope": "exact_frozen_local_CPU_parent_driver_outcome_source_only",
+  "candidate_sha256": "57dbae6669d22a87645b8a795f7e25304ad69d3b6281516829e8ed382493c582",
+  "review_file": "g2-numeric-cpu-parent-outcome.md",
+  "review_sha256": "e7990ec87863e37adc5005af93ce254c20bcee2378f48f5cd4e6e0aba2890cd4",
+  "files": [
+    {
+      "path": "epd/runtime/numeric_cpu_ray.py",
+      "bytes": 4346,
+      "sha256": "24d129bec5d883a398d79a613253c0bc43e2b0e67c0a255ce969cd61222c4352"
+    },
+    {
+      "path": "epd/runtime/numeric_gcs.py",
+      "bytes": 5468,
+      "sha256": "c31b6eb781bf93d4e1539e8ea2b0fe57812e96e3a8f84976b5742f0c4f8a1b53"
+    },
+    {
+      "path": "epd/runtime/numeric_descendants.py",
+      "bytes": 8048,
+      "sha256": "6e33b325e77af6a4bde8abe43ab028c6427c69c033fe1d8bcabd0bae9cef37b6"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_driver.py",
+      "bytes": 7020,
+      "sha256": "8d064960d39fbdd16e2dee4fb041a9ef86055a25ea43bebab66e89312f95f5e2"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_lifecycle.py",
+      "bytes": 18146,
+      "sha256": "a37684b1c6f7cfff26956dfbdcfa596d498c6bdc0584e1c154fee683c4b7ce30"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_receipts.py",
+      "bytes": 873,
+      "sha256": "8976ae523d7b86d9d12ef0a7b7b274e80de5a856917f48c94fd634e710332544"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_ray_cpu.py",
+      "bytes": 4239,
+      "sha256": "28dc95d89b13ade5bff9f0a651418a93b8ed93c791f375c6544700d3b44ad1be"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_gcs_cpu.py",
+      "bytes": 5594,
+      "sha256": "70f22f69949524abaa20d6f85d7fb17218f1238f6e6d39b937516e4237ed09b5"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_descendants_cpu.py",
+      "bytes": 11877,
+      "sha256": "7615049e15fc9ad899f4f49f30755b2ace164901c0bf69f24a1456c765ec78f5"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_driver_cpu.py",
+      "bytes": 5948,
+      "sha256": "72a8dfa12474957a7980b05c4ec413d96a78a053effefbf0af4b795e19bed82e"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_lifecycle_cpu.py",
+      "bytes": 13842,
+      "sha256": "25ad0cedc1e8bdb39bff9a2386115966030ef93ceab50232b1c796d7a420adde"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_receipts_cpu.py",
+      "bytes": 3009,
+      "sha256": "49bca74856dfff6919b85880ecab858369851beffb87c9df9267f832a577d212"
+    }
+  ],
+  "closed_original_findings": [
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+  ],
+  "closed_revision_findings": [
+    "R1",
+    "R2"
+  ],
+  "tests": {
+    "log": "numeric-cpu-lifecycle-outcome-final-tests.log",
+    "sha256": "46af8961197f4dc9229a2de234ef5cf7048cebdf6764edf645cc9e97137b10c9",
+    "unique_test_ids_verified": 166,
+    "all_OK": true,
+    "skips": 0,
+    "actual_Ray": false,
+    "actual_GPU": false,
+    "reviewer_reran_tests": false
+  },
+  "source_level_approved": true,
+  "publication_approved": false,
+  "deployment_approved": false,
+  "remote_CPU_execution_approved": false,
+  "actual_four_scenario_lifecycle_passed": false,
+  "release_or_quiescence_granted": false,
+  "GPU_approved": false,
+  "native36_executable": false,
+  "previous_rejection_records_preserved": true,
+  "required_followup": [
+    "Exact publication G5 and Git-first deployment identity verification.",
+    "Separate concrete CPU execution G2 with fresh owned booking, actual environment and bounded identity supervision.",
+    "Independent actual CPU lifecycle G3 from real four-scenario actor/GCS/PID/signal/cleanup evidence."
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "passed": false,
+  "gate": "G2-numeric-cpu-parent",
+  "decision": "REQUEST_CHANGES",
+  "blocking": 4,
+  "reviewer": "independent Codex subagent /root/fallback_g3",
+  "reviewed_at_utc": "2026-10-30T00:03:13Z",
+  "scope": "original_parent_098e0b_driver_1476e2_only",
+  "review_file": "g2-numeric-cpu-parent.md",
+  "review_sha256": "845d8e26f16b7099a517ff4a3dcee2afe6610e90e740b7844fc3a0db303feb07",
+  "files": [
+    {
+      "path": "epd/runtime/numeric_cpu_lifecycle.py",
+      "bytes": 14391,
+      "sha256": "098e0bd11a88d65df03a991f3f5407f2e5661364da103d8ce0df756b9f0b5730"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_lifecycle_cpu.py",
+      "bytes": 6549,
+      "sha256": "53ea8999564d82e2af0a340ceab574ebb402fa39d078eec992dcac0a0afd6387"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_driver.py",
+      "bytes": 7123,
+      "sha256": "1476e2c958510e8c0e082e45dcdf9e3113c66ae02973bf0a29ba255061326dfc"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_driver_cpu.py",
+      "bytes": 5948,
+      "sha256": "72a8dfa12474957a7980b05c4ec413d96a78a053effefbf0af4b795e19bed82e"
+    }
+  ],
+  "findings": [
+    {
+      "id": "B1",
+      "title": "Exclusive JSON creation is visible before complete durable publication",
+      "locations": ["numeric_cpu_lifecycle.py:17", "numeric_cpu_lifecycle.py:125", "numeric_cpu_lifecycle.py:150", "numeric_cpu_driver.py:17", "numeric_cpu_driver.py:83", "numeric_cpu_driver.py:121"],
+      "minimum_fix": "Fully write and fsync an owned exclusive same-directory temporary file, then atomically publish without replacing an existing receipt; add concurrent-publication refusal fixtures."
+    },
+    {
+      "id": "B2",
+      "title": "Normal ACK uses historical known identity without current live PID or matching GCS PID proof",
+      "locations": ["numeric_cpu_lifecycle.py:135", "numeric_cpu_lifecycle.py:142", "numeric_cpu_lifecycle.py:150"],
+      "minimum_fix": "Before ACK re-observe the registered identity with stable before/after live snapshots and require the exact GCS PID to match; absent, reused or mismatched identities must not receive ACK."
+    },
+    {
+      "id": "B3",
+      "title": "Detached actor may pass as DEAD without post-driver survival or parent-owned release",
+      "locations": ["numeric_cpu_lifecycle.py:151", "numeric_cpu_lifecycle.py:154", "numeric_cpu_lifecycle.py:159"],
+      "minimum_fix": "Require explicit post-driver detached survival and bound live identity, parent release action, and final DEAD plus original PID absence before scenario success."
+    },
+    {
+      "id": "B4",
+      "title": "Missing ready receipt does not prove controlled exit happened before creation returned",
+      "locations": ["numeric_cpu_lifecycle.py:109", "numeric_cpu_lifecycle.py:143", "numeric_cpu_driver.py:62", "numeric_cpu_driver.py:85", "numeric_cpu_driver.py:115"],
+      "minimum_fix": "Use an explicit bounded CPU constructor or stage barrier with positive evidence preserving the intended pre-return window until parent control; a missed window must fail without retry."
+    }
+  ],
+  "existing_parent_fixture_tests": 10,
+  "existing_driver_fixture_tests": 8,
+  "fixture_tests_prove_real_lifecycle": false,
+  "server_static_source_hash_matches_recorded": 17,
+  "server_static_source_observed_ms": 1793318168575,
+  "publication_approved": false,
+  "remote_CPU_execution_approved": false,
+  "GPU_approved": false,
+  "native36_executable": false,
+  "real_lifecycle_passed": false,
+  "tests_run_by_reviewer": false,
+  "source_modified_by_reviewer": false,
+  "new_in_progress_source_reviewed": false
+}

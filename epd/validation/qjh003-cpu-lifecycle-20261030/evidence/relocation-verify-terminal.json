@@ -1,0 +1,39 @@
+{
+  "phase": "verify",
+  "config_sha256": "218bfc2d53f623d98aa64286c1d132c9c74a8f6db0c75aa8e48cfaa9f82f0e70",
+  "boot": "65f52a67-afe4-4919-8646-4694255b48ee",
+  "exit_code": 0,
+  "started_ms": 1793317720444,
+  "changes": [],
+  "scope": "static CPU relocation only; no dlopen/Torch/GPU or runtime-ready claim",
+  "flat_sha256": "fdb86ae5a5658d17c98cc8cc17e3b0d911433bf270fb8bcfbb381a99f66a970e",
+  "startup_files_verified": 61,
+  "rewrites_verified": 56,
+  "flat_dynamic": "\nDynamic section at offset 0x45960 contains 33 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libc10.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libtorch_cpu.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc10_cuda.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libnccl.so.2]\n 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [ld-linux-x86-64.so.2]\n 0x000000000000000e (SONAME)             Library soname: [libcuda_ipc_utils.so]\n 0x000000000000001d (RUNPATH)            Library runpath: [/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/lib:/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/nvidia/nccl/lib:/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/nvidia/cuda_runtime/lib]\n 0x000000000000000c (INIT)               0x12000\n 0x000000000000000d (FINI)               0x35558\n 0x0000000000000019 (INIT_ARRAY)         0x460f8\n 0x000000000000001b (INIT_ARRAYSZ)       32 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x46118\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x450bd8\n 0x0000000000000005 (STRTAB)             0x448000\n 0x0000000000000006 (SYMTAB)             0xd50\n 0x000000000000000a (STRSZ)              35794 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000003 (PLTGOT)             0x47000\n 0x0000000000000002 (PLTRELSZ)           6552 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0xfac8\n 0x0000000000000007 (RELA)               0xd590\n 0x0000000000000008 (RELASZ)             9528 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffe (VERNEED)            0xd450\n 0x000000006fffffff (VERNEEDNUM)         4\n 0x000000006ffffff0 (VERSYM)             0xcfae\n 0x000000006ffffff9 (RELACOUNT)          32\n 0x0000000000000000 (NULL)               0x0\n",
+  "original_nested_unchanged": true,
+  "finished_ms": 1793317720503,
+  "elapsed_seconds": 0.05885749001754448,
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/patchelf",
+        "--print-rpath",
+        "/local/boyjiang/epd/assets/build/libcuda_ipc_utils.so"
+      ],
+      "exit_code": 0,
+      "stdout": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/lib:/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/nvidia/nccl/lib:/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/nvidia/cuda_runtime/lib\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/readelf",
+        "-W",
+        "-d",
+        "/local/boyjiang/epd/assets/build/libcuda_ipc_utils.so"
+      ],
+      "exit_code": 0,
+      "stdout": "\nDynamic section at offset 0x45960 contains 33 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libc10.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libtorch_cpu.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc10_cuda.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libnccl.so.2]\n 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [ld-linux-x86-64.so.2]\n 0x000000000000000e (SONAME)             Library soname: [libcuda_ipc_utils.so]\n 0x000000000000001d (RUNPATH)            Library runpath: [/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/lib:/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/nvidia/nccl/lib:/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/nvidia/cuda_runtime/lib]\n 0x000000000000000c (INIT)               0x12000\n 0x000000000000000d (FINI)               0x35558\n 0x0000000000000019 (INIT_ARRAY)         0x460f8\n 0x000000000000001b (INIT_ARRAYSZ)       32 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x46118\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x450bd8\n 0x0000000000000005 (STRTAB)             0x448000\n 0x0000000000000006 (SYMTAB)             0xd50\n 0x000000000000000a (STRSZ)              35794 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000003 (PLTGOT)             0x47000\n 0x0000000000000002 (PLTRELSZ)           6552 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0xfac8\n 0x0000000000000007 (RELA)               0xd590\n 0x0000000000000008 (RELASZ)             9528 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffe (VERNEED)            0xd450\n 0x000000006fffffff (VERNEEDNUM)         4\n 0x000000006ffffff0 (VERSYM)             0xcfae\n 0x000000006ffffff9 (RELACOUNT)          32\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    }
+  ]
+}

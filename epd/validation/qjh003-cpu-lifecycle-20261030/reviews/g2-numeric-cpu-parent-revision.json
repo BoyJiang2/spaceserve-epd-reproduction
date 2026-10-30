@@ -1,0 +1,118 @@
+{
+  "passed": false,
+  "gate": "G2-numeric-cpu-parent-revision",
+  "decision": "REQUEST_CHANGES",
+  "blocking": 2,
+  "reviewer": "independent Codex subagent /root/fallback_g3",
+  "reviewed_at_utc": "2026-10-30T00:10:32Z",
+  "candidate_sha256": "37f43b17dee4bd155c45555e0ba9b0e66e301a891c9b3682044ddc54dc62f0d4",
+  "review_file": "g2-numeric-cpu-parent-revision.md",
+  "review_sha256": "6af0b62b6e000a5bf4113ec43d75ac19a03286c13de02594c7cfbd050c3059a9",
+  "files": [
+    {
+      "path": "epd/runtime/numeric_cpu_ray.py",
+      "bytes": 4346,
+      "sha256": "24d129bec5d883a398d79a613253c0bc43e2b0e67c0a255ce969cd61222c4352"
+    },
+    {
+      "path": "epd/runtime/numeric_gcs.py",
+      "bytes": 5468,
+      "sha256": "c31b6eb781bf93d4e1539e8ea2b0fe57812e96e3a8f84976b5742f0c4f8a1b53"
+    },
+    {
+      "path": "epd/runtime/numeric_descendants.py",
+      "bytes": 8048,
+      "sha256": "6e33b325e77af6a4bde8abe43ab028c6427c69c033fe1d8bcabd0bae9cef37b6"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_driver.py",
+      "bytes": 7020,
+      "sha256": "8d064960d39fbdd16e2dee4fb041a9ef86055a25ea43bebab66e89312f95f5e2"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_lifecycle.py",
+      "bytes": 16915,
+      "sha256": "aba0e7560ddb2edafd7eca5538b525b48ddef1d4c81ccfe1715a5d6971a19c2a"
+    },
+    {
+      "path": "epd/runtime/numeric_cpu_receipts.py",
+      "bytes": 873,
+      "sha256": "8976ae523d7b86d9d12ef0a7b7b274e80de5a856917f48c94fd634e710332544"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_ray_cpu.py",
+      "bytes": 4239,
+      "sha256": "28dc95d89b13ade5bff9f0a651418a93b8ed93c791f375c6544700d3b44ad1be"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_gcs_cpu.py",
+      "bytes": 5594,
+      "sha256": "70f22f69949524abaa20d6f85d7fb17218f1238f6e6d39b937516e4237ed09b5"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_descendants_cpu.py",
+      "bytes": 11877,
+      "sha256": "7615049e15fc9ad899f4f49f30755b2ace164901c0bf69f24a1456c765ec78f5"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_driver_cpu.py",
+      "bytes": 5948,
+      "sha256": "72a8dfa12474957a7980b05c4ec413d96a78a053effefbf0af4b795e19bed82e"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_lifecycle_cpu.py",
+      "bytes": 10858,
+      "sha256": "73b4e3e938eb0fe8af8fd621d791d3d46d72ec7d2c9bc2d2d110425f4b315a45"
+    },
+    {
+      "path": "epd/runtime/tests/test_numeric_cpu_receipts_cpu.py",
+      "bytes": 3009,
+      "sha256": "49bca74856dfff6919b85880ecab858369851beffb87c9df9267f832a577d212"
+    }
+  ],
+  "closed_original_findings": [
+    "B1",
+    "B2"
+  ],
+  "partially_closed_original_findings": [
+    "B3",
+    "B4"
+  ],
+  "remaining_findings": [
+    {
+      "id": "R1",
+      "locations": [
+        "numeric_cpu_lifecycle.py:34",
+        "numeric_cpu_lifecycle.py:171",
+        "numeric_cpu_lifecycle.py:186"
+      ],
+      "reason": "Already-absent return from terminate is treated as actual controlled driver/actor signal; no distinct outcome or current detached survival proof."
+    },
+    {
+      "id": "R2",
+      "locations": [
+        "numeric_cpu_lifecycle.py:158",
+        "numeric_cpu_lifecycle.py:180",
+        "numeric_cpu_lifecycle.py:185"
+      ],
+      "reason": "The pre-driver-exit GCS state may be reused as post-exit detached survival; require ordered fresh observation."
+    }
+  ],
+  "tests": {
+    "log": "numeric-cpu-lifecycle-revised-integration-tests.log",
+    "sha256": "518e006ed600c9b26fff68f0f51283491c7b33e3917f18c04eeb45b781a9a1f7",
+    "unique_test_ids_verified": 161,
+    "all_OK": true,
+    "skips": 0,
+    "reviewer_reran_tests": false,
+    "actual_Ray": false,
+    "actual_GPU": false
+  },
+  "source_level_approved": false,
+  "publication_approved": false,
+  "remote_CPU_execution_approved": false,
+  "real_lifecycle_passed": false,
+  "GPU_approved": false,
+  "native36_executable": false,
+  "next_in_progress_source_reviewed": false
+}

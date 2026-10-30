@@ -1,5 +1,11 @@
 # qjh003 EPD环境重定位：2026-10-30 CPU窗口源码
 
+## 最新结果
+
+qjh003 的单次 apply 与 verify 均已实际 exit 0，并分别通过独立结果审计。61启动文件、56修正与3个链接已静态复核；原 nested 库未变。见[实际证据及CPU生命周期准备](../qjh003-cpu-lifecycle-20261030/README.md)。仅完成静态迁移，不代表 Ray、dlopen、CUDA IPC 或 GPU 已通过。
+
+## 维护源码首次发布时的准备记录
+
 状态：代码与10项本地Windows CPU fixtures完成，真实apply/verify尚未运行，不是Ray/CUDA IPC/模型就绪证明。当前Space正式优先；此分支不改变Space main/部署版本。
 
 代码入口：[维护工具](../../../tools/relocate_epd_assets_cpu.py)；[新配置](../../migration/qjh003-asset-relocation-20261030.json)。旧20261029配置和封存材料不改。旧run_epd_relocation_cpu.py只适用于其原冻结版本，不能当本批启动命令。

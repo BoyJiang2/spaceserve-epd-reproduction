@@ -1,0 +1,111 @@
+test_absence_never_opens_or_signals (test_numeric_cpu_lifecycle_cpu.CleanupTests.test_absence_never_opens_or_signals) ... ok
+test_fsync_failure_refuses_signal (test_numeric_cpu_lifecycle_cpu.CleanupTests.test_fsync_failure_refuses_signal) ... ok
+test_missing_cwd_with_existing_PID_is_not_absence (test_numeric_cpu_lifecycle_cpu.CleanupTests.test_missing_cwd_with_existing_PID_is_not_absence) ... ok
+test_pid_reuse_after_open_refuses_signal_and_closes (test_numeric_cpu_lifecycle_cpu.CleanupTests.test_pid_reuse_after_open_refuses_signal_and_closes) ... ok
+test_reap_direct_child_before_absence_observation (test_numeric_cpu_lifecycle_cpu.CleanupTests.test_reap_direct_child_before_absence_observation) ... ok
+test_term_uses_stable_handle_then_closes (test_numeric_cpu_lifecycle_cpu.CleanupTests.test_term_uses_stable_handle_then_closes) ... ok
+test_GCS_DEAD_with_existingPID_never_grants_head_cleanup (test_numeric_cpu_lifecycle_cpu.ParentTests.test_GCS_DEAD_with_existingPID_never_grants_head_cleanup) ... ERROR
+test_four_distinct_scenarios_no_business_retry (test_numeric_cpu_lifecycle_cpu.ParentTests.test_four_distinct_scenarios_no_business_retry) ... ERROR
+test_missing_identity_prevents_head_cleanup (test_numeric_cpu_lifecycle_cpu.ParentTests.test_missing_identity_prevents_head_cleanup) ... ERROR
+test_pending_even_without_returnedActorID_retains_head (test_numeric_cpu_lifecycle_cpu.ParentTests.test_pending_even_without_returnedActorID_retains_head) ... ERROR
+
+======================================================================
+ERROR: test_GCS_DEAD_with_existingPID_never_grants_head_cleanup (test_numeric_cpu_lifecycle_cpu.ParentTests.test_GCS_DEAD_with_existingPID_never_grants_head_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 66, in setUp
+    self.d=lifecycle.Diagnostic(self.root,'cpu',self.folder,self.root,18765,self.root/'ray')
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 61, in __init__
+    self.uid=os.getuid();self.proc=HeadProc();self.boot=self.proc.boot()
+                                                        ~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\live_evidence.py", line 18, in boot
+    return Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '\\proc\\sys\\kernel\\random\\boot_id'
+
+======================================================================
+ERROR: test_four_distinct_scenarios_no_business_retry (test_numeric_cpu_lifecycle_cpu.ParentTests.test_four_distinct_scenarios_no_business_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 66, in setUp
+    self.d=lifecycle.Diagnostic(self.root,'cpu',self.folder,self.root,18765,self.root/'ray')
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 61, in __init__
+    self.uid=os.getuid();self.proc=HeadProc();self.boot=self.proc.boot()
+                                                        ~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\live_evidence.py", line 18, in boot
+    return Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '\\proc\\sys\\kernel\\random\\boot_id'
+
+======================================================================
+ERROR: test_missing_identity_prevents_head_cleanup (test_numeric_cpu_lifecycle_cpu.ParentTests.test_missing_identity_prevents_head_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 66, in setUp
+    self.d=lifecycle.Diagnostic(self.root,'cpu',self.folder,self.root,18765,self.root/'ray')
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 61, in __init__
+    self.uid=os.getuid();self.proc=HeadProc();self.boot=self.proc.boot()
+                                                        ~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\live_evidence.py", line 18, in boot
+    return Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '\\proc\\sys\\kernel\\random\\boot_id'
+
+======================================================================
+ERROR: test_pending_even_without_returnedActorID_retains_head (test_numeric_cpu_lifecycle_cpu.ParentTests.test_pending_even_without_returnedActorID_retains_head)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 66, in setUp
+    self.d=lifecycle.Diagnostic(self.root,'cpu',self.folder,self.root,18765,self.root/'ray')
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_cpu_lifecycle.py", line 61, in __init__
+    self.uid=os.getuid();self.proc=HeadProc();self.boot=self.proc.boot()
+                                                        ~~~~~~~~~~~~~~^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\live_evidence.py", line 18, in boot
+    return Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '\\proc\\sys\\kernel\\random\\boot_id'
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.019s
+
+FAILED (errors=4)
