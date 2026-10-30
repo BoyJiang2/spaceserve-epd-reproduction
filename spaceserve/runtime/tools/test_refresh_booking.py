@@ -12,6 +12,25 @@ import refresh_booking as refresh
 
 
 class BookingTests(unittest.TestCase):
+    def test_human_receipt_preserves_source_without_API_claim(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
+            root=Path(directory);(root/'evidence').mkdir()
+            start=1793376000000;end=1793415600000
+            with patch.object(refresh,'BOOKING_ID','bk-20261030T0301-bd62e6dd'), \
+                    patch.object(refresh,'START',start),patch.object(refresh,'END',end), \
+                    patch.object(refresh,'AUTHORIZED_END',end):
+                state=self.snapshot();state.update(origin='direct-human-reservation-confirmation-20261031',
+                    read_only=True,human_confirmed=True,observed_ms=start+1000,
+                    authorization_reference='user-confirmed-qjh003-20261031-API-network-failure')
+                path=root/'snapshot.json';path.write_text(json.dumps(state))
+                with patch.object(refresh,'BATCH',root),patch.object(refresh.sys,'argv',['refresh','--snapshot',str(path)]), \
+                        patch.object(refresh.time,'time',return_value=(start+1000)/1000),contextlib.redirect_stdout(io.StringIO()):
+                    refresh.main()
+                receipt=json.loads((root/'evidence/BOOKING_VERIFIED.json').read_text())
+                self.assertFalse(receipt['booking_system_verified'])
+                self.assertNotIn('api_observed_ms',receipt)
+                self.assertEqual(receipt['verification_source'],state['origin'])
+
     def setUp(self):
         for key,value in {'BOOKING_ID':'CPU-MOCK-ticket','START':1000000,'END':50000000,'AUTHORIZED_END':50000000}.items():
             patcher=patch.object(refresh,key,value);patcher.start();self.addCleanup(patcher.stop)

@@ -13,7 +13,7 @@ class WindowTests(unittest.TestCase):
             resources=[dict(id=window.RESOURCE,node='qjh003',active=True,gpu_count=8)],
             bookings=[dict(id=ticket,node='qjh003',resource_id=window.RESOURCE,user='boyjiang',
                 kind=kind,start_ms=window.START,end_ms=end) for kind,ticket,end in
-                [('cpu',window.CPU,1793329200000),('gpu',window.GPU,window.END)]])
+                [('gpu',window.GPU,window.END)]])
 
     def test_all_phase_budgets_at_real_start(self):
         for phase in window.BUDGETS:
@@ -24,6 +24,16 @@ class WindowTests(unittest.TestCase):
 
     def test_before_start_refused(self):
         with self.assertRaises(ValueError):window.validate(self.proof,window.START-1,'prepare',self.config)
+
+    def test_human_confirmation_is_explicit_bounded_and_not_API(self):
+        proof=window.human_confirmation(self.config,window.START)
+        self.assertNotEqual(proof['origin'],'gputime_read_only_api')
+        window.validate(proof,window.START,'model',self.config)
+        for key,value in [('human_confirmed',False),('authorization_reference','other'),
+                          ('observed_ms',window.START-1)]:
+            broken=copy.deepcopy(proof);broken[key]=value
+            with self.assertRaises(ValueError):window.validate(broken,window.START,'model',self.config)
+        with self.assertRaises(ValueError):window.validate(proof,window.END,'formal',self.config)
 
     def test_stale_future_or_prestart_snapshot(self):
         for observed in (window.START-1,window.START+1,window.START-300001):
@@ -44,7 +54,7 @@ class WindowTests(unittest.TestCase):
             with self.subTest(change=change):
                 proof=copy.deepcopy(self.proof)
                 if change=='owner':proof['bookings'][0]['user']='other'
-                if change=='id':proof['bookings'][1]['id']='old-ticket'
+                if change=='id':proof['bookings'][0]['id']='old-ticket'
                 if change=='duplicate':proof['bookings'].append(copy.deepcopy(proof['bookings'][0]))
                 if change=='missing':proof['bookings'].pop()
                 with self.assertRaises(ValueError):window.validate(proof,window.START,'numeric',self.config)

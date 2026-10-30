@@ -23,7 +23,7 @@ def bootstrap(commit, phase):
     return """import base64,hashlib,json,os,subprocess,sys,time,types
 from pathlib import Path
 p=json.load(sys.stdin);commit=%r;phase=%r
-root=Path('/local/boyjiang/spaceserve');repo=root/'repo';stage=root/'staging/space-formal-20261030-0400'
+root=Path('/local/boyjiang/spaceserve');repo=root/'repo';stage=root/'staging/space-20261031-0000'
 git=['git','-C',str(repo)]
 assert os.uname().nodename=='qjh003' and os.getuid()==2147 and os.sched_getaffinity(0)=={50} and os.getpriority(os.PRIO_PROCESS,0)==10
 assert subprocess.check_output(git+['rev-parse','HEAD'],text=True,timeout=10).strip()==commit
@@ -81,17 +81,18 @@ def main():
     parser.add_argument('--approval',required=True,type=Path)
     parser.add_argument('--review',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--human-confirmed-reservation',action='store_true')
     args=parser.parse_args();code=bootstrap(args.commit,args.phase)
-    if git('rev-parse','HEAD').decode().strip()!=args.commit:raise ValueError('Local source commit differs')
+    if git('rev-parse','refs/heads/spaceserve-window-preparation-20261031').decode().strip()!=args.commit:raise ValueError('Local Space branch commit differs')
     for name in ('tools/control_space_window_20261030.py','tools/control_space_temporary_cpu.py','tools/run_space_window_20261030.py','tools/space_window_20261030.py','tools/run_space_numeric.py','tools/validate_space_cpu.py','tools/migrate_code_cpu.py','spaceserve/runtime/entry.py','spaceserve/runtime/configs/qjh003-20261030-0400.proposed.json'):
         if verified_file(args.commit,name)!=(CHECKOUT/name).read_bytes():raise ValueError('Local/GitHub source bytes differ')
     approval=json.loads(args.approval.read_bytes());review=args.review.read_bytes()
     if (approval.get('review_sha256')!=hashlib.sha256(review).hexdigest() or approval.get('source_commit')!=args.commit
             or approval.get('phase')!=args.phase or approval.get('passed') is not True):
         raise ValueError('Independent exact phase review required')
-    proof=snapshot()
-    from space_window_20261030 import validate
+    from space_window_20261030 import validate,human_confirmation
     cfg=json.loads((CHECKOUT/'spaceserve/runtime/configs/qjh003-20261030-0400.proposed.json').read_bytes())
+    proof=human_confirmation(cfg,int(time.time()*1000)) if args.human_confirmed_reservation else snapshot()
     limits=validate(proof,int(time.time()*1000),args.phase,cfg)
     output=args.output.resolve()
     if not output.is_relative_to(CHECKOUT.parents[2]/'outputs'):raise ValueError('Evidence must remain in workspace outputs')

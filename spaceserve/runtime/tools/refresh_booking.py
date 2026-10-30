@@ -60,12 +60,24 @@ def main():
     args = parser.parse_args()
     snapshot = json.loads(args.snapshot.read_text(encoding='utf-8-sig'))
     now_ms = int(time.time()*1000)
-    if (snapshot.get('origin') != 'gputime_read_only_api' or snapshot.get('read_only') is not True
+    human=(snapshot.get('origin')=='direct-human-reservation-confirmation-20261031'
+           and snapshot.get('human_confirmed') is True
+           and snapshot.get('authorization_reference')=='user-confirmed-qjh003-20261031-API-network-failure'
+           and BOOKING_ID=='bk-20261030T0301-bd62e6dd' and START==1793376000000 and END==1793415600000)
+    if (snapshot.get('origin')!='gputime_read_only_api' and not human):
+        raise RuntimeError('Actual API or exact current human authorization required')
+    if (snapshot.get('read_only') is not True
             or type(snapshot.get('observed_ms')) is not int or not 0 <= now_ms-snapshot['observed_ms'] <= 300000
             or snapshot['observed_ms'] < (START or now_ms+1)):
         raise RuntimeError('API snapshot must include an actual fresh observed_ms; no restamping old data')
     state = select_booking(snapshot, now_ms)
-    state['api_observed_ms'] = snapshot['observed_ms']
+    state['verification_source']=snapshot['origin']
+    state['booking_system_verified']=not human
+    if human:
+        state['authorization_reference']=snapshot['authorization_reference']
+        state['authorization_recorded_ms']=snapshot['observed_ms']
+    else:
+        state['api_observed_ms'] = snapshot['observed_ms']
     state['verified_at_utc'] = datetime.datetime.fromtimestamp(snapshot['observed_ms']/1000,
                                                             datetime.timezone.utc).isoformat()
     target, temporary = (BATCH/'evidence'/name for name in ('BOOKING_VERIFIED.json', '.booking-update.tmp'))

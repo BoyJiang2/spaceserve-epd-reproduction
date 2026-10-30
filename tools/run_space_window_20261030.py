@@ -13,7 +13,7 @@ import types
 
 ROOT = Path('/local/boyjiang/spaceserve')
 REPO = ROOT/'repo'
-RUN = ROOT/'runs/space-formal-20261030-0400'
+RUN = ROOT/'runs/space-20261031-0000'
 BOOT = '65f52a67-afe4-4919-8646-4694255b48ee'
 CONFIG_PATH = 'spaceserve/runtime/configs/qjh003-20261030-0400.proposed.json'
 
