@@ -23,12 +23,26 @@ class HeadProc(NumericProc):
 
     def children(self, pid, check):
         tasks = Path('/proc')/str(pid)/'task'
+        parent_stat = (tasks.parent/'stat').read_text()
+        parent_start = int(parent_stat[parent_stat.rfind(')')+2:].split()[19])
         tids = sorted(tasks.iterdir(), key=lambda path:int(path.name))
         if len(tids) > 4096: raise ValueError('Head TID inventory exceeds frozen bound')
         result = []
         for task in tids:
             check()
-            raw = (task/'children').read_text()
+            try:
+                raw = (task/'children').read_text()
+            except FileNotFoundError:
+                if task.exists(): raise
+                current_stat = (tasks.parent/'stat').read_text()
+                if int(current_stat[current_stat.rfind(')')+2:].split()[19]) != parent_start:
+                    raise ValueError('Head parent identity changed during TID inventory')
+                check()
+                if task.exists(): raise
+                result.append(dict(tid=int(task.name), raw=None, children=[],
+                    tid_absent_before_and_after=True, parent_start_ticks=parent_start,
+                    release_or_quiescence_granted=False))
+                continue
             children = [int(value) for value in raw.split()]
             if any(value <= 0 for value in children): raise ValueError('Invalid child PID')
             result.append(dict(tid=int(task.name), raw=raw, children=children))

@@ -1,0 +1,46 @@
+.........................................E.......................................................E..E..................................................................................
+======================================================================
+ERROR: test_original_missing_path_and_traceback_survive_cleanup_error (test_numeric_cpu_lifecycle_cpu.ParentTests.test_original_missing_path_and_traceback_survive_cleanup_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 117, in test_original_missing_path_and_traceback_survive_cleanup_error
+    self.assertEqual(failure['missing_path'],missing)
+                     ~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'missing_path'
+
+======================================================================
+ERROR: test_parent_pid_reuse_during_missing_tid_is_refused (test_numeric_descendants_cpu.ThreadInventoryTests.test_parent_pid_reuse_during_missing_tid_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 257, in test_parent_pid_reuse_during_missing_tid_is_refused
+    with self.assertRaisesRegex(ValueError,'parent identity changed'):self.observe('parent_reused')
+                                                                      ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 246, in observe
+    with patch.object(Path,'read_text',read):return HeadProc().children(123,lambda:None)
+                                                    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 31, in children
+    raw = (task/'children').read_text()
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 241, in read
+    raise FileNotFoundError(2,'fixture thread exited',str(path))
+FileNotFoundError: [Errno 2] fixture thread exited: 'D:\\Documents\\codex\\2026-10-23\\new-chat-2\\work\\cpu-tests\\tmp5nalxak3\\123\\task\\777\\children'
+
+======================================================================
+ERROR: test_vanished_tid_with_same_live_parent_is_explicit_missing_observation (test_numeric_descendants_cpu.ThreadInventoryTests.test_vanished_tid_with_same_live_parent_is_explicit_missing_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 249, in test_vanished_tid_with_same_live_parent_is_explicit_missing_observation
+    row=self.observe('gone')[0]
+        ~~~~~~~~~~~~^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 246, in observe
+    with patch.object(Path,'read_text',read):return HeadProc().children(123,lambda:None)
+                                                    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 31, in children
+    raw = (task/'children').read_text()
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 241, in read
+    raise FileNotFoundError(2,'fixture thread exited',str(path))
+FileNotFoundError: [Errno 2] fixture thread exited: 'D:\\Documents\\codex\\2026-10-23\\new-chat-2\\work\\cpu-tests\\tmp0mu61eq7\\123\\task\\777\\children'
+
+----------------------------------------------------------------------
+Ran 183 tests in 0.861s
+
+FAILED (errors=3)

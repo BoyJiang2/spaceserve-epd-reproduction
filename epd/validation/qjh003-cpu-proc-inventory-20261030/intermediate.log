@@ -1,0 +1,33 @@
+.........................................F....................................................E........................................................................................
+======================================================================
+ERROR: test_real_file_parser_enumerates_all_tid_children (test_numeric_descendants_cpu.ProcAdapterTests.test_real_file_parser_enumerates_all_tid_children)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_descendants_cpu.py", line 206, in test_real_file_parser_enumerates_all_tid_children
+    result=HeadProc().children(10,lambda:None)
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\numeric_descendants.py", line 26, in children
+    parent_stat = (tasks.parent/'stat').read_text()
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\23520\\AppData\\Local\\Temp\\tmprtunpr9h\\proc\\10\\stat'
+
+======================================================================
+FAIL: test_original_missing_path_and_traceback_survive_cleanup_error (test_numeric_cpu_lifecycle_cpu.ParentTests.test_original_missing_path_and_traceback_survive_cleanup_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_numeric_cpu_lifecycle_cpu.py", line 118, in test_original_missing_path_and_traceback_survive_cleanup_error
+    self.assertIn('FileNotFoundError',failure['traceback']);self.assertIn(missing,failure['traceback'])
+                                                            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'C:\\Users\\23520\\AppData\\Local\\Temp\\tmpggawzgx0\\missing-thread\\children' not found in 'Traceback (most recent call last):\n  File "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\work\\repository-upload\\checkout\\epd\\runtime\\numeric_cpu_lifecycle.py", line 244, in run\n    self.scenario(detached,controlled,index)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "D:\\Documents\\codex\\2026-10-23\\new-chat-2\\work\\repository-upload\\checkout\\epd\\runtime\\tests\\test_numeric_cpu_lifecycle_cpu.py", line 112, in fail\n    raise FileNotFoundError(2,\'fixture missing thread\',missing)\nFileNotFoundError: [Errno 2] fixture missing thread: \'C:\\\\Users\\\\23520\\\\AppData\\\\Local\\\\Temp\\\\tmpggawzgx0\\\\missing-thread\\\\children\'\n'
+
+----------------------------------------------------------------------
+Ran 183 tests in 0.906s
+
+FAILED (failures=1, errors=1)

@@ -1,5 +1,6 @@
 """CPU-MOCK only: ownership failures cannot become cleanup permission."""
 import copy
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -199,6 +200,7 @@ class ProcAdapterTests(unittest.TestCase):
             base=Path(temp);tasks=base/'proc/10/task'
             for tid,children in ((10,''),(22,'11 12')):
                 p=tasks/str(tid);p.mkdir(parents=True);(p/'children').write_text(children)
+            (tasks.parent/'stat').write_text('10 (parent) '+' '.join(['S','1']+['0']*17+['42']))
             def path(value):
                 return base/str(value).lstrip('/')
             with patch('numeric_descendants.Path',side_effect=path):
@@ -212,6 +214,58 @@ class ProcAdapterTests(unittest.TestCase):
             (p/'status').write_text('Uid: 2147 9 2147 2147\n')
             with patch('numeric_descendants.Path',side_effect=lambda value:base/str(value).lstrip('/')):
                 with self.assertRaisesRegex(ValueError,'Foreign'):HeadProc().snapshot(10,2147)
+
+
+
+
+class ThreadInventoryTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory(dir=Path(os.environ['EPD_CPU_TEST_TMP']).resolve(strict=True));self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name);self.parent=self.root/'123';self.tasks=self.parent/'task'
+        self.task=self.tasks/'777';self.task.mkdir(parents=True);(self.task/'children').write_text('456')
+        self.stat=self.parent/'stat';self.set_start(42)
+        self.path_patch=patch('numeric_descendants.Path',side_effect=lambda value:self.root if value=='/proc' else Path(value))
+        self.path_patch.start();self.addCleanup(self.path_patch.stop)
+
+    def set_start(self,start):
+        self.stat.write_text('123 (parent) '+' '.join(['S','1']+['0']*17+[str(start)]))
+
+    def observe(self,mode):
+        original=Path.read_text;stat_reads=0
+        def read(path,*args,**kwargs):
+            nonlocal stat_reads
+            if path==self.task/'children':
+                if mode=='permission':raise PermissionError('fixture')
+                if mode!='live_tid':
+                    path.unlink();self.task.rmdir()
+                if mode=='parent_reused':self.set_start(43)
+                raise FileNotFoundError(2,'fixture thread exited',str(path))
+            if path==self.stat:
+                stat_reads+=1
+                if mode=='tid_reappeared' and stat_reads==2:self.task.mkdir()
+            return original(path,*args,**kwargs)
+        with patch.object(Path,'read_text',read):return HeadProc().children(123,lambda:None)
+
+    def test_vanished_tid_with_same_live_parent_is_explicit_missing_observation(self):
+        row=self.observe('gone')[0]
+        self.assertEqual(row['children'],[]);self.assertIsNone(row['raw'])
+        self.assertTrue(row['tid_absent_before_and_after']);self.assertEqual(row['parent_start_ticks'],42)
+        self.assertFalse(row['release_or_quiescence_granted'])
+
+    def test_missing_children_with_live_tid_is_refused(self):
+        with self.assertRaises(FileNotFoundError):self.observe('live_tid')
+
+    def test_parent_pid_reuse_during_missing_tid_is_refused(self):
+        with self.assertRaisesRegex(ValueError,'parent identity changed'):self.observe('parent_reused')
+
+    def test_tid_reappearing_after_parent_check_is_refused(self):
+        with self.assertRaises(FileNotFoundError):self.observe('tid_reappeared')
+
+    def test_permission_error_is_never_a_missing_tid(self):
+        with self.assertRaises(PermissionError):self.observe('permission')
+
+    def test_ordinary_tid_keeps_raw_child_inventory(self):
+        self.assertEqual(HeadProc().children(123,lambda:None),[dict(tid=777,raw='456',children=[456])])
 
 
 if __name__=='__main__':unittest.main()

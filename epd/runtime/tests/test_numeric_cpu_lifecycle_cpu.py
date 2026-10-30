@@ -105,6 +105,18 @@ class ParentTests(ParentFixture,unittest.TestCase):
         self.d.scenario=fail
         with self.assertRaisesRegex(RuntimeError,'pending CPU actor'):self.d.run()
         self.term.assert_not_called()
+    def test_original_missing_path_and_traceback_survive_cleanup_error(self):
+        missing=str(self.root/'missing-thread'/'children')
+        def fail(*args):
+            self.d.pending_scenarios.add(0)
+            raise FileNotFoundError(2,'fixture missing thread',missing)
+        self.d.scenario=fail
+        with self.assertRaisesRegex(RuntimeError,'creation/scenario pending'):self.d.run()
+        events=[json.loads(line) for line in self.d.journal.read_text().splitlines()]
+        failure=next(e for e in events if e['event']=='CPU_diagnostic_failed')
+        self.assertEqual(failure['missing_path'],missing)
+        self.assertIn('FileNotFoundError',failure['traceback']);self.assertIn(repr(missing),failure['traceback'])
+
     def test_four_distinct_scenarios_no_business_retry(self):
         self.d.scenario=Mock()
         self.d.run()

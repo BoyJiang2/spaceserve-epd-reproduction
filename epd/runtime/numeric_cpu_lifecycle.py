@@ -8,6 +8,7 @@ import signal
 import subprocess
 import sys
 import time
+import traceback
 
 from numeric_cpu_ray import load_cpu_ray
 from numeric_descendants import HeadDescendants, HeadProc
@@ -242,7 +243,8 @@ class Diagnostic:
             for index,(detached,controlled) in enumerate(self.scenarios):
                 self.scenario(detached,controlled,index)
         except BaseException as error:
-            failure=error;self.record('CPU_diagnostic_failed',error=repr(error))
+            failure=error;self.record('CPU_diagnostic_failed',error=repr(error),
+                traceback=traceback.format_exc(),missing_path=getattr(error,'filename',None))
         finally:
             self.cleaning=True
             try:
