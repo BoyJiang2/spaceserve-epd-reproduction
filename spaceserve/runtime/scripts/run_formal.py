@@ -1,4 +1,5 @@
 """Execute exactly the approved 54-cell schedule, with diagnostics disabled."""
+import argparse
 import json
 import os
 from pathlib import Path
@@ -15,6 +16,7 @@ from audit_formal_cell import audit
 from numeric_launcher import terminate_owned
 from runtime_config import context, device_argument
 from cpu_placement import validate as validate_cpu
+import resume_plan
 CONFIG = context()
 
 SCHEDULE_SHA='7248d8829180d3df25f04204cd7e1e89b7b7462ea5f39651986f118418c0d8d3'
@@ -95,55 +97,108 @@ def supervised_benchmark(arguments,environment,path,monitor):
                 benchmark.wait(timeout=15)
 
 
+def load_schedule():
+    schedule_path=ROOT/'configs/schedule-v2.json'
+    if sha(schedule_path)!=SCHEDULE_SHA:
+        raise RuntimeError('frozen schedule changed')
+    schedule=json.loads(schedule_path.read_text())
+    if len(schedule['cells'])!=54 or sum(row['requests'] for row in schedule['cells'])!=5400 or sum(row['warmup'] for row in schedule['cells'])!=1080:
+        raise RuntimeError('formal budget changed')
+    return schedule
+
+
+def run_cell(row,code):
+    destination=ROOT/'results/formal'/resume_plan.cell_dirname(row)
+    print(json.dumps({'starting':str(destination),'row':row}),flush=True)
+    with service(row['role'],row['block'],destination) as (environment,pid):
+        records=ROOT/'results/runtime-devices'/environment['REPRO_SPACE_RUN_LABEL']
+        validate_devices(records,row['role'])
+        boundary(destination,environment,pid,'before')
+        command([PYTHON,str(ROOT/'scripts/capture_runtime.py'),str(destination/'runtime.json'),'--server-pids',str(pid),'--devices',device_argument(CONFIG),'--note','Formal service; profiler and SM diagnostic kernels disabled'],environment,destination/'runtime.log')
+        host_snapshot(destination/'host-before.json')
+        with (destination/'gpu-memory.jsonl').open('x') as memory,(destination/'monitor-stderr.log').open('x') as error_log:
+            monitor=subprocess.Popen([PYTHON,'-u',str(ROOT/'scripts/formal_monitor.py'),'--devices',device_argument(CONFIG),'--server-pids',str(pid)],env=environment,stdout=memory,stderr=error_log)
+            monitor_created=None
+            try:
+                monitor_created=psutil.Process(monitor.pid).create_time()
+                supervised_benchmark([PYTHON,str(ROOT/'scripts/benchmark.py'),'--urls','http://127.0.0.1:19770',
+                    '--model',str(CONFIG.asset('models/Qwen2-VL-7B-Instruct')),'--dataset',str(CONFIG.asset('dataset')),
+                    '--output',str(destination/'measurement'),'--images',str(row['images']),
+                    '--concurrency',str(row['concurrency']),'--tokens','128','--warmup','20','--requests','100','--repetitions','1'],
+                    environment,destination/'benchmark.log',monitor)
+            finally:
+                if monitor.poll() is None:
+                    terminate_owned(monitor,monitor_created)
+                if monitor.wait(timeout=15)!=0:
+                    raise RuntimeError('GPU monitor failed; preserve partial cell')
+        host_snapshot(destination/'host-after.json')
+        boundary(destination,environment,pid,'after')
+        with (destination/'technical-audit.json').open('x') as check:
+            json.dump(audit(destination,row),check,indent=2)
+    shutil.copytree(records,destination/'device-records')
+    with (destination/'COMPLETED.json').open('x') as marker:
+        json.dump({'formal_code_manifest_sha256':code,'schedule_index':row['index'],
+                   'formal_requests':100,'warmup_requests':20},marker,indent=2)
+
+
+def plan_state(schedule,code,verify_code):
+    output=ROOT/'results/formal'
+    if not output.is_dir():
+        return [],list(schedule['cells']),[]
+    return resume_plan.classify(output,schedule['cells'],code,verify_code=verify_code)
+
+
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--resume',action='store_true',
+        help='skip cells already COMPLETED under this exact code manifest; never rewrite an existing cell')
+    parser.add_argument('--dry-run',action='store_true',
+        help='print resume state without GPU, booking, gates or any file write')
+    parser.add_argument('--remaining-minutes',type=float,
+        help='with --dry-run: only report whether the remaining cells fit in this many minutes')
+    args=parser.parse_args()
     if not __debug__:
         raise RuntimeError('optimized formal controller refused')
+    schedule=load_schedule()
+    if args.dry_run:
+        done,pending,blocked=plan_state(schedule,None,False)
+        report=resume_plan.summary(done,pending,blocked)
+        report.update({'cells':len(schedule['cells']),'schedule_sha256':SCHEDULE_SHA,'mode':'dry-run'})
+        if args.remaining_minutes is not None:
+            report['estimate_minutes']=round(len(pending)*5.5,1)
+            report['fits_window']=report['estimate_minutes']<=args.remaining_minutes
+        print(json.dumps(report,indent=2))
+        return 0 if not blocked else 1
     with exclusive_formal() as code:
-        schedule_path=ROOT/'configs/schedule-v2.json'
-        if sha(schedule_path)!=SCHEDULE_SHA:
-            raise RuntimeError('frozen schedule changed')
-        schedule=json.loads(schedule_path.read_text())
-        if len(schedule['cells'])!=54 or sum(row['requests'] for row in schedule['cells'])!=5400 or sum(row['warmup'] for row in schedule['cells'])!=1080:
-            raise RuntimeError('formal budget changed')
         output=ROOT/'results/formal'
-        output.mkdir(exist_ok=False)
-        for row in schedule['cells']:
-            destination=output/f'{row["index"]:03d}-b{row["block"]}-i{row["images"]}-c{row["concurrency"]}-{row["role"]}'
-            print(json.dumps({'starting':str(destination),'row':row}),flush=True)
-            with service(row['role'],row['block'],destination) as (environment,pid):
-                records=ROOT/'results/runtime-devices'/environment['REPRO_SPACE_RUN_LABEL']
-                validate_devices(records,row['role'])
-                boundary(destination,environment,pid,'before')
-                command([PYTHON,str(ROOT/'scripts/capture_runtime.py'),str(destination/'runtime.json'),'--server-pids',str(pid),'--devices',device_argument(CONFIG),'--note','Formal service; profiler and SM diagnostic kernels disabled'],environment,destination/'runtime.log')
-                host_snapshot(destination/'host-before.json')
-                with (destination/'gpu-memory.jsonl').open('x') as memory,(destination/'monitor-stderr.log').open('x') as error_log:
-                    monitor=subprocess.Popen([PYTHON,'-u',str(ROOT/'scripts/formal_monitor.py'),'--devices',device_argument(CONFIG),'--server-pids',str(pid)],env=environment,stdout=memory,stderr=error_log)
-                    monitor_created=None
-                    try:
-                        monitor_created=psutil.Process(monitor.pid).create_time()
-                        supervised_benchmark([PYTHON,str(ROOT/'scripts/benchmark.py'),'--urls','http://127.0.0.1:19770',
-                            '--model',str(CONFIG.asset('models/Qwen2-VL-7B-Instruct')),'--dataset',str(CONFIG.asset('dataset')),
-                            '--output',str(destination/'measurement'),'--images',str(row['images']),
-                            '--concurrency',str(row['concurrency']),'--tokens','128','--warmup','20','--requests','100','--repetitions','1'],
-                            environment,destination/'benchmark.log',monitor)
-                    finally:
-                        if monitor.poll() is None:
-                            terminate_owned(monitor,monitor_created)
-                        if monitor.wait(timeout=15)!=0:
-                            raise RuntimeError('GPU monitor failed; preserve partial cell')
-                host_snapshot(destination/'host-after.json')
-                boundary(destination,environment,pid,'after')
-                with (destination/'technical-audit.json').open('x') as check:
-                    json.dump(audit(destination,row),check,indent=2)
-            shutil.copytree(records,destination/'device-records')
-            with (destination/'COMPLETED.json').open('x') as marker:
-                json.dump({'formal_code_manifest_sha256':code,'schedule_index':row['index'],
-                           'formal_requests':100,'warmup_requests':20},marker,indent=2)
+        if args.resume:
+            if not output.is_dir():
+                raise RuntimeError('--resume requires an existing results/formal directory')
+            done,pending,blocked=resume_plan.classify(output,schedule['cells'],code)
+            if blocked:
+                raise RuntimeError('refusing resume; incomplete or foreign cells present: '+json.dumps(blocked))
+            print(json.dumps({'resume':True,'done':[row['index'] for row in done],
+                              'pending':[row['index'] for row in pending]}),flush=True)
+        else:
+            output.mkdir(exist_ok=False)
+            done,pending= [],list(schedule['cells'])
+        for row in pending:
+            run_cell(row,code)
+        done,pending,blocked=resume_plan.classify(output,schedule['cells'],code)
+        if pending or blocked:
+            raise RuntimeError('matrix incomplete after run: '+json.dumps(resume_plan.summary(done,pending,blocked)))
         if formal_code()!=code:
             raise RuntimeError('formal code identity changed')
         idle()
-        with (output/'COMPLETED.json').open('x') as marker:
-            json.dump({'formal_code_manifest_sha256':code,'schedule_sha256':SCHEDULE_SHA,'formal_requests':5400,'warmup_requests':1080},marker,indent=2)
+        marker=output/'COMPLETED.json'
+        state={'formal_code_manifest_sha256':code,'schedule_sha256':SCHEDULE_SHA,
+               'formal_requests':5400,'warmup_requests':1080}
+        if marker.exists():
+            if json.loads(marker.read_text())!=state:
+                raise RuntimeError('existing matrix COMPLETED marker differs')
+        else:
+            with marker.open('x') as output_file:
+                json.dump(state,output_file,indent=2)
 
 
 if __name__=='__main__':
