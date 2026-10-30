@@ -67,6 +67,7 @@ class ParentFixture:
         self.patches.enter_context(patch.object(lifecycle.os,'sched_getaffinity',return_value={50},create=True))
         self.patches.enter_context(patch.object(lifecycle.os,'getpriority',return_value=10,create=True))
         self.patches.enter_context(patch.object(lifecycle.os,'PRIO_PROCESS',0,create=True))
+        self.patches.enter_context(patch.object(lifecycle,'check_cpu_port'))
         self.patches.enter_context(patch.object(lifecycle.os,'O_NOFOLLOW',0,create=True))
         self.patches.enter_context(patch.object(lifecycle.HeadProc,'boot',return_value='fixture-boot'))
         self.patches.enter_context(patch.object(lifecycle.signal,'SIGALRM',14,create=True))
@@ -116,6 +117,13 @@ class ParentTests(ParentFixture,unittest.TestCase):
         failure=next(e for e in events if e['event']=='CPU_diagnostic_failed')
         self.assertEqual(failure['missing_path'],missing)
         self.assertIn('FileNotFoundError',failure['traceback']);self.assertIn(repr(missing),failure['traceback'])
+
+    def test_port_rejection_precedes_Ray_or_Node_creation(self):
+        lifecycle.check_cpu_port.side_effect=OSError(98,'busy')
+        self.d.scenario=Mock()
+        with self.assertRaises(OSError):self.d.run()
+        lifecycle.load_cpu_ray.assert_not_called();lifecycle.construct_node.assert_not_called()
+        self.assertEqual(self.terminal()['exit_code'],1)
 
     def test_four_distinct_scenarios_no_business_retry(self):
         self.d.scenario=Mock()
@@ -341,6 +349,42 @@ class ScenarioTests(ParentFixture,unittest.TestCase):
         self.prepare(False,True);self.reader.read.return_value=dict(state='DEAD',pid=123)
         with self.assertRaisesRegex(ValueError,'live driver/creation window'):self.d.scenario(False,True,0)
         self.term.assert_not_called()
+
+
+
+
+class CPUPortTests(unittest.TestCase):
+    def setUp(self):
+        self.v4=MagicMock();self.v6=MagicMock()
+        self.v4.__enter__.return_value=self.v4;self.v6.__enter__.return_value=self.v6
+        def factory(family=lifecycle.socket.AF_INET,*args):return self.v4 if family==lifecycle.socket.AF_INET else self.v6
+        self.factory=patch.object(lifecycle.socket,'socket',side_effect=factory).start();self.addCleanup(patch.stopall)
+
+    def test_both_wildcards_checked_and_closed(self):
+        lifecycle.check_cpu_port(27180)
+        self.v4.bind.assert_called_once_with(('0.0.0.0',27180));self.v6.bind.assert_called_once_with(('::',27180))
+        self.v6.setsockopt.assert_called_once_with(lifecycle.socket.IPPROTO_IPV6,lifecycle.socket.IPV6_V6ONLY,1)
+        self.assertTrue(self.v4.__exit__.called and self.v6.__exit__.called)
+
+    def test_ipv4_occupied_refused(self):
+        self.v4.bind.side_effect=lambda addr:(_ for _ in ()).throw(OSError(98,'busy')) if addr[0]=='0.0.0.0' else None
+        with self.assertRaises(OSError):lifecycle.check_cpu_port(27180)
+        self.v6.bind.assert_not_called();self.assertTrue(self.v4.__exit__.called)
+
+    def test_ipv6_occupied_refused(self):
+        self.v6.bind.side_effect=OSError(98,'busy')
+        with self.assertRaises(OSError):lifecycle.check_cpu_port(27180)
+        self.assertTrue(self.v4.__exit__.called and self.v6.__exit__.called)
+
+    def test_invalid_port_never_opens_socket(self):
+        for port in (False,True,0,65536,27180.5,'27180'):
+            with self.subTest(port=port),self.assertRaises(ValueError):lifecycle.check_cpu_port(port)
+        self.factory.assert_not_called()
+
+    def test_loopback_only_probe_misses_wildcard_conflict(self):
+        self.v4.bind.side_effect=lambda addr:(_ for _ in ()).throw(OSError(98,'busy')) if addr[0]=='0.0.0.0' else None
+        with lifecycle.socket.socket() as old:old.bind(('127.0.0.2',27180))
+        with self.assertRaises(OSError):lifecycle.check_cpu_port(27180)
 
 
 if __name__=='__main__':unittest.main()

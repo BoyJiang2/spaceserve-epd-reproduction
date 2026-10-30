@@ -6,6 +6,7 @@ import math
 import os
 from pathlib import Path
 import signal
+import socket
 import subprocess
 import sys
 import time
@@ -17,6 +18,13 @@ from numeric_gcs import GCSActorReader
 from numeric_head import construct_node, node_parameters
 from numeric_cpu_receipts import publish as write
 from lifecycle_policy import budgets as lifecycle_budgets, scenario_deadline, scenarios as lifecycle_scenarios, scope as lifecycle_scope
+
+
+def check_cpu_port(port):
+    if type(port) is not int or not 1024<=port<=65535:raise ValueError('Exact CPU TCP port required')
+    with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as v4,socket.socket(socket.AF_INET6,socket.SOCK_STREAM) as v6:
+        v6.setsockopt(socket.IPPROTO_IPV6,socket.IPV6_V6ONLY,1)
+        v4.bind(('0.0.0.0',port));v6.bind(('::',port))
 
 
 def control_service_exception(proc,pid):
@@ -261,6 +269,7 @@ class Diagnostic:
         for number in old:signal.signal(number,lambda n,f:self.cancelled.add(n))
         failure=None
         try:
+            check_cpu_port(self.port)
             ray,preimport=load_cpu_ray(self.package);self.record('CPU_preimport',facts=preimport)
             node=construct_node(node_parameters(self.base,self.port,gpu_count=0),self.check,self.register,self.processes)
             if Path(node.get_session_dir_path())!=self.collector.session:raise ValueError('Actual Node session differs')
