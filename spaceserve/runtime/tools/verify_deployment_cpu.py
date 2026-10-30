@@ -58,7 +58,7 @@ def main():
     expected = []
     for directory in ('scripts','tools'):
         for path in sorted((ROOT/directory).glob('test_*.py')):
-            for node in ast.parse(path.read_text()).body:
+            for node in ast.parse(path.read_bytes()).body:
                 if isinstance(node, ast.ClassDef):
                     expected.extend(path.stem+'.'+node.name+'.'+method.name for method in node.body
                         if isinstance(method, (ast.FunctionDef, ast.AsyncFunctionDef)) and method.name.startswith('test_'))
