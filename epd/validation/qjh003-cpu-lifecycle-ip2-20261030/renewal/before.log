@@ -1,0 +1,21 @@
+test_CPU_and_whole_node_conflicts_rejected (test_epd_cpu_renewal_20261030.RenewalTests.test_CPU_and_whole_node_conflicts_rejected) ... ok
+test_cleanup_tail_conflict_is_not_available_CPU (test_epd_cpu_renewal_20261030.RenewalTests.test_cleanup_tail_conflict_is_not_available_CPU) ... FAIL
+test_exact_renewed_CPU_allows_foreign_GPU_without_granting_GPU (test_epd_cpu_renewal_20261030.RenewalTests.test_exact_renewed_CPU_allows_foreign_GPU_without_granting_GPU) ... ok
+test_full_unit_and_reserve_must_fit (test_epd_cpu_renewal_20261030.RenewalTests.test_full_unit_and_reserve_must_fit) ... ok
+test_invalid_or_unbounded_budgets_rejected (test_epd_cpu_renewal_20261030.RenewalTests.test_invalid_or_unbounded_budgets_rejected) ... ok
+test_old_CPU_ticket_cannot_authorize_new_unit (test_epd_cpu_renewal_20261030.RenewalTests.test_old_CPU_ticket_cannot_authorize_new_unit) ... ok
+test_stale_future_and_wrong_owner_proofs_rejected (test_epd_cpu_renewal_20261030.RenewalTests.test_stale_future_and_wrong_owner_proofs_rejected) ... ok
+
+======================================================================
+FAIL: test_cleanup_tail_conflict_is_not_available_CPU (test_epd_cpu_renewal_20261030.RenewalTests.test_cleanup_tail_conflict_is_not_available_CPU)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\tools\test_epd_cpu_renewal_20261030.py", line 51, in test_cleanup_tail_conflict_is_not_available_CPU
+    with self.assertRaises(ValueError):policy.validate(self.proof,self.now,360)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+FAILED (failures=1)
