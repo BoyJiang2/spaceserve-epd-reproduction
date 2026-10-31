@@ -22,7 +22,7 @@ qjh003，单张 H20 GPU2，Qwen2-VL-7B-Instruct，FP16、TP=1；复用原仓库�
 
 - [逐文件终态清单及释放原件](../data/space-20261031-evidence.json)：272文件，389866812字节，逐文件SHA256。
 - [313条逐请求记录（含来源SHA；262原件见metadata资产）](../data/space-20261031-requests.jsonl)：逐请求JSONL保留来源文件与其SHA；262份原件共8861910字节，以原base64封装保存在metadata资产，另有可读机制JSON。
-- 10个压缩profiler trace共381004902字节原件保持在原服务器；已通过stdout流式取回至单一[归档](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/tag/spaceserve-qjh003-preflight-2026-10-31)，381030400字节，SHA256 `f504b4911d33acd23e77c5db24dedc175f5e6069a570c85a491473000c077a45`，全部10成员逐bytes/SHA与清单核同，见[传输验收](../data/space-20261031-assets.json)。尚未上传Release；未在服务器生成封包，未复制权重/环境或GB级副本。
+- 10个压缩profiler trace共381004902字节原件保持在原服务器；已通过stdout流式取回至单一[归档](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/tag/spaceserve-qjh003-preflight-2026-10-31)，381030400字节，SHA256 `f504b4911d33acd23e77c5db24dedc175f5e6069a570c85a491473000c077a45`，全部10成员逐bytes/SHA与清单核同，见[传输验收](../data/space-20261031-assets.json)。已完成草稿及匿名公开下载的完整大小/SHA256验收；未在服务器生成封包，未复制权重/环境或GB级副本。
 - [单次终态采集执行审查](../data/space-20261031-capture-G2.md)、[采集退出回执](../data/space-20261031-capture-exit.json)。
 - runtime edcaa1bd25934591a21dc2e99a51cf07a6ec39c6；CPU verifier a899d6456a95f6d155c77d57f538631b9b71dafc；闭合启动工具bc460f50777305fa775754cbf33e79d55ed05619。
 - actual模型manifest SHA256：707dee09621845e0cf460fcd90c7d619acda6896a57c30dd9d10ad5855b189cd。
@@ -32,12 +32,12 @@ qjh003，单张 H20 GPU2，Qwen2-VL-7B-Instruct，FP16、TP=1；复用原仓库�
 
 ## 下载与复跑入口
 
-本批 Release 尚在准备，下面列出本地已核验资产；发布后才记录真实下载验收。
+本批 [Release](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/tag/spaceserve-qjh003-preflight-2026-10-31) 已发布；本批正式0/54。以下真实下载链接均已完成匿名下载大小/SHA256核验，见[发布验收记录](../data/space-20261031-publication.json)。
 
 | 资产 | bytes | SHA256 |
 |---|---:|---|
-| closed-model-traces.tar | 381030400 | `f504b4911d33acd23e77c5db24dedc175f5e6069a570c85a491473000c077a45` |
-| space-20261031-metadata.tar.gz | 3410704 | `2ac08e99f6e7a23b89c37ce647864e57b131887bc2346861c9196cf288db7f4c` |
+| [closed-model-traces.tar](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/download/spaceserve-qjh003-preflight-2026-10-31/closed-model-traces.tar) | 381030400 | `f504b4911d33acd23e77c5db24dedc175f5e6069a570c85a491473000c077a45` |
+| [space-20261031-metadata.tar.gz](https://github.com/BoyJiang2/spaceserve-epd-reproduction/releases/download/spaceserve-qjh003-preflight-2026-10-31/space-20261031-metadata.tar.gz) | 3410704 | `2ac08e99f6e7a23b89c37ce647864e57b131887bc2346861c9196cf288db7f4c` |
 
 [历史正式baseline对比](README.md)与本批预检分开。完整源以固定commit读取：
 
