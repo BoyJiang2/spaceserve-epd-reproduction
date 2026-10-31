@@ -242,7 +242,7 @@ class Diagnostic:
                         if not controlled and driver.returncode!=0:raise RuntimeError('Normal CPU driver failed')
                         state=self.reader.read(expected,deadline)
                         if not detached and state['state']!='DEAD':time.sleep(.05);continue
-                        if detached and state['state']=='ALIVE' and not actor_stopped:
+                        if detached and not controlled and state['state']=='ALIVE' and not actor_stopped:
                             if state['pid']!=identity['pid']:raise ValueError('Detached GCS PID differs')
                             actual=self.collector.observe(identity['pid'])
                             if not self.collector.same_identity(actual['identity'],identity):raise ValueError('Detached live PID changed')
@@ -254,7 +254,11 @@ class Diagnostic:
                             actor_stopped=True
                         final=self.reader.read(expected,deadline)
                         if final['state']=='DEAD' and not self.proc.exists(identity['pid']):
-                            if detached and not actor_stopped:raise RuntimeError('Detached actor died without observed survival and parent release')
+                            if detached and not controlled and not actor_stopped:raise RuntimeError('Detached actor died without observed survival and parent release')
+                            if controlled:
+                                if final['pid']!=identity['pid']:raise ValueError('Cancelled GCS PID differs from original actor')
+                                self.record('CPU_creation_cancelled_after_driver_exit',expected=expected,
+                                    driver_exit=driver.returncode,GCS=final,original_PID_absent=True)
                             self.record('CPU_scenario_terminal_observed',expected=expected,driver_exit=driver.returncode,
                                 GCS=final,original_PID_absent=True)
                             self.pending_scenarios.remove(index)

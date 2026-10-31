@@ -286,11 +286,54 @@ class ScenarioTests(ParentFixture,unittest.TestCase):
         self.assertEqual(self.d.pending_scenarios,{0});self.term.assert_not_called()
         self.assertLessEqual(now[0],130.0)
 
-    def test_detached_unexpected_death_cannot_pass(self):
-        self.prepare(True,True);self.reader.read.side_effect=[dict(state='ALIVE',pid=123),dict(state='DEAD',pid=123),dict(state='DEAD',pid=123)]
-        with self.assertRaisesRegex(RuntimeError,'without observed survival'):self.d.scenario(True,True,0)
+    def test_controlled_detached_cancellation_has_distinct_terminal_evidence(self):
+        self.prepare(True,True)
+        self.reader.read.side_effect=[dict(state='ALIVE',pid=123),dict(state='DEAD',pid=123),dict(state='DEAD',pid=123)]
+        self.d.scenario(True,True,0)
+        self.assertEqual([c.args[0]['pid'] for c in self.term.call_args_list],[456])
+        self.assertEqual(self.d.pending_scenarios,set())
+        events=[json.loads(line) for line in self.d.journal.read_text().splitlines()]
+        cancelled=[e for e in events if e['event']=='CPU_creation_cancelled_after_driver_exit']
+        self.assertEqual(len(cancelled),1)
+        self.assertTrue(cancelled[0]['expected']['detached'])
+        self.assertEqual(cancelled[0]['GCS']['state'],'DEAD')
+        self.assertTrue(cancelled[0]['original_PID_absent'])
+        self.assertNotIn('CPU_detached_survived_driver',[e['event'] for e in events])
+
+    def test_controlled_cancellation_rejects_different_GCS_terminal_PID(self):
+        self.prepare(True,True)
+        self.reader.read.side_effect=[dict(state='ALIVE',pid=123),dict(state='DEAD',pid=999),dict(state='DEAD',pid=999)]
+        with self.assertRaisesRegex(ValueError,'Cancelled GCS PID differs'):
+            self.d.scenario(True,True,0)
+        self.assertEqual([c.args[0]['pid'] for c in self.term.call_args_list],[456])
         self.assertEqual(self.d.pending_scenarios,{0})
-        self.assertEqual(self.term.call_count,1)  # driver only, no actor release
+
+    def test_controlled_detached_survival_is_not_killed_to_manufacture_cancellation(self):
+        self.prepare(True,True);self.reader.read.return_value=dict(state='ALIVE',pid=123)
+        now=[100.0];self.constructor_start=now[0]
+        with patch.object(lifecycle.time,'monotonic',side_effect=lambda:now[0]), \
+             patch.object(lifecycle.time,'sleep',side_effect=lambda delay:now.__setitem__(0,now[0]+1)), \
+             self.assertRaisesRegex(TimeoutError,'scenario observation exhausted'):
+            self.d.scenario(True,True,0)
+        self.assertEqual([c.args[0]['pid'] for c in self.term.call_args_list],[456])
+        self.assertEqual(self.d.pending_scenarios,{0})
+
+    def test_controlled_detached_dead_GCS_with_live_PID_cannot_pass(self):
+        self.prepare(True,True);self.d.proc.exists.return_value=True
+        self.reader.read.side_effect=lambda *args:dict(state='ALIVE' if self.driver.returncode is None else 'DEAD',pid=123)
+        now=[100.0];self.constructor_start=now[0]
+        with patch.object(lifecycle.time,'monotonic',side_effect=lambda:now[0]), \
+             patch.object(lifecycle.time,'sleep',side_effect=lambda delay:now.__setitem__(0,now[0]+1)), \
+             self.assertRaisesRegex(TimeoutError,'scenario observation exhausted'):
+            self.d.scenario(True,True,0)
+        self.assertEqual([c.args[0]['pid'] for c in self.term.call_args_list],[456])
+        self.assertEqual(self.d.pending_scenarios,{0})
+
+    def test_detached_unexpected_death_cannot_pass(self):
+        self.prepare(True,False);self.reader.read.side_effect=[dict(state='ALIVE',pid=123),dict(state='DEAD',pid=123),dict(state='DEAD',pid=123)]
+        with self.assertRaisesRegex(RuntimeError,'without observed survival'):self.d.scenario(True,False,0)
+        self.assertEqual(self.d.pending_scenarios,{0})
+        self.assertEqual(self.term.call_count,0)  # completed detached actor died before parent release
 
     def test_controlled_exit_past_safe_constructor_window_refused(self):
         self.prepare(True,True);self.constructor_start-=14
@@ -310,25 +353,25 @@ class ScenarioTests(ParentFixture,unittest.TestCase):
         self.assertFalse((self.folder/'0/parent-observed.json').exists());self.term.assert_not_called()
 
     def test_detached_actual_survival_and_parent_release_required(self):
-        self.prepare(True,True)
+        self.prepare(True,False)
         self.reader.read.side_effect=[dict(state='ALIVE',pid=123),dict(state='ALIVE',pid=123),dict(state='DEAD',pid=123)]
-        self.d.scenario(True,True,0)
-        self.assertEqual([c.args[0]['pid'] for c in self.term.call_args_list],[456,123])
+        self.d.scenario(True,False,0)
+        self.assertEqual([c.args[0]['pid'] for c in self.term.call_args_list],[123])
         self.assertEqual(self.d.pending_scenarios,set())
         log=(self.folder/'lifecycle.jsonl').read_text()
         self.assertIn('CPU_detached_survived_driver',log);self.assertIn('CPU_scenario_terminal_observed',log)
 
     def test_detached_GCS_alive_but_current_PID_gone_refuses(self):
-        self.prepare(True,True);self.reader.read.return_value=dict(state='ALIVE',pid=123)
+        self.prepare(True,False);self.reader.read.return_value=dict(state='ALIVE',pid=123)
         self.d.collector.observe.side_effect=FileNotFoundError('gone after driver exit')
-        with self.assertRaises(FileNotFoundError):self.d.scenario(True,True,0)
-        self.assertEqual(self.term.call_count,1);self.assertEqual(self.d.pending_scenarios,{0})
+        with self.assertRaises(FileNotFoundError):self.d.scenario(True,False,0)
+        self.assertEqual(self.term.call_count,0);self.assertEqual(self.d.pending_scenarios,{0})
 
     def test_detached_absent_outcome_cannot_count_as_parent_release(self):
-        self.prepare(True,True);self.reader.read.return_value=dict(state='ALIVE',pid=123)
+        self.prepare(True,False);self.reader.read.return_value=dict(state='ALIVE',pid=123)
         original=self.term.side_effect
         self.term.side_effect=lambda identity,*a,**k: original(identity,*a,**k) if identity['pid']==456 else dict(controlled_signal_sent=False,already_absent=True)
-        with self.assertRaisesRegex(RuntimeError,'parent release not performed'):self.d.scenario(True,True,0)
+        with self.assertRaisesRegex(RuntimeError,'parent release not performed'):self.d.scenario(True,False,0)
         self.assertEqual(self.d.pending_scenarios,{0})
 
     def test_driver_absent_outcome_cannot_count_as_controlled_exit(self):
