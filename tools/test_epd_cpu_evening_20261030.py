@@ -93,6 +93,13 @@ class EveningTests(unittest.TestCase):
         with self.assertRaises(ValueError):policy.validate(self.proof,now+1,300)
         with self.assertRaises(ValueError):policy.validate(self.proof,policy.START_MS-1,1)
 
+    def test_full4_admission_covers_all_450_seconds(self):
+        now=policy.END_MS-450000;self.proof['observed_ms']=now
+        policy.validate(self.proof,now,420)
+        with self.assertRaises(ValueError):policy.validate(self.proof,now+1,420)
+        self.proof['bookings']=[self.ticket(start=now+449999,end=policy.END_MS+1000)]
+        with self.assertRaises(ValueError):policy.validate(self.proof,now,420)
+
     def test_bad_interval_owner_resource_and_budgets_rejected(self):
         for changes in (dict(start_ms=True),dict(end_ms=self.now),dict(user='')):
             row=self.ticket();row.update(changes);proof=copy.deepcopy(self.proof)
@@ -100,7 +107,8 @@ class EveningTests(unittest.TestCase):
             with self.assertRaises(ValueError):policy.validate(proof,self.now,300)
         self.proof['resources'][0]['active']=False
         with self.assertRaises(ValueError):policy.validate(self.proof,self.now,300)
-        for seconds in (True,0,301,float('inf')):
+        self.proof['resources'][0]['active']=True
+        for seconds in (True,0,421,float('inf')):
             with self.assertRaises(ValueError):policy.validate(self.proof,self.now,seconds)
 
 

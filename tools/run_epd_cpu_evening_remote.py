@@ -8,7 +8,7 @@ def preparation_check():
 assert os.uname().nodename=='qjh003' and os.getuid()==2147 and os.sched_getaffinity(0)=={50} and os.getpriority(os.PRIO_PROCESS,0)==10
 assert Path('/proc/sys/kernel/random/boot_id').read_text().strip()=='65f52a67-afe4-4919-8646-4694255b48ee'
 a=p['approval'];review=base64.b64decode(p['review'],validate=True)
-assert a['passed'] is True and a['blocking']==0 and a['scope']=='EPD-single-scenario-CPU-smoke-20261031'
+assert a['passed'] is True and a['blocking']==0 and a['scope']=='EPD-four-scenario-CPU-full4-20261031'
 assert hashlib.sha256(review).hexdigest()==a['review_sha256']
 assert a['commit']==p['commit'] and len(a['commit'])==40
 deployment_gate=p['deployment_G3'];deployment_review=base64.b64decode(p['deployment_review'],validate=True)
@@ -18,12 +18,12 @@ guard=base64.b64decode(p['booking_guard'],validate=True)
 assert hashlib.sha256(guard).hexdigest()==a['booking_guard_sha256']
 assert p['control_commit']==a['control_commit'] and len(a['control_commit'])==40
 pure={'__name__':'pure_CPU_booking_guard'};exec(compile(guard,'git:'+a['control_commit']+':tools/epd_cpu_evening_20261030.py','exec'),pure)
-pure['validate'](p['booking'],int(time.time()*1000),300)
+pure['validate'](p['booking'],int(time.time()*1000),420)
 CPU50_LEASE= pure['acquire_cpu50']()
 git=['git','--no-optional-locks','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',str(repo)]
 assert subprocess.check_output(git+['rev-parse','HEAD'],timeout=10).decode().strip()==a['commit']
 assert not subprocess.check_output(git+['status','--porcelain','--untracked-files=all'],timeout=10).strip()
-stage=root/'staging/cpu-smoke-deployment-20261031'
+stage=root/'staging/cpu-full4-deployment-20261031'
 manifest=stage/'deployed-files.json';terminal=stage/'terminal.json'
 for path,expected in ((manifest,a['deployed_manifest_sha256']),(terminal,a['deployment_terminal_sha256'])):
     assert not path.is_symlink() and path.stat().st_uid==2147 and path.stat().st_size<262144
@@ -36,8 +36,8 @@ for row in json.loads(manifest.read_bytes()):
 cfg_raw=base64.b64decode(p['config'],validate=True)
 assert hashlib.sha256(cfg_raw).hexdigest()==a['config_sha256']
 cfg=json.loads(cfg_raw);assert set(cfg)=={'run_id','folder','ray_base','port','ray_package'}
-assert cfg['folder']=='/local/boyjiang/epd/runs/cpu-smoke-20261031-once-27180'
-assert cfg['ray_base']=='/local/boyjiang/epd/ray/cpu-1031a'
+assert cfg['folder']=='/local/boyjiang/epd/runs/cpu-full4-20261031-once-27180'
+assert cfg['ray_base']=='/local/boyjiang/epd/ray/cpu-1031b'
 assert cfg['ray_package']=='/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray'
 assert cfg['run_id']==a['run_id'] and cfg['port']==a['port']
 for path in (root,repo,root/'runs',root/'staging'):
@@ -70,7 +70,7 @@ assert type(handoff['observed_ms']) is int and 0<=int(time.time()*1000)-handoff[
 assert handoff['released'] is True and handoff['active_owned_pids']==[] and handoff['unknown']==[]
 for field in ('space_terminal_sha256','space_release_sha256','review_sha256'):
     assert isinstance(handoff[field],str) and len(handoff[field])==64 and all(ch in '0123456789abcdef' for ch in handoff[field])
-intent=root/'staging/cpu-smoke-20261031-once-27180.intent.json'
+intent=root/'staging/cpu-full4-20261031-once-27180.intent.json'
 assert not intent.is_symlink()
 with intent.open('x',encoding='utf8') as saved:
     json.dump(dict(run_id=cfg['run_id'],approval=a,config_sha256=a['config_sha256'],argv_sha256=a['argv_sha256'],booking=p['booking'],handoff=handoff,consumed=True),saved)
@@ -84,13 +84,13 @@ folder=Path(cfg['folder']);folder.mkdir(mode=0o700);Path(cfg['ray_base']).mkdir(
 runtime=repo/'epd/runtime';sys.path.insert(0,str(runtime))
 from numeric_cpu_receipts import publish
 publish(folder/'execution-claim.json',dict(commit=a['commit'],review_sha256=a['review_sha256'],deployment_G3=deployment_gate,
-    booking=p['booking'],scope='single-scenario CPU Ray smoke only; no full4 or GPU authorization'))
+    booking=p['booking'],scope='four-scenario CPU diagnostic only; no GPU/backend approval'))
 config=folder/'config.json'
 with config.open('xb') as out:out.write(cfg_raw);out.flush();os.fsync(out.fileno())
 os.chdir(root)
 os.environ.update(EXP_ROOT=str(root),REPRO_RUN_ID=cfg['run_id'],CUDA_VISIBLE_DEVICES='',NVIDIA_VISIBLE_DEVICES='void',
     PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1')
-sys.argv=[str(runtime/'numeric_cpu_lifecycle.py'),'--config',str(config),'--smoke']
+sys.argv=[str(runtime/'numeric_cpu_lifecycle.py'),'--config',str(config)]
 preparation_check()
-pure['validate'](p['booking'],int(time.time()*1000),180)
+pure['validate'](p['booking'],int(time.time()*1000),300)
 runpy.run_path(sys.argv[0],run_name='__main__')

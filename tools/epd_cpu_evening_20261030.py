@@ -1,6 +1,6 @@
 """Direct human CPU permission, subject to fresh booking clearance; no GPU grant."""
 START_MS=1793412000000  # 2026-10-31 10:00 Asia/Shanghai
-END_MS=1793426400000    # Self-imposed 2026-10-31 14:00 stop; not a booking
+END_MS=1793433600000    # Self-imposed 2026-10-31 16:00 stop; not a booking
 
 
 def acquire_cpu50():
@@ -70,7 +70,7 @@ def validate(proof,now_ms,seconds):
     if any(not isinstance(row.get(key),str) or not row[key]
            for name,key in (('resources','id'),('bookings','resource_id')) for row in proof[name]):
         raise ValueError('Every resource and booking must identify its resource')
-    if type(now_ms) is not int or type(seconds) is not int or not 0<seconds<=300:
+    if type(now_ms) is not int or type(seconds) is not int or not 0<seconds<=420:
         raise ValueError('Exact clock and bounded CPU unit required')
     observed=proof.get('observed_ms')
     if (proof.get('origin')!='gputime_read_only_api' or proof.get('read_only') is not True
@@ -79,7 +79,7 @@ def validate(proof,now_ms,seconds):
         raise ValueError('Fresh actual read-only snapshot for today required')
     finish=now_ms+seconds*1000+30000
     if now_ms<START_MS or finish>END_MS:
-        raise ValueError('Complete EPD CPU unit and cleanup must finish before14')
+        raise ValueError('Complete EPD CPU unit and cleanup must finish before16')
     resources=[r for r in proof['resources'] if r.get('id')=='h20/qjh003']
     if (len(resources)!=1 or resources[0].get('node')!='qjh003'
             or resources[0].get('active') is not True):

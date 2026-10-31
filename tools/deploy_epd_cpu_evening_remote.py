@@ -8,7 +8,7 @@ for number in previous:signal.signal(number,lambda n,f:cancelled.add(n))
 assert os.uname().nodename=='qjh003' and os.getuid()==2147 and os.sched_getaffinity(0)=={50} and os.getpriority(os.PRIO_PROCESS,0)==10
 assert Path('/proc/sys/kernel/random/boot_id').read_text().strip()=='65f52a67-afe4-4919-8646-4694255b48ee'
 a=p['approval'];review=base64.b64decode(p['review'],validate=True)
-assert a['passed'] is True and a['blocking']==0 and a['scope']=='EPD-CPU-smoke-deployment-20261031'
+assert a['passed'] is True and a['blocking']==0 and a['scope']=='EPD-CPU-full4-deployment-20261031'
 assert hashlib.sha256(review).hexdigest()==a['review_sha256']
 commit=a['commit'];assert re.fullmatch('[0-9a-f]{40}',commit) and commit==p['commit']
 for path in (root,repo,root/'staging'):
@@ -17,7 +17,7 @@ for path in (root,repo,root/'staging'):
         if item.is_relative_to(root):assert item.is_dir() and item.stat().st_uid==2147
 guard=base64.b64decode(p['booking_guard'],validate=True)
 assert hashlib.sha256(guard).hexdigest()==a['booking_guard_sha256']
-module={'__name__':'pure_owned_CPU_booking_guard'};exec(compile(guard,'git:97a33:booking-guard','exec'),module)
+module={'__name__':'pure_owned_CPU_booking_guard'};exec(compile(guard,'git:'+commit+':booking-guard','exec'),module)
 started=time.monotonic()
 CPU50_LEASE= module['acquire_cpu50']()
 def check():
@@ -45,7 +45,7 @@ commands={'__name__':'published_CPU_command_process_supervisor'}
 exec(compile(helper,'git:'+commit+':tools/migrate_code_cpu.py','exec'),commands)
 import subprocess
 git=['git','--no-optional-locks','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',str(repo)]
-assert subprocess.check_output(git+['rev-parse','HEAD'],timeout=10).decode().strip()=='a0583f521c4d328ae7a14192178f27d9e1a791f4'
+assert subprocess.check_output(git+['rev-parse','HEAD'],timeout=10).decode().strip()=='459e2a8892e872043632ff2d66ffef597aec3e72'
 assert not subprocess.check_output(git+['status','--porcelain','--untracked-files=all'],timeout=10).strip()
 handoff_raw=base64.b64decode(p['handoff'],validate=True)
 assert hashlib.sha256(handoff_raw).hexdigest()==a['handoff_sha256']
@@ -57,14 +57,14 @@ for field in ('space_terminal_sha256','space_release_sha256','review_sha256'):
     assert isinstance(handoff[field],str) and re.fullmatch('[a-f0-9]{64}',handoff[field])
 raw=base64.b64decode(p['bundle'],validate=True)
 assert len(raw)==a['bundle_bytes'] and hashlib.sha256(raw).hexdigest()==a['bundle_sha256']
-stage=root/'staging/cpu-smoke-deployment-20261031';assert not stage.exists() and not stage.is_symlink()
+stage=root/'staging/cpu-full4-deployment-20261031';assert not stage.exists() and not stage.is_symlink()
 stage.mkdir(mode=0o700)
 def save(name,value):
     with (stage/name).open('x',encoding='utf8') as out:json.dump(value,out,indent=2);out.flush();os.fsync(out.fileno())
 save('claim.json',dict(commit=commit,booking=p['booking'],review_sha256=a['review_sha256'],started_ms=int(time.time()*1000),scope='EPD-only CPU Git deployment; no Ray/GPU'))
 bundle=stage/'source.bundle'
 with bundle.open('xb') as out:out.write(raw);out.flush();os.fsync(out.fileno())
-state=dict(exit_code=1,commit=commit,prior_commit='a0583f521c4d328ae7a14192178f27d9e1a791f4',GPU_requests=0,Ray_started=False)
+state=dict(exit_code=1,commit=commit,prior_commit='459e2a8892e872043632ff2d66ffef597aec3e72',GPU_requests=0,Ray_started=False)
 signal.alarm(max(1,int(180-(time.monotonic()-started))))
 try:
     with (stage/'commands.log').open('xb') as log:
