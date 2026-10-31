@@ -1,6 +1,6 @@
 """Direct human CPU permission, subject to fresh booking clearance; no GPU grant."""
-START_MS=1793412000000  # 2026-10-31 10:00 Asia/Shanghai
-END_MS=1793433600000    # Self-imposed 2026-10-31 16:00 stop; not a booking
+START_MS=1793491200000  # 2026-11-01 08:00 Asia/Shanghai
+END_MS=1793512800000    # Self-imposed 2026-11-01 14:00 stop; not a booking
 
 
 def acquire_cpu50():
@@ -79,7 +79,7 @@ def validate(proof,now_ms,seconds):
         raise ValueError('Fresh actual read-only snapshot for today required')
     finish=now_ms+seconds*1000+30000
     if now_ms<START_MS or finish>END_MS:
-        raise ValueError('Complete EPD CPU unit and cleanup must finish before16')
+        raise ValueError('Complete EPD CPU unit and cleanup must finish before14')
     resources=[r for r in proof['resources'] if r.get('id')=='h20/qjh003']
     if (len(resources)!=1 or resources[0].get('node')!='qjh003'
             or resources[0].get('active') is not True):

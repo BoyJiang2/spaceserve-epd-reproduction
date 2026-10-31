@@ -8,7 +8,7 @@ def preparation_check():
 assert os.uname().nodename=='qjh003' and os.getuid()==2147 and os.sched_getaffinity(0)=={50} and os.getpriority(os.PRIO_PROCESS,0)==10
 assert Path('/proc/sys/kernel/random/boot_id').read_text().strip()=='65f52a67-afe4-4919-8646-4694255b48ee'
 a=p['approval'];review=base64.b64decode(p['review'],validate=True)
-assert a['passed'] is True and a['blocking']==0 and a['scope']=='EPD-four-scenario-CPU-full4-20261031'
+assert a['passed'] is True and a['blocking']==0 and a['scope']=='EPD-four-scenario-CPU-cancel-20261101'
 assert hashlib.sha256(review).hexdigest()==a['review_sha256']
 assert a['commit']==p['commit'] and len(a['commit'])==40
 deployment_gate=p['deployment_G3'];deployment_review=base64.b64decode(p['deployment_review'],validate=True)
@@ -23,7 +23,7 @@ CPU50_LEASE= pure['acquire_cpu50']()
 git=['git','--no-optional-locks','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',str(repo)]
 assert subprocess.check_output(git+['rev-parse','HEAD'],timeout=10).decode().strip()==a['commit']
 assert not subprocess.check_output(git+['status','--porcelain','--untracked-files=all'],timeout=10).strip()
-stage=root/'staging/cpu-full4-deployment-20261031'
+stage=root/'staging/cpu-cancel-deployment-20261101'
 manifest=stage/'deployed-files.json';terminal=stage/'terminal.json'
 for path,expected in ((manifest,a['deployed_manifest_sha256']),(terminal,a['deployment_terminal_sha256'])):
     assert not path.is_symlink() and path.stat().st_uid==2147 and path.stat().st_size<262144
@@ -36,8 +36,8 @@ for row in json.loads(manifest.read_bytes()):
 cfg_raw=base64.b64decode(p['config'],validate=True)
 assert hashlib.sha256(cfg_raw).hexdigest()==a['config_sha256']
 cfg=json.loads(cfg_raw);assert set(cfg)=={'run_id','folder','ray_base','port','ray_package'}
-assert cfg['folder']=='/local/boyjiang/epd/runs/cpu-full4-20261031-once-27180'
-assert cfg['ray_base']=='/local/boyjiang/epd/ray/cpu-1031b'
+assert cfg['folder']=='/local/boyjiang/epd/runs/cpu-cancel-20261101-once-27180'
+assert cfg['ray_base']=='/local/boyjiang/epd/ray/cpu-1101a'
 assert cfg['ray_package']=='/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/ray'
 assert cfg['run_id']==a['run_id'] and cfg['port']==a['port']
 for path in (root,repo,root/'runs',root/'staging'):
@@ -70,7 +70,7 @@ assert type(handoff['observed_ms']) is int and 0<=int(time.time()*1000)-handoff[
 assert handoff['released'] is True and handoff['active_owned_pids']==[] and handoff['unknown']==[]
 for field in ('space_terminal_sha256','space_release_sha256','review_sha256'):
     assert isinstance(handoff[field],str) and len(handoff[field])==64 and all(ch in '0123456789abcdef' for ch in handoff[field])
-intent=root/'staging/cpu-full4-20261031-once-27180.intent.json'
+intent=root/'staging/cpu-cancel-20261101-once-27180.intent.json'
 assert not intent.is_symlink()
 with intent.open('x',encoding='utf8') as saved:
     json.dump(dict(run_id=cfg['run_id'],approval=a,config_sha256=a['config_sha256'],argv_sha256=a['argv_sha256'],booking=p['booking'],handoff=handoff,consumed=True),saved)
