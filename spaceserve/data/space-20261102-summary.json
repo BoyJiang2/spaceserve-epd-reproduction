@@ -1,0 +1,178 @@
+{
+  "source_commit": "03688f823d145dcab925b30f6f73423f7cc1b354",
+  "model_manifest_sha256": "1c49ab455b31a752c51b32be1df278a2db4b4206724d3d451ea987d2a1543111",
+  "reference_requests": 7,
+  "total_requests": 313,
+  "groups": [
+    {
+      "trial": "cold",
+      "role": "baseline-space",
+      "correctness_requests": 15,
+      "diagnostic_requests": 36,
+      "diagnostic_warmups": 20,
+      "diagnostic_profiled": 16,
+      "diagnostic_successes": 36,
+      "diagnostic_visual_tokens": [
+        1024
+      ],
+      "worker_count": 1,
+      "encoder_worker_count": 0,
+      "worker_dtypes": [
+        [
+          "torch.float16"
+        ]
+      ],
+      "SM_before_count": null,
+      "SM_after_count": null,
+      "encoder_mask_validated": null,
+      "kernel_overlap_observed": null,
+      "kernel_overlap_us": null,
+      "scope": "preflight correctness/mechanism; no formal throughput conclusion"
+    },
+    {
+      "trial": "cold",
+      "role": "space",
+      "correctness_requests": 15,
+      "diagnostic_requests": 36,
+      "diagnostic_warmups": 20,
+      "diagnostic_profiled": 16,
+      "diagnostic_successes": 36,
+      "diagnostic_visual_tokens": [
+        1024
+      ],
+      "worker_count": 2,
+      "encoder_worker_count": 1,
+      "worker_dtypes": [
+        [
+          "torch.float16"
+        ],
+        [
+          "torch.float16"
+        ]
+      ],
+      "SM_before_count": 78,
+      "SM_after_count": 78,
+      "encoder_mask_validated": true,
+      "kernel_overlap_observed": true,
+      "kernel_overlap_us": 582418.5,
+      "scope": "preflight correctness/mechanism; no formal throughput conclusion"
+    },
+    {
+      "trial": "cold",
+      "role": "space-mask",
+      "correctness_requests": 15,
+      "diagnostic_requests": 36,
+      "diagnostic_warmups": 20,
+      "diagnostic_profiled": 16,
+      "diagnostic_successes": 36,
+      "diagnostic_visual_tokens": [
+        1024
+      ],
+      "worker_count": 2,
+      "encoder_worker_count": 1,
+      "worker_dtypes": [
+        [
+          "torch.float16"
+        ],
+        [
+          "torch.float16"
+        ]
+      ],
+      "SM_before_count": 78,
+      "SM_after_count": 54,
+      "encoder_mask_validated": true,
+      "kernel_overlap_observed": true,
+      "kernel_overlap_us": 1423206.75,
+      "scope": "preflight correctness/mechanism; no formal throughput conclusion"
+    },
+    {
+      "trial": "restart",
+      "role": "baseline-space",
+      "correctness_requests": 15,
+      "diagnostic_requests": 36,
+      "diagnostic_warmups": 20,
+      "diagnostic_profiled": 16,
+      "diagnostic_successes": 36,
+      "diagnostic_visual_tokens": [
+        1024
+      ],
+      "worker_count": 1,
+      "encoder_worker_count": 0,
+      "worker_dtypes": [
+        [
+          "torch.float16"
+        ]
+      ],
+      "SM_before_count": null,
+      "SM_after_count": null,
+      "encoder_mask_validated": null,
+      "kernel_overlap_observed": null,
+      "kernel_overlap_us": null,
+      "scope": "preflight correctness/mechanism; no formal throughput conclusion"
+    },
+    {
+      "trial": "restart",
+      "role": "space",
+      "correctness_requests": 15,
+      "diagnostic_requests": 36,
+      "diagnostic_warmups": 20,
+      "diagnostic_profiled": 16,
+      "diagnostic_successes": 36,
+      "diagnostic_visual_tokens": [
+        1024
+      ],
+      "worker_count": 2,
+      "encoder_worker_count": 1,
+      "worker_dtypes": [
+        [
+          "torch.float16"
+        ],
+        [
+          "torch.float16"
+        ]
+      ],
+      "SM_before_count": 78,
+      "SM_after_count": 78,
+      "encoder_mask_validated": true,
+      "kernel_overlap_observed": true,
+      "kernel_overlap_us": 572101.0,
+      "scope": "preflight correctness/mechanism; no formal throughput conclusion"
+    },
+    {
+      "trial": "restart",
+      "role": "space-mask",
+      "correctness_requests": 15,
+      "diagnostic_requests": 36,
+      "diagnostic_warmups": 20,
+      "diagnostic_profiled": 16,
+      "diagnostic_successes": 36,
+      "diagnostic_visual_tokens": [
+        1024
+      ],
+      "worker_count": 2,
+      "encoder_worker_count": 1,
+      "worker_dtypes": [
+        [
+          "torch.float16"
+        ],
+        [
+          "torch.float16"
+        ]
+      ],
+      "SM_before_count": 78,
+      "SM_after_count": 54,
+      "encoder_mask_validated": true,
+      "kernel_overlap_observed": true,
+      "kernel_overlap_us": 1436223.0,
+      "scope": "preflight correctness/mechanism; no formal throughput conclusion"
+    }
+  ],
+  "formal_requests": 0,
+  "actual_model_G3": "APPROVE / BLOCKING 0",
+  "mutually_exclusive_decoder_partition_verified": false,
+  "archive_sha256": "57204d3bb27babf73672fbd4999b2db4b41b9a2c4f36eecbf24e46fe9a8d8a0c",
+  "actual_model_G3_review_sha256": "3fca1a26ebae7471736b005c9e30e4e2d123b8ab99c551b528c6ba25ffdc71f8",
+  "remote_stage_exit_code": 0,
+  "observer_controller_exit_code": 1,
+  "observer_failure": "TimeoutExpired2070; exact original local SSH handle later terminated after verified remote release"
+}
