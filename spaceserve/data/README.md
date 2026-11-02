@@ -1,5 +1,7 @@
 # SpaceServe原始数据、报告与证据
 
+新增：[2026-11-03 CPU原始证据大小与SHA256](space-20261103-cpu-index.json) · [独立软件准备报告](../comparison/20261103-cpu-readiness.md)。旧失败和新成功分别保存，不计作GPU性能请求。
+
 | 批次 | 正式请求/证据 | 报告 |
 |---|---|---|
 | qjh000单H20/7B顺序平衡补充（48/54部分，4800正式＋960预热） | [逐请求](../../outputs/spaceserve-revision-20261027/results/formal) / [机制与终态](../../outputs/spaceserve-revision-20261027/report/publication-status.md) | [已通过部分G4的报告](../../outputs/spaceserve-revision-20261027/report/formal-terminal-reviewed-candidate/report.md) |

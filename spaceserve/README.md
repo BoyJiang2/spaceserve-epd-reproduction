@@ -1,5 +1,7 @@
 # SpaceServe 复现项目
 
+运行准备更新：[2026-11-03 指定源码8536190、103项部署与目标CPU36](comparison/20261103-cpu-readiness.md)已通过独立验收；旧36项/3errors保留。该软件验证不构成新GPU模型或正式性能结果。
+
 最新 SpaceServe 批次：[2026-11-02 qjh003 的313请求模型与机制预检](comparison/20261102-preflight.md)通过实际 G3，原始证据 Release 已公开并核验；**本批正式0/54，没有新性能加速比**。历史性能、退化和部分批次独立保留。
 
 本批固定源码 `03688f8`，冷启动与完整重启后均验证 native／解耦／有效 encoder mask；实际 encoder SM 为78→54，未证明 decoder 互斥分区。[下载地址、大小与SHA256](data/space-20261102-assets.json)及[独立报告](comparison/20261102-preflight.md)可分别核查。下方历史 baseline 表与图不属于本批预检性能。

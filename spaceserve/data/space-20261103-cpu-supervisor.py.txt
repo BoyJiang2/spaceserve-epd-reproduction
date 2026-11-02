@@ -1,0 +1,79 @@
+import base64,fcntl,hashlib,json,os,signal,socket,stat,sys,time,types
+from pathlib import Path
+identity={'pid':os.getpid(),'uid':os.getuid(),'boot_id':Path('/proc/sys/kernel/random/boot_id').read_text().strip(),'start_ticks':int(Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19]),'scope':'space-cpu-temp-tests-1103'}
+print(json.dumps({'event':'CPU_test_supervisor_started',**identity}),file=sys.stderr,flush=True)
+p=json.load(sys.stdin);start=time.monotonic();work_end=start+120;deadline=start+140
+root=Path('/local/boyjiang/spaceserve');repo=root/'repo';stage=root/'staging';prefix=stage/'space-cpu-temp-tests-1103'
+def check():
+ assert socket.gethostname()=='qjh003' and os.getuid()==2147 and identity['boot_id']=='65f52a67-afe4-4919-8646-4694255b48ee'
+ assert os.sched_getaffinity(0)=={50} and os.getpriority(os.PRIO_PROCESS,0)==10
+ assert time.monotonic()<work_end
+ proof=p['snapshot'];now=int(time.time()*1000)
+ if proof['observed_ms']>now:
+  assert proof['observed_ms']-now<=2000;time.sleep((proof['observed_ms']-now)/1000+.005);now=int(time.time()*1000)
+ assert proof['origin']=='gputime_read_only_api' and proof['read_only'] is True and 0<=now-proof['observed_ms']<=300000
+ assert 1793654400000<=now and now+360000<=1793658600000
+ assert len(proof['resources'])==1 and proof['resources'][0]['id']=='h20/qjh003' and proof['resources'][0]['active'] is True and proof['resources'][0]['cpu_booking_enabled'] is True
+ assert not any(r.get('kind')!='gpu' and r['start_ms']<now+360000 and r['end_ms']>now for r in proof['bookings'])
+check()
+for managed in (root,repo,stage):
+ for ancestor in (managed,*managed.parents):
+  assert not ancestor.is_symlink()
+  if ancestor.is_relative_to(Path('/local/boyjiang')):assert ancestor.stat().st_uid==2147
+assert p['commit']=='85361901112eda3af0157df396d9f858be245c94' and len(p['files'])==103
+assert hashlib.sha256(p['child'].encode()).hexdigest()==p['child_sha256']
+def source(name):
+ raw=base64.b64decode(p['helpers'][name]['base64'],validate=True);assert hashlib.sha256(raw).hexdigest()==p['helpers'][name]['sha256'];return raw
+m=types.ModuleType('migrate_code_cpu');exec(compile(source('tools/migrate_code_cpu.py'),'published:migration','exec'),m.__dict__);sys.modules[m.__name__]=m
+a=types.ModuleType('assets');exec(compile(source('tools/materialize_assets_cpu.py'),'published:assets','exec'),a.__dict__)
+g={};exec(compile(source('tools/space_user_service_guard.py'),'published:guard','exec'),g)
+def exclusive(suffix,value):
+ with Path(str(prefix)+suffix).open('x',encoding='utf-8') as file:json.dump(value,file,indent=2)
+def physical():
+ result=[]
+ for row in p['files']:
+  check();path=repo/row['path'];info=path.lstat();assert stat.S_ISREG(info.st_mode) and info.st_uid==2147 and path.resolve().is_relative_to(repo)
+  raw=path.read_bytes();value={'path':row['path'],'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),'blob':hashlib.sha1(b'blob '+str(len(raw)).encode()+bytes([0])+raw).hexdigest(),'mode':'100755' if info.st_mode&0o111 else '100644','uid':info.st_uid}
+  assert all(value[key]==row[key] for key in ['bytes','sha256','blob','mode']);result.append(value)
+ return result
+lock=os.open(stage/'cpu50.lock',os.O_RDWR|os.O_CREAT|os.O_NOFOLLOW,0o600);assert os.fstat(lock).st_uid==2147 and stat.S_ISREG(os.fstat(lock).st_mode);fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+terminal=None;before=[];after=[]
+def alarm(number,frame):raise TimeoutError('CPU test supervisor deadline')
+def stopped(number,frame):raise InterruptedError('CPU tests cancelled')
+signal.signal(signal.SIGTERM,stopped);signal.signal(signal.SIGINT,stopped)
+signal.signal(signal.SIGALRM,alarm);signal.alarm(140)
+try:
+ with Path(str(prefix)+'-commands.log').open('xb') as log:
+  def git(*args):
+   check();return m.command_output(['git','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',str(repo),*args],log,min(10,work_end-time.monotonic()),deadline)
+  try:
+   assert git('rev-parse','HEAD').decode().strip()==p['commit'] and not git('status','--porcelain','--untracked-files=all').strip()
+   before=physical();exceptions=g['guard_processes'](a)
+   for folder in Path('/proc').iterdir():
+    if not folder.name.isdigit():continue
+    try:
+     if folder.stat().st_uid!=2147 or int(folder.name)==os.getpid():continue
+     cmd=(folder/'cmdline').read_bytes()
+     assert b'/local/boyjiang/spaceserve' not in cmd and b'/local/boyjiang/epd' not in cmd,'Project command active'
+    except (FileNotFoundError,ProcessLookupError):continue
+   exclusive('-claim.json',{'identity':identity,'commit':p['commit'],'snapshot':p['snapshot'],'source_before':before,'exceptions':exceptions,'child_sha256':p['child_sha256'],'started_ms':int(time.time()*1000),'work_seconds':120,'cleanup_seconds':20})
+   os.chdir(stage);os.environ.update(CUDA_VISIBLE_DEVICES='',NVIDIA_VISIBLE_DEVICES='void',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(stage),SPACESERVE_CPU_TEST_TMP=str(stage),SPACESERVE_CPU_RUN_ID='space-cpu-temp-tests-1103')
+   check();argv=['/usr/bin/python3','-I','-S','-B','-c',p['child'],str(repo/'tools'),str(prefix)+'-summary.json']
+   m.command_output(argv,log,work_end-time.monotonic(),deadline)
+   summary=json.loads(Path(str(prefix)+'-summary.json').read_bytes());assert summary['tests_run']==36 and summary['failures']==0 and summary['errors']==0 and summary['skipped']==0 and summary['unittest_success'] is True and summary['failure'] is None
+   assert not summary['forbidden_import_attempts'] and not summary['loaded_forbidden_modules']
+   after=physical();assert git('rev-parse','HEAD').decode().strip()==p['commit'] and not git('status','--porcelain','--untracked-files=all').strip()
+   terminal={'exit_code':0,'identity':identity,'commit':p['commit'],'source_before':before,'source_after':after,'summary':summary,'GPU_started':False,'state':'CPU_tests_raw_not_independently_reviewed','finished_ms':int(time.time()*1000)}
+  except BaseException as error:
+   terminal={'exit_code':1,'identity':identity,'commit':p['commit'],'error':repr(error),'source_before':before,'source_after':after,'GPU_started':False,'state':'FAILED_preserve_raw','finished_ms':int(time.time()*1000)}
+finally:
+ signal.alarm(0);os.close(lock)
+ if terminal is not None:exclusive('-terminal.json',terminal)
+files=[]
+for suffix in ['-claim.json','-commands.log','-summary.json','-terminal.json']:
+ path=Path(str(prefix)+suffix)
+ if not path.exists():continue
+ info=path.lstat();assert stat.S_ISREG(info.st_mode) and info.st_uid==2147 and info.st_size<2097152
+ raw=path.read_bytes();files.append({'name':path.name,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),'base64':base64.b64encode(raw).decode()})
+print(json.dumps({'identity':identity,'terminal':terminal,'files':files,'read_only_after_execution':True}),flush=True)
+raise SystemExit(0 if terminal is not None and terminal['exit_code']==0 else 1)

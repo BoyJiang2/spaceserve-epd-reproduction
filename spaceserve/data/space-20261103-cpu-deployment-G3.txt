@@ -1,0 +1,54 @@
+新版本 actual CPU deployment G3：**APPROVE；BLOCKING：0。**
+
+已独立只读核验：原Space repo从1935部署至8536的CPU源码闭环成立，不包含目标机36项测试。
+
+部署实际exit0；独立capture实际exit0。三份回收原件完整base64、bytes、SHA与落地文件一致：
+
+| 原件 | bytes | SHA256 |
+|---|---:|---|
+| claim | 161749 | `cd88943efc6c5382ab34f234735d34741d93938ae513bc95b5f1f3ea435d9f58` |
+| commands | 3488 | `3f829103b68a343342f10687d9c984f3ce7508f5f994e7dcfc585dd469d55df4` |
+| terminal | 28553 | `851fbee14f37c02da168048ec886b2344bec76874a8dc7b2ba15494a1906a66a` |
+
+8条原始Git命令均实际exit0、failure null、cleanup空；逐条raw输出bytes/SHA核同。日志直接证明旧HEAD1935/clean、unpack成功、目标tree及sole parent正确、checkout至8536，以及更新后HEAD8536/clean，没有只依据terminal marker。
+
+实际input SHA与FD记录、intent一致，payload精确匹配已审候选。claim旧103项、terminal新103项及独立capture的103项物理文件全部核同固定manifest，包括bytes、SHA256、Git blob、mode、UID2147。新旧仅一个test路径的一行变化；3339字节pack与三个helper保持此前精确G2绑定。
+
+部署claim记录PID268244/ticks59245723、UID2147、固定boot65f及新前缀；其fresh snapshot年龄6.433秒，完整360秒无CPU/whole冲突，处于原窗口。独立capture的G2/payload/原部署exit绑定核同，fresh检查仍为HEAD8536/clean、103源一致，原PID268244的`/proc`实际不存在，signals为空。
+
+原1935版本36项/3errors/exit1及失败收口原件保持。新版本target36尚未由本结论验收，须另经精确执行G2与实际测试G3；06:30边界不扩，不认证GPU、模型或正式性能。
+
+```json
+{
+  "passed": true,
+  "blocking": 0,
+  "decision": "APPROVE",
+  "scope": "actual new-version original Space repository CPU source deployment only",
+  "actual_deployment_verified": true,
+  "old_commit": "1935a9e1c098dcb7d740e30141e68a56c3ece9c4",
+  "commit": "85361901112eda3af0157df396d9f858be245c94",
+  "tree": "7bbd81dea4217731e326e7457f529a2fc7549edf",
+  "parent": "1935a9e1c098dcb7d740e30141e68a56c3ece9c4",
+  "files_count": 103,
+  "source_manifest_sha256": "d4ae67ec5d57284598a4cb02f677656708ac4347a75ef8ffb5fe2f59608a799b",
+  "dispatcher_sha256": "715fd364998a92e476d611cedf525d8af91a416cc92f2e5deb6c06375b638982",
+  "candidate_sha256": "17271b3df09c95d2f85088f01409d4f10ca1892ad213d5fd1d1dfa99f3cf5e9f",
+  "body_sha256": "51fa0db9f9ade761e820abbf317e605f0c0310b0594d7d57796b349a9c2f14c0",
+  "deployment_exit_sha256": "939fb40fd94fa2f4ae938be41097f153c430eaea3c250e66e50ae32d1e379e68",
+  "capture_stdout_sha256": "47e2d10f10f5f489021c80c90cf315dd879d233ef59e5c9dca8afdc08f8b4c63",
+  "deployment_exit_code": 0,
+  "collector_exit_code": 0,
+  "git_commands_verified": 8,
+  "remote_clean": true,
+  "original_parent_pid": 268244,
+  "original_parent_start_ticks": 59245723,
+  "original_parent_absent": true,
+  "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+  "signals": [],
+  "target_tests_verified": false,
+  "GPU_authorized": false,
+  "overall_goal_complete": false
+}
+```
+
+审查未执行命令、测试、网络、SSH或GPU，未读取凭据或修改文件。`review_sha256`由主线程保存原文后计算绑定。

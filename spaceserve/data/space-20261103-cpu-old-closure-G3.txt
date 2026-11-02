@@ -1,0 +1,50 @@
+失败资源 closure G3：**APPROVE；BLOCKING：0。** 仅确认失败单元已收口，**36项测试未通过**。
+
+独立只读核验确认：
+
+- collector实际exit0，intent固定dispatcher/candidate/body与已审G2一致；实际input文件SHA与FD记录、intent匹配。回收时fresh API年龄约1.85秒，360秒内无CPU/whole冲突，仍在批准窗口。
+- 回收的claim、commands、terminal三件，完整base64解码、bytes、SHA及落地文件均匹配，且与首次回收原件逐字节相同。
+- 原commands真实记录两条前置Git命令exit0，以及测试child exit1、`CalledProcessError`、cleanup空；三段raw输出SHA全部核同。按已审helper实际communicate/wait及session释放确认路径，未留下未确认子会话。
+- child实际身份为PID213370/ticks59115786、UID2147、boot65f、CPU50/nice10、staging cwd。summary保持36 run、0 failures、3 errors、0 skip；错误原文均为PayloadTests.setUp尝试在不存在的`/local/outputs`创建临时目录。硬件/网络包禁止导入attempts和loaded列表均为空。
+- 新只读回收实际HEAD1935/clean，103项物理源码bytes/SHA/Git blob/mode/UID与固定manifest完全匹配。原parent PID213264/ticks59115533的`/proc`实际不存在，signals为空。
+- 原terminal的`source_before`103项核同；**`source_after`仍为空，未补写**。新回收103项仅证明后续fresh源码状态，不伪称当时已完成source-after检查。
+
+可据此进入另行批准的新版本修复流程；不重测原1935单元，不将collector成功改写成CPU36通过。新源码commit/push/部署/测试仍分别需要对应精确审核。
+
+```json
+{
+  "passed": true,
+  "blocking": 0,
+  "decision": "APPROVE",
+  "scope": "failed Space CPU test resource closure only",
+  "failure_resource_closure_verified": true,
+  "tests_passed": false,
+  "original_tests_exit": 1,
+  "tests_run": 36,
+  "failures": 0,
+  "errors": 3,
+  "skipped": 0,
+  "collector_exit_code": 0,
+  "capture_stdout_sha256": "4518b8acac8a26201f49014b75cc5eb95c1230d3df377199e6be251c266c2c34",
+  "collector_exit_sha256": "d41a3da24f259e9f5379943e69a01fbe8571188a77c56c5746268275f6e78fe7",
+  "original_summary_sha256": "79e3f6b56cac75c93049ad7996f949535b48d15f7b9e1b6970100c148f77c8d9",
+  "raw_records_match_first_capture": true,
+  "original_parent_pid": 213264,
+  "original_parent_start_ticks": 59115533,
+  "original_parent_absent": true,
+  "test_child_pid": 213370,
+  "test_child_start_ticks": 59115786,
+  "child_wait_and_session_release_verified": true,
+  "commit": "1935a9e1c098dcb7d740e30141e68a56c3ece9c4",
+  "current_source_files": 103,
+  "current_source_verified": true,
+  "remote_clean": true,
+  "original_source_after_empty_preserved": true,
+  "signals": [],
+  "test_retry_authorized": false,
+  "GPU_authorized": false,
+  "overall_goal_complete": false
+}
+```
+
+审查未执行命令、测试、网络、SSH或GPU，未读取凭据或修改文件。

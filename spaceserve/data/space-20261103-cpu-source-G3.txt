@@ -1,0 +1,51 @@
+实际 source API 恢复 G3：**APPROVE；BLOCKING：0。**
+
+已独立只读核验，确认8536源码通过本次API恢复发表并完成远端读回及本地feature ref更新。
+
+原Git CLI失败记录仍为exit128，stderr保留TLS unexpected EOF；其后只读ref仍为1935。此次API恢复有独立G5、exclusive intent和固定脚本SHA，未将原CLI失败改成成功。
+
+实际blob/tree/commit创建响应与本地固定对象一致。commit8536的tree、sole parent1935、author/committer时间及message与本地原始commit相符。固定恢复脚本仅一次`force:false`目标ref PATCH，真实响应及发布后snapshot均指向8536。
+
+完整recursive tree未截断，9753项路径唯一。已独立重建全部目录Git tree hash，根精确为`7bbd81dea4217731e326e7457f529a2fc7549edf`。将唯一变更blob还原后，重建根精确回到1935的`e3cd6cf403e7dc5b1fc4ae42671ece6c5e085012`，确认整树只有`tools/test_control_space_window_20261030.py`改变。
+
+该blob真实base64读回为2722字节，SHA256 `77d3b13365c261bafac6a14534d860c405af284c5fae0d14426c9711d3578b9a`，Git blob `710ba0f7ec7799fa5f157fde0727005650cc959b`，与候选、本地物理文件及Git对象逐字节相同。patch仅一行临时目录选择变化，三个FD用例和生产源码未改。
+
+三次fresh snapshot的仓库ID/public一致；前两次refs相同，发布后仅Space branch1935→8536，其余11refs、main4eb及7 Releases/19 assets保持。本地feature ref及reflog证明1935→8536；主HEAD24b/index e8cf保持。
+
+本结论仅认证源码发布。服务器仍为1935，原目标机36项/3errors保持失败；本地36绿不代表目标机通过。新版本部署与目标机测试仍需后续精确G2/实际G3，不延长06:30边界，不授权GPU。
+
+```json
+{
+  "passed": true,
+  "blocking": 0,
+  "decision": "APPROVE",
+  "scope": "actual one-file source publication through approved Git API recovery only",
+  "commit": "85361901112eda3af0157df396d9f858be245c94",
+  "tree": "7bbd81dea4217731e326e7457f529a2fc7549edf",
+  "parent": "1935a9e1c098dcb7d740e30141e68a56c3ece9c4",
+  "files": 1,
+  "candidate_sha256": "56765ff8eed46ffb43f776f01e782cec627860d3d27473d09a7fa3ea25ea0391",
+  "script_sha256": "48359bc78716708ea9c9c046fee06fdd036dd4c1b9d80a978ac42fca67dd06f4",
+  "remoteSHAverified": true,
+  "api_ref_update_verified": true,
+  "force": false,
+  "original_git_push_exit": 128,
+  "fulltreeverified": true,
+  "tree_records": 9753,
+  "blob_readback_bytes": 2722,
+  "blob_readback_sha256": "77d3b13365c261bafac6a14534d860c405af284c5fae0d14426c9711d3578b9a",
+  "localbranchupdated": true,
+  "main_unchanged": true,
+  "other_refs_unchanged": 11,
+  "protected_releases": 7,
+  "protected_assets": 19,
+  "public": true,
+  "primary_HEAD_index_unchanged": true,
+  "serverdeployed": false,
+  "target_tests_passed": false,
+  "GPU": false,
+  "overall": false
+}
+```
+
+审查未执行命令、测试、网络、SSH或GPU，未读取凭据或修改文件。

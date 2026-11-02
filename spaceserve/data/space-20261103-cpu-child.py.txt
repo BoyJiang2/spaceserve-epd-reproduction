@@ -1,0 +1,60 @@
+import json
+import os
+from pathlib import Path
+import signal
+import sys
+import time
+import unittest
+
+source, summary_path = Path(sys.argv[1]), Path(sys.argv[2])
+identity = {'pid': os.getpid(), 'uid': os.getuid(), 'boot_id': Path('/proc/sys/kernel/random/boot_id').read_text().strip(),
+    'start_ticks': int(Path('/proc/self/stat').read_text().rsplit(')', 1)[1].split()[19]),
+    'cwd': str(Path.cwd()), 'affinity': sorted(os.sched_getaffinity(0)),
+    'nice': os.getpriority(os.PRIO_PROCESS, 0), 'run_id': os.environ['SPACESERVE_CPU_RUN_ID']}
+print(json.dumps({'event': 'CPU_test_child_started', **identity}), file=sys.stderr, flush=True)
+assert identity['uid'] == 2147 and identity['affinity'] == [50] and identity['nice'] == 10
+assert identity['cwd'] == '/local/boyjiang/spaceserve/staging' and identity['run_id'] == 'space-cpu-temp-tests-1103'
+assert os.environ['CUDA_VISIBLE_DEVICES'] == '' and os.environ['NVIDIA_VISIBLE_DEVICES'] == 'void'
+assert os.environ['SPACESERVE_CPU_TEST_TMP'] == identity['cwd']
+forbidden = {'torch', 'ray', 'pynvml', 'cupy', 'vllm', 'epdserve', 'aiohttp'}
+attempts = []
+
+
+class NoHardwareImports:
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.split('.')[0] in forbidden:
+            attempts.append(fullname)
+            raise RuntimeError('Real hardware/network package import refused: ' + fullname)
+
+
+sys.meta_path.insert(0, NoHardwareImports())
+result, failure = None, None
+started = time.monotonic()
+
+
+def cancelled(number, frame):
+    raise KeyboardInterrupt('CPU test interrupted by ' + str(number))
+
+
+for number in (signal.SIGTERM, signal.SIGINT):
+    signal.signal(number, cancelled)
+try:
+    sys.path.insert(0, str(source))
+    suite = unittest.defaultTestLoader.loadTestsFromNames(['test_space_window_20261030', 'test_run_space_window_20261030', 'test_control_space_window_20261030'])
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+except BaseException as error:
+    failure = {'type': type(error).__name__, 'error': repr(error)}
+finally:
+    loaded = sorted(name for name in sys.modules if name.split('.')[0] in forbidden)
+    record = {'identity': identity, 'tests_run': None if result is None else result.testsRun,
+        'failures': None if result is None else len(result.failures),
+        'errors': None if result is None else len(result.errors),
+        'skipped': None if result is None else len(result.skipped),
+        'unittest_success': result is not None and result.wasSuccessful(), 'failure': failure,
+        'forbidden_import_attempts': attempts, 'loaded_forbidden_modules': loaded,
+        'elapsed_seconds': time.monotonic() - started, 'GPU_authorized': False,
+        'state': 'actual_CPU_test_raw_not_independently_reviewed'}
+    with summary_path.open('x', encoding='utf-8') as file:
+        json.dump(record, file, indent=2)
+raise SystemExit(0 if record['unittest_success'] and record['tests_run'] == 36
+                 and record['skipped'] == 0 and failure is None and not attempts and not loaded else 1)

@@ -1,5 +1,7 @@
 # SpaceServe 与 EPD：两个独立复现项目
 
+运行准备更新：[SpaceServe 8536190源码部署与目标CPU36验证](spaceserve/comparison/20261103-cpu-readiness.md)已通过独立验收，原版本36项/3errors及修复记录保留。CPU证据与下方历史GPU性能分开；新正式仍0/54。
+
 最新 SpaceServe 批次：[2026-11-02 qjh003 的313请求模型与机制预检](spaceserve/comparison/20261102-preflight.md)通过实际 G3，原始证据 Release 已公开并核验；**本批正式0/54，没有新性能加速比**。历史性能、退化和部分批次独立保留。
 
 EPD 最新阶段：[指定源码部署与目标机77项CPU验证](epd/comparison/20261103-source-readiness.md)已通过独立验收；**本批 GPU/模型及公平 PD 三组性能仍未执行**。两项目的历史 baseline 对照、图表与原始数据分别保留在各自项目页。

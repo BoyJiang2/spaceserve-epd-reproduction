@@ -1,0 +1,59 @@
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/spaceserve/repo", "rev-parse", "HEAD"], "started_ms": 1793657709766}
+85361901112eda3af0157df396d9f858be245c94
+
+{"exit_code": 0, "elapsed_seconds": 0.14964466192759573, "failure": null, "output_bytes": 41, "output_sha256": "97629331c18002748197895e06ad1a328f593c5033dab5a7ce9461cb19279c82", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/spaceserve/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793657709916}
+
+{"exit_code": 0, "elapsed_seconds": 0.15669800399336964, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}
+{"argv": ["/usr/bin/python3", "-I", "-S", "-B", "-c", "import json\nimport os\nfrom pathlib import Path\nimport signal\nimport sys\nimport time\nimport unittest\n\nsource, summary_path = Path(sys.argv[1]), Path(sys.argv[2])\nidentity = {'pid': os.getpid(), 'uid': os.getuid(), 'boot_id': Path('/proc/sys/kernel/random/boot_id').read_text().strip(),\n    'start_ticks': int(Path('/proc/self/stat').read_text().rsplit(')', 1)[1].split()[19]),\n    'cwd': str(Path.cwd()), 'affinity': sorted(os.sched_getaffinity(0)),\n    'nice': os.getpriority(os.PRIO_PROCESS, 0), 'run_id': os.environ['SPACESERVE_CPU_RUN_ID']}\nprint(json.dumps({'event': 'CPU_test_child_started', **identity}), file=sys.stderr, flush=True)\nassert identity['uid'] == 2147 and identity['affinity'] == [50] and identity['nice'] == 10\nassert identity['cwd'] == '/local/boyjiang/spaceserve/staging' and identity['run_id'] == 'space-cpu-temp-tests-1103'\nassert os.environ['CUDA_VISIBLE_DEVICES'] == '' and os.environ['NVIDIA_VISIBLE_DEVICES'] == 'void'\nassert os.environ['SPACESERVE_CPU_TEST_TMP'] == identity['cwd']\nforbidden = {'torch', 'ray', 'pynvml', 'cupy', 'vllm', 'epdserve', 'aiohttp'}\nattempts = []\n\n\nclass NoHardwareImports:\n    def find_spec(self, fullname, path=None, target=None):\n        if fullname.split('.')[0] in forbidden:\n            attempts.append(fullname)\n            raise RuntimeError('Real hardware/network package import refused: ' + fullname)\n\n\nsys.meta_path.insert(0, NoHardwareImports())\nresult, failure = None, None\nstarted = time.monotonic()\n\n\ndef cancelled(number, frame):\n    raise KeyboardInterrupt('CPU test interrupted by ' + str(number))\n\n\nfor number in (signal.SIGTERM, signal.SIGINT):\n    signal.signal(number, cancelled)\ntry:\n    sys.path.insert(0, str(source))\n    suite = unittest.defaultTestLoader.loadTestsFromNames(['test_space_window_20261030', 'test_run_space_window_20261030', 'test_control_space_window_20261030'])\n    result = unittest.TextTestRunner(verbosity=2).run(suite)\nexcept BaseException as error:\n    failure = {'type': type(error).__name__, 'error': repr(error)}\nfinally:\n    loaded = sorted(name for name in sys.modules if name.split('.')[0] in forbidden)\n    record = {'identity': identity, 'tests_run': None if result is None else result.testsRun,\n        'failures': None if result is None else len(result.failures),\n        'errors': None if result is None else len(result.errors),\n        'skipped': None if result is None else len(result.skipped),\n        'unittest_success': result is not None and result.wasSuccessful(), 'failure': failure,\n        'forbidden_import_attempts': attempts, 'loaded_forbidden_modules': loaded,\n        'elapsed_seconds': time.monotonic() - started, 'GPU_authorized': False,\n        'state': 'actual_CPU_test_raw_not_independently_reviewed'}\n    with summary_path.open('x', encoding='utf-8') as file:\n        json.dump(record, file, indent=2)\nraise SystemExit(0 if record['unittest_success'] and record['tests_run'] == 36\n                 and record['skipped'] == 0 and failure is None and not attempts and not loaded else 1)\n", "/local/boyjiang/spaceserve/repo/tools", "/local/boyjiang/spaceserve/staging/space-cpu-temp-tests-1103-summary.json"], "started_ms": 1793657710119}
+{"event": "CPU_test_child_started", "pid": 285132, "uid": 2147, "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee", "start_ticks": 59286214, "cwd": "/local/boyjiang/spaceserve/staging", "affinity": [50], "nice": 10, "run_id": "space-cpu-temp-tests-1103"}
+test_all_phase_budgets_at_real_start (test_space_window_20261030.WindowTests) ... ok
+test_cpu_before_authorized_cpu_window_refused (test_space_window_20261030.WindowTests) ... ok
+test_cpu_cleanup_edge_is_not_gpu_authorization (test_space_window_20261030.WindowTests) ... ok
+test_cpu_phase_never_queries_gpu (test_space_window_20261030.WindowTests) ... ok
+test_cpu_prepare_before_gpu_start_with_independent_clearance (test_space_window_20261030.WindowTests) ... ok
+test_exact_formal_admission_edge_and_one_ms_late (test_space_window_20261030.WindowTests) ... ok
+test_foreign_conflict (test_space_window_20261030.WindowTests) ... ok
+test_foreign_cpu_or_whole_blocks_preparation (test_space_window_20261030.WindowTests) ... ok
+test_foreign_gpu_only_does_not_grant_or_block_cpu (test_space_window_20261030.WindowTests) ... ok
+test_foreign_lane_wrong_owner_duplicate_and_missing (test_space_window_20261030.WindowTests) ... ok
+test_gpu_before_start_refused (test_space_window_20261030.WindowTests) ... ok
+test_gpu_phases_require_actual_strict_idle (test_space_window_20261030.WindowTests) ... ok
+test_historical_human_confirmation_is_not_current_API (test_space_window_20261030.WindowTests) ... ok
+test_no_late_extension_even_if_owned_ticket_exists (test_space_window_20261030.WindowTests) ... ok
+test_nonoverlap_or_other_resource_cpu_tickets_do_not_block (test_space_window_20261030.WindowTests) ... ok
+test_other_same_account_gpu_ticket_does_not_authorize_gpu_phase (test_space_window_20261030.WindowTests) ... ok
+test_other_same_account_gpu_ticket_does_not_block_cpu_only_phase (test_space_window_20261030.WindowTests) ... ok
+test_same_account_cpu_ticket_in_cleanup_reserve_blocks_every_phase (test_space_window_20261030.WindowTests) ... ok
+test_same_account_cpu_whole_or_unknown_ticket_is_not_project_permission (test_space_window_20261030.WindowTests) ... ok
+test_snapshot_older_than_five_minutes (test_space_window_20261030.WindowTests) ... ok
+test_stale_future_or_prestart_snapshot (test_space_window_20261030.WindowTests) ... ok
+test_unknown_foreign_lane_is_not_an_exemption (test_space_window_20261030.WindowTests) ... ok
+test_unknown_phase_does_not_bypass_gpu_admission (test_space_window_20261030.WindowTests) ... ok
+test_wrong_resource_gpu_profile_and_auto_extension (test_space_window_20261030.WindowTests) ... ok
+test_prepare_binds_designated_commit (test_run_space_window_20261030.CommandTests) ... ok
+test_runtime_phases_do_not_reprepare (test_run_space_window_20261030.CommandTests) ... ok
+test_unknown_phase_and_revision_refused (test_run_space_window_20261030.CommandTests) ... ok
+test_final_spawn_receives_complete_budget (test_run_space_window_20261030.FinalAdmissionTests) ... ok
+test_refresh_time_cannot_consume_cleanup_margin (test_run_space_window_20261030.FinalAdmissionTests) ... ok
+test_snapshot_expires_before_spawn (test_run_space_window_20261030.FinalAdmissionTests) ... ok
+test_all_phases_compile_without_execution (test_control_space_window_20261030.BootstrapTests) ... ok
+test_generated_dispatch_calls_only_one_named_phase (test_control_space_window_20261030.BootstrapTests) ... ok
+test_shell_revision_and_unknown_phase_rejected (test_control_space_window_20261030.BootstrapTests) ... ok
+test_actual_regular_fd_is_hashed_and_rewound (test_control_space_window_20261030.PayloadTests) ... ok
+test_changed_payload_refuses_before_dispatch (test_control_space_window_20261030.PayloadTests) ... ok
+test_nonregular_fd_refuses_without_reading (test_control_space_window_20261030.PayloadTests) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.010s
+
+OK
+
+{"exit_code": 0, "elapsed_seconds": 0.2282320250524208, "failure": null, "output_bytes": 3874, "output_sha256": "7fc80a3690f31a86b7e2570df3d62c6feae4fcb6757732d5c433f1bf9de4702a", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/spaceserve/repo", "rev-parse", "HEAD"], "started_ms": 1793657710360}
+85361901112eda3af0157df396d9f858be245c94
+
+{"exit_code": 0, "elapsed_seconds": 0.12852853094227612, "failure": null, "output_bytes": 41, "output_sha256": "97629331c18002748197895e06ad1a328f593c5033dab5a7ce9461cb19279c82", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/spaceserve/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793657710489}
+
+{"exit_code": 0, "elapsed_seconds": 0.1405031259637326, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}

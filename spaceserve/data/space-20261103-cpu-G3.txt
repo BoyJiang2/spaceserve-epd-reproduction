@@ -1,0 +1,54 @@
+新版本实际目标 CPU36 G3：**APPROVE；BLOCKING：0。**
+
+已独立只读核验8536版本的实际目标机软件测试与进程收口，确认 **36 run、0 failures、0 errors、0 skip，实际exit0**。
+
+四份原始record的完整base64、bytes、SHA与落地文件均一致；summary与terminal内结果一致。五条受监督命令（Git前置两条、测试child、Git后置两条）全部实际exit0、failure null、cleanup空，逐条raw输出SHA核同。原日志明确列出三个PayloadTests全部`ok`，并记录`Ran 36 tests … OK`，未以计数marker代替原始输出。
+
+实际child为PID285132/ticks59286214、UID2147、固定boot65f、CPU50/nice10及原staging cwd；显式使用本次stage临时目录。硬件/网络包禁止导入attempts和loaded列表均为空。summary覆盖加载及执行计时0.06184秒，unittest自身日志计时0.010秒，二者测量范围不同。
+
+source_before与source_after的103项逐字节结构相同，各项bytes、SHA256、Git blob、mode、UID均匹配8536固定manifest；前后实际HEAD8536且clean。两次实际input的文件SHA、FD记录和intent绑定均核同。测试与success probe的fresh snapshot分别约8.346秒、1.922秒，完整360秒内均无CPU/whole冲突且处于原窗口。
+
+success probe严格绑定本次supervisor PID284994/ticks59286101，而非旧部署或失败单元PID；实际`/proc`目录不存在，signals为空。原1935版本36项/3errors/exit1及其失败资源收口原件保持，未改成成功。
+
+本结论仅认证8536目标机CPU软件回归及进程收口，不认证GPU、numeric、313模型预检、正式54或科学性能。后续GPU实验仍须新有效预约、窗口配置和对应Gates。
+
+```json
+{
+  "passed": true,
+  "blocking": 0,
+  "decision": "APPROVE",
+  "scope": "actual target CPU software tests and process closure only",
+  "commit": "85361901112eda3af0157df396d9f858be245c94",
+  "tree": "7bbd81dea4217731e326e7457f529a2fc7549edf",
+  "tests_run": 36,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "actual_test_exit_code": 0,
+  "probe_exit_code": 0,
+  "three_payload_FD_tests_passed": true,
+  "forbidden_import_attempts": [],
+  "loaded_forbidden_modules": [],
+  "source_stable": true,
+  "files_count": 103,
+  "remote_clean": true,
+  "supervised_commands_verified": 5,
+  "original_parent_pid": 284994,
+  "original_parent_start_ticks": 59286101,
+  "original_parent_absent": true,
+  "test_child_pid": 285132,
+  "test_child_start_ticks": 59286214,
+  "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee",
+  "signals": [],
+  "summary_sha256": "8da3d06db7820f1cd90675446ad1c46b9c94396a24c58d87b2c5cce949c8853e",
+  "commands_sha256": "fad748a631d47a3d88bc102fc655da99bb18ee3258f099251e52af40a1521a14",
+  "terminal_sha256": "cb501066953dd108430712faee0cef09e19e14386473d4a6bae52fd46c09e283",
+  "actual_stdout_sha256": "d27760ab832092953f5676919ea732991238178aca79df37a64b6d79079dd535",
+  "success_probe_sha256": "11b47c0a849557d70587615efa8c36c1466d43b30a07831a443bd7aa7ef7d43c",
+  "old_1935_failure_preserved": true,
+  "GPU_authorized": false,
+  "overall_goal_complete": false
+}
+```
+
+审查未执行命令、测试、网络、SSH或GPU，未读取凭据或修改文件。

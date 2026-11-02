@@ -1,0 +1,13 @@
+diff --git a/tools/test_control_space_window_20261030.py b/tools/test_control_space_window_20261030.py
+index fae7a79..710ba0f 100644
+--- a/tools/test_control_space_window_20261030.py
++++ b/tools/test_control_space_window_20261030.py
+@@ -30,7 +30,7 @@ class BootstrapTests(unittest.TestCase):
+ 
+ class PayloadTests(unittest.TestCase):
+     def setUp(self):
+-        self.temp=tempfile.TemporaryDirectory(dir=controller.CHECKOUT.parents[2]/'outputs')
++        self.temp=tempfile.TemporaryDirectory(dir=os.environ.get('SPACESERVE_CPU_TEST_TMP',controller.CHECKOUT.parents[2]/'outputs'))
+         self.addCleanup(self.temp.cleanup);self.folder=Path(self.temp.name)
+         self.path=self.folder/'input.json';self.path.write_bytes(b'{"phase":"cpu"}')
+ 
