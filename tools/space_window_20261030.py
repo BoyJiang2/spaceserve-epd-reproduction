@@ -51,10 +51,11 @@ def validate(snapshot, now_ms, phase, configuration):
         if len(rows) != 1 or any(rows[0].get(k) != v for k,v in expected.items()):
             raise ValueError('Exact current owned lane required')
     for row in snapshot['bookings']:
-        if (row.get('resource_id') == RESOURCE and row.get('user') != 'boyjiang'
-                and (not cpu_phase or row.get('kind') != 'gpu')
+        if (row.get('resource_id') == RESOURCE
                 and row['start_ms'] < finish and row['end_ms'] > now_ms):
-            raise ValueError('Foreign booking intersects actual unit')
+            if row.get('kind') == 'gpu' and (cpu_phase or row.get('id') == GPU):
+                continue
+            raise ValueError('Booking outside this project lane intersects actual unit')
     return dict(work_seconds=budget, cleanup_seconds=120, booking_end_ms=END,
                 source_or_runtime_Gates_granted=False, CPU_booking_claimed=False,
                 authorization_kind='direct-human-CPU-fresh-clearance' if cpu_phase else 'exact-owned-GPU-lane')

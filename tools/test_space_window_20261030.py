@@ -108,6 +108,49 @@ class WindowTests(unittest.TestCase):
                 with self.subTest(phase=phase,kind=kind), self.assertRaises(ValueError):
                     window.validate(proof,window.START,phase,self.config)
 
+    def test_same_account_cpu_whole_or_unknown_ticket_is_not_project_permission(self):
+        for phase in window.BUDGETS:
+            for kind in ('cpu',None,'unknown','whole-node'):
+                proof=copy.deepcopy(self.proof)
+                proof['bookings'].append(dict(id='other-project',resource_id=window.RESOURCE,
+                    user='boyjiang',kind=kind,start_ms=window.START,end_ms=window.END))
+                with self.subTest(phase=phase,kind=kind), self.assertRaises(ValueError):
+                    window.validate(proof,window.START,phase,self.config)
+
+    def test_other_same_account_gpu_ticket_does_not_authorize_gpu_phase(self):
+        self.proof['bookings'].append(dict(id='other-project',resource_id=window.RESOURCE,
+            user='boyjiang',kind='gpu',start_ms=window.START,end_ms=window.END))
+        for phase in ('numeric','model','formal'):
+            with self.subTest(phase=phase), self.assertRaises(ValueError):
+                window.validate(self.proof,window.START,phase,self.config)
+
+    def test_other_same_account_gpu_ticket_does_not_block_cpu_only_phase(self):
+        self.proof['bookings'].append(dict(id='other-project',resource_id=window.RESOURCE,
+            user='boyjiang',kind='gpu',start_ms=window.START,end_ms=window.END))
+        for phase in ('prepare','cpu'):
+            with self.subTest(phase=phase):
+                window.validate(self.proof,window.START,phase,self.config)
+
+    def test_same_account_cpu_ticket_in_cleanup_reserve_blocks_every_phase(self):
+        for phase,budget in window.BUDGETS.items():
+            proof=copy.deepcopy(self.proof)
+            proof['bookings'].append(dict(id='other-project',resource_id=window.RESOURCE,
+                user='boyjiang',kind='cpu',start_ms=window.START+budget*1000,
+                end_ms=window.START+(budget+120)*1000))
+            with self.subTest(phase=phase), self.assertRaises(ValueError):
+                window.validate(proof,window.START,phase,self.config)
+
+    def test_nonoverlap_or_other_resource_cpu_tickets_do_not_block(self):
+        for phase,budget in window.BUDGETS.items():
+            for start,end,resource in [(window.START-1000,window.START,window.RESOURCE),
+                    (window.START+(budget+120)*1000,window.END,window.RESOURCE),
+                    (window.START,window.END,'h20/qjh005')]:
+                proof=copy.deepcopy(self.proof)
+                proof['bookings'].append(dict(id='other-project',resource_id=resource,
+                    user='boyjiang',kind='cpu',start_ms=start,end_ms=end))
+                with self.subTest(phase=phase,start=start,resource=resource):
+                    window.validate(proof,window.START,phase,self.config)
+
     def test_cpu_cleanup_edge_is_not_gpu_authorization(self):
         now=window.END-(window.BUDGETS['cpu']+120)*1000;self.proof['observed_ms']=now
         window.validate(self.proof,now,'cpu',self.config)
