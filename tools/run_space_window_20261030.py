@@ -13,7 +13,7 @@ import types
 
 ROOT = Path('/local/boyjiang/spaceserve')
 REPO = ROOT/'repo'
-RUN = ROOT/'runs/space-20261031-0000'
+RUN = ROOT/'runs/space-20261102-1700'
 BOOT = '65f52a67-afe4-4919-8646-4694255b48ee'
 CONFIG_PATH = 'spaceserve/runtime/configs/qjh003-20261030-0400.proposed.json'
 
@@ -33,6 +33,17 @@ def supervise_phase(policy, proof, cfg, phase, helper, supervision, argv, enviro
     limits = policy.validate(proof, admitted_ms, phase, cfg)
     supervision.supervise(helper, argv, environment, log, check, limits['work_seconds'])
     return dict(admitted_ms=admitted_ms, limits=limits)
+
+
+def require_gpu_idle(phase, cfg):
+    if phase in ('prepare', 'cpu'):
+        return
+    if phase not in ('numeric', 'model', 'formal'):
+        raise ValueError('Unknown GPU admission phase')
+    gpu=subprocess.check_output(['nvidia-smi','--id=2','--query-gpu=uuid,memory.used,utilization.gpu','--format=csv,noheader,nounits'],text=True,timeout=5)
+    apps=subprocess.check_output(['nvidia-smi','--id=2','--query-compute-apps=pid','--format=csv,noheader,nounits'],text=True,timeout=5)
+    if [x.strip() for x in gpu.strip().split(',')]!=[cfg['gpu_uuids'][0],'0','0'] or apps.strip():
+        raise ValueError('Actual GPU2 strict idle required')
 
 
 def main():
@@ -67,10 +78,7 @@ def main():
     if any(approval.get(k)!=v for k,v in expected.items()):raise ValueError('Exact independent phase execution approval required')
     for path in (args.approval,args.snapshot):
         if path.is_symlink() or path.stat().st_uid!=2147:raise ValueError('Unowned/linked phase evidence')
-    gpu=subprocess.check_output(['nvidia-smi','--id=2','--query-gpu=uuid,memory.used,utilization.gpu','--format=csv,noheader,nounits'],text=True,timeout=5)
-    apps=subprocess.check_output(['nvidia-smi','--id=2','--query-compute-apps=pid','--format=csv,noheader,nounits'],text=True,timeout=5)
-    if [x.strip() for x in gpu.strip().split(',')]!=[cfg['gpu_uuids'][0],'0','0'] or apps.strip():
-        raise ValueError('Actual GPU2 strict idle required')
+    require_gpu_idle(args.phase,cfg)
     config=RUN/'configs/project.json'
     if args.phase=='prepare':
         if RUN.exists():raise ValueError('Existing run is not a prepare retry')

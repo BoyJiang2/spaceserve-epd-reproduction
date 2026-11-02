@@ -1,9 +1,10 @@
-"""Exact 04–10 window admission only; never a runtime Gate or GPU launcher."""
-START = 1793376000000
-END = 1793415600000
+"""Nov2 CPU preparation and exact 17–22 GPU admission; never a runtime Gate."""
+START = 1793610000000
+CPU_START = 1793584800000  # Direct human CPU use; no CPU ticket claim.
+END = 1793628000000
 RESOURCE = 'h20/qjh003'
 CPU = None  # Direct human CPU authorization; no CPU booking claim.
-GPU = 'bk-20261030T0301-bd62e6dd'
+GPU = 'bk-20261102T0656-11ad42a4'
 BUDGETS = {'prepare':240, 'cpu':240, 'numeric':900, 'model':1800, 'formal':12060}
 
 
@@ -17,7 +18,7 @@ def human_confirmation(configuration,now_ms):
 def validate(snapshot, now_ms, phase, configuration):
     if phase not in BUDGETS or type(now_ms) is not int:
         raise ValueError('Unknown phase or clock')
-    if (configuration.get('run_id') != 'space-20261031-0000'
+    if (configuration.get('run_id') != 'space-20261102-1700'
             or configuration.get('host') != 'qjh003' or configuration.get('uid') != 2147
             or configuration.get('gpu_devices') != [2]
             or configuration.get('gpu_uuids') != ['GPU-c005197e-747d-2dc8-b77b-b123b41efd75']
@@ -26,23 +27,22 @@ def validate(snapshot, now_ms, phase, configuration):
             or configuration.get('workload_numa_node') != 0 or configuration.get('mask_off') != 56
             or 'temporary_gpu_use' in configuration):
         raise ValueError('Frozen window parameters differ')
+    cpu_phase = phase in ('prepare', 'cpu')
+    earliest = CPU_START if cpu_phase else START
     observed = snapshot.get('observed_ms')
-    human=(snapshot.get('origin')=='direct-human-reservation-confirmation-20261031'
-           and snapshot.get('human_confirmed') is True
-           and snapshot.get('authorization_reference')=='user-confirmed-qjh003-20261031-API-network-failure')
-    if (snapshot.get('origin') != 'gputime_read_only_api' and not human):
-        raise ValueError('Actual API or explicit current human authorization required')
+    if snapshot.get('origin') != 'gputime_read_only_api':
+        raise ValueError('Current window requires the actual API; historical manual confirmation is not transferable')
     if (snapshot.get('read_only') is not True
-            or type(observed) is not int or not START <= observed <= now_ms
+            or type(observed) is not int or not earliest <= observed <= now_ms
             or now_ms-observed > 300000):
-        raise ValueError('Actual fresh after-start snapshot required')
+        raise ValueError('Actual fresh phase-appropriate snapshot required')
     resources = [row for row in snapshot['resources'] if row.get('id') == RESOURCE]
     if (len(resources) != 1 or resources[0].get('node') != 'qjh003'
             or resources[0].get('active') is not True or resources[0].get('gpu_count') != 8):
         raise ValueError('Actual active resource differs')
     budget = BUDGETS[phase]
     finish = now_ms+(budget+120)*1000
-    if not START <= now_ms or finish > END:
+    if not earliest <= now_ms or finish > END:
         raise ValueError('Complete work and cleanup budget unavailable')
     for kind, ticket, end in [('gpu',GPU,END)]:
         rows = [row for row in snapshot['bookings'] if row.get('id') == ticket]
@@ -52,8 +52,9 @@ def validate(snapshot, now_ms, phase, configuration):
             raise ValueError('Exact current owned lane required')
     for row in snapshot['bookings']:
         if (row.get('resource_id') == RESOURCE and row.get('user') != 'boyjiang'
-                and row.get('kind') in (None,'cpu','gpu')
+                and (not cpu_phase or row.get('kind') != 'gpu')
                 and row['start_ms'] < finish and row['end_ms'] > now_ms):
             raise ValueError('Foreign booking intersects actual unit')
     return dict(work_seconds=budget, cleanup_seconds=120, booking_end_ms=END,
-                source_or_runtime_Gates_granted=False)
+                source_or_runtime_Gates_granted=False, CPU_booking_claimed=False,
+                authorization_kind='direct-human-CPU-fresh-clearance' if cpu_phase else 'exact-owned-GPU-lane')

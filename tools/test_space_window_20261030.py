@@ -3,6 +3,8 @@ import copy
 import json
 from pathlib import Path
 import unittest
+from unittest.mock import patch
+import run_space_window_20261030 as runner
 import space_window_20261030 as window
 
 
@@ -22,21 +24,18 @@ class WindowTests(unittest.TestCase):
                 self.assertFalse(value['source_or_runtime_Gates_granted'])
                 self.assertEqual(value['cleanup_seconds'],120)
 
-    def test_before_start_refused(self):
-        with self.assertRaises(ValueError):window.validate(self.proof,window.START-1,'prepare',self.config)
+    def test_gpu_before_start_refused(self):
+        now=window.START-1;self.proof['observed_ms']=now
+        with self.assertRaises(ValueError):window.validate(self.proof,now,'numeric',self.config)
 
-    def test_human_confirmation_is_explicit_bounded_and_not_API(self):
+    def test_historical_human_confirmation_is_not_current_API(self):
         proof=window.human_confirmation(self.config,window.START)
-        self.assertNotEqual(proof['origin'],'gputime_read_only_api')
-        window.validate(proof,window.START,'model',self.config)
-        for key,value in [('human_confirmed',False),('authorization_reference','other'),
-                          ('observed_ms',window.START-1)]:
-            broken=copy.deepcopy(proof);broken[key]=value
-            with self.assertRaises(ValueError):window.validate(broken,window.START,'model',self.config)
-        with self.assertRaises(ValueError):window.validate(proof,window.END,'formal',self.config)
+        for phase in window.BUDGETS:
+            with self.subTest(phase=phase), self.assertRaises(ValueError):
+                window.validate(proof,window.START,phase,self.config)
 
     def test_stale_future_or_prestart_snapshot(self):
-        for observed in (window.START-1,window.START+1,window.START-300001):
+        for observed in (window.CPU_START-1,window.START+1,window.START-300001):
             self.proof['observed_ms']=observed
             with self.assertRaises(ValueError):window.validate(self.proof,window.START,'cpu',self.config)
 
@@ -74,6 +73,63 @@ class WindowTests(unittest.TestCase):
     def test_no_late_extension_even_if_owned_ticket_exists(self):
         now=window.END;self.proof['observed_ms']=now
         with self.assertRaises(ValueError):window.validate(self.proof,now,'cpu',self.config)
+
+    def test_cpu_prepare_before_gpu_start_with_independent_clearance(self):
+        now=window.CPU_START+1;self.proof['observed_ms']=now
+        for phase in ('prepare','cpu'):
+            value=window.validate(self.proof,now,phase,self.config)
+            self.assertFalse(value['CPU_booking_claimed'])
+            self.assertEqual(value['authorization_kind'],'direct-human-CPU-fresh-clearance')
+            self.assertFalse(value['source_or_runtime_Gates_granted'])
+
+    def test_cpu_before_authorized_cpu_window_refused(self):
+        now=window.CPU_START-1;self.proof['observed_ms']=now
+        with self.assertRaises(ValueError):window.validate(self.proof,now,'prepare',self.config)
+
+    def test_foreign_gpu_only_does_not_grant_or_block_cpu(self):
+        now=window.START-1;self.proof['observed_ms']=now
+        self.proof['bookings'].append(dict(resource_id=window.RESOURCE,user='other',kind='gpu',start_ms=window.CPU_START,end_ms=window.END))
+        window.validate(self.proof,now,'prepare',self.config)
+        self.proof['observed_ms']=window.START
+        with self.assertRaises(ValueError):window.validate(self.proof,window.START,'numeric',self.config)
+
+    def test_foreign_cpu_or_whole_blocks_preparation(self):
+        now=window.CPU_START+1;self.proof['observed_ms']=now
+        for kind in ('cpu',None):
+            proof=copy.deepcopy(self.proof)
+            proof['bookings'].append(dict(resource_id=window.RESOURCE,user='other',kind=kind,start_ms=now,end_ms=now+60000))
+            with self.subTest(kind=kind), self.assertRaises(ValueError):window.validate(proof,now,'prepare',self.config)
+
+    def test_unknown_foreign_lane_is_not_an_exemption(self):
+        for phase in ('prepare','numeric'):
+            for kind in ('unknown','whole-node'):
+                proof=copy.deepcopy(self.proof)
+                proof['bookings'].append(dict(resource_id=window.RESOURCE,user='other',kind=kind,start_ms=window.START,end_ms=window.END))
+                with self.subTest(phase=phase,kind=kind), self.assertRaises(ValueError):
+                    window.validate(proof,window.START,phase,self.config)
+
+    def test_cpu_cleanup_edge_is_not_gpu_authorization(self):
+        now=window.END-(window.BUDGETS['cpu']+120)*1000;self.proof['observed_ms']=now
+        window.validate(self.proof,now,'cpu',self.config)
+        with self.assertRaises(ValueError):window.validate(self.proof,now+1,'cpu',self.config)
+
+    def test_cpu_phase_never_queries_gpu(self):
+        with patch.object(runner.subprocess,'check_output') as query:
+            for phase in ('prepare','cpu'):runner.require_gpu_idle(phase,self.config)
+            query.assert_not_called()
+
+    def test_unknown_phase_does_not_bypass_gpu_admission(self):
+        with patch.object(runner.subprocess,'check_output') as query:
+            with self.assertRaises(ValueError):runner.require_gpu_idle('other',self.config)
+            query.assert_not_called()
+
+    def test_gpu_phases_require_actual_strict_idle(self):
+        good=self.config['gpu_uuids'][0]+', 0, 0\n'
+        for phase in ('numeric','model','formal'):
+            with patch.object(runner.subprocess,'check_output',side_effect=[good,'']) as query:
+                runner.require_gpu_idle(phase,self.config);self.assertEqual(query.call_count,2)
+        with patch.object(runner.subprocess,'check_output',side_effect=[self.config['gpu_uuids'][0]+', 1, 0\n','']):
+            with self.assertRaises(ValueError):runner.require_gpu_idle('numeric',self.config)
 
 
 if __name__=='__main__':unittest.main()
