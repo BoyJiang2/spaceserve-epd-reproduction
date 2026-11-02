@@ -153,6 +153,8 @@ def verify_checkout(config, inputs, owner, command=subprocess.check_output):
     required = {"preflight_guard.py", "live_evidence.py", "selected_g3.py", "admission.py",
                 "experiment_plan.py", "benchmark.py", "client_window.py", "preflight-static.json",
                 "fixed_unit.py", "preflight_controller.py", "production_identity.py", "project_config.py",
+                "entry.py", "selected_unit.py", "selected_inputs.py", "selected_client.py",
+                "selected_booking.py", "selected_execution.py", "selected_evidence.py",
                 "common/reproduction_paths.py", "project-scope.json"}
     if not required <= {item["path"] for item in manifest["files"]}:
         raise ValueError("Source manifest omits an execution/admission component")

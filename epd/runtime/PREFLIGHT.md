@@ -1,3 +1,50 @@
+# Nov3 selected adapter candidate (local source; no actual GPU acceptance)
+
+CPU tests use the existing fixed runner's `EPD_CPU_TEST_TMP`, an already existing
+owned temporary directory outside the frozen source checkout. Set it explicitly
+for standalone unittest runs too; no test assumes the local Windows checkout layout.
+
+`entry.py selected_g3 --system replicas|pd|epd --inputs INPUTS --unit-template TEMPLATE`
+now dispatches to the locked production controller. TEMPLATE must be a committed,
+source-manifest-pinned `epd-selected-template-v1` JSON with exactly `schema`,
+`phase`, `model`, `dataset`, and `urls_by_system` (replicas: three loopback URLs;
+PD/EPD: one each). Freeze actual verified asset paths and ports before publication;
+do not use an untracked or runtime-edited template. Current old numeric-only scope
+does not grant this action. Source changes await whole-path G2 and Git-first deployment.
+
+The reviewed calibration prerequisite must bind `selection`, `selected_fixtures`,
+`runtime_binding`, and `rgb_manifest` descriptors in its `raw_files`. One original
+120-request/1600-second Claim covers cold60 and full-process-restart60. Each uses
+the same common fixtures and diagnostics, with no new claim, refund, or retry.
+The global controller remains claimed through the restart boundary.
+
+After verified cold release, `runtime/RUNID/restart-booking-request.json` asks the
+local controller for a fresh actual read-only API snapshot. Within at most60s and
+the original Claim cleanup boundary, transfer the raw JSON and then publish the
+handoff file last (complete file, never partially written):
+
+```json
+{"schema":"epd-restart-booking-handoff-v1","run_id":"ACTUAL_RUNID","claim_sha256":"ACTUAL_REQUEST_CLAIM_SHA256","raw":{"path":"restart-booking-raw.json","sha256":"ACTUAL_RAW_BYTES_SHA256"}}
+```
+
+Do not forward credentials, alter snapshot observation times, or reuse a different
+claim. The executor rechecks original ticket/window/freshness and remaining budget;
+missing, stale, cancelled or mismatched handoff stops the unit. Worker/API absence
+and idle NVML evidence are retained before endpoint sidecars are archived.
+
+After all three units have released, `selected_evidence.py --inputs INPUTS --output CANDIDATE`
+assembles raw evidence for independent G3. INPUTS is `selected-evidence-input-v1`:
+bound descriptors `config`, `source_manifest`, `deployment`, `runtime_binding`,
+`selection`, `fixtures`; `units` contains replicas/pd/epd, each with bound `inputs`
+and `terminal` descriptors. All files must stay below INPUTS' parent. The producer
+concatenates the original native cold/restart journals as the common reference;
+it never adds reference requests or signs approval. The resulting candidate lacks
+a G3 review on purpose. Only a separately authored, exactly bound independent
+review may be consumed by `selected_g3.consume`; formal remains separately blocked.
+
+The older sections below describe historical stages. CPU fixtures, including a
+strict-consumer round trip, do not prove actual GPU/IPC/model/lifecycle correctness.
+
 # v5 local preflight interfaces — not an execution approval
 
 Only H20, exactly three approved UUIDs, TP1, the frozen numeric / 8 qualification /

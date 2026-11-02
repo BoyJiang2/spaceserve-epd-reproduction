@@ -119,7 +119,7 @@ def response_identity(service, route):
     return {"repro_api_identity": service["api_identity"], "repro_worker_route": route}
 
 
-def assemble_services(paths, output):
+def assemble_services(paths, output, *, expected_urls=None):
     """Join server-produced sidecars after rechecking only their exact owned PIDs."""
     if os.environ.get("REPRO_NUMERIC_ONLY", "0") != "0":
         raise ValueError("Numeric workers cannot assemble HTTP service evidence")
@@ -142,6 +142,12 @@ def assemble_services(paths, output):
             services.append(service)
     if not services or len({s["url"] for s in services}) != len(services):
         raise ValueError("Missing or duplicate live endpoints")
+    if expected_urls is not None:
+        by_url = {service['url']: service for service in services}
+        if (len(expected_urls) != len(services) or len(set(expected_urls)) != len(expected_urls)
+                or set(expected_urls) != set(by_url)):
+            raise ValueError('Frozen endpoint set differs from actual registered services')
+        services = [by_url[url] for url in expected_urls]
     output = Path(output).resolve()
     if not output.is_relative_to((Path(values["EXP_ROOT"]) / "runtime").resolve()):
         raise ValueError("Endpoint manifest must remain runtime data")

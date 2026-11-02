@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--inputs',type=Path)
     parser.add_argument('--unit-template',type=Path)
     parser.add_argument('--select',type=Path)
+    parser.add_argument('--system',choices=('replicas','pd','epd'))
     args=parser.parse_args()
     os.environ['EPD_CONFIG']=str(args.config.resolve(strict=True))
     layout=context()
@@ -22,11 +23,11 @@ def main():
         print(json.dumps({**layout.describe(),'baseline':'three full replicas / tuned PD ablation / EPD',
             'model':'MiniCPM-V-2_6','dtype':'float16','TP':1,'GPU_budget':3,
             'numeric_transfers':36,'qualification_requests':120,'calibration_requests':960,
-            'selected_g3_requests':360,'GPU_adapters_incomplete':['selected_g3'],
+            'selected_g3_requests':360,'selected_g3_state':'source_adapter_pending_full_review_and_actual_G3',
             'new_GPU_requests':0},indent=2))
         return 0
-    if args.action=='selected_g3':
-        raise NotImplementedError('Selected360 controller adapter is not complete; no GPU/claim/retry')
+    if (args.action=='selected_g3') != (args.system is not None):
+        parser.error('selected_g3 requires --system; other actions must not use it')
     source=Path(__file__).resolve().parent
     if args.action=='analyze':
         if not args.select:parser.error('analyze requires --select with actual bound calibration evidence')
@@ -48,7 +49,10 @@ def main():
     else:
         from preflight_controller import run
     config=json.loads((source/'preflight-static.json').read_bytes())
-    report=run(config,json.loads(inputs.read_bytes()),inputs,template)
+    if args.action=='selected_g3':
+        report=run(config,json.loads(inputs.read_bytes()),inputs,template,selected_system=args.system)
+    else:
+        report=run(config,json.loads(inputs.read_bytes()),inputs,template)
     return 0 if report['state']=='released' and report['failure'] is None and not report['errors'] else 1
 
 

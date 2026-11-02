@@ -50,7 +50,9 @@ class Fixture(unittest.TestCase):
         source_files = []
         for name in ("preflight_guard.py", "live_evidence.py", "selected_g3.py", "admission.py",
                      "experiment_plan.py", "benchmark.py", "client_window.py",
-                     "fixed_unit.py", "preflight_controller.py", "production_identity.py", "project_config.py"):
+                     "fixed_unit.py", "preflight_controller.py", "production_identity.py", "project_config.py",
+                     "entry.py", "selected_unit.py", "selected_inputs.py", "selected_client.py",
+                     "selected_booking.py", "selected_execution.py", "selected_evidence.py"):
             shutil.copy2(ROOT / name, self.root / name)
             source_files.append({"path": name, "git_path":name, "sha256": self.sha(self.root / name)})
         (self.root / "preflight-static.json").write_text(json.dumps(self.config), encoding="utf-8")

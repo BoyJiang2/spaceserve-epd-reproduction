@@ -1,6 +1,6 @@
-"""Fixed qualification/calibration production bridge. Candidate scopes cannot run.
+"""Fixed preflight production bridge. Candidate scopes cannot run.
 
-Numeric full-cache and selected cold/restart orchestration are explicitly blocked.
+Numeric full-cache orchestration uses the separate numeric controller.
 No GPU dependency is imported until original GPU authorization/source checks pass.
 """
 import argparse
@@ -200,11 +200,17 @@ def rgb_cache(url, spec):
     return actual, images
 
 
-def run(config, inputs, owner, template):
+def run(config, inputs, owner, template, *, selected_system=None):
     deployed = authorize(config, inputs, owner)
     layout = paths_for(config)
-    layout.require_scope(json.loads(Path(template).read_bytes())['phase'])
-    spec = load_execution(template, config, inputs, owner)
+    phase = json.loads(Path(template).read_bytes())['phase']
+    layout.require_scope(phase)
+    if phase == 'selected_g3':
+        from selected_inputs import load_execution as load_selected
+        spec = load_selected(template, config, inputs, owner, selected_system, deployed)
+    else:
+        if selected_system is not None: raise ValueError('Selected system cannot alter qualification/calibration')
+        spec = load_execution(template, config, inputs, owner)
     root, proc = Path(config["root"]), ProcReader()
     runtime = root / "runtime"; runtime.mkdir(mode=0o700, exist_ok=True)
     if runtime.resolve() != runtime or runtime.stat().st_uid != config["uid"]:
@@ -235,6 +241,11 @@ def run(config, inputs, owner, template):
             spec["server_environments"] = envs
             spec["client_environment"] = {"PATH": os.environ.get("PATH", ""), "PYTHONDONTWRITEBYTECODE": "1",
                 "CUDA_VISIBLE_DEVICES": "", "NVIDIA_VISIBLE_DEVICES": "void"}
+            if phase == 'selected_g3':
+                spec['client_argv'] = [sys.executable, '-B', str(SOURCE / 'selected_client.py'),
+                    '--execution', str(runtime / inputs['run_id'] / 'execution.json'),
+                    '--unit-runtime', str(runtime / inputs['run_id'] / 'cold/client-runtime.json'),
+                    '--unit-output', str(runtime / inputs['run_id'] / 'cold'), '--session', 'cold']
             ledger = runtime / "gpu-budget.json"
             if ledger.exists():
                 old_units = json.loads(ledger.read_bytes())["units"].values()
@@ -246,15 +257,21 @@ def run(config, inputs, owner, template):
             output = runtime / inputs["run_id"]; output.mkdir(mode=0o700, exist_ok=False)
             write_exclusive(output / "execution.json", spec)
             active.write_text(json.dumps({"state": "claimed", "claim": claim.reservation_receipt, "run_id": inputs["run_id"]}))
+            if phase == 'selected_g3':
+                from selected_booking import for_session
+                from selected_execution import execute_sessions
+                return execute_sessions(config, inputs, deployed, spec, claim, backend, proc, output, active,
+                    lambda name, cancelled: for_session(name, config, inputs, owner, claim, output, cancelled))
             return execute_claimed(config, inputs, deployed, spec, claim, backend, proc, output, active)
         finally:
             backend.close()
 
 
-def execute_claimed(config, inputs, deployed, spec, claim, backend, proc, output, active):
+def execute_claimed(config, inputs, deployed, spec, claim, backend, proc, output, active, *, cancelled=None):
     root, run_id = Path(config["root"]), inputs["run_id"]
     owned, processes, logs, bootstrap_seen = {}, {}, [], {}
-    cancelled, collect_stop, sample_ready = threading.Event(), threading.Event(), threading.Event()
+    cancelled = cancelled if cancelled is not None else threading.Event()
+    collect_stop, sample_ready = threading.Event(), threading.Event()
     errors, cleanup, failure, sampler = [], [], None, None
     by_pid = {}
     previous = {n: signal.getsignal(n) for n in (signal.SIGTERM, signal.SIGINT)}
@@ -297,7 +314,7 @@ def execute_claimed(config, inputs, deployed, spec, claim, backend, proc, output
         saved_env = {key: os.environ.get(key) for key in env}
         try:
             os.environ.update(env)
-            endpoints = assemble_services(paths, output / 'endpoints.json')
+            endpoints = assemble_services(paths, output / 'endpoints.json', expected_urls=spec['urls'])
         finally:
             for key, value in saved_env.items():
                 if value is None: os.environ.pop(key, None)

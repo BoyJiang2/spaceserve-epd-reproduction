@@ -101,6 +101,12 @@ async def _run_client(spec, runtime, output):
     claim = json.loads(claim_raw)
     if digest(claim["execution"]) != digest(spec) or claim["execution_sha256"] != digest(spec):
         raise ValueError("Client argv/vector differs from pre-start claim")
+    batches, request_limit, selected_session = spec["batches"], spec["max_requests"], None
+    if spec["phase"] == "selected_g3":
+        from selected_unit import session_batches
+        selected_session = runtime["selected_session"]
+        batches = session_batches(spec, selected_session)
+        request_limit = 60
     deadline = claim["timing"]["deadline_monotonic"]
     stop_file = Path(runtime["stop_file"])
     # Fresh connections + no redirects; no retry loop or proxy environment.
@@ -114,12 +120,12 @@ async def _run_client(spec, runtime, output):
                 "run_id": row["run_id"], **fields}) + "\n"); events.flush()
         async with aiohttp.ClientSession(connector=connector, timeout=timeout, trust_env=False) as session:
             if hasattr(session, "_retry_connection"): session._retry_connection = False
-            for batch in spec["batches"]:
+            for batch in batches:
                 semaphore = asyncio.Semaphore(batch["concurrency"])
                 async def one(item):
                     nonlocal issued
                     async with semaphore:
-                        if stop_file.exists() or time.perf_counter() >= deadline or issued >= spec["max_requests"]:
+                        if stop_file.exists() or time.perf_counter() >= deadline or issued >= request_limit:
                             raise RuntimeError("Unit stopped/deadline/N+1: do not submit")
                         issued += 1
                         endpoint = spec["urls"][item["dispatch_index"] % len(spec["urls"])]
@@ -137,6 +143,7 @@ async def _run_client(spec, runtime, output):
                             "case": batch["case"], "images": len(images), "input": actual_input,
                             "dispatch_index": item["dispatch_index"], "endpoint": endpoint, "warmup": batch["warmup"],
                             "submit_monotonic": time.perf_counter()}
+                        if selected_session is not None: row["session"] = selected_session
                         if spec["phase"] == "calibration": row.update(repeat=spec["repeat"], load=spec["load"])
                         row.update(request_body=body, status="submitted")
                         event("submitted", row, submitted=dict(row))  # Flush submission before POST; no per-request fsync/hash.
@@ -184,7 +191,7 @@ async def _run_client(spec, runtime, output):
                     file.write(json.dumps(window) + "\n")
                 if any(isinstance(row, BaseException) or row.get("success") is not True for row in results):
                     raise RuntimeError("Actual fixed batch failed; preserve raw, no retry")
-    if issued != spec["max_requests"]: raise RuntimeError("Fixed vector incomplete")
+    if issued != request_limit: raise RuntimeError("Fixed vector incomplete")
     if spec["phase"] == "calibration":
         from client_window import write_window
         metadata = {**runtime["clock_scope"], "candidate": spec["candidate"], "candidate_config_sha256": spec["candidate_config_sha256"],
