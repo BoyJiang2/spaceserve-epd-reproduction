@@ -75,7 +75,8 @@ image_cache = {}
 ASSETS_DIR = os.path.join(os.path.dirname(__file__), '../assets')
 image_path = os.path.join(ASSETS_DIR, 'images/image2_4032_3024.jpg')
 image_name = os.path.basename(image_path)
-image_cache[image_name] = Image.open(image_path).convert("RGB")
+if os.path.isfile(image_path):
+    image_cache[image_name] = Image.open(image_path).convert("RGB")
 
 def load_image_cache(image_path):
     image_name = os.path.basename(image_path)
