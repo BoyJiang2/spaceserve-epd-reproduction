@@ -21,19 +21,19 @@ def verify_payload(payload, expected_sha256, output):
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def save(path,value):
     with path.open('x',encoding='utf8') as out:json.dump(value,out,indent=2)
-approval_path=HERE/'reviews/g2-numeric-cpu-cancel-20261101-execution.json'
-a=json.loads(approval_path.read_bytes());review=(HERE/'reviews/g2-numeric-cpu-cancel-20261101-execution.md').read_bytes()
-assert a['passed'] and a['blocking']==0 and a['scope']=='EPD-four-scenario-CPU-cancel-20261101'
+approval_path=HERE/'reviews/g2-numeric-cpu-cancel-20261102-execution.json'
+a=json.loads(approval_path.read_bytes());review=(HERE/'reviews/g2-numeric-cpu-cancel-20261102-execution.md').read_bytes()
+assert a['passed'] and a['blocking']==0 and a['scope']=='EPD-four-scenario-CPU-cancel-20261102'
 assert sha(review)==a['review_sha256']
-deployment=json.loads((HERE/'reviews/g3-numeric-cpu-cancel-20261101-deployment-actual.json').read_bytes())
-deployment_review=(HERE/'reviews/g3-numeric-cpu-cancel-20261101-deployment-actual.md').read_bytes()
+deployment=json.loads((HERE/'reviews/g3-numeric-cpu-cancel-20261102-deployment-actual.json').read_bytes())
+deployment_review=(HERE/'reviews/g3-numeric-cpu-cancel-20261102-deployment-actual.md').read_bytes()
 assert deployment['passed'] and deployment['blocking']==0 and sha(deployment_review)==deployment['review_sha256']==a['deployment_G3_review_sha256']
 assert a['commit']==deployment['commit']
 for name,key in (('deployed-files.json','deployed_manifest_sha256'),('terminal.json','deployment_terminal_sha256')):
-    assert sha((HERE/'numeric-cpu-cancel-20261101-deployment-capture'/name).read_bytes())==deployment[key]==a[key]
+    assert sha((HERE/'numeric-cpu-cancel-20261102-deployment-capture'/name).read_bytes())==deployment[key]==a[key]
 operator=(C/'tools/run_epd_cpu_evening_remote.py').read_bytes();config=(C/'epd/migration/qjh003-cpu-evening-20261030.json').read_bytes()
 assert sha(operator)==a['operator_sha256'] and sha(config)==a['config_sha256']
-state=json.loads((HERE/'numeric-cpu-cancel-20261101-publication-execution.json').read_bytes())
+state=json.loads((HERE/'numeric-cpu-cancel-20261102-publication-execution.json').read_bytes())
 assert state['phase']=='BRANCH_LOCAL_AND_GITHUB_VERIFIED' and state['commit']==a['control_commit']
 for member in ('tools/epd_cpu_evening_20261030.py','tools/control_epd_cpu_evening_run.py','tools/run_epd_cpu_evening_remote.py','tools/control_space_temporary_cpu.py','epd/migration/qjh003-cpu-evening-20261030.json'):
     assert verified_file(state['commit'],member)==(C/member).read_bytes()
@@ -42,13 +42,13 @@ guard=subprocess.check_output(['git','-C',str(C),'show',a['control_commit']+':to
 assert sha(guard)==a['booking_guard_sha256']
 proof=snapshot();pure={'__name__':'pure_CPU_booking_guard'};exec(compile(guard,'<published-CPU-booking-guard>','exec'),pure)
 pure['validate'](proof,int(time.time()*1000),420)
-handoff_raw=(HERE/'numeric-cpu-cancel-20261101-handoff.json').read_bytes()
-user_raw=(HERE/'numeric-cpu-cancel-20261101-user-instruction.txt').read_bytes()
-g1=(HERE/'numeric-cpu-cancel-20261101-G1.md').read_bytes()
-g5=(HERE/'numeric-cpu-cancel-20261101-G5.md').read_bytes()
+handoff_raw=(HERE/'numeric-cpu-cancel-20261102-handoff.json').read_bytes()
+user_raw=(HERE/'numeric-cpu-cancel-20261102-user-instruction.txt').read_bytes()
+g1=(HERE/'numeric-cpu-cancel-20261102-G1.md').read_bytes()
+g5=(HERE/'numeric-cpu-cancel-20261102-G5.md').read_bytes()
 assert sha(handoff_raw)==a['handoff_sha256'] and sha(user_raw)==a['user_instruction_sha256']
 assert sha(g1)==a['G1_sha256'] and sha(g5)==a['G5_sha256']
-output=HERE/'numeric-cpu-cancel-20261101-execution';output.mkdir(exist_ok=False)
+output=HERE/'numeric-cpu-cancel-20261102-execution';output.mkdir(exist_ok=False)
 wire=json.dumps(dict(commit=a['commit'],control_commit=a['control_commit'],approval=a,review=base64.b64encode(review).decode(),deployment_G3=deployment,
     deployment_review=base64.b64encode(deployment_review).decode(),booking=proof,
     handoff=base64.b64encode(handoff_raw).decode(),user_instruction=base64.b64encode(user_raw).decode(),G1=base64.b64encode(g1).decode(),G5=base64.b64encode(g5).decode(),booking_guard=base64.b64encode(guard).decode(),config=base64.b64encode(config).decode())).encode()

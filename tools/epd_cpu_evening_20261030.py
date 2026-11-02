@@ -1,6 +1,6 @@
 """Direct human CPU permission, subject to fresh booking clearance; no GPU grant."""
-START_MS=1793491200000  # 2026-11-01 08:00 Asia/Shanghai
-END_MS=1793512800000    # Self-imposed 2026-11-01 14:00 stop; not a booking
+START_MS=1793584800000  # 2026-11-02 10:00 Asia/Shanghai
+END_MS=1793609880000    # Self-imposed 2026-11-02 16:58 stop; not a booking
 
 
 def acquire_cpu50():
