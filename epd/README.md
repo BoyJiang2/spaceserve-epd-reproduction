@@ -73,6 +73,10 @@ on/off观测扰动另列，不能替代off主结果：
 
 ### qjh003 MiniCPM，三H20完整三副本 vs EPD
 
+![EPD 与三个完整模型副本：qjh003 三 H20、MiniCPM-V-2.6、128 输出 tokens 的吞吐、TTFT 与 TPOT 对照](comparison/figures/baseline-overview.png)
+
+本图属于历史首轮完整六负载，与方案 A、qjh000 修正批次分开展示。两组均使用三张 GPU；吞吐为三次运行均值及样本 SD，TTFT、TPOT 为原表 P95。EPD 吞吐退化及延迟权衡均保留，不能由本图推断内部因果瓶颈。[原始汇总及复现导航](comparison/README.md)。
+
 | 图数 / 并发 | 基线 tokens/s | 目标 tokens/s | 吞吐比 | TTFT P95 ms：基线→目标 | TPOT P95 ms：基线→目标 | E2E P95 ms：基线→目标 |
 |---|---:|---:|---:|---:|---:|---:|
 | 1 / 1 † | 70.1 ± 0.0 | 65.5 ± 0.1 | 0.93× | 50.3→58.9 | 14.23→15.13 | 1854.6→1978.9 |

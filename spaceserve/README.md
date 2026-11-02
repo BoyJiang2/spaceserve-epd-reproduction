@@ -12,6 +12,10 @@
 
 单H20、Qwen2-VL-7B-Instruct、FP16/TP1/eager，三组共用私有MPS100%、同一COCO20图和请求序列；每单元20预热＋100正式、128输出tokens。已产生4,800正式＋960预热，六项未执行。完整54单元的顺序平衡目标尚未达成；不与下方历史固定顺序批次合并。
 
+![SpaceServe 与原生 vLLM：单 H20、Qwen2-VL-7B、128 输出 tokens 的吞吐、TTFT 与 TPOT 对照](comparison/figures/baseline-overview.png)
+
+图中仅展示补充批次前两个完整区组 B0/B1（36 单元）；实线与虚线是独立运行，B2 未合并。TTFT、TPOT 为 P50，连线仅用于观察趋势，不代表完整 54 单元矩阵已完成，也不证明 decoder 互斥分区。[完整逐次结果与统计口径](../outputs/spaceserve-revision-20261027/report/formal-terminal-reviewed-candidate/report.md)。
+
 下表为每个时间区组的单次成功吞吐req/s，三种比值均在同区组、同负载内计算。**不是跨运行平均值、置信区间或总体加速结论**；缺失不填零，退化保留。原生为N，解耦为D，有效encoder mask为M。
 
 | 图/C | 区组 | N req/s | D req/s | M req/s | D/N | M/N | M/D |
