@@ -1,0 +1,105 @@
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "rev-parse", "HEAD"], "started_ms": 1793651518406}
+1a637d2de9c71e2c6fb98ee5a9673be1b2870e3f
+
+{"exit_code": 0, "elapsed_seconds": 0.1388750090263784, "failure": null, "output_bytes": 41, "output_sha256": "69300272b21f45cd72e155ad40c6087c527f7ec82bdd8bfeb37fa3b143a79726", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793651518545}
+
+{"exit_code": 0, "elapsed_seconds": 0.1561213709646836, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}
+{"argv": ["/local/boyjiang/epd/assets/envs/epd/bin/python", "-I", "-S", "-B", "-c", "import json\nimport os\nfrom pathlib import Path\nimport signal\nimport sys\nimport time\nimport unittest\n\nsource, summary_path = Path(sys.argv[1]), Path(sys.argv[2])\nidentity = {'pid': os.getpid(), 'uid': os.getuid(), 'boot_id': Path('/proc/sys/kernel/random/boot_id').read_text().strip(),\n    'start_ticks': int(Path('/proc/self/stat').read_text().rsplit(')', 1)[1].split()[19]),\n    'cwd': str(Path.cwd()), 'affinity': sorted(os.sched_getaffinity(0)),\n    'nice': os.getpriority(os.PRIO_PROCESS, 0), 'run_id': os.environ['EPD_CPU_RUN_ID']}\nprint(json.dumps({'event': 'CPU_test_child_started', **identity}), file=sys.stderr, flush=True)\nassert identity['uid'] == 2147 and identity['affinity'] == [50] and identity['nice'] == 10\nassert identity['cwd'] == '/local/boyjiang/epd/staging' and identity['run_id'] == 'epd-selected-tests-1103'\nassert os.environ['CUDA_VISIBLE_DEVICES'] == '' and os.environ['NVIDIA_VISIBLE_DEVICES'] == 'void'\nassert os.environ['EPD_CPU_TEST_TMP'] == identity['cwd']\nforbidden = {'torch', 'ray', 'pynvml', 'cupy', 'vllm', 'epdserve', 'aiohttp'}\nattempts = []\n\n\nclass NoHardwareImports:\n    def find_spec(self, fullname, path=None, target=None):\n        if fullname.split('.')[0] in forbidden:\n            attempts.append(fullname)\n            raise RuntimeError('Real hardware/network package import refused: ' + fullname)\n\n\nsys.meta_path.insert(0, NoHardwareImports())\nresult, failure = None, None\nstarted = time.monotonic()\n\n\ndef cancelled(number, frame):\n    raise KeyboardInterrupt('CPU test interrupted by ' + str(number))\n\n\nfor number in (signal.SIGTERM, signal.SIGINT):\n    signal.signal(number, cancelled)\ntry:\n    sys.path.insert(0, str(source))\n    suite = unittest.defaultTestLoader.discover(str(source / 'tests'), pattern='test_selected*.py')\n    result = unittest.TextTestRunner(verbosity=2).run(suite)\nexcept BaseException as error:\n    failure = {'type': type(error).__name__, 'error': repr(error)}\nfinally:\n    loaded = sorted(name for name in sys.modules if name.split('.')[0] in forbidden)\n    record = {'identity': identity, 'tests_run': None if result is None else result.testsRun,\n        'failures': None if result is None else len(result.failures),\n        'errors': None if result is None else len(result.errors),\n        'skipped': None if result is None else len(result.skipped),\n        'unittest_success': result is not None and result.wasSuccessful(), 'failure': failure,\n        'forbidden_import_attempts': attempts, 'loaded_forbidden_modules': loaded,\n        'elapsed_seconds': time.monotonic() - started, 'GPU_authorized': False,\n        'state': 'actual_CPU_test_raw_not_independently_reviewed'}\n    with summary_path.open('x', encoding='utf-8') as file:\n        json.dump(record, file, indent=2)\nraise SystemExit(0 if record['unittest_success'] and record['tests_run'] == 77\n                 and record['skipped'] == 0 and failure is None and not attempts and not loaded else 1)\n", "/local/boyjiang/epd/repo/epd/runtime", "/local/boyjiang/epd/staging/epd-selected-tests-1103-summary.json"], "started_ms": 1793651518751}
+{"event": "CPU_test_child_started", "pid": 21932, "uid": 2147, "boot_id": "65f52a67-afe4-4919-8646-4694255b48ee", "start_ticks": 58667077, "cwd": "/local/boyjiang/epd/staging", "affinity": [50], "nice": 10, "run_id": "epd-selected-tests-1103"}
+test_cancellation_stops_missing_handoff_wait (test_selected_booking.SelectedBookingTests) ... ok
+test_cold_uses_original_bound_booking_without_restamping (test_selected_booking.SelectedBookingTests) ... ok
+test_escape_path_rejected (test_selected_booking.SelectedBookingTests) ... ok
+test_missing_handoff_wait_is_bounded (test_selected_booking.SelectedBookingTests) ... ok
+test_other_run_handoff_rejected (test_selected_booking.SelectedBookingTests) ... ok
+test_raw_hash_mismatch_rejected (test_selected_booking.SelectedBookingTests) ... ok
+test_request_is_not_reused_or_overwritten (test_selected_booking.SelectedBookingTests) ... ok
+test_restart_keeps_original_raw_and_claim_bound_request (test_selected_booking.SelectedBookingTests) ... ok
+test_unknown_session_rejected (test_selected_booking.SelectedBookingTests) ... ok
+test_wrong_claim_handoff_rejected (test_selected_booking.SelectedBookingTests) ... ok
+test_correct_session_paths (test_selected_client.SelectedClientPathTests) ... ok
+test_outside_execution_rejected (test_selected_client.SelectedClientPathTests) ... ok
+test_restart_cannot_write_cold_output (test_selected_client.SelectedClientPathTests) ... ok
+test_claim_bytes_must_match (test_selected_client.SelectedClientTests) ... ok
+test_full_claim_runs_two_sixty_request_sessions (test_selected_client.SelectedClientTests) ... ok
+test_partial_execution_cannot_replace_the_full_claim (test_selected_client.SelectedClientTests) ... ok
+test_unknown_session_rejected_before_http (test_selected_client.SelectedClientTests) ... ok
+test_actual_controller_manifest_follows_frozen_urls_for_every_registration_order (test_selected_endpoint_order.SelectedEndpointOrderTests) ... ok
+test_changed_actual_request_is_caught_by_strict_consumer (test_selected_evidence.SelectedEvidenceTests) ... ok
+test_existing_reference_not_overwritten (test_selected_evidence.SelectedEvidenceTests) ... ok
+test_missing_release_is_never_fabricated (test_selected_evidence.SelectedEvidenceTests) ... ok
+test_missing_system_rejected_without_reference (test_selected_evidence.SelectedEvidenceTests) ... ok
+test_original_strict_consumer_accepts_complete_cpu_artifact_mapping (test_selected_evidence.SelectedEvidenceTests) ... ok
+test_raw_api_release_unknown_is_rejected_by_strict_consumer (test_selected_evidence.SelectedEvidenceTests) ... ok
+test_cancel_after_last_archive_cannot_write_success_terminal (test_selected_execution.SelectedExecutionTests) ... ok
+test_cancellation_during_booking_does_not_start_executor (test_selected_execution.SelectedExecutionTests) ... ok
+test_claim_deadline_is_not_reset_for_restart (test_selected_execution.SelectedExecutionTests) ... ok
+test_cold_failure_stops_before_restart (test_selected_execution.SelectedExecutionTests) ... ok
+test_expired_restart_booking_never_launches_restart (test_selected_execution.SelectedExecutionTests) ... ok
+test_global_claim_required_before_executor (test_selected_execution.SelectedExecutionTests) ... ok
+test_gpu_process_stops_before_endpoint_movement (test_selected_execution.SelectedExecutionTests) ... ok
+test_original_execution_digest_required_before_executor (test_selected_execution.SelectedExecutionTests) ... ok
+test_pending_cancel_handoff_reaches_real_executor_before_popen (test_selected_execution.SelectedExecutionTests) ... ok
+test_permission_error_does_not_count_as_absent (test_selected_execution.SelectedExecutionTests) ... ok
+test_reused_or_live_pid_does_not_count_as_absent (test_selected_execution.SelectedExecutionTests) ... ok
+test_single_claim_two_sessions_with_actual_archived_sidecars (test_selected_execution.SelectedExecutionTests) ... ok
+test_unknown_cleanup_stops_before_restart (test_selected_execution.SelectedExecutionTests) ... ok
+test_unknown_same_run_sidecar_is_preserved_and_blocks_restart (test_selected_execution.SelectedExecutionTests) ... ok
+test_all_three_selected_systems_use_same_full_input_vector (test_selected_inputs.SelectedInputTests) ... ok
+test_changed_template_rejected (test_selected_inputs.SelectedInputTests) ... ok
+test_no_runner_up_fallback (test_selected_inputs.SelectedInputTests) ... ok
+test_other_system_selection_source_cannot_be_omitted (test_selected_inputs.SelectedInputTests) ... ok
+test_runtime_must_match_actual_boot (test_selected_inputs.SelectedInputTests) ... ok
+test_tampered_raw_fixture_rejected (test_selected_inputs.SelectedInputTests) ... ok
+test_unknown_system_rejected (test_selected_inputs.SelectedInputTests) ... ok
+test_unreviewed_artifact_rejected (test_selected_inputs.SelectedInputTests) ... ok
+test_unselected_candidate_rejected (test_selected_inputs.SelectedInputTests) ... ok
+test_wrong_prerequisite_source_rejected (test_selected_inputs.SelectedInputTests) ... ok
+test_cli_dispatches_selected_system_to_production_controller (test_selected_route.SelectedRouteTests) ... ok
+test_cli_failed_release_is_failure_exit (test_selected_route.SelectedRouteTests) ... ok
+test_cli_missing_system_stops_before_controller (test_selected_route.SelectedRouteTests) ... usage: entry.py [-h] [--config CONFIG] [--permit PERMIT] [--inputs INPUTS]
+                [--unit-template UNIT_TEMPLATE] [--select SELECT]
+                [--system {replicas,pd,epd}]
+                {plan,cpu,numeric,qualification,calibration,selected_g3,analyze}
+entry.py: error: selected_g3 requires --system; other actions must not use it
+ok
+test_real_locked_route_reserves_once_and_uses_selected_executor (test_selected_route.SelectedRouteTests) ... ok
+test_wrong_system_rejected_before_nvml (test_selected_route.SelectedRouteTests) ... ok
+test_all_frozen_profiles_accept_the_same_vector (test_selected_unit.SelectedUnitTests) ... ok
+test_complete_two_sessions_and_three_replica_distribution (test_selected_unit.SelectedUnitTests) ... ok
+test_diagnostics_cannot_be_disabled (test_selected_unit.SelectedUnitTests) ... ok
+test_duplicate_across_sessions_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_extra_budget_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_extra_request_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_foreign_gpu_argv_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_image_outside_dataset_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_missing_fixture_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_new_deadline_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_nonhex_rgb_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_noninteger_budget_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_partial_system_selection_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_restart_dispatch_must_start_at_zero (test_selected_unit.SelectedUnitTests) ... ok
+test_rgb_manifest_bytes_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_selected_candidate_must_match (test_selected_unit.SelectedUnitTests) ... ok
+test_system_candidate_mismatch_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_unknown_fixture_session_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_unknown_session_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_wrong_case_order_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_wrong_image_count_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_wrong_output_geometry_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_wrong_runtime_rejected (test_selected_unit.SelectedUnitTests) ... ok
+test_wrong_source_rejected (test_selected_unit.SelectedUnitTests) ... ok
+
+----------------------------------------------------------------------
+Ran 77 tests in 1.567s
+
+OK
+
+{"exit_code": 0, "elapsed_seconds": 1.8314216020517051, "failure": null, "output_bytes": 7814, "output_sha256": "80b7fecd679683bc12698eb687afe1ca75a2807c14d4eff91f41129e482810b7", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "rev-parse", "HEAD"], "started_ms": 1793651520601}
+1a637d2de9c71e2c6fb98ee5a9673be1b2870e3f
+
+{"exit_code": 0, "elapsed_seconds": 0.14359652600251138, "failure": null, "output_bytes": 41, "output_sha256": "69300272b21f45cd72e155ad40c6087c527f7ec82bdd8bfeb37fa3b143a79726", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793651520745}
+
+{"exit_code": 0, "elapsed_seconds": 0.14745034708175808, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}

@@ -1,5 +1,7 @@
 # EPD Disaggregation 复现项目
 
+最新：[2026-11-03 源码部署与CPU验证](20261103-source-readiness.md)，不含新GPU性能；以下历史三卡完整三副本 baseline、req/s、tokens/s与EPD/baseline比值保持原批次，不是公平PD三组新结果。
+
 [返回项目总入口](../../README.md) · [English overview](../../README.en.md#epd-disaggregation) · [论文覆盖](../../PAPER_VS_REPRO.md) · [补丁审计](../../PATCH_AUDIT.md)
 
 本项目研究MiniCPM-V-2_6的Encode–Prefill–Decode三阶段链路。EPD为E:P:D=1:1:1、FP16/TP1；性能基线是同一台机器、同三张H20上的三个完整模型副本，由客户端均衡分发。

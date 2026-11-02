@@ -1,8 +1,8 @@
 # SpaceServe 与 EPD：两个独立复现项目
 
-最新独立批次：[2026-10-31 qjh003 的313请求预检与三组机制对照](spaceserve/comparison/20261031-preflight.md)通过实际G3；本批正式0/54，无新正式性能比值。历史性能与退化结果保持分批展示。
+最新 SpaceServe 批次：[2026-11-02 qjh003 的313请求模型与机制预检](spaceserve/comparison/20261102-preflight.md)通过实际 G3，原始证据 Release 已公开并核验；**本批正式0/54，没有新性能加速比**。历史性能、退化和部分批次独立保留。
 
-qjh003 迁移后[SpaceServe完整313预检已通过](spaceserve/preflight-qjh003-20261029/README.md)，新正式仍0/54；EPD原始资产已迁移，flat IPC/RUNPATH/shebang待重定位。历史性能结果分别保留在两项目页。
+EPD 最新阶段：[指定源码部署与目标机77项CPU验证](epd/comparison/20261103-source-readiness.md)已通过独立验收；**本批 GPU/模型及公平 PD 三组性能仍未执行**。两项目的历史 baseline 对照、图表与原始数据分别保留在各自项目页。
 
 本仓库分别展示两个项目的代码、baseline对照、图表和复跑方法。每个项目只与自己的同机、同模型、同GPU预算基线比较；主机、模型及批次分别列出，不作跨系统绝对排名。所有退化、失败和解释限制保留。
 

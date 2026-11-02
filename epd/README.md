@@ -1,10 +1,10 @@
 # EPD Disaggregation 复现项目
 
-[native36有限编排与24项本地CPU-MOCK验证](validation/numeric-orchestration-cpu-20261029/README.md)已准备；真实Ray/NVML后端和生产numeric入口尚未接通，不是GPU通过。
+最新阶段：[2026-11-03 qjh003 指定源码部署与77项CPU软件验证](comparison/20261103-source-readiness.md)已通过独立 G3。**本批没有 GPU/模型或新增性能结果**。
 
-[qjh003固定目录迁移状态与静态证据](migration-qjh003-20261029/README.md)：原始资产已迁移，flat IPC/RUNPATH/shebang待重定位；没有本批新性能数据，历史baseline对照保持独立。
+实际实验源码固定为 `1a637d2`，155项部署源码核同，CPU测试前后不变；[代码入口、原始日志与复跑说明](comparison/20261103-source-readiness.md)与下方历史性能分开。
 
-当前 [qjh003 固定目录代码与迁移状态](migration/README.md)：本地 G2 通过，目标迁移与新测试未执行；公平 PD 的 native36/selected360 接线仍未完成。
+历史迁移与 CPU 准备记录：[初始迁移](migration-qjh003-20261029/README.md)、[早期编排](validation/numeric-orchestration-cpu-20261029/README.md)、[迁移说明](migration/README.md)。其“尚未接通/部署”描述是当时状态；真实 GPU 的 native36、模型正确性及公平 PD 对照仍待完成。
 
 [本项目baseline完整对照](comparison/README.md) · [实际代码](code) · [版本配置](configs) · [补丁](patches) · [原始数据与证据](data/README.md) · [源文件SHA映射](SOURCE_FILES.json)
 

@@ -1,8 +1,8 @@
 # SpaceServe 复现项目
 
-最新独立批次：[2026-10-31 qjh003 的313请求预检与三组机制对照](comparison/20261031-preflight.md)通过实际G3；本批正式0/54，无新正式性能比值。历史性能与退化结果保持分批展示。
+最新 SpaceServe 批次：[2026-11-02 qjh003 的313请求模型与机制预检](comparison/20261102-preflight.md)通过实际 G3，原始证据 Release 已公开并核验；**本批正式0/54，没有新性能加速比**。历史性能、退化和部分批次独立保留。
 
-当前 [qjh003 迁移后313请求预检](preflight-qjh003-20261029/README.md)已通过实际G3，固定目录代码/环境/模型已有真实运行验证；新正式0/54，没有新性能比值。历史baseline对照在下方独立展示。
+本批固定源码 `03688f8`，冷启动与完整重启后均验证 native／解耦／有效 encoder mask；实际 encoder SM 为78→54，未证明 decoder 互斥分区。[下载地址、大小与SHA256](data/space-20261102-assets.json)及[独立报告](comparison/20261102-preflight.md)可分别核查。下方历史 baseline 表与图不属于本批预检性能。
 
 ## 新窗口机制预检：313 请求通过，正式 0/54
 

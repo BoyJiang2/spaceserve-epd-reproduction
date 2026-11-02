@@ -1,5 +1,7 @@
 # EPD原始数据、报告与证据
 
+新增：[2026-11-03 CPU原始证据与SHA256](epd-20261103-evidence-index.json) · [阶段报告](../comparison/20261103-source-readiness.md)。CPU证据不代替GPU或性能数据。
+
 | 批次 | 正式请求/证据 | 报告 |
 |---|---|---|
 | qjh003方案A（2400正式） | [逐请求与实际配置](../../outputs/epd-profile-a/results/formal) | [可读报告](../../docs/reading/outputs/epd-profile-a/report/report.md) |

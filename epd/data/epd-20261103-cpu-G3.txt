@@ -1,0 +1,70 @@
+G3 结论：**APPROVE**  
+BLOCKING：**0**  
+Reviewer：独立 Codex subagent `/root/space_source_consolidation_review`。
+
+本次仅验收目标机 selected CPU 软件测试、源码稳定性及自有进程收口。未执行命令、测试、网络、SSH 或 GPU，未读取凭据、修改源码或写文件。本原文及 receipt 由主线程保存。
+
+实际测试版本为：
+
+`1a637d2de9c71e2c6fb98ee5a9673be1b2870e3f`  
+tree `69e739be9089151fea6b734f52491002453a3b30`。
+
+已核精确授权与实际运行绑定：
+
+- 执行 G2 MD：`851c27b94785044f572b68af9c9f7d2336118017c60443bf1eb002dc4e449014`
+- dispatcher：`42dc2e28e550ba5207c854072a28f9c39e6bb9625dfbd1b73a6aaa5a5cb0ec14`
+- candidate：`1aed07c08a44ec5dd4572c7fd94ff1cfadd01c0c8b7f59c5ab57bd3f63d4f3fb`
+- parent body：`ca615d63a7452ac755e189034b5600f7d9ffa302032ec6627a10b1366f4ea19c`
+- child：`535226082452fa7f67865f7111aefdd51a8c8e1161ae58911f7f5cd65124a7fe`
+
+实际部署 G3 JSON SHA `182c871c243ab074813028ea049b96408989bd34da023067cc1eff4f6043d53d` 与候选前置绑定一致，部署验收在测试之前闭合。
+
+四份远端原件的 base64、声明字节数/SHA及本地提取文件全部核同：
+
+- claim：175,699 字节，`4461da30c0330adaf676c8e33798de5b248db028b55739efa4521c25d7b386d6`
+- commands：12,812 字节，`a7fdd3f42a8690410c9d29159f8e237ee4ed814a7fbba43991d1fdf3a024901d`
+- summary：586 字节，`ed084f28cc4b5be0e048618928c4d23c7d088388ee1e49deb07f71b78798a019`
+- terminal：85,044 字节，`dc17a8ff7070bdab036c83aadd5c1b601d38ea1b1fd207465d9722d360961c41`
+
+完整 commands log 中确有五条实际命令：测试前 HEAD/clean、测试 child、测试后 HEAD/clean。每条均 **exit0、failure:null、cleanup:[]**，各段原始输出字节数与 SHA全部匹配。原 helper 的实际 wait、子 session 检查和异常传播保持；这里没有把不存在的“reaped字段”当作证据。
+
+实际测试原输出含 **77 个测试名称**，结尾为 `Ran 77 tests in 1.567s / OK`。独立 summary 记录 **77项、0 failure、0 error、0 skip**，`unittest_success:true`、`failure:null`。summary 的 **1.659904秒**包括发现及封装开销，与 unittest 自身计时口径不同，没有矛盾。
+
+child 的实际命令使用目标已有环境 Python、`-I -S -B -c`，执行源码与冻结 child 原字节一致。原启动记录与 summary 身份一致：
+
+- PID21932，start_ticks58667077；
+- UID2147、boot65f；
+- cwd `/local/boyjiang/epd/staging`；
+- affinity `[50]`、nice10、run_id `epd-selected-tests-1103`。
+
+冻结 parent 实际设置空 CUDA、NVIDIA void、OMP/OpenBLAS1及原 staging 临时目录。child 的导入阻断器覆盖 torch/ray/pynvml/cupy/vllm/epdserve/aiohttp；实际 `forbidden_import_attempts` 和 `loaded_forbidden_modules` 均为空。其假 HTTP/NVML/进程 fixture 不能解释为真实模型、GPU或服务调用。
+
+测试前后两组实际155物理源逐项 bytes/SHA256/Gitblob/mode/UID2147一致，互相相同，并匹配闭包178ab及此前已核定的实际 GitHub1a637/tree69e739。两次 HEAD均为1a637、porcelain输出均为空；当前本地155源也保持相同。主HEAD24b及主index SHA e8cf保持，未混淆为目标机HEAD。
+
+测试 fresh snapshot 在 claim 时年龄11,269毫秒；退出探针使用另一份新 snapshot，观察时年龄1,928毫秒。两份完整列表在各自实际时点及随后360秒内均无 CPU/whole/unknown冲突，且完整覆盖在03:50–05:00批准窗内，没有复用规划快照或借GPU票。
+
+原 supervisor startup/terminal/probe绑定 PID21907、start_ticks58667026、UID2147、boot65f。success-only只读 probe实际 exit0、stderr为空，通过真实 `/proc`检查确认其目录不存在，`same_original_identity:false`、`signals:[]`。测试 child 的有界 wait/session收口与该独立父进程终态共同闭合；没有自动重跑或清理其他项目。
+
+NONBLOCKING：无新增项。
+
+可声明：**指定已部署版本在目标机完成本次77项CPU测试，源码稳定且自有测试进程已收口。** 不认证 EPD模型正确性、实际GPU/IPC、native36、selected实测、公平吞吐或formal性能，不授权后续GPU工作。现有numeric-only/过期GPU配置仍不能授予selected执行权限，整体实验目标未完成。
+
+```json
+{
+  "passed": true,
+  "blocking": 0,
+  "decision": "APPROVE",
+  "commit": "1a637d2de9c71e2c6fb98ee5a9673be1b2870e3f",
+  "tests_run": 77,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "source_files_count": 155,
+  "source_stable": true,
+  "original_parent_absent": true,
+  "actual_CPU_tests_verified": true,
+  "GPU_authorized": false,
+  "overall_goal_complete": false,
+  "scope": "actual target CPU software tests, source stability and own process release only"
+}
+```

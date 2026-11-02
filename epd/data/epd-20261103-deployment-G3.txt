@@ -1,0 +1,62 @@
+G3 结论：**APPROVE**  
+BLOCKING：**0**  
+Reviewer：独立 Codex subagent `/root/space_source_consolidation_review`。
+
+本次只读验收实际目标机 CPU 源码部署；未执行命令、测试、网络、SSH 或 GPU，未读取凭据、修改源码或写文件。本原文及 receipt 由主线程保存。
+
+实际部署版本：
+
+- commit：`1a637d2de9c71e2c6fb98ee5a9673be1b2870e3f`
+- tree：`69e739be9089151fea6b734f52491002453a3b30`
+- sole parent / 实际旧 HEAD：`f57bf1b00a6f1294ca28968eb54094b1f0456c41`
+- 实际源码闭包：**155 项，1,463,050 字节**。
+
+本次 input/intent 与已审 candidate `8960b598…`、body `1ca4c287…`、dispatcher `df381f80…` 精确绑定。原部署 G2 MD 的实际 SHA 为 `682bc8d5cef75666108504e61db5dbd8e9acf0ff88c2b93b453a7a0facc8e02f`，新 G1/plan75548 与实际 source-publication G3b494 关系一致。没有使用旧窗口批准代替本次批准，也没有将源发布 G3当作主机部署证明。
+
+三份回收原件均独立核对 base64 解码、声明字节数/SHA及本地提取文件，全部一致：
+
+- claim：169,229 字节，SHA256 `bb3c241e31352633d4738b624c37b18b61fc4851f64e56f4415c391cbc56f22c`
+- commands：3,425 字节，SHA256 `34d81713226846a0573376fc269c924845cb9778cc3c2b889f88d101cf8ed637`
+- terminal：41,484 字节，SHA256 `4b285648b1fd140d422f30ca8c8383099b1166e26db8d51a4e079c8486986f08`
+
+原 commands log 包含完整八条实际 Git 操作：旧 HEAD、旧 clean、unpack、目标 tree、parent、detached checkout、新 HEAD、新 clean。每条均为 **exit0、failure:null、cleanup:[]**，原始输出字节数和 SHA 全部核同。
+
+原已绑定 helper 的 `command_output` 使用实际 `communicate`/wait，并检查自身 session 释放后才返回；日志没有 release-unconfirmed 或清理异常。这里没有虚构独立的“reaped”日志字段，而是结合精确 helper、实际返回码、无释放异常及后续原 PID 不存在证明收口。
+
+部署 Git 调用实际发生于北京时间约 **03:57:16.742–03:57:17.900**，caller 记录实际 exit0于 **03:57:19.873**，在本次 03:50–05:00窗口及工作/收口预算内。
+
+现场前置也与本 run 绑定：
+
+- input、intent、claim 的 fresh snapshot 完全一致，observed_ms=`1793649413661`，claim 时仅过去23,406毫秒。
+- 精确 active qjh003 CPU lane 启用；完整 booking 列表在本次操作及随后保守360秒内无 CPU/whole/unknown冲突，包含本人票检查，没有借 GPU 票当 CPU权限。
+- 原 claim 的141旧源 tuples 与已审 f57闭包一致；旧 HEAD和clean来自实际 Git输出。
+- startup stderr与claim完全一致：UID2147、boot `65f52a67-afe4-4919-8646-4694255b48ee`、PID4125836、start_ticks58458854、命令行SHA `bea7938eaac4607392f039d6b58bb40d7ba53a3f5a2d049156ec3182072b41dd`。
+- 成功路径保留原受审 root/owner、CPU50/nice10、空CUDA/NVIDIAvoid、项目进程静止、排他prefix及cpu50锁检查。
+
+实际 stdout与远端terminal result一致，155项等于清单 `178ab0861f3d2184536671b5968faae9a4a17c25e0f691e0d9e70b66e41e7c3b` 和本次输入闭包。独立后续回收再次取得 **155个唯一物理路径**，每项 bytes/SHA256/Gitblob/mode/UID2147均与预期一致，包含根 `reproduction_paths.py`。新源与本地已核定 Git及实际 GitHub tree69e739闭合。71,108字节pack和三个原helper的精确绑定保持。
+
+后续独立只读 capture实际 exit0、stderr为空，再次取得 HEAD1a637和空 porcelain输出。原部署PID4125836实际不存在，`same_original_identity:false`，`signals:[]`；不是仅依据 caller0或成功marker推断进程退出。该原始回收响应SHA为 `da3ea38d67c515137180e0f78a7d3815c566fb7401b1ba887872b704d3994b98`。
+
+本地主HEAD仍为 `24b441923119581ab1c5e3274eca7d654021675d`，主index SHA仍为 `e8cf17b2766d78fe3d73a55b7b3e9da9cb0aad11e7164f59685a344fb20382f7`；没有误称主HEAD已切换至1a637。
+
+NONBLOCKING：无新增项。
+
+**本次只接受实际155源CPU部署及原部署进程收口。** terminal明确 `CPU_tests_executed:0`、`GPU_started:false`。尚未执行的目标机77项测试须另经精确执行G2，不能使用本地WSL120替代。此结论不授权测试或GPU，不认证模型/IPC/native36/selected实测、formal或整体目标完成。
+
+```json
+{
+  "passed": true,
+  "blocking": 0,
+  "decision": "APPROVE",
+  "commit": "1a637d2de9c71e2c6fb98ee5a9673be1b2870e3f",
+  "tree": "69e739be9089151fea6b734f52491002453a3b30",
+  "files_count": 155,
+  "scope": "actual CPU source deployment and original deployment PID release only",
+  "actual_deployment_verified": true,
+  "remote_clean": true,
+  "original_parent_absent": true,
+  "target_tests_verified": false,
+  "GPU_authorized": false,
+  "overall_goal_complete": false
+}
+```

@@ -1,0 +1,52 @@
+G3 结论：**APPROVE**  
+BLOCKING：**0**  
+Reviewer：独立 Codex subagent `/root/space_source_consolidation_review`。
+
+本次仅验收实际源码发布。未执行命令、测试、网络、SSH 或 GPU，未读取凭据、修改源码或写文件。本原文由主线程保存。
+
+精确发布对象：
+
+- commit：`1a637d2de9c71e2c6fb98ee5a9673be1b2870e3f`
+- tree：`69e739be9089151fea6b734f52491002453a3b30`
+- sole parent：`f57bf1b00a6f1294ca28968eb54094b1f0456c41`
+- 既有分支：`epd-native36-controller-20261102`
+- 发布候选 SHA256：`96c3711c4f6e1c23ba1b7f13ac5462163aff729a5ff7854e4948a32f5879a01a`
+- 实际 G5 MD SHA256：`96ddcd012c13742b6a2c0b8fe8d534f62aba8d2ffd0209fa51492d96206eecdb`
+
+已直接检查原始 push intent、exit、stdout、stderr。唯一固定 argv 是普通非 force push，仅指定上述 commit 到上述分支；原 stderr 明确记录 `f57bf1b..1a637d2` 更新。stdout 为 0 字节，stderr 为 162 字节，两者均与 exit 原件记录的 SHA 一致。实际 exit0，耗时 5.6213379 秒，无重试许可。原 f30 不是本次推送对象。
+
+远端核验不只依赖汇总：
+
+- 实际 repository 响应为 repoID `1433331669`、正确仓库、`private:false`、默认分支 main。
+- 实际 commit 响应与本地 Git commit 原字节核定的 commit/tree/sole parent/message 一致。
+- 原 recursive tree 响应 `truncated:false`，共 9,907 项，其中 **8,858 个 blob**、1,049 个子 tree，无重复路径。
+- 独立重算全部 **1,050 个目录（含根）** 的 Git tree 哈希，均与响应中的 tree ID 一致，最终根哈希与实际本地 commit 的 tree 一致。因此完整路径、mode、对象 ID 集合闭合，并非仅相信“8858”计数。
+- 全部 **21 个 raw blob API 原响应**均经 base64 解码，逐项核对实际大小、SHA256、Git blob SHA1、tree mode/blob/size 和当前本地文件原字节，全部一致。
+- 21 项同时匹配 portable v3 源候选及本地 commit manifest；没有把历史候选状态当作实际结果。
+
+审批和测试时序绑定保持：
+
+- v3 源候选：`8bf8547cb249c5e0fa81f7c6bf3b17a1b37d4072b77ae296bebd7d55102cd369`
+- 整体 G2：`02ce9408d04df767c041ec5bc933d203e925cf5a728e54a6df35fa828d87f467`
+- portability G2：`cb2c8b4d822f8770da8f571c9ee0bb14357c2b0171e6fb497b764f2f00618df7`
+- 实际 POSIX 结果：`b5175a341438b186c061336307c90e310961bc690bd45d3d369d09cd1e683e6c`
+
+POSIX stdout/stderr 字节数及 SHA 核同；原日志记录 **120 项、345.773 秒、OK**，结果原件记录零 skip、exit0/`d19b38`，时间早于新 commit。v3 原 pending 字段作为历史保留，未据此伪称通过。CPU fixture/POSIX 结果不外推真实 GPU 或模型生命周期。
+
+保护项已对原 API 响应独立比对：
+
+- 当前完整 **12 refs** 恰好等于写前集合，只将目标分支 f57 更新至 1a637；其余 11 refs 的类型/SHA 不变。
+- main 保持 `2dd36df0d563118fda411432871f41dfb5b05073`。
+- 全部 **7 Releases / 19 assets** 的受保护 ID、tag、target、title/body、draft/prerelease、名称、大小、digest、状态、URL、label 保持一致；没有借动态 download_count 制造差异或忽略内容变化。
+- 本地主 HEAD 仍是 `24b441923119581ab1c5e3274eca7d654021675d`。
+- 主 index SHA256 仍是 `e8cf17b2766d78fe3d73a55b7b3e9da9cb0aad11e7164f59685a344fb20382f7`。
+
+关键原件 SHA256：
+
+- remote verification 汇总：`4f5d42a669d194a92a78020d4591a592cec181c8aabd11633bd27283eebf91ef`
+- 完整 tree API 原响应：`7c5497f504d0e9a7c665598dcca5f5ea0b3815376729bdea0e0acd39f88fb829`
+- 21 raw blob API 原响应：`c6543aea428ad97421f7d58de2f732cc107d59a8351b50372601027e94186390`
+
+NONBLOCKING：无新增项。
+
+本次可声明上述 selected portable **源码已发布到指定既有分支并完成实际远端核验**。不认证服务器已部署此版本，不授予后续部署或执行权限，不证明真实 CPU/GPU target 生命周期、模型/IPC、native36、selected 实测、formal 性能或整体目标完成。
