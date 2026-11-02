@@ -57,6 +57,36 @@ class GCSMetadataTests(unittest.TestCase):
                 with self.assertRaises(ValueError):self.reader.read(self.expected,10.)
                 setattr(self.row,name,old)
 
+    def test_explicit_one_gpu_mode_accepts_only_one_gpu_without_granting_release(self):
+        reader=GCSActorReader(self.rpc,self.request,self.record,lambda:None,
+            clock=lambda:self.now,expected_gpu_count=1)
+        self.row.required_resources={'GPU':1.0}
+        value=reader.read(self.expected,10.)
+        self.assertEqual(value['state'],'ALIVE')
+        self.assertNotIn('released',value)
+        self.assertNotIn('passed',value)
+        for gpu in (0,2,True,float('nan'),float('inf'),'1'):
+            with self.subTest(gpu=gpu):
+                self.row.required_resources={'GPU':gpu}
+                with self.assertRaises(ValueError):reader.read(self.expected,10.)
+
+    def test_actor_gpu_mode_cannot_be_boolean_fractional_or_larger(self):
+        for mode in (True,1.0,-1,2,None):
+            with self.subTest(mode=mode),self.assertRaises(ValueError):
+                GCSActorReader(self.rpc,self.request,self.record,lambda:None,expected_gpu_count=mode)
+        self.rpc.assert_not_called()
+
+    def test_resource_mode_selects_only_its_original_private_address(self):
+        with patch('numeric_gcs.verify_sources',side_effect=OSError('CPU-MOCK stop before imports')) as pins, \
+                patch('numeric_gcs.os.getuid',return_value=2147,create=True):
+            for mode,address in ((0,'127.0.0.1:1234'),(1,'127.0.0.2:1234')):
+                with self.subTest(mode=mode),self.assertRaises(ValueError):
+                    GCSActorReader.connect(address,Path('/fixture'),Mock(),lambda:None,expected_gpu_count=mode)
+            pins.assert_not_called()
+            with self.assertRaises(OSError):
+                GCSActorReader.connect('127.0.0.1:1234',Path('/fixture'),Mock(),lambda:None,expected_gpu_count=1)
+            pins.assert_called_once()
+
     def test_WAL_failure_or_elapsed_budget_prevents_RPC(self):
         self.reader.record=Mock(side_effect=OSError('fsync'))
         with self.assertRaises(OSError):self.reader.read(self.expected,10.)

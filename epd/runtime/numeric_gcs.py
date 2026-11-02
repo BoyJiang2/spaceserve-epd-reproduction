@@ -15,12 +15,18 @@ STATES={0:'DEPENDENCIES_UNREADY',1:'PENDING_CREATION',2:'ALIVE',3:'RESTARTING',4
 
 
 class GCSActorReader:
-    def __init__(self, rpc, request, record, check, *, clock=time.monotonic, close=lambda:None):
+    def __init__(self, rpc, request, record, check, *, clock=time.monotonic, close=lambda:None, expected_gpu_count=0):
+        if type(expected_gpu_count) is not int or expected_gpu_count not in (0,1):
+            raise ValueError('Only original CPU or one-GPU numeric actors are supported')
         self.rpc,self.request,self.record,self.check,self.clock,self.close=rpc,request,record,check,clock,close
+        self.expected_gpu_count=expected_gpu_count
 
     @classmethod
-    def connect(cls,address,package,record,check):
-        match=re.fullmatch(r'127\.0\.0\.2:([0-9]{1,5})',address)
+    def connect(cls,address,package,record,check,*,expected_gpu_count=0):
+        if type(expected_gpu_count) is not int or expected_gpu_count not in (0,1):
+            raise ValueError('Exact actor GPU resource scope required')
+        host='127.0.0.2' if expected_gpu_count==0 else '127.0.0.1'
+        match=re.fullmatch(re.escape(host)+r':([0-9]{1,5})',address)
         if not match or not 1024<=int(match[1])<=65535:raise ValueError('Exact private loopback GCS required')
         package=Path(package);verify_sources(package,PINNED_SOURCES,os.getuid())
         ray=sys.modules.get('ray')
@@ -47,7 +53,8 @@ class GCSActorReader:
         channel=grpc.insecure_channel(address,options=(('grpc.enable_retries',0),('grpc.max_receive_message_length',1<<20)))
         try:stub=stubs.ActorInfoGcsServiceStub(channel)
         except BaseException:channel.close();raise
-        return cls(stub.GetActorInfo,service.GetActorInfoRequest,record,check,close=channel.close)
+        return cls(stub.GetActorInfo,service.GetActorInfoRequest,record,check,close=channel.close,
+                   expected_gpu_count=expected_gpu_count)
 
     def guard(self,deadline):
         self.check()
@@ -75,9 +82,11 @@ class GCSActorReader:
                 or row.ray_namespace!=expected['namespace'] or row.name!=expected['name']
                 or row.is_detached is not expected['detached']):
             raise ValueError('GCS returned an actor outside this exact intent')
+        gpu=row.required_resources.get('GPU',0)
         if (type(row.state) is not int or row.state not in STATES or type(row.pid) is not int or row.pid<0
-                or row.max_restarts!=0 or row.num_restarts!=0 or row.required_resources.get('GPU',0)!=0):
-            raise ValueError('CPU zero-GPU/no-restart actor metadata differs')
+                or row.max_restarts!=0 or row.num_restarts!=0 or type(gpu) not in (int,float)
+                or not math.isfinite(gpu) or gpu!=self.expected_gpu_count):
+            raise ValueError('Exact actor GPU resource/no-restart metadata differs')
         result=dict(actor_id=row.actor_id.hex(),job_id=row.job_id.hex(),namespace=row.ray_namespace,
             name=row.name,detached=row.is_detached,state=STATES[row.state],pid=row.pid,
             protobuf_sha256=hashlib.sha256(raw).hexdigest(),observed_monotonic_s=self.clock(),

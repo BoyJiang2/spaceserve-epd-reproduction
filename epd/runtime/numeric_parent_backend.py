@@ -6,24 +6,29 @@ from numeric_cache import transfer_vector
 
 
 class NumericParentBackend:
-    def __init__(self, claim, rpc, release, *, clock=time.perf_counter):
+    def __init__(self, claim, rpc, release, *, clock=time.perf_counter, observe=lambda:None):
         self.claim,self.rpc,self.release,self.clock=claim,rpc,release,clock
+        self.observe=observe
         self.uuids=list(claim.config['gpu_uuids']);self.vector=transfer_vector(self.uuids)
         self.group,self.identities,self.creating=0,{},None
         self.failed=False
+
+    def check(self):
+        self.claim.check()
+        self.observe()
 
     def deadline(self, timeout, cleanup=False):
         if type(timeout) not in (int,float) or not math.isfinite(timeout) or timeout<=0:
             raise ValueError('Finite positive backend timeout required')
         if not cleanup:
             if self.failed:raise RuntimeError('Driver backend failed; no new work')
-            self.claim.check()
+            self.check()
         now=self.clock();end=self.claim.deadline-(0 if cleanup else self.claim.config['cleanup_seconds'])
         if now>=end:raise TimeoutError('Native backend phase boundary')
         return min(now+timeout,end)
 
     def before_send(self, deadline):
-        self.claim.check()
+        self.check()
         if self.clock()>=deadline:raise TimeoutError('Parent WAL consumed remaining work budget')
 
     def create_group(self, uuids, *, timeout):
@@ -38,7 +43,7 @@ class NumericParentBackend:
                 self.release.record('actor_creating',intent=intent)
                 self.creating=intent
                 self.before_send(deadline)
-                identity=self.rpc.request('create_actor',intent,deadline,self.claim.check)
+                identity=self.rpc.request('create_actor',intent,deadline,self.check)
                 self.creating=dict(intent,returned_identity=identity)
                 uuid=identity.get('gpu_uuid')
                 if uuid not in self.uuids or uuid in self.identities:raise ValueError('Created worker assigned foreign or duplicate GPU')
@@ -70,7 +75,7 @@ class NumericParentBackend:
                     raise ValueError('Actual source/importer identity differs')
                 self.release.mapping_possible(self.identities[source_uuid],self.identities[uuid])
             self.before_send(deadline)
-            return self.rpc.request('call',dict(gpu_uuid=uuid,operation=operation,argument=argument),deadline,self.claim.check)
+            return self.rpc.request('call',dict(gpu_uuid=uuid,operation=operation,argument=argument),deadline,self.check)
         except BaseException:
             self.failed=True;raise
 
