@@ -1,6 +1,6 @@
 # 官方 EPD 单请求：固定执行文件准备
 
-状态：CPU助手及固定执行文件已独立G2 APPROVE/B0；未部署、未GPU执行。此前散落命令不作为运行入口，保留在before-frozen-file备份，原审查失败未删除。
+状态：CPU助手及固定执行文件已独立G2 APPROVE/B0；四工具已部署既有assets/build并通过目标机10项CPU检查，未GPU执行。此前散落命令不作为运行入口，保留在before-frozen-file备份，原审查失败未删除。
 
 ## 唯一执行入口
 
@@ -28,13 +28,13 @@ timeout --foreground --signal=TERM --kill-after=120s 780s bash "$RUN/official_ep
 # 由当前执行工具保存真实session/PID、开始/结束及exit，持续跟进，不裸nohup离开。
 ```
 
-脚本从UNIT_START起把导入和tokenizer渲染计入600秒就绪；工作最迟720秒，收尾助手60+5秒，两次GPU查询各5+2秒，收尾子命令合计最坏79秒，小于120秒预算；另留60秒保存证据。外层780秒TERM/900秒KILL作为失联兜底，cleanup中忽略重复TERM避免中断收尾；这不是目标机信号行为已经通过的证明，仍需现场最小验证。
+脚本从UNIT_START起把导入和tokenizer渲染计入600秒就绪；工作最迟720秒，收尾助手60+5秒，两次GPU查询各5+2秒，收尾子命令合计最坏79秒，小于120秒预算；另留60秒保存证据。外层780秒TERM/900秒KILL作为失联兜底，cleanup中忽略重复TERM避免中断收尾；CPU助手的目标机TERM/KILL及身份保护已有10项测试通过；整份脚本的模型/HTTP及外层截止运行链仍未实测，不能外推为已通过。
 
 ## 证据及通过边界
 
 脚本记录实际模块路径/版本、tokenizer及prompt、请求SHA、server stdout/stderr、curl退出码/HTTP/完整response、生成事件/timestamps、登记PID/boot/uid/startticks、TERM/KILL及GPU查询终态。监听就绪须可见listener PID全部属于刚登记同run；不使用不存在的/health；父进程退出/首traceback/超时均立即收尾，不自动retry。请求前后均复核server及listener，curl失败也保存退出码。
 
-8个本地Linux CPU测试已通过，包括真实TERM、忽略TERM后的KILL、foreign fixture不被杀、错身份/boot拒绝、live拒读不发signal、助手继承tag也存活、优化Python拒绝；不等于目标机收尾或模型G3。语法检查只证明Bash/Python可解析。
+8个本地Linux CPU测试已通过，包括真实TERM、忽略TERM后的KILL、foreign fixture不被杀、错身份/boot拒绝、live拒读不发signal、助手继承tag也存活、优化Python拒绝；此外，目标机同一工具版本的10项CPU检查也已通过；仍不等于整份模型脚本收尾或模型G3。语法检查只证明Bash/Python可解析。
 
 HTTP200、128事件或terminal exit0均不单独代表语义正确/通信机制通过。buffered HTTP不当客户端TTFT；脚本只写actual_generation_events，不冒称重tokenize为原始生成token ID。输出须与固定图人工核验，再检查embedding/KV、小并发和重启；这些不伪装为已完成。
 
