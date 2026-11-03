@@ -1,3 +1,5 @@
+[官方源码快照、固定版本与模型路径](code/README-official.md)（新官方目录 GPU 验证尚未完成）
+
 [官方源码G2：v0.7.2内容基点与加载路径](comparison/20261103-official-source-g2.md)：作者基点与原生0.7.2整树相同，运行与mask尚未验证。
 
 [当前官方checkout：G1与步骤1–2](comparison/20261103-official-checkout-g1.md)：adapt/qjh003-v1已建立，固定官方66de079，无源码修改。fork版本关系及实际加载待核，历史旧repo结果独立保留。

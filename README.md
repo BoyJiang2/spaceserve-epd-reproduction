@@ -1,3 +1,5 @@
+[EPD 官方源码](epd/code/README-official.md) · [SpaceServe 官方源码](spaceserve/code/README-official.md)
+
 官方源码G2核查：[EPD实际vLLM API](epd/comparison/20261103-official-source-g2.md) · [Space原生v0.7.2内容基点](spaceserve/comparison/20261103-official-source-g2.md)。只读源码证据，无新模型或GPU性能结果。
 
 当前官方源码阶段：[EPD官方checkout G1](epd/comparison/20261103-official-checkout-g1.md) · [SpaceServe官方checkout G1](spaceserve/comparison/20261103-official-checkout-g1.md)。两个适配分支已建立；仅静态CPU检查，无新模型或GPU结果。旧repo报告保留为历史，不能代替新官方checkout验证。
