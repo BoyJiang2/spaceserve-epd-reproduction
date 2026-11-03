@@ -1,0 +1,2931 @@
+{
+  "native_commit": "0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d",
+  "native_tree": "9887287659a56df6f9744e631667f67893512b8c",
+  "files": {
+    "vllm/__init__.py": {
+      "git_blob": "566c5116d5f098dded1eed924b7a76a9ce22a16c",
+      "bytes": 2052,
+      "sha256": "e339c98b9ad897ef93218692ec84caf639befdcb55c204755433cac235ac9a46"
+    },
+    "vllm/_custom_ops.py": {
+      "git_blob": "a68235016767571c88bdbaaa8dcb51dcc35258c8",
+      "bytes": 44100,
+      "sha256": "89d66e8bcb1fa65ca44287c9903831a899329bebf17db6bbeb7c4d726b9f1d45"
+    },
+    "vllm/_ipex_ops.py": {
+      "git_blob": "ccb67baa53383b9748491036c1f9c8f56aa038f8",
+      "bytes": 7839,
+      "sha256": "7c0a7c3ea4a400c5a39bcd8b85aa21bfadd2d4b600509c24d065c99763d9979d"
+    },
+    "vllm/adapter_commons/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/adapter_commons/layers.py": {
+      "git_blob": "18e0c5227d45c06b48a62fba99908d7521736b02",
+      "bytes": 406,
+      "sha256": "addb2f06561389b9627702b6118925dd4741e31be8a5caddf258b7bcf1536f0a"
+    },
+    "vllm/adapter_commons/models.py": {
+      "git_blob": "f9a5d2fffad5e62ba4bb69d9f31419bf8a281f3b",
+      "bytes": 2807,
+      "sha256": "b6eb9569fc24f58bdf97cb825d28355a1ce6d96b2af16ec9ab2a519bf5e90738"
+    },
+    "vllm/adapter_commons/request.py": {
+      "git_blob": "2b604b91bbb6b43e0e5b63fc555c7cef15c88f3d",
+      "bytes": 617,
+      "sha256": "1a82dd29434253ac7ef2994af790ae2cecb9e90392616e8840083a65083be82f"
+    },
+    "vllm/adapter_commons/utils.py": {
+      "git_blob": "c2dc5433cc65671fa99e2fb1ec4855cd4f1e2c68",
+      "bytes": 3271,
+      "sha256": "cad0827cb764f85c1609f9563124dacd43e0da03665e36a8bc459ba6f43a7ded"
+    },
+    "vllm/adapter_commons/worker_manager.py": {
+      "git_blob": "ce24e08a5b56ef441f60d937c27193d3e446f10f",
+      "bytes": 928,
+      "sha256": "a818fbb30924ecb268422d86a6e78c40531b54f8e9867bb338a21cdfaa10e93b"
+    },
+    "vllm/assets/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/assets/audio.py": {
+      "git_blob": "d9e51082e6ca2a7ea54deb5c30a30b35c561eadf",
+      "bytes": 892,
+      "sha256": "21247c4c2ffdd903840bba45af5fc82c2d1c970cafc8c61dabed9ec013b8706e"
+    },
+    "vllm/assets/base.py": {
+      "git_blob": "03f3b9dabf1438662d533be53d3abacc679c472b",
+      "bytes": 1196,
+      "sha256": "21dc1689eb8fa9a01a60aa36c9b49f834eddb7cea4e3e36b3f50473c2ac5376b"
+    },
+    "vllm/assets/image.py": {
+      "git_blob": "2b1d258da9c784ab2eeffbcb380afbf75c338183",
+      "bytes": 922,
+      "sha256": "2a7ec7adc244217294731ec8514722c64b25c0a6a79ef80655759aefb6c8d7db"
+    },
+    "vllm/assets/video.py": {
+      "git_blob": "494cfc38381cfd70c93787a9eb013eec89425768",
+      "bytes": 2464,
+      "sha256": "37ae363c4687871eef079846089540522deda1516dd02217b92285485ce5cdcf"
+    },
+    "vllm/attention/__init__.py": {
+      "git_blob": "85c5715faba7f11c95db33a9eb82a7f3946613f8",
+      "bytes": 610,
+      "sha256": "616ef1f0086af533f1c7c1a276eb2402588aac950ce62fa40eb3a3b8b7a9eda0"
+    },
+    "vllm/attention/backends/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/attention/backends/abstract.py": {
+      "git_blob": "5f0a540135402e6afb9a37ea94a7d0b5bacc9325",
+      "bytes": 9097,
+      "sha256": "4cd6065540e4c7b110f05b8ea8599062d30b100cd43c25319847426c87accb5a"
+    },
+    "vllm/attention/backends/blocksparse_attn.py": {
+      "git_blob": "9765e7881ad9d61611026f69a05bdb4bacd4578e",
+      "bytes": 18003,
+      "sha256": "41b20fb190ccdddd083c490a053ec4efc01cfa8d87bfc170f9483fef95e8bf32"
+    },
+    "vllm/attention/backends/flash_attn.py": {
+      "git_blob": "6a82127acdf7af7b64ca4b25d0e978d747cbea02",
+      "bytes": 41200,
+      "sha256": "66111dd24f01f65aa2c8b1be2e27dd08b9941f3ab31ad9a9214aba0af4b600b6"
+    },
+    "vllm/attention/backends/flashinfer.py": {
+      "git_blob": "715ed6748b846efcfdb40c124d004254afd90e36",
+      "bytes": 46216,
+      "sha256": "d3fa30ed2cbacab101baaa4335c9786a8d8054a612d5574a3adaf5412b857a7a"
+    },
+    "vllm/attention/backends/hpu_attn.py": {
+      "git_blob": "1ad5e6e8e4e17e57f1f8e073b90b812b72b4765c",
+      "bytes": 11734,
+      "sha256": "f5d45fb8a2e24cd6e7abb5f41ca64618e59789c8a7e6b5c108e256c298fc1a20"
+    },
+    "vllm/attention/backends/ipex_attn.py": {
+      "git_blob": "b4879af4cf20e93fcc9156cca0853b137a14f757",
+      "bytes": 14586,
+      "sha256": "1e9a1bd866e68dcf8f1741285112ea6db3b6025b6d59bc3594e634c7424ba5e7"
+    },
+    "vllm/attention/backends/mla/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/attention/backends/mla/utils.py": {
+      "git_blob": "cd8c08e5ab47260af39beb7d8f4370a6bae46b72",
+      "bytes": 23524,
+      "sha256": "4680f4802ce9e42cfbb5e5b10d450e096636e09b5404071e12a9d5d3683be615"
+    },
+    "vllm/attention/backends/openvino.py": {
+      "git_blob": "9908620a32a238ac31202fe570ca0752cdc47213",
+      "bytes": 4799,
+      "sha256": "0cb4a49cdac13a6a8a6ed4d5f1a874a4e70daf4ab6cb3d51f274da464e0cb5ee"
+    },
+    "vllm/attention/backends/pallas.py": {
+      "git_blob": "b61dfe63ddcaaffea67b617b4746d71eb0e07805",
+      "bytes": 13263,
+      "sha256": "daf4fb16f3d6706607850ffa407870a88938f587783edaa0131b604683a35575"
+    },
+    "vllm/attention/backends/placeholder_attn.py": {
+      "git_blob": "9f6e731afd1930214cd35b9b700b3a00a70952c5",
+      "bytes": 16316,
+      "sha256": "f8d38f5a71f761577ca351eec542e5617916b2066efcfb66622eda50be0df32c"
+    },
+    "vllm/attention/backends/rocm_flash_attn.py": {
+      "git_blob": "02bff57a62b7cb506c82d28c6aaafbd683be4f02",
+      "bytes": 38385,
+      "sha256": "ceb8b4c38b7509d2bc6a95d94e29375ca6719c77b5b789cc9a7c90dc40851685"
+    },
+    "vllm/attention/backends/torch_sdpa.py": {
+      "git_blob": "25fe6ed95c5dff1ab32b43c9e841d376f9266602",
+      "bytes": 26939,
+      "sha256": "b937f46b261bdb7a348f08c8c0825ee8a383efbf302c2a51d074730069e53c30"
+    },
+    "vllm/attention/backends/triton_mla.py": {
+      "git_blob": "9a1984a931b55ab62e52243c88d7806ee1160cad",
+      "bytes": 31630,
+      "sha256": "a8c0bc0c24ae644de0935fa7f04c508d6d17a22fb529ea90690f5295e3bd36d7"
+    },
+    "vllm/attention/backends/utils.py": {
+      "git_blob": "ad53e4e70b0fade7409f2c48dc706ea49a6d3c46",
+      "bytes": 25129,
+      "sha256": "56f6a183c8343d639428102739f79533150868400733c8f40009fb856c176484"
+    },
+    "vllm/attention/backends/xformers.py": {
+      "git_blob": "723a4558d0b35af255608581d2f57ab4a7e6ddb4",
+      "bytes": 33442,
+      "sha256": "e4939351c1d3de5786f2e3586bbdc3ce9fa2f520fe92be450858c447a76c3b53"
+    },
+    "vllm/attention/layer.py": {
+      "git_blob": "e4df7ffc588544f43b68171b7ce4c5a300099b73",
+      "bytes": 14828,
+      "sha256": "43db011ffe5ce9b73af86fd5e64c4ebb52edffb1d9e078ff919004f9c0cb2b85"
+    },
+    "vllm/attention/ops/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/attention/ops/blocksparse_attention/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/attention/ops/blocksparse_attention/blocksparse_attention_kernel.py": {
+      "git_blob": "71caf3cbac02c65095484eda96de4c5219bc56a5",
+      "bytes": 11535,
+      "sha256": "bbff7ac4f442d799662bc84ae67a67dfe1bc0f263e235937b296b9b1fccf8b75"
+    },
+    "vllm/attention/ops/blocksparse_attention/interface.py": {
+      "git_blob": "6ab69ea5b4098d8a1cc0f3728c5f013f9564718d",
+      "bytes": 9326,
+      "sha256": "41f58ecd5d8a8e926eee0a0b2ce15e8056e420e038f38228dd3e84f93f0a5f0a"
+    },
+    "vllm/attention/ops/blocksparse_attention/utils.py": {
+      "git_blob": "4de9bd530642806c3d842674442be98f4342f4db",
+      "bytes": 8085,
+      "sha256": "be2b4531cd8d5c0aa38b258ab76dc42d5c73293ff5044d744ef037c183e3a286"
+    },
+    "vllm/attention/ops/hpu_paged_attn.py": {
+      "git_blob": "8bb536343ed8c45d166d13e642daf23464e90118",
+      "bytes": 3460,
+      "sha256": "24824ca6da76dfb6becc2974fbae7a8f80e2e2bbb84497de045331a5d2d3abdc"
+    },
+    "vllm/attention/ops/ipex_attn.py": {
+      "git_blob": "598ceea130d97b029cc766ebf22b8a01588b8e70",
+      "bytes": 5521,
+      "sha256": "e855b168e5be3b3f64ba80b451777f4f586b4d6f35897baa51d000c2bc340cec"
+    },
+    "vllm/attention/ops/nki_flash_attn.py": {
+      "git_blob": "68aa63f5ac16c3f094fed3579a95a4716695c712",
+      "bytes": 24491,
+      "sha256": "6ab10b0450339bcd1fcabf1e8e6db2ec615d0013c9fd332e552f13ed5523a9f7"
+    },
+    "vllm/attention/ops/paged_attn.py": {
+      "git_blob": "2c60bd0c38d66e9e4f31caa2688b9ca4df92c701",
+      "bytes": 8334,
+      "sha256": "9f3574f8c507c97d09f78f96d11fb17c75ff4a841d6df085b10aab0e57bf201c"
+    },
+    "vllm/attention/ops/prefix_prefill.py": {
+      "git_blob": "5fca1639363e002468d56a6f28c32d8121bab6b8",
+      "bytes": 32113,
+      "sha256": "51fe2806189dc7ffede4d5ab478806dedbf22306b6f4386e839d7d761e717b3d"
+    },
+    "vllm/attention/ops/triton_decode_attention.py": {
+      "git_blob": "057fccb5e5981b7884db23984490145ab8d80d18",
+      "bytes": 18915,
+      "sha256": "9ff2a5bdeaad872fa9563e4d0471ce953b5f1ccc39ba69d7b6daa13be00d68b5"
+    },
+    "vllm/attention/ops/triton_flash_attention.py": {
+      "git_blob": "745818eb6cfff349284d8965f09e2b3b953bff1a",
+      "bytes": 27534,
+      "sha256": "0812bb3bcc4114a0063cdaa3503635f503188ef346af10c4ec79b7a8dc371f95"
+    },
+    "vllm/attention/selector.py": {
+      "git_blob": "26c6ac812a12507af0d8f91f13a7cd42a2ccfa59",
+      "bytes": 5865,
+      "sha256": "3ee42a7b2ae4c93b5470fd855832615e4d3fa875fe6387a478f488ecc65da3ab"
+    },
+    "vllm/beam_search.py": {
+      "git_blob": "97b2b630fc3e5101107aec09d856c49b48ff2539",
+      "bytes": 2183,
+      "sha256": "3a5a323bd46f87be43135b93556ded5f75d684db3242a705392073161353bf32"
+    },
+    "vllm/compilation/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/compilation/backends.py": {
+      "git_blob": "979890170c16b08896321e449103e3b3f05534ff",
+      "bytes": 35424,
+      "sha256": "091f2e12d73d7ca6582120c86e06e7e4545919cd1e2551bfbfdebef99debf42f"
+    },
+    "vllm/compilation/counter.py": {
+      "git_blob": "a6f11a3af4d4c78219dd218754184ecf74a38be4",
+      "bytes": 938,
+      "sha256": "4f35d8e5ba4cd99df2e79b60f59b2ccfea9bfa9ed35be75bfffe0bdc3715f616"
+    },
+    "vllm/compilation/decorators.py": {
+      "git_blob": "20afe6967df39dd72dd3728a0995b54b49242f0a",
+      "bytes": 10246,
+      "sha256": "bb490e31bc6810eb714cf0028458a35d6cb0de75374309a5917dba279b9062c7"
+    },
+    "vllm/compilation/fix_functionalization.py": {
+      "git_blob": "9b0e9c5d04081013b9a2f3e0b791b0eab03a412a",
+      "bytes": 7953,
+      "sha256": "cfc97a87f0baf9491b391e6ec68e7947511338845f0938fa75ac2e8c7cdaa7ea"
+    },
+    "vllm/compilation/fusion.py": {
+      "git_blob": "0c3d8697b2375bb77c1ae9fd4e35eb1684be5c73",
+      "bytes": 24556,
+      "sha256": "3e20ba0fcbf0b510aa18e43e132c35c369f3bdf6f07f868e4801e3b549904a2d"
+    },
+    "vllm/compilation/fx_utils.py": {
+      "git_blob": "b9a8d3112e7758fe71756699b57542bb31c34954",
+      "bytes": 1478,
+      "sha256": "dcdfa5fc05b3c04d3e843257b6c2a57d8f5768ac91272fa6c7b1bd166b446437"
+    },
+    "vllm/compilation/inductor_pass.py": {
+      "git_blob": "be663946f4d815db4ca9d48eca2d77f904db7b52",
+      "bytes": 2570,
+      "sha256": "29c16bd3c379c64c857d657736e1a0352fde81f977871da969d50ea9c9e84a11"
+    },
+    "vllm/compilation/monitor.py": {
+      "git_blob": "786c7c1e1859a64a6338d869812172a01b757341",
+      "bytes": 1346,
+      "sha256": "a782d0d6ba0d84a404f0cf3386563081d9d2141162e8490351acebe97daeb1cd"
+    },
+    "vllm/compilation/multi_output_match.py": {
+      "git_blob": "e6f6a60b25950eb50fce0c9c2b2905cb20ff433f",
+      "bytes": 3839,
+      "sha256": "14ab16424ef7fe8946fec221eef79a1f37c179ca0a511583e92447e7f3b3c36d"
+    },
+    "vllm/compilation/pass_manager.py": {
+      "git_blob": "c7387fb7c2db959a8d78a38cf8daf57954fdba60",
+      "bytes": 2792,
+      "sha256": "e00f759031cc44d89d7a2eb8e135da302f3d2a1f8200e1558c641f3623b4a12a"
+    },
+    "vllm/compilation/reshapes.py": {
+      "git_blob": "292baae852822d739808aa9a71b58fee77a251b9",
+      "bytes": 3055,
+      "sha256": "2bb8f9cbd6cca9e16fe840b7820aa38154ae141a669f7226c371469b49706e13"
+    },
+    "vllm/compilation/vllm_inductor_pass.py": {
+      "git_blob": "1d2597e42711fcf99e1dc740463c9fdb7b91e295",
+      "bytes": 1835,
+      "sha256": "41586756fc341b3491fa1f3418d6b626471f68b232fa301e71d2cf42280a7142"
+    },
+    "vllm/compilation/wrapper.py": {
+      "git_blob": "a8a283ddd8c0c0b637f547d6a675e4e6e3119aea",
+      "bytes": 5631,
+      "sha256": "a42cd794db3eff8f662a2409144dca834da51241dffc27db564e9d70f9619e89"
+    },
+    "vllm/config.py": {
+      "git_blob": "9ba49757612452f74032955ba4e020cbbf483a1d",
+      "bytes": 151021,
+      "sha256": "aee0e127f286fb8c1490d9730dae8e7544ffff16d5de6568955956df995b3815"
+    },
+    "vllm/connections.py": {
+      "git_blob": "dc060bb6f88a75f9b8d300c364d21594cf23d1f6",
+      "bytes": 4962,
+      "sha256": "e4cb1cc29e43e26385100ee74feafb66cef71fd8216984329dec757cbcb142b5"
+    },
+    "vllm/core/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/core/block/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/core/block/block_table.py": {
+      "git_blob": "d4d31c58dc8d4c607bf012129ed1d8f7883916f9",
+      "bytes": 16022,
+      "sha256": "1ccc0cc1563ca472e39637ba81f56cac7bf2bcbba971ddd2300be072c51c9f13"
+    },
+    "vllm/core/block/common.py": {
+      "git_blob": "1966eac1cf9e0c0a8f8522a0a3e72c64f57d2952",
+      "bytes": 13200,
+      "sha256": "71f0ec7b588d60b7a1397ad27d4ca94e66a4180752497ad7d189a87453e92632"
+    },
+    "vllm/core/block/cpu_gpu_block_allocator.py": {
+      "git_blob": "359b5b263f689ea471b67e7dc924fc504856a419",
+      "bytes": 16817,
+      "sha256": "82be8fe7e6a10f0151e22f31ddbc53916ba44d4947578fc17228a000903c3303"
+    },
+    "vllm/core/block/interfaces.py": {
+      "git_blob": "0b0197deb8d47f10ac11747f46523623552b7190",
+      "bytes": 8111,
+      "sha256": "15299526bf9dd9156dfe45f672458261fecdd42ab95cd789aa4f9379b6ce8f69"
+    },
+    "vllm/core/block/naive_block.py": {
+      "git_blob": "c388366b825f2c236712d4af068b47714701d95d",
+      "bytes": 16355,
+      "sha256": "1206119bde0af3c0f214cdd78df6b503c856b86652b4bd2722a899a9b57140c2"
+    },
+    "vllm/core/block/prefix_caching_block.py": {
+      "git_blob": "1ca9e49dac371bd9fd835bc36f6e654235ac5d6c",
+      "bytes": 44182,
+      "sha256": "b418d9e7cc534269b3c76b36e01727795c827f917e69a3aa809cf4edbc5b7e8a"
+    },
+    "vllm/core/block/utils.py": {
+      "git_blob": "910afdd9feff1d616339fda39071494f913b9c36",
+      "bytes": 928,
+      "sha256": "a2c2f15704946233ac2de6a5f11ce99864fbd85e1a537a9b4c6b9831d588b076"
+    },
+    "vllm/core/block_manager.py": {
+      "git_blob": "c5b3b04f37ca3018f554d7670d4b3a8ba6fafebc",
+      "bytes": 22165,
+      "sha256": "c494645f0db19f5bc022c1f42194c11dea026757ddea6204b4bf93055ecae6a4"
+    },
+    "vllm/core/evictor.py": {
+      "git_blob": "0e363eddc8a5e933173cc42f4c3a8eeafbe85c23",
+      "bytes": 5446,
+      "sha256": "272f9e67081d0384361746ee1600cdbf67cf7a223124050416dc8a633d552f8d"
+    },
+    "vllm/core/interfaces.py": {
+      "git_blob": "b48ba87e95a0b10d623fcb67aed36e7f02c2f1c3",
+      "bytes": 3534,
+      "sha256": "f3a8dce62e7f11b54c48b3436795b9314065f838228ac46c21e4f07c22ca8e3d"
+    },
+    "vllm/core/placeholder_block_space_manager.py": {
+      "git_blob": "70c22afa8e1583b0ef4c5e54ee5ef80972ca0a39",
+      "bytes": 2928,
+      "sha256": "5964fe91608e299fc7a8ca9cbbf60fdba96f13b4fd4d21821ba4c676a3d819a3"
+    },
+    "vllm/core/scheduler.py": {
+      "git_blob": "f507847ad82cf51598aca8a642131585e49076f9",
+      "bytes": 81122,
+      "sha256": "3e399f54a8c3ab4cc3eced8ee204364b62f6122374f2853580c6fca1fdd35f67"
+    },
+    "vllm/device_allocator/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/device_allocator/cumem.py": {
+      "git_blob": "f74ad9ac33852fd0ffaa8d2aefc7b35ac8d0e341",
+      "bytes": 9814,
+      "sha256": "ec826be38c1895d065c0593a3bfdae2b40b586b52d5183cb6a2308f784319d71"
+    },
+    "vllm/distributed/__init__.py": {
+      "git_blob": "39955ddacfe947c6c673520e97acbd7a348e5ecb",
+      "bytes": 122,
+      "sha256": "464f24edb5ed70f35a8a1164e6a3a7fffb685e312522659bb33c91241cde6070"
+    },
+    "vllm/distributed/communication_op.py": {
+      "git_blob": "0228264f91f9a8688cc885e9c8d9c090eb954321",
+      "bytes": 1236,
+      "sha256": "3c76cc56f9aad9645ca537f9a5e09b1e03fc1420b764c4f324fbb7f3274105a3"
+    },
+    "vllm/distributed/device_communicators/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/distributed/device_communicators/cuda_wrapper.py": {
+      "git_blob": "010caf7ebac97292d178f2a3b893c236198f931d",
+      "bytes": 6901,
+      "sha256": "59aebc8cf886ebb892c2a8372dbe73103cd7d0bd6a9c3e93027fe2514f8ea3b1"
+    },
+    "vllm/distributed/device_communicators/custom_all_reduce.py": {
+      "git_blob": "a2614ed5d0bdb5102724690611283ba595de42e2",
+      "bytes": 12492,
+      "sha256": "4271f6c1cb7fb1dcfff99271ec98d1d2f7a3d77aa0d80afc7522a9a69d0eeac7"
+    },
+    "vllm/distributed/device_communicators/custom_all_reduce_utils.py": {
+      "git_blob": "d8d6eed2dd7ecc46da58be1c3e5ebef77b9a7ab3",
+      "bytes": 10474,
+      "sha256": "83e1848428c4e9d1b34436072980cfe45a855bdb2747e60c2dc210398b74673f"
+    },
+    "vllm/distributed/device_communicators/hpu_communicator.py": {
+      "git_blob": "3f85da98aca43e76c7d175be3d286a3ccc77399c",
+      "bytes": 1848,
+      "sha256": "c20a4aafb80dcef8fd0699a3227e7571dd15e10d9889179aae092be54f8caf3d"
+    },
+    "vllm/distributed/device_communicators/pynccl.py": {
+      "git_blob": "0ccd423121cb0d6ccb9621eb9f2b464bee6bb057",
+      "bytes": 9142,
+      "sha256": "6784177467ffab3cf62773df2ad53b6c41b6f68c5b5f2e1d128ac607d58d0779"
+    },
+    "vllm/distributed/device_communicators/pynccl_wrapper.py": {
+      "git_blob": "03c3b0be76393b882c87b75e87ddbd7c429f4f91",
+      "bytes": 13705,
+      "sha256": "1547efc493e8c6e6115d604d6db1641532879dc218ab6dd298584709cbc28ab0"
+    },
+    "vllm/distributed/device_communicators/shm_broadcast.py": {
+      "git_blob": "48ac81ac008b2914aaddbde9ebc828dface1a57c",
+      "bytes": 22780,
+      "sha256": "36ee7b51d0f2c04def8687555a468841f2c458bc2b8eaf78b5799bd78bf01a9e"
+    },
+    "vllm/distributed/device_communicators/tpu_communicator.py": {
+      "git_blob": "7af7c65f64220cc226268209b519c7ce4791ba5f",
+      "bytes": 2438,
+      "sha256": "8ffdc1c4250050bc272966fd70d5de33a163cc6717865dbccba3c17861c1413e"
+    },
+    "vllm/distributed/device_communicators/xpu_communicator.py": {
+      "git_blob": "79ccc101e08018d65f3a6c28665b22f31a0d99d1",
+      "bytes": 1790,
+      "sha256": "f64d7b1457e151286e3b2a4631f95b593634d9670c6d7e5fd3e0bd3fea96f1fb"
+    },
+    "vllm/distributed/kv_transfer/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/distributed/kv_transfer/kv_connector/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/distributed/kv_transfer/kv_connector/base.py": {
+      "git_blob": "57c764b481c29f30ed0daf18db5968ade5b8c3c3",
+      "bytes": 4291,
+      "sha256": "7aabca049a14da22707cfbedc8999d5843ea54824b2083a279ab4e4cc93170c0"
+    },
+    "vllm/distributed/kv_transfer/kv_connector/factory.py": {
+      "git_blob": "fe480533458b886f2cfa69ddf92d085801ae4f41",
+      "bytes": 1736,
+      "sha256": "fb941979b2a361940fbfe9662d8c119ec16c4ea80dfb57358413a965f1690739"
+    },
+    "vllm/distributed/kv_transfer/kv_connector/simple_connector.py": {
+      "git_blob": "2033e9762ac0b5491e0bc9c0bc457e7014d733ef",
+      "bytes": 12941,
+      "sha256": "b2f1f730409dafbdbfd4129cb304596d3891421db41c707083fd7fd88e902f70"
+    },
+    "vllm/distributed/kv_transfer/kv_lookup_buffer/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/distributed/kv_transfer/kv_lookup_buffer/base.py": {
+      "git_blob": "845da7c501e888e2726d0fe5744180d6d594f795",
+      "bytes": 4162,
+      "sha256": "3d09e271bcccaab66fc1276b52b34ba892e6ad05f363e0b072a88d9909b6f0c2"
+    },
+    "vllm/distributed/kv_transfer/kv_lookup_buffer/simple_buffer.py": {
+      "git_blob": "5e1b62352d14c457ac69c3654f86a8687a288f78",
+      "bytes": 9033,
+      "sha256": "73c819824b3fb3693d4c7d5eeaed868ed3e1052339b29550879c9bac285d43cc"
+    },
+    "vllm/distributed/kv_transfer/kv_pipe/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/distributed/kv_transfer/kv_pipe/base.py": {
+      "git_blob": "40589fb3ef872e97dd0d2577965824548f180323",
+      "bytes": 2087,
+      "sha256": "538862bf3fb32648e14c680d76d72eba973f02bb2850f16e584bff01727daeab"
+    },
+    "vllm/distributed/kv_transfer/kv_pipe/mooncake_pipe.py": {
+      "git_blob": "58ab7f0b642433348fca1c96316b94f6ef49dafe",
+      "bytes": 11687,
+      "sha256": "3c8d1b5c76f56d47e783bfeee3463e4c9e9243eb2c7d45bfc4a14ba444be070f"
+    },
+    "vllm/distributed/kv_transfer/kv_pipe/pynccl_pipe.py": {
+      "git_blob": "7aa53d07a9ef200d7ff3c425ccc7ebc252362cb9",
+      "bytes": 9588,
+      "sha256": "a7d538f927bfd9bad750d592bff53fc01e1161716bfdd715f624e38ee719cc50"
+    },
+    "vllm/distributed/kv_transfer/kv_transfer_agent.py": {
+      "git_blob": "1e80e0bd7de865b2c87828002d1be55bf373fb54",
+      "bytes": 2430,
+      "sha256": "f85eea12fc52189dc5033c3f926ef72e84405a667c58488c1531dd74f0daad15"
+    },
+    "vllm/distributed/parallel_state.py": {
+      "git_blob": "321902d11fd73a9d1076e57abfee99bb80d03d83",
+      "bytes": 49922,
+      "sha256": "eaadff831e4552bd9e31ba0a96633419eb60dd41fd5e47a519f334ae711f2a6e"
+    },
+    "vllm/distributed/utils.py": {
+      "git_blob": "84f8c0a8e51c548e580c5ee507bb85139260e431",
+      "bytes": 8553,
+      "sha256": "dc44a8fe02b323516d02c62c77efbb2b6c632c5aca79b2ddf6cf548b7f0414b4"
+    },
+    "vllm/engine/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/engine/arg_utils.py": {
+      "git_blob": "40c6fb45679931e8a9288a3fa542674668c6cdad",
+      "bytes": 64060,
+      "sha256": "86b26c35df5bd841cfd655b0f1b6f31e80491777ebd7a1c6aa2b9b2dc69fac9c"
+    },
+    "vllm/engine/async_llm_engine.py": {
+      "git_blob": "053635a28638363fba08da0dc4b67bfa466e2ed7",
+      "bytes": 48514,
+      "sha256": "96b690451b1697fcf348810918623b2ad94f57bc87e6765bb66e888b3fabf026"
+    },
+    "vllm/engine/async_timeout.py": {
+      "git_blob": "aa54c0693941fbc191be31ea9d26940673d60c51",
+      "bytes": 7092,
+      "sha256": "27151a4552bf3393f9c1156428743e4240cc9c6c4a313b7d4bd3a141e4333feb"
+    },
+    "vllm/engine/llm_engine.py": {
+      "git_blob": "d82d9ad9df32351eaa73a117246716c768508bfd",
+      "bytes": 88668,
+      "sha256": "f7d48e2fada49f1f0465f80599c463f86ebf9af5e93a7c4fb9f65c3a33eb3c47"
+    },
+    "vllm/engine/metrics.py": {
+      "git_blob": "ce806b4a937a1d407d233ae1398b7ba4ad814f0d",
+      "bytes": 29606,
+      "sha256": "0c6ae9ca7c864b9b67ce8e6492c278676e34dd0ac012def9c6b51a477eed90d7"
+    },
+    "vllm/engine/metrics_types.py": {
+      "git_blob": "7f0c2fa70c3f9c82ee0b5c7e24b75b84d0944ced",
+      "bytes": 3402,
+      "sha256": "4203e45472b2a2448bfe56021bdb5ecdb41343e71ca76f78bcb524926b098f70"
+    },
+    "vllm/engine/multiprocessing/__init__.py": {
+      "git_blob": "3cf1850ee65ad779562db62d5884fbcf9dd8395a",
+      "bytes": 4415,
+      "sha256": "ee84ab03709fa7b98ef3ee9e9221256c75d711809f3738f5825278a64e27bbc8"
+    },
+    "vllm/engine/multiprocessing/client.py": {
+      "git_blob": "85b5f31e3a4aa51ce0c4765b75667c7b3a051296",
+      "bytes": 28650,
+      "sha256": "561d6d10fb7808278e1499cab62e5115b8cec8367857ae3a3e2ae1bbf355cc62"
+    },
+    "vllm/engine/multiprocessing/engine.py": {
+      "git_blob": "a0dd79586588eb1089cfe10aa55de69ee3772b93",
+      "bytes": 15396,
+      "sha256": "6d96173f126b1fd82533b8b9e71a942b5441ce5758126ff72f8ec4cb4302f89e"
+    },
+    "vllm/engine/output_processor/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/engine/output_processor/interfaces.py": {
+      "git_blob": "4c8e295c138150595faa0005094a77bd6ac7c68e",
+      "bytes": 2994,
+      "sha256": "f7dccf9c2b00d07f64f1deee5dfbfcc86bdaebd9804b59b76a947db1d58851f6"
+    },
+    "vllm/engine/output_processor/multi_step.py": {
+      "git_blob": "8ceef855e020ffb70ffe47b09700026bd59b46ed",
+      "bytes": 9000,
+      "sha256": "e658a1a20e9c9b13665cf27178a79c67c5213eba622571ffaf4b8fbdc0fcbc32"
+    },
+    "vllm/engine/output_processor/single_step.py": {
+      "git_blob": "4d96791a1f8a389994e59061a3f15859d791dfa1",
+      "bytes": 6015,
+      "sha256": "4e888d234f73c94f3acec07c55bc3df9e2dc6cd93f82c087736b0a46605f705d"
+    },
+    "vllm/engine/output_processor/stop_checker.py": {
+      "git_blob": "3bca0bee35a4c8abbc565e442b61fa0e683cb4ff",
+      "bytes": 5064,
+      "sha256": "6154a4b9f6db5f7926e35694edb5d12638693f6e1072e9fbcba5771ff710eb95"
+    },
+    "vllm/engine/output_processor/util.py": {
+      "git_blob": "0d2b58c109e32f27f780f4ef538331705db0321d",
+      "bytes": 1056,
+      "sha256": "2283459b2f2f2ab2b9a67de7192dba132e62ae12abf26ccd3863f7d12b13d6a0"
+    },
+    "vllm/engine/protocol.py": {
+      "git_blob": "d1112558666ff37942bf440ee3c5a9bd42399758",
+      "bytes": 10104,
+      "sha256": "68f0c79b4b4ce2ac9c4f79a42dc19eca7fccb857b97a12970d3c942d775b7d00"
+    },
+    "vllm/entrypoints/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/entrypoints/api_server.py": {
+      "git_blob": "96818507d589fca1f4d602df8a25111d82a4e5d2",
+      "bytes": 5417,
+      "sha256": "4149ac6c50a84377fbe075f2838461ab3b50f0628d65733f9ae97d07e8298fa1"
+    },
+    "vllm/entrypoints/chat_utils.py": {
+      "git_blob": "f04902ae1c7678c736bcb49450339eeafcbb6b75",
+      "bytes": 35458,
+      "sha256": "2f29c3a91183242c81d424e2c4dd8ba53751a56204929322009c0fd4c06e210a"
+    },
+    "vllm/entrypoints/launcher.py": {
+      "git_blob": "351a39525fa621870b7d60192478abcd6a5746f2",
+      "bytes": 3929,
+      "sha256": "dd17c2c26196a06aa00128913f992df3ab0e2888f21f595859985aed6db0fbb5"
+    },
+    "vllm/entrypoints/llm.py": {
+      "git_blob": "d071a0b3cfc5d313bc0ef0055d861eca461acb6a",
+      "bytes": 61938,
+      "sha256": "104e0c8cd81bc7aa52660e8f3ac4eda86aca7b91c9ab0bd78beae68f9b654f84"
+    },
+    "vllm/entrypoints/logger.py": {
+      "git_blob": "e82b6ba6c7bae3c0496f395324b4a405dc34c435",
+      "bytes": 1449,
+      "sha256": "d1ae46120982d5ddb5d1eaa0758c14b9221c651731788a33508ceb672bc3e53e"
+    },
+    "vllm/entrypoints/openai/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/entrypoints/openai/api_server.py": {
+      "git_blob": "b8f54d6c78042dd944bd5410dd3a12ded13fa877",
+      "bytes": 34388,
+      "sha256": "dc536dceb87310dee666033306c6274e4c8b7df1ca05d2eacad9660b1566922b"
+    },
+    "vllm/entrypoints/openai/cli_args.py": {
+      "git_blob": "3054958f3c8abc1e618c21a7fe260169efa6f23f",
+      "bytes": 12174,
+      "sha256": "a72db4a71b6b68cf5e85e11cda3cd65d4884ddd5facac9c635292bac182bbad7"
+    },
+    "vllm/entrypoints/openai/logits_processors.py": {
+      "git_blob": "41e5eef40eaf82ce3afa59523a2ed24796338abe",
+      "bytes": 3157,
+      "sha256": "5c887648f2e9c8e945d34d89f0affce6a8051bcaa220308ae159d593fb580745"
+    },
+    "vllm/entrypoints/openai/protocol.py": {
+      "git_blob": "83b841826231ef17c2426f73adfda256942f41ce",
+      "bytes": 53132,
+      "sha256": "208b25347eaf10a963117006f7d07a1c90aceb08cf816d48d7be4c635fcf716a"
+    },
+    "vllm/entrypoints/openai/reasoning_parsers/__init__.py": {
+      "git_blob": "80354d69b50afe64a38df6532af78e10cc6858fa",
+      "bytes": 274,
+      "sha256": "ab6022f4c6fd4c21001686a0f2bc6f71db89a5fd522ba283f4acdcc9a0486f6d"
+    },
+    "vllm/entrypoints/openai/reasoning_parsers/abs_reasoning_parsers.py": {
+      "git_blob": "b5df7e47446b7acc74cd77c4f905f87a95581716",
+      "bytes": 5945,
+      "sha256": "434e735726844973a26eab07d0cbdb6a01405f8596bac8f6c25ade070a5c86d3"
+    },
+    "vllm/entrypoints/openai/reasoning_parsers/deepseek_r1_reasoning_parser.py": {
+      "git_blob": "5c19888d4540137fb7d07150720b0ad5f5e849b9",
+      "bytes": 5987,
+      "sha256": "b678c667e77aeae3e1dae588dfb6294a84c121f5bedbf73abf2a3239e024fe5e"
+    },
+    "vllm/entrypoints/openai/run_batch.py": {
+      "git_blob": "675d3cdcf97155073c07d8afbdd5e5878b23ba78",
+      "bytes": 12567,
+      "sha256": "c6c46bca59308ddf24bb3241b40a34259bcd231222ba2f6a8705b9838100cb61"
+    },
+    "vllm/entrypoints/openai/serving_chat.py": {
+      "git_blob": "107220d548afc0adf506fb24c6b1a10ea2a3b232",
+      "bytes": 43959,
+      "sha256": "0d04d93ce7f6b5b0e4a8bc8f000ff84dce8a35fef0771e97be6705ba4518c83a"
+    },
+    "vllm/entrypoints/openai/serving_completion.py": {
+      "git_blob": "e7ad263e7fbe5049dcab508139b67d0bbc2d5aa9",
+      "bytes": 22786,
+      "sha256": "30ed34497113131c2749b7091bc4a49b5dd374b23b15bc5c7981c3e90ede804a"
+    },
+    "vllm/entrypoints/openai/serving_embedding.py": {
+      "git_blob": "45f8ad90ddcb3d67d56e49ccfa39bcc4ec2d135d",
+      "bytes": 9106,
+      "sha256": "69c36c6f647795c389860ae5cc9eeca341c2cd73e33c8cef959981447ac49fbf"
+    },
+    "vllm/entrypoints/openai/serving_engine.py": {
+      "git_blob": "8d39fdcb748330545539b1e71c8cae88d71483c6",
+      "bytes": 20607,
+      "sha256": "6c87efa39abadf055af4efd76a5193db623eabaa5b65008e05c23f1ac8c70b2c"
+    },
+    "vllm/entrypoints/openai/serving_models.py": {
+      "git_blob": "f917a48519016c7300cac638796649bc79fc7a5d",
+      "bytes": 9676,
+      "sha256": "adf94beaabf56bf6eea5e768f115585def69aee260bdf26ed22cae7ff08e082e"
+    },
+    "vllm/entrypoints/openai/serving_pooling.py": {
+      "git_blob": "01a3d211f6ba633988782cbd7af6d71e556f72b2",
+      "bytes": 8784,
+      "sha256": "89bf2873880915a056936eede7c4439d87e31eac448666344b17b2c1bc0e7f23"
+    },
+    "vllm/entrypoints/openai/serving_rerank.py": {
+      "git_blob": "366df71217e9101c6d7b381bdf18efeef64752ff",
+      "bytes": 8430,
+      "sha256": "26f8b7ac729e454a7a5ee171a6f1510daf15c2262d2b2d1b8705e45a99ff35d5"
+    },
+    "vllm/entrypoints/openai/serving_score.py": {
+      "git_blob": "832aa8516cc359777e5e6326276a656fe7038dab",
+      "bytes": 8833,
+      "sha256": "d39f969e9905d2391d851ddf61faaa2da007122f7c93dbffb1229b72361c25c8"
+    },
+    "vllm/entrypoints/openai/serving_tokenization.py": {
+      "git_blob": "6c79adf90c8ad13e9afb640c278ebdec9d6c59ff",
+      "bytes": 5474,
+      "sha256": "2f84e5e57d908162d8b8a800bff5300fe40b87852433373965e728ebc8e189cb"
+    },
+    "vllm/entrypoints/openai/tool_parsers/__init__.py": {
+      "git_blob": "d1c3afa64b96cc7216ecd9c8eed5f41336006a39",
+      "bytes": 773,
+      "sha256": "302029ea64ce459c864e11514177a781bc5a9a625d2a64abee4b906befd68ecf"
+    },
+    "vllm/entrypoints/openai/tool_parsers/abstract_tool_parser.py": {
+      "git_blob": "7cdd6d4c4f2ba69d1616caa4b1e4cbd174a08f39",
+      "bytes": 6017,
+      "sha256": "264c9ecadd0f753c564b0c2a0c8a483a491455b1b8026f8b8c52d125018ebf85"
+    },
+    "vllm/entrypoints/openai/tool_parsers/granite_20b_fc_tool_parser.py": {
+      "git_blob": "002bf173883086f80bedcd61477ce9a0501e28fc",
+      "bytes": 11114,
+      "sha256": "9a39e9dae87866026c6734d4535fe5927d794e4e6b16cf383fba00b0fc2de56f"
+    },
+    "vllm/entrypoints/openai/tool_parsers/granite_tool_parser.py": {
+      "git_blob": "c948ed78f503b9bb9f760463846e5d459f11c21b",
+      "bytes": 10344,
+      "sha256": "49e8dc3589fd3b5f0db7e61982d472275b0697ec8b6365ad1602643598e1db70"
+    },
+    "vllm/entrypoints/openai/tool_parsers/hermes_tool_parser.py": {
+      "git_blob": "4841b28703ee3beff672150f465577d57a17251b",
+      "bytes": 16784,
+      "sha256": "e6b17fdb60eb645c86b23f92646d5de884bd9ee6964edcefa1a4945e12139cc5"
+    },
+    "vllm/entrypoints/openai/tool_parsers/internlm2_tool_parser.py": {
+      "git_blob": "b9215e7979bf534303ada53e5e7b8c9b54a89c08",
+      "bytes": 9114,
+      "sha256": "1a7c4a715d3610c481f91e005c44c2af042350e7f2527b7cf555e090a0b6a086"
+    },
+    "vllm/entrypoints/openai/tool_parsers/jamba_tool_parser.py": {
+      "git_blob": "7c4d63e18865376339d023ca5d91abb0d648b8ce",
+      "bytes": 13538,
+      "sha256": "17d6925c506b1a6406a97795042ea45926eacee83f0a69043372e0a03398f8e7"
+    },
+    "vllm/entrypoints/openai/tool_parsers/llama_tool_parser.py": {
+      "git_blob": "6a7b113623e6515d3a31307f1ec42c3451a5fec3",
+      "bytes": 11894,
+      "sha256": "2b251beafeaf942c379b735165e98c9514ee3e0bef6023d59b4bea29b401f439"
+    },
+    "vllm/entrypoints/openai/tool_parsers/mistral_tool_parser.py": {
+      "git_blob": "51354f7c9562355c9791cee5bc695097646f9984",
+      "bytes": 14664,
+      "sha256": "37e0fc5c01131ac32194d803838e58d21b8f31b558ef7388d590f83bbcb12e10"
+    },
+    "vllm/entrypoints/openai/tool_parsers/pythonic_tool_parser.py": {
+      "git_blob": "5c282b5c2605a6cc8a9c85a377cf7f31c8aab967",
+      "bytes": 11939,
+      "sha256": "f595e4b0a3f65f48bef809642ed18443d204abc6393ed02c2a492ac75caaa67c"
+    },
+    "vllm/entrypoints/openai/tool_parsers/utils.py": {
+      "git_blob": "945cbd6835028b3d73297b20cdd32b69f9584112",
+      "bytes": 3819,
+      "sha256": "60c5014154e21bb1ee13d401eb4ff90971bf11de3f03cee3ab9e37076438a6c4"
+    },
+    "vllm/entrypoints/utils.py": {
+      "git_blob": "9af37871d57c8afb26a0c534db4d98938f1b8aa9",
+      "bytes": 2294,
+      "sha256": "d4084eb38254cd73ba79529c4323bfce81d816e3473e963c58031b7f54e5724b"
+    },
+    "vllm/envs.py": {
+      "git_blob": "745b068b7a458d917437bacea18eb6e8fdcfad28",
+      "bytes": 24374,
+      "sha256": "37b0faae9bad49dc62bd1667cbefbe0ce52c19a75853c9e7d464997dee2753fe"
+    },
+    "vllm/executor/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/executor/executor_base.py": {
+      "git_blob": "fb76276bb4b3476f70d4eb6b619bd40ead168dad",
+      "bytes": 14560,
+      "sha256": "a7e45691ed44bb50c18d12cdd94d1bc03a7deed94131719976a182c09ce9cd35"
+    },
+    "vllm/executor/mp_distributed_executor.py": {
+      "git_blob": "d1f8c36fbbec7638f89c0e828cbc42e3a66bee02",
+      "bytes": 9854,
+      "sha256": "ea6aefe70b01530ea7834f3fab29fb2ed998b1a1a01a04c7a1949d3fe8663ed6"
+    },
+    "vllm/executor/msgspec_utils.py": {
+      "git_blob": "e680d53cbd10e216407f0850a84d2f0f688967d9",
+      "bytes": 909,
+      "sha256": "146e5087a821b4b8f223a0478931a6250dec1a8a762e99b82e80033ffd07b3da"
+    },
+    "vllm/executor/multiproc_worker_utils.py": {
+      "git_blob": "cef6a994a9c09cfaea91f8240d6c64a253d88d80",
+      "bytes": 10590,
+      "sha256": "5fa8f1f8e153fa45be3beda78f3a19386eb40371944d042be4ce6effc8bf7c67"
+    },
+    "vllm/executor/ray_distributed_executor.py": {
+      "git_blob": "6a25a4d50fb98b083b83a84a770429144fc0e3c7",
+      "bytes": 27588,
+      "sha256": "c2e8eb91ea8fe95c00f35a31f61ae14b5e257075a2ec3f01ea1a9f0ca1635e80"
+    },
+    "vllm/executor/ray_utils.py": {
+      "git_blob": "7b30155971a6d353f5b6f18ac894ac2c2b6d1bef",
+      "bytes": 15646,
+      "sha256": "812bbd0a25cf9ce8eb98f65b2cd8f8ae6b36ce891e7adba96a254c56d8a3e8a5"
+    },
+    "vllm/executor/uniproc_executor.py": {
+      "git_blob": "dcb4a8f27c25213365a4422d912d535e5e845d6f",
+      "bytes": 5408,
+      "sha256": "32559dac749c0e81596e68604fa40d38d9c22f4e5a6b0286be6461533ea7de55"
+    },
+    "vllm/forward_context.py": {
+      "git_blob": "10de8bc593ab805ec06664c2ed0125bdb4a708b7",
+      "bytes": 3939,
+      "sha256": "3e6e685ad3436260e6391a38bf202f107e25e6e8dc6d0c12ca57d06227f962c9"
+    },
+    "vllm/inputs/__init__.py": {
+      "git_blob": "6f8f2cd758f7bf9768b1a552dbb4e2ad980c7278",
+      "bytes": 1228,
+      "sha256": "dbc58881292d899d0a4749ddc6d9c4c198e14b8d3ab8efa33e3c96a2f930ecbe"
+    },
+    "vllm/inputs/data.py": {
+      "git_blob": "2ffebeee392a355669e27a8fcf095b31b4f472b0",
+      "bytes": 13247,
+      "sha256": "81e04b6955e2e9abb10521ef4a4a95897f9447f7f17352f87309c22839a5807f"
+    },
+    "vllm/inputs/parse.py": {
+      "git_blob": "454d9d8303b77bfec97a597e4972ae18775c3614",
+      "bytes": 3472,
+      "sha256": "408bfce864d8af54ee3abd18a46beac61fcd5986f2214252a265dc5e78dba929"
+    },
+    "vllm/inputs/preprocess.py": {
+      "git_blob": "4d8f28cb0417533e73244f5df1f5a1e4f78f6daf",
+      "bytes": 25481,
+      "sha256": "488bc835f559c3c8934e0d9ca726ecba160c15d0db3d2d870553312e21d769d3"
+    },
+    "vllm/inputs/registry.py": {
+      "git_blob": "cd421443981f53eb25d8944ab2fbfca50b486783",
+      "bytes": 16877,
+      "sha256": "5484065eb26707f518df5f53c154779718e2488ebd3a9388caccd32a3ce0056a"
+    },
+    "vllm/logger.py": {
+      "git_blob": "b20d55e3c1019ba7fd8d15bd6950f4c094cc2316",
+      "bytes": 7338,
+      "sha256": "6617f94d7eff90c5c8606e613808d3d6e7e63623ef3331f0acfed2579b4e0537"
+    },
+    "vllm/logging_utils/__init__.py": {
+      "git_blob": "7ab4632589bf499cf967a02794e0381413fb946e",
+      "bytes": 136,
+      "sha256": "b766836b3091735f614eb3b1896dde63e77bd369d0141389cff4087d28a9f689"
+    },
+    "vllm/logging_utils/formatter.py": {
+      "git_blob": "010b0a124987b5ff75820d3ff5067ea3803cf3cc",
+      "bytes": 525,
+      "sha256": "00059b155e30810667fc493430a03e4c127009088edde8c8b88575ad09bc0034"
+    },
+    "vllm/logits_process.py": {
+      "git_blob": "d02072e8f81894894348c0501eb2ae6ec2081962",
+      "bytes": 4664,
+      "sha256": "46ae7919e6d0586363e6efd1a5c13a0016c79231e9b39be12bedc8b79517fbd0"
+    },
+    "vllm/lora/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/lora/fully_sharded_layers.py": {
+      "git_blob": "3d6620817b4bb4f78d46d91e64aef231522fda4f",
+      "bytes": 12229,
+      "sha256": "1ac112ba67be2b99ad797d441f556bf1f4266349d48f24c82ad63ed47545355f"
+    },
+    "vllm/lora/layers.py": {
+      "git_blob": "9f0297596ccbf236266f6e9daedfe1666dcf0d90",
+      "bytes": 44795,
+      "sha256": "ce09efa90c01081de96e7b03ca1063bd8bd656ba6640d1965971e069751525ec"
+    },
+    "vllm/lora/lora.py": {
+      "git_blob": "00299bf6c2a81446e5faa1ddf1ce2868f6b95046",
+      "bytes": 6222,
+      "sha256": "5df39bf78682b0e46b86f4e71c3cbe805ea21a8ea750bb69b11711db0a5f6015"
+    },
+    "vllm/lora/models.py": {
+      "git_blob": "ef77fd4b74cecf943590a5d58d633e48a90420cf",
+      "bytes": 33292,
+      "sha256": "16cc4013bba01291223f09d920dd3f5b48d0caa6e5e42a88f0542d733f37363d"
+    },
+    "vllm/lora/ops/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/lora/ops/torch_ops/__init__.py": {
+      "git_blob": "85601d58c9d73d4680806d13d0414d238454da10",
+      "bytes": 466,
+      "sha256": "cf4dde6f96824a3fd9fbf44f6b786e50ab97441be1c63fccf252bb8b39102471"
+    },
+    "vllm/lora/ops/torch_ops/lora_ops.py": {
+      "git_blob": "af79f98415cbc1d83bd0e3446f4596562f776315",
+      "bytes": 4300,
+      "sha256": "8a5c5039b2b0db0133dc1249f17f3bc563c718ecf48d2208ddbd77c298fae9eb"
+    },
+    "vllm/lora/ops/triton_ops/__init__.py": {
+      "git_blob": "dc440f7327fa4316cf5bccd494c57c8c79602786",
+      "bytes": 486,
+      "sha256": "a4317371b8ed0d5ae29cf6a2f2916aab51b48488c8f9f2e9c60e6f5deb051a07"
+    },
+    "vllm/lora/ops/triton_ops/bgmv_expand.py": {
+      "git_blob": "98510b39661a60c9777935fc39b56a248bc25ad1",
+      "bytes": 5533,
+      "sha256": "55eb947c8d66a77ec1fa460141dcc5f5103a732598e3d668367994daaaacaa3d"
+    },
+    "vllm/lora/ops/triton_ops/bgmv_expand_slice.py": {
+      "git_blob": "48804123c1eae1d3a601bd644025759ebfc76c9f",
+      "bytes": 6074,
+      "sha256": "34ef8884c29756eee0fbc8221d2d05d71caa0387ccd37a129cd8ba714c8a3718"
+    },
+    "vllm/lora/ops/triton_ops/bgmv_shrink.py": {
+      "git_blob": "227a5765e56be6450ffbe0d4665634e3e30c322d",
+      "bytes": 4643,
+      "sha256": "ecec609f6836be294940951f3f1ee1864db2cff59de87fba15045f844f41cd8a"
+    },
+    "vllm/lora/ops/triton_ops/sgmv_expand.py": {
+      "git_blob": "a8e71cacfe5a2e76b9ab1577b4082a977ed37d50",
+      "bytes": 9085,
+      "sha256": "2a27739a08906b1194824a60becc132bc0f4b5578fab0c155e8c9e4dcec1f8e0"
+    },
+    "vllm/lora/ops/triton_ops/sgmv_shrink.py": {
+      "git_blob": "8b26583c11c14eb4c649fc7706ffe4319a96df2f",
+      "bytes": 7674,
+      "sha256": "c761e5092a22355b52e2cfcffbc52ef7791b7d7093147ad01b64cc251869256c"
+    },
+    "vllm/lora/ops/triton_ops/utils.py": {
+      "git_blob": "78409b91a14e80177d710f0ab8d7d02a950b16fa",
+      "bytes": 6365,
+      "sha256": "9eb71919b378f2881affd81c2cc5f515e3c328dd7cd83c858df16b285b8babbc"
+    },
+    "vllm/lora/peft_helper.py": {
+      "git_blob": "9496ab5a75c0710b2a0957ea68cb0b76684b37a8",
+      "bytes": 4399,
+      "sha256": "88e50d0c87fd9f0d934b0b99e5c8e90c2b1bfacb67d6a864ba9655bd83dcbeb7"
+    },
+    "vllm/lora/punica_wrapper/__init__.py": {
+      "git_blob": "915fc6623398e2aa2ff67723aa3770d35b4aa1db",
+      "bytes": 244,
+      "sha256": "4406eb66882d9a83d9348308989157d5110cd1cc9dc33e42f804c8a7bfea1c50"
+    },
+    "vllm/lora/punica_wrapper/punica_base.py": {
+      "git_blob": "1a2282ae9accd5ca26691f64d4e4d7ca6dce0d49",
+      "bytes": 18228,
+      "sha256": "49de9b05f014c1654cf36cf33ab979848908373b6184d1aff39ed5746c0093ac"
+    },
+    "vllm/lora/punica_wrapper/punica_cpu.py": {
+      "git_blob": "29428f4cfff3175e782618cbd16c727d56771798",
+      "bytes": 12465,
+      "sha256": "d61cefd5272180e1a2528e2462c00de417130d7e57350a2932a6db5efc4baa58"
+    },
+    "vllm/lora/punica_wrapper/punica_gpu.py": {
+      "git_blob": "9ccd9c36a073ecd5b0ff1f3f815a797977d0e445",
+      "bytes": 11427,
+      "sha256": "01f568cd9622ee4c1dc158f708b8f1031eef1c3146429a0e473a35c020dfe6df"
+    },
+    "vllm/lora/punica_wrapper/punica_hpu.py": {
+      "git_blob": "51e1bfab3f5136ab17732b2578d864fe3e0043d7",
+      "bytes": 3253,
+      "sha256": "f38bc0a7d04b5a47fdbbc09d9d3fde9d7dc851ddbf408feabce536bca88b49bf"
+    },
+    "vllm/lora/punica_wrapper/punica_selector.py": {
+      "git_blob": "ad5d4b788ec435a970f35d1625e127e3d3812bcd",
+      "bytes": 755,
+      "sha256": "58fe57b26584f18246f1f99a9348cd3eb818c45e3f971689b7e99c35a31fb116"
+    },
+    "vllm/lora/punica_wrapper/utils.py": {
+      "git_blob": "dbc2d27c597f20c8a5aa79e87b96b8f76e9979bc",
+      "bytes": 6846,
+      "sha256": "085a1237cc33d9342142161d89916337f414e00c10f303df6bfa3bc0bf547ee9"
+    },
+    "vllm/lora/request.py": {
+      "git_blob": "badfaa41937741bb1fdaa618c12a322710dfcbe1",
+      "bytes": 3059,
+      "sha256": "c3f7c6a4e943949a4e4beee2c3e74a5cf92bd33bc39a0741e26af790eb338a7f"
+    },
+    "vllm/lora/utils.py": {
+      "git_blob": "f47b0af1552262c3007daa042caff49cf30c4cbc",
+      "bytes": 8122,
+      "sha256": "e850f84ad9e3b82fcca68ad3f0085de930bfb7b550673db68337a48d09639ab8"
+    },
+    "vllm/lora/worker_manager.py": {
+      "git_blob": "f33a7b88cc35ffc53eab9eebb6072cdc674194d2",
+      "bytes": 10590,
+      "sha256": "fab9bb6f80572b67b3bbcb56e35b047b59b30a61b8f64b167d0699907bd6f125"
+    },
+    "vllm/model_executor/__init__.py": {
+      "git_blob": "7636152176f13962a68576a432582e261d5c1fca",
+      "bytes": 505,
+      "sha256": "711866c9b57d7eda0d572ec4f75588733a78c0b2f813acbbeca43dbeb856a8bd"
+    },
+    "vllm/model_executor/custom_op.py": {
+      "git_blob": "ee4f41ea6ec9080ece0175c54d1b7027cbb109ae",
+      "bytes": 5331,
+      "sha256": "498e1d3f825472f6a0bb538eb19c2333a43e90a3c6d0de7dec97913b2b67834e"
+    },
+    "vllm/model_executor/guided_decoding/__init__.py": {
+      "git_blob": "cf96461a549f39450a8c424805e9a72be5c0969d",
+      "bytes": 6883,
+      "sha256": "a9b7d0564bc0b3b36041a2cc07dff01a10c663090e9534bf410266efade7378b"
+    },
+    "vllm/model_executor/guided_decoding/guided_fields.py": {
+      "git_blob": "db4ce26806c1ffb48b9ad31ac70af27938d69f1d",
+      "bytes": 1450,
+      "sha256": "6ee0329969bdfb5bbaa08b1c55a8d0d2a42fc0755561bbd50d8eaab904253f29"
+    },
+    "vllm/model_executor/guided_decoding/lm_format_enforcer_decoding.py": {
+      "git_blob": "7eaf9e38e66a33ab3fc450b5053366dc5860de63",
+      "bytes": 2678,
+      "sha256": "b94cdfc49b8fd4d0e380bccf7441c9a860a3d7b2762489cffcb92c8c23f6bad4"
+    },
+    "vllm/model_executor/guided_decoding/outlines_decoding.py": {
+      "git_blob": "ba9c98290368260ad57d08bb9d1fae5bb9de9849",
+      "bytes": 5188,
+      "sha256": "2bdac3449af534052669ba131f89d90b01ad6b7f2e38e2b8bc754b4600c0f6ce"
+    },
+    "vllm/model_executor/guided_decoding/outlines_logits_processors.py": {
+      "git_blob": "ab72b55a8943588e4a6529c32cb4d575d1f74a15",
+      "bytes": 8683,
+      "sha256": "1e52a2e8ecb8545f39fc11531d84b741843a2503d592ae646457fd5b5c0a288c"
+    },
+    "vllm/model_executor/guided_decoding/utils.py": {
+      "git_blob": "87ef4535845773fbfce1a2d95b34a89e37f5d967",
+      "bytes": 7693,
+      "sha256": "dce7fae323c64d9e0e86ee5caf373c26a689468ff8efe8b9fa254de2c8123f1e"
+    },
+    "vllm/model_executor/guided_decoding/xgrammar_decoding.py": {
+      "git_blob": "c01bd3af1d5b990cb0b6e15b22a63c13f7509c97",
+      "bytes": 13113,
+      "sha256": "46b4c876301484010964ed4ad1329fa06e8ab08fcce16b466c39f001ca7a604a"
+    },
+    "vllm/model_executor/layers/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/model_executor/layers/activation.py": {
+      "git_blob": "f782920d06a02f30598d0ac727dce1f1040bde35",
+      "bytes": 12197,
+      "sha256": "1076592dcb6d137bf14c90eee3bac469892539bc381cae315fab5d70372745ab"
+    },
+    "vllm/model_executor/layers/fused_moe/__init__.py": {
+      "git_blob": "6f933c3fa3c9f86d9b52230c059e244cef4ca8a5",
+      "bytes": 1168,
+      "sha256": "f0d2c1064dc9de46dd9b2da53a662aa28c2ca935c406033ac32dab74502dc6fc"
+    },
+    "vllm/model_executor/layers/fused_moe/fused_marlin_moe.py": {
+      "git_blob": "4ca569ca4f19b360966b348980eaaa33af8b2ba6",
+      "bytes": 12629,
+      "sha256": "773bf9f7ab370f3d08bcdaf341163630e56d0a21c1f55dd5f419d9d95051d0ad"
+    },
+    "vllm/model_executor/layers/fused_moe/fused_moe.py": {
+      "git_blob": "f14200e0288e25b12844eb277349d4390a899ecb",
+      "bytes": 53611,
+      "sha256": "141ec6f62dcdc14750d805c2aa7da9f27b13d4dfb543e5df55fcf2336c56084e"
+    },
+    "vllm/model_executor/layers/fused_moe/layer.py": {
+      "git_blob": "3c7ef5e0080ffe5b75449d1c02b5d3be7f4cf69a",
+      "bytes": 27237,
+      "sha256": "5c1f775e363cfa6b88c680bbee537912b4e8886e9958463e14f117dd7c9b1243"
+    },
+    "vllm/model_executor/layers/fused_moe/moe_pallas.py": {
+      "git_blob": "0365afa10a459ed01185c3f05323c11e8b817e46",
+      "bytes": 2338,
+      "sha256": "db49d50f91ce9a0d43f49a25d24e084b83c5fe4e90214219046214c4f365ac81"
+    },
+    "vllm/model_executor/layers/fused_moe/moe_torch_iterative.py": {
+      "git_blob": "d9a5de1b3033a7088b518ead95523bcd353da845",
+      "bytes": 1884,
+      "sha256": "1227e785c2f0e3a8c1d4324b6d7874e8b2a0dd4e784edfa4dd11fb0d9470a34f"
+    },
+    "vllm/model_executor/layers/layernorm.py": {
+      "git_blob": "b476fb0dbc7eb3b1e4601a4b3b5d34263af06fd6",
+      "bytes": 6879,
+      "sha256": "890e41f495f6afe22be7aa342cc9acab0122a4e24d6813c269514ce098915deb"
+    },
+    "vllm/model_executor/layers/linear.py": {
+      "git_blob": "da8db08fe715249dc90f754d5ac93e993ec39d28",
+      "bytes": 51875,
+      "sha256": "020a380d699c620832f76400e3fffb6fe72769d75fa86d2b1c7c5a0d7d7045c0"
+    },
+    "vllm/model_executor/layers/logits_processor.py": {
+      "git_blob": "cdc67ca83d489353be7c92ed960ca84fe923b2fb",
+      "bytes": 7685,
+      "sha256": "1153ac29396eee54a050208b4180a29ea578a40d5cef83538436a51b591c8438"
+    },
+    "vllm/model_executor/layers/mamba/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/model_executor/layers/mamba/mamba_mixer.py": {
+      "git_blob": "93c3cc91bb0929d2e4cf4afc8ba3f5016b42b093",
+      "bytes": 10120,
+      "sha256": "a962e5880ed8c579b96736712cab185bc84464cc97c9dea9cd2907bcc04431bd"
+    },
+    "vllm/model_executor/layers/mamba/ops/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/model_executor/layers/mamba/ops/causal_conv1d.py": {
+      "git_blob": "21e27160f090b26401be7d6dbc922c5e2d50d183",
+      "bytes": 4470,
+      "sha256": "fd989650a30b0292835831fc881ffc670fc61860051c3251c5b70c59094c61a7"
+    },
+    "vllm/model_executor/layers/mamba/ops/mamba_ssm.py": {
+      "git_blob": "3c35f1ac0dcf58b940c0accc954a3e7a80766bf5",
+      "bytes": 14110,
+      "sha256": "1d40c8e08021d7b42b01860b594ea8455662c729bcc85b93b1c9ad89f41acdae"
+    },
+    "vllm/model_executor/layers/pooler.py": {
+      "git_blob": "0012636ef9ffccb2a36853989e703eecb13e2c50",
+      "bytes": 10904,
+      "sha256": "d4750ee61706a71a0513debab28b46445d92acb6069ff30e8f83a91cb56b9b5c"
+    },
+    "vllm/model_executor/layers/quantization/__init__.py": {
+      "git_blob": "6ded3874fc1dd8080aa87c3c15e76597d41ddedb",
+      "bytes": 4727,
+      "sha256": "65df245568f2caca503113dc4d527b640896f88e3beea6792b222cbc5957b4dc"
+    },
+    "vllm/model_executor/layers/quantization/aqlm.py": {
+      "git_blob": "6c08d016c0f7ba003ff12c28d29f9bdee29ffe45",
+      "bytes": 13605,
+      "sha256": "d5ca31eab2b2c78d2468bfdaae31fbe1cbfe317cc4998d55f479cab0de29771c"
+    },
+    "vllm/model_executor/layers/quantization/awq.py": {
+      "git_blob": "ff77af44d77073be15541db6eea35e364fa8a188",
+      "bytes": 7050,
+      "sha256": "56a0418f2de74a42530d3c6ec4d67877f569f628af26ebe345da9245f2036574"
+    },
+    "vllm/model_executor/layers/quantization/awq_marlin.py": {
+      "git_blob": "8849ba292822831edde80695f275d574c1869e38",
+      "bytes": 19337,
+      "sha256": "a19048bdce470d5aaacadfa215462c47276bca1a944267a62be8919766bf112c"
+    },
+    "vllm/model_executor/layers/quantization/awq_triton.py": {
+      "git_blob": "09efd4dbd79756f3b36f660a3984dd1ebc88c4ff",
+      "bytes": 12415,
+      "sha256": "48dafc5eba3e887f08acf241bc6748e91fe0b15d1098d9c4cd6399871da9d35e"
+    },
+    "vllm/model_executor/layers/quantization/base_config.py": {
+      "git_blob": "c0d8553c0df1a9d9f151470948a68e698fcc9802",
+      "bytes": 4915,
+      "sha256": "9cf025261b2e26f7d221998d4090ec09a62c5aaa5f73fcc130325bae533f2869"
+    },
+    "vllm/model_executor/layers/quantization/bitsandbytes.py": {
+      "git_blob": "889eda009df15f1b9686cd778aa45707012f82eb",
+      "bytes": 14200,
+      "sha256": "7146ee6fefa3f871b396f9722799393cdd841d8770626361227885d92d9c7442"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/compressed_tensors.py": {
+      "git_blob": "6ee3e9362f8d23ccd12555ea9b0d7a9b228157e0",
+      "bytes": 26758,
+      "sha256": "981a4f988278d348056088160c8691424135df78f93cf958e25bddcc7234d26d"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/compressed_tensors_moe.py": {
+      "git_blob": "db8e8a4b6c11a1fca16954ca64b9090f6a1be283",
+      "bytes": 24809,
+      "sha256": "0c03f7fb5b0aa9d72131f871684ebedeffdff97d76f6874454e6c93cd32f28b4"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/__init__.py": {
+      "git_blob": "b26c74f2484b61da8f6e40b6b3be7daa67f91b1e",
+      "bytes": 931,
+      "sha256": "0702a04f98be1aed5de3967bdb1e4f50fdd879cb7c84edfbc96f6b7d4788a2e8"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_24.py": {
+      "git_blob": "0fb8dfa96a19cfdcf780bae0e091b4c084e4a32c",
+      "bytes": 13882,
+      "sha256": "9748a24f5bc2598c2a02fc394610c64504be989b1619274c5873b12c8af5845d"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_scheme.py": {
+      "git_blob": "daa25d23a3060a5daa527d8c4b8c669043afcdf5",
+      "bytes": 1527,
+      "sha256": "2716f958e1d1e26f7c0d13b8cb75ca24c0e94ff348a7713090025ef0762ac2a1"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_w4a16_24.py": {
+      "git_blob": "535ea6b32cfbf6784fd55aa3cebc263952a2e869",
+      "bytes": 6207,
+      "sha256": "bf4bbac57a38cc9e77d1859b9e72576c916832b8d456f785eb3e0754a842aab9"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_w8a16_fp8.py": {
+      "git_blob": "5c8261908735f727084e906ce6039362ae173237",
+      "bytes": 5409,
+      "sha256": "1a60daecac2baa3ec96b9f9567b0d163c3137263c284e28e2bb92ede082e2d3f"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_w8a8_fp8.py": {
+      "git_blob": "5dcc41a9e5dab142b3f0ed703ec40cd5ce5fc008",
+      "bytes": 6284,
+      "sha256": "e5742f3c9ef78e405e9ad17a257c9aceacd7f713ad1805ff022cf2d1c1ea9aec"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_w8a8_int8.py": {
+      "git_blob": "08d86a4e5ddd23fd984dd8d08f29b9ad44bccdfb",
+      "bytes": 4872,
+      "sha256": "ca7b3cf894cbe1333a6e832081793c13ec8e6a526043d3b59de02ce7ba0c8778"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_wNa16.py": {
+      "git_blob": "38df09ff39373fc33e1fe799c5feca2ecc2b4c25",
+      "bytes": 7002,
+      "sha256": "375187430377f09707183342d28965e7da4978f696d6ba9be9a64bf104bd2e16"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/triton_scaled_mm.py": {
+      "git_blob": "b69c5e7a02a7233c11c25c7c21d3a0727c0c9cba",
+      "bytes": 7731,
+      "sha256": "80c2da2bdb92395a98c35c2ff2496718b735a9ab2cd8af839e95934a6d2bbee3"
+    },
+    "vllm/model_executor/layers/quantization/compressed_tensors/utils.py": {
+      "git_blob": "85ae1d5cb7878fb29a04e2db79d347df45312ae8",
+      "bytes": 7707,
+      "sha256": "61225e2233e3909fdd648cca127186cf8d7d2fbac2dc7267be186887249b9ed1"
+    },
+    "vllm/model_executor/layers/quantization/deepspeedfp.py": {
+      "git_blob": "b4123650149f029644b5ebd838a3112d49c68f6d",
+      "bytes": 7114,
+      "sha256": "e2ebb7de9e5a2eaf108b128cb99484774b0cdcd9d72a40f98a260aa62ef34107"
+    },
+    "vllm/model_executor/layers/quantization/experts_int8.py": {
+      "git_blob": "87fbcf62ac1edc5768609468c9ec3f2b0ac37fcb",
+      "bytes": 7286,
+      "sha256": "e97878cb36cf5fa2477339c84c333e6281e7d44db46209d97b7b261f994c96be"
+    },
+    "vllm/model_executor/layers/quantization/fbgemm_fp8.py": {
+      "git_blob": "da5ef36c51054076dc1b4ad6295c9d98fd5dace5",
+      "bytes": 6499,
+      "sha256": "154746c7d2d5ea7414e34fc204381fb757bb002ff74d9c1c5a378a37c6ace55c"
+    },
+    "vllm/model_executor/layers/quantization/fp8.py": {
+      "git_blob": "86e025310f4efc3af4dd07f9db484a99264f0ea2",
+      "bytes": 32180,
+      "sha256": "439d02c91b2032e07a8ee6218a40aaacb8750482b9e977aef503d31a88138245"
+    },
+    "vllm/model_executor/layers/quantization/gguf.py": {
+      "git_blob": "86e6dbb5a5fbe2e4041478cd7c772200f69ea7c5",
+      "bytes": 8290,
+      "sha256": "7a4bf995e6806a497fe964c2b97f506904eea51307afb53e729f22853e1bf794"
+    },
+    "vllm/model_executor/layers/quantization/gptq.py": {
+      "git_blob": "0cb77a7546d1acad36f3a807a13d653354f643ea",
+      "bytes": 9221,
+      "sha256": "7e3dda4252d139a44c1007f8bf2d683905cd8654f463c8438fde5e4141a85cec"
+    },
+    "vllm/model_executor/layers/quantization/gptq_marlin.py": {
+      "git_blob": "99ab299958b4df3d0e555922996aa3925909f43b",
+      "bytes": 22372,
+      "sha256": "fe63b1ed5621f35e140f85836321770e1cef198f51a80acf1dedb2690a1d5e32"
+    },
+    "vllm/model_executor/layers/quantization/gptq_marlin_24.py": {
+      "git_blob": "cec984483fd8cab66892ceaa88a7fa0b49beca90",
+      "bytes": 10854,
+      "sha256": "ce8fa67f01dbd5941b0a8bfd84cb3854d0b584e4f927a5316315d6ede569b666"
+    },
+    "vllm/model_executor/layers/quantization/hqq_marlin.py": {
+      "git_blob": "432f43688ff58f608f670abd6ce9e347fbcf147e",
+      "bytes": 12695,
+      "sha256": "deccbe84ef17a134687129f4cbce4e6582be7ddf70f5d672e6e41b53ade86328"
+    },
+    "vllm/model_executor/layers/quantization/ipex_quant.py": {
+      "git_blob": "2531170ececf98a663e0e528ef221326e5a1f938",
+      "bytes": 9734,
+      "sha256": "0dcc0462bd17a78a55aba4ca09b1771dc73c7c1373dae40a7cbf780084c4aff8"
+    },
+    "vllm/model_executor/layers/quantization/kernels/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/model_executor/layers/quantization/kernels/mixed_precision/MPLinearKernel.py": {
+      "git_blob": "c06befaf3b5ad877a9949741916a829138ed90ef",
+      "bytes": 2879,
+      "sha256": "431e6208f8ec9d6ebd46384f63aa9146c4d675d2b881fe2c6eb821e9ccefb581"
+    },
+    "vllm/model_executor/layers/quantization/kernels/mixed_precision/__init__.py": {
+      "git_blob": "bcfdb1677716656d1de72159bddeba967cee5aed",
+      "bytes": 2846,
+      "sha256": "baf5d630a661b86ba6526951503198ee5f9fefd85754393b2d0d8289f5ac54d0"
+    },
+    "vllm/model_executor/layers/quantization/kernels/mixed_precision/exllama.py": {
+      "git_blob": "2706fbb539ab4e7d6c54526b5f51f930b57841a5",
+      "bytes": 6151,
+      "sha256": "a6a54eeeb70f513dbc29a540a182757bde89485d7cb1c5fefaecff5a9ae750a2"
+    },
+    "vllm/model_executor/layers/quantization/kernels/mixed_precision/machete.py": {
+      "git_blob": "3f0586f6e30d6a02f95a36196b88f96d16a1a15e",
+      "bytes": 5206,
+      "sha256": "24127c55e43bcd1f2b1910093b72336468b022d9c20aa32ea75796385303f68b"
+    },
+    "vllm/model_executor/layers/quantization/kernels/mixed_precision/marlin.py": {
+      "git_blob": "e21801cf6a7857ae700c30f2f0d15484993e2044",
+      "bytes": 5893,
+      "sha256": "199bb193eef1884553e6e6ac188bcf3d882f2ad6879e811319da244cb1d94eb9"
+    },
+    "vllm/model_executor/layers/quantization/kernels/scaled_mm/ScaledMMLinearKernel.py": {
+      "git_blob": "91e7654053f9d1ad1b8a5539f41a4d30a36a891e",
+      "bytes": 2046,
+      "sha256": "10a3471afac1a221253a953e2ce6b8574a6e8be3242c3730c44f4049cbfd49d7"
+    },
+    "vllm/model_executor/layers/quantization/kernels/scaled_mm/__init__.py": {
+      "git_blob": "a5967995ac88d8e18d69adff5910fe671492a1a2",
+      "bytes": 3321,
+      "sha256": "d7f43ea929792582a2438f3f9efb8d6abf8ba02829e336269371b6378732cec3"
+    },
+    "vllm/model_executor/layers/quantization/kernels/scaled_mm/cutlass.py": {
+      "git_blob": "2bf21a05c46d9ef614ec8b25eeed75038e579fb5",
+      "bytes": 5989,
+      "sha256": "fb1cec04d9112d9f569ccab822ad98bd78ee48332d98d74fda811ae1018921c1"
+    },
+    "vllm/model_executor/layers/quantization/kernels/scaled_mm/triton.py": {
+      "git_blob": "5da5df8efaeb0e55e48871fa105ae437968a4d8d",
+      "bytes": 1283,
+      "sha256": "decb02f0b25c43e88fb65c447680197cf9e0880b82680cb7f915ae046cf795d1"
+    },
+    "vllm/model_executor/layers/quantization/kernels/scaled_mm/xla.py": {
+      "git_blob": "0bf090d7fab3ca13d7d5109e7461633a0b736629",
+      "bytes": 4199,
+      "sha256": "0d540ff78ce3ae86636ff6502d2ea55d72ed9b9d0e38031b173d32fa29a3c12a"
+    },
+    "vllm/model_executor/layers/quantization/kv_cache.py": {
+      "git_blob": "388a4f16699c53abed388d28500d2e054a9cf753",
+      "bytes": 4077,
+      "sha256": "5784ddca0411e9d9b73a6f7967f29cb498bbd632b918c821bd421cfe8e129615"
+    },
+    "vllm/model_executor/layers/quantization/marlin.py": {
+      "git_blob": "4cf0c677c0794ec37303a84500ee5df4d5aace92",
+      "bytes": 9590,
+      "sha256": "da49a851fca7316d2b66d0b05c5c143e4b5d0f9801e3ec9eac023aed2d4b5026"
+    },
+    "vllm/model_executor/layers/quantization/modelopt.py": {
+      "git_blob": "348e9bccd9b0aaf83d598334eb1d2a131b77ed71",
+      "bytes": 6526,
+      "sha256": "d4f83360cc3a4c5105eed9726694e8f3462c72210e151270abeff8e9246c8a1e"
+    },
+    "vllm/model_executor/layers/quantization/moe_wna16.py": {
+      "git_blob": "56fa597e201316ee306b7dabd834ede5d07dfdd3",
+      "bytes": 18735,
+      "sha256": "48a26dbd775d34fa2434041c08a27905ca2285d264afa48e74d8cfa423762dbb"
+    },
+    "vllm/model_executor/layers/quantization/neuron_quant.py": {
+      "git_blob": "a8e8be207fd15f76a040bca09f3fdb93c5b4295c",
+      "bytes": 2392,
+      "sha256": "054bd3a4384554b07277f9abf3246b7a755f8dfacc46f9425e3f8cc8ec887547"
+    },
+    "vllm/model_executor/layers/quantization/qqq.py": {
+      "git_blob": "6e9d3dc6cb378096cdc3fb186ee40dface4e6124",
+      "bytes": 9911,
+      "sha256": "35ec2e436219448f921963d3624b5bb7fb9eec3f27dc5f099199c08f5445816a"
+    },
+    "vllm/model_executor/layers/quantization/quark/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/model_executor/layers/quantization/quark/quark.py": {
+      "git_blob": "ba123565a0ecc70396946da3ec4267081e11ea1e",
+      "bytes": 16724,
+      "sha256": "b2809f908f489102f6d7bae20c41cf9ad5c7d1ff901ca7179915cc831d9b50ac"
+    },
+    "vllm/model_executor/layers/quantization/quark/quark_moe.py": {
+      "git_blob": "98743b15e4b25a5b5e6d78a8e9c31fb5bbba84c2",
+      "bytes": 10660,
+      "sha256": "7876cb80b763292883ee19f5252ef9532ff5e6311dfed2783631e7c010925c0a"
+    },
+    "vllm/model_executor/layers/quantization/quark/schemes/__init__.py": {
+      "git_blob": "9069b5a0d515d78eb5d3f68b0fb162f5292db8ec",
+      "bytes": 221,
+      "sha256": "b84c93934e5be6d36dfa81264929324b09d627cee8fa8569867489a137f73003"
+    },
+    "vllm/model_executor/layers/quantization/quark/schemes/quark_scheme.py": {
+      "git_blob": "40c8ea86d3c385417f7810c774b5ebe85baf3a02",
+      "bytes": 1491,
+      "sha256": "7ffe6a466677499bc88015a23253637eef96375b95c12bdf2c615ef504b6e51e"
+    },
+    "vllm/model_executor/layers/quantization/quark/schemes/quark_w8a8_fp8.py": {
+      "git_blob": "c885e98a4d66e2c7b24579751da081c2f304b66d",
+      "bytes": 5935,
+      "sha256": "2a3c5165a0f7e46237cdc91955950389bda28fb1bccb57ab6cc5ab246ecb9884"
+    },
+    "vllm/model_executor/layers/quantization/quark/schemes/quark_w8a8_int8.py": {
+      "git_blob": "1bf34b098938c1282e4ab597db849f03a4ee610f",
+      "bytes": 4677,
+      "sha256": "28ab61edf6a2f1ddbb320b586cc0b0175e142d8e7b469ef626e0667b85161f71"
+    },
+    "vllm/model_executor/layers/quantization/quark/utils.py": {
+      "git_blob": "17e0df021085a9eff8334419e438dfeafe151b5e",
+      "bytes": 3558,
+      "sha256": "f5508e850fea35adf549ef8b06e575d66d7f1d7355e05a7c50953dab4a519633"
+    },
+    "vllm/model_executor/layers/quantization/schema.py": {
+      "git_blob": "026881f2dbaac6d5831ce65122675eaad7674188",
+      "bytes": 3686,
+      "sha256": "bdbf176577433e0638dfba3deae36540e50384fa067a8c2b9703b56f841dba01"
+    },
+    "vllm/model_executor/layers/quantization/tpu_int8.py": {
+      "git_blob": "3234fecaa3b35803e468b4a2510d1bffd598589e",
+      "bytes": 4416,
+      "sha256": "c1a415f827a000dc0d1690f78a93b89a26e87202e3640545b9bbce8b57383a69"
+    },
+    "vllm/model_executor/layers/quantization/utils/__init__.py": {
+      "git_blob": "f7ee4728851408d2fe796b3910e04d270ba0faeb",
+      "bytes": 166,
+      "sha256": "55b74b9ef946085a5ada8f5246710c7e547227734e5ddea3e9dd5f3cdff19b9c"
+    },
+    "vllm/model_executor/layers/quantization/utils/fp8_utils.py": {
+      "git_blob": "9895537c219ab6875546ae91f63f695d0ec392f1",
+      "bytes": 18523,
+      "sha256": "bb8f7fd74527de6295f4d202a64a176cc1460eefed959279e36fc11b558c017f"
+    },
+    "vllm/model_executor/layers/quantization/utils/layer_utils.py": {
+      "git_blob": "5acae7ca3b84f2047608a7688a3271a37d81331f",
+      "bytes": 1562,
+      "sha256": "1e68edad36076dce6eea429f13c727bb93b636a83d672472f410061d881e9c36"
+    },
+    "vllm/model_executor/layers/quantization/utils/machete_utils.py": {
+      "git_blob": "cb7d49ed6f1ca046d58bf6e5c333130963a713a0",
+      "bytes": 1074,
+      "sha256": "39e30b3100db89f6f1cfe1d16268eb0b846730ebada2cd7be78e0ffa1fdd344f"
+    },
+    "vllm/model_executor/layers/quantization/utils/marlin_utils.py": {
+      "git_blob": "3beba30832441deca56e61056e6c285ca37ec76b",
+      "bytes": 13678,
+      "sha256": "9d39c19ca0e4cdab6549c5d655f1804e983d60c92db69e1efa6ed8eb7c031c77"
+    },
+    "vllm/model_executor/layers/quantization/utils/marlin_utils_fp8.py": {
+      "git_blob": "6120a8e66aef45227b37f5c6c5031800d832baa1",
+      "bytes": 3672,
+      "sha256": "6c048d84b3ab0beec0682fb1194210883a94c741d158f5f59620f88aace36acf"
+    },
+    "vllm/model_executor/layers/quantization/utils/marlin_utils_test.py": {
+      "git_blob": "fb557a31393caf90669aac94572b75858e810617",
+      "bytes": 5311,
+      "sha256": "1e45cc5d7c293f899fc69588f29e81463a2ada2a551a958b7b57966126318be7"
+    },
+    "vllm/model_executor/layers/quantization/utils/marlin_utils_test_24.py": {
+      "git_blob": "3654268e27af31ecf8b28f0f98d1126db33a7d42",
+      "bytes": 17558,
+      "sha256": "ce4fc32d8b06ee7ed8f66bed12463cf5f5d21fd90f12cb8f2df6d7d16dfc0c40"
+    },
+    "vllm/model_executor/layers/quantization/utils/marlin_utils_test_qqq.py": {
+      "git_blob": "176b2947ab09e73a87217a167a6cc00a32d940b3",
+      "bytes": 4101,
+      "sha256": "c9b18fd49127f8cb62fefbc4b3c0a1e1c97535f44ae13303c5d616118652bf12"
+    },
+    "vllm/model_executor/layers/quantization/utils/quant_utils.py": {
+      "git_blob": "c7ce3a42c81f99ac8ec5d7cc645806a88e6c0b54",
+      "bytes": 19458,
+      "sha256": "5ceae79e9e5125dc9f820513accb234783813da3617d3779e47be8670e6996dd"
+    },
+    "vllm/model_executor/layers/quantization/utils/w8a8_utils.py": {
+      "git_blob": "dedeb0c296bd45f032b8b4be50203392d0418b4c",
+      "bytes": 9582,
+      "sha256": "5902ab4af7641de9be995a40b35f403cca724d155a76603dd034ca1d517cad2f"
+    },
+    "vllm/model_executor/layers/rejection_sampler.py": {
+      "git_blob": "62e27b714866ad79221370fa3021988d1ee5ac0e",
+      "bytes": 16469,
+      "sha256": "e11a7e9601cc719e09159b36ba3046d919a6d8598fa066eaf996f1416fdc55e5"
+    },
+    "vllm/model_executor/layers/resampler.py": {
+      "git_blob": "4c9860006c328d5d7a86d2221f5efab7973b5f89",
+      "bytes": 10444,
+      "sha256": "7c0de8739d4abb68d6da8aea5955f4be878c735cd2a2857a1321ad79122f180b"
+    },
+    "vllm/model_executor/layers/rotary_embedding.py": {
+      "git_blob": "b3b9b0e876057ceaecc6929b3634d27f418964bd",
+      "bytes": 43994,
+      "sha256": "95fbfbe95c217e1e4bbeaccae8d04c57e47d0a8b77991626709867aa2007578e"
+    },
+    "vllm/model_executor/layers/sampler.py": {
+      "git_blob": "6af734be5e9876e63f6f5e381ccecb67c661dc6b",
+      "bytes": 53762,
+      "sha256": "c6c07be6bf4dd0d3c96bbe24a1f8aa5c9d779280ecf8c91dfc13fd17f8ef4b2b"
+    },
+    "vllm/model_executor/layers/spec_decode_base_sampler.py": {
+      "git_blob": "35c7ffec271e509523e4c49b56afb74daf93958f",
+      "bytes": 10119,
+      "sha256": "27f46232f4742c00978ec4ee7f10f7c38b38c1566d67dc1a78377a5c416a4641"
+    },
+    "vllm/model_executor/layers/typical_acceptance_sampler.py": {
+      "git_blob": "95362c280b43b02b1cfa182397393216a469d056",
+      "bytes": 7047,
+      "sha256": "bb396b0e63ed575f4cbf5ee224871e054e0b8fd2222753379174f167fcb499e9"
+    },
+    "vllm/model_executor/layers/utils.py": {
+      "git_blob": "dfe71028c1bc7d7a534d020ab41fd1ceb3b70208",
+      "bytes": 2674,
+      "sha256": "3f2091b8addc9c7c77d47810da488eb7e171dd2b66d0edeae8008e7d589af107"
+    },
+    "vllm/model_executor/layers/vocab_parallel_embedding.py": {
+      "git_blob": "e409094dd535dfda8ebabeb33e1d3c0582c2c087",
+      "bytes": 22621,
+      "sha256": "720b5c1b3c4a43e25d895dfecffdb62dd087aa6e9215a12599d6564c8236bb64"
+    },
+    "vllm/model_executor/model_loader/__init__.py": {
+      "git_blob": "9048c70c7a71435bfd8426ab8628d04acf5f3b40",
+      "bytes": 646,
+      "sha256": "482701210aa0067a7eba86f4447442d8b6bc98495c7c0917689fe3c0f2dbc562"
+    },
+    "vllm/model_executor/model_loader/loader.py": {
+      "git_blob": "2a2c2523b725da74cfec747ef167f4fbf321c996",
+      "bytes": 62460,
+      "sha256": "87c57c4f0d6af2cfc42fed665f1bd99f59a4feb8a8a7b7772a6a35245af69a47"
+    },
+    "vllm/model_executor/model_loader/neuron.py": {
+      "git_blob": "d900fb3a7d3973a18b43b481fb6f199d4bc3c6e3",
+      "bytes": 8328,
+      "sha256": "bdfc520c386b551ac1c392ac25a3b42021979dfe5996710409dd04f0c7bc1137"
+    },
+    "vllm/model_executor/model_loader/openvino.py": {
+      "git_blob": "fde200d576e2fda2c61b20e0305fb2616d88fc38",
+      "bytes": 7716,
+      "sha256": "4a7cf280be449b7590e35d301cb174f7d4fc727810f0af64a7004ff42b6f1bf7"
+    },
+    "vllm/model_executor/model_loader/tensorizer.py": {
+      "git_blob": "117251ccf05f183f75719eb5d1ec604b3f76c3f9",
+      "bytes": 20260,
+      "sha256": "22b0d3c704f3e3734827189627e45abeede2c36d0edcea6ffb12a7b405b8a14b"
+    },
+    "vllm/model_executor/model_loader/utils.py": {
+      "git_blob": "dc620d4984a77c713b5fb4ea8d47ec48dff61e14",
+      "bytes": 6513,
+      "sha256": "50bbc9387cc5a063199553d853b8888a5b6d4963d8927160685446a999dcd4b2"
+    },
+    "vllm/model_executor/model_loader/weight_utils.py": {
+      "git_blob": "cade0a1dd595020a522361eba9eb58c3e43cdc56",
+      "bytes": 26237,
+      "sha256": "c65a8fa7027af7303dc4fb8bf99b4e6dfa99d972598776ba101a5b180c820a1b"
+    },
+    "vllm/model_executor/models/__init__.py": {
+      "git_blob": "6be4a8341306e82fb5af0ee686019387521f75d5",
+      "bytes": 758,
+      "sha256": "540ee32d91c69a26e5e79339a502df696f85c254e694404e533950d4f5b0aa64"
+    },
+    "vllm/model_executor/models/adapters.py": {
+      "git_blob": "3e1daa773fc83d032536056386a774ac0f0277b7",
+      "bytes": 8341,
+      "sha256": "d46de12c2a360d2a0601b8c4f8eb3e4503390c8bb0e8e987cd9204ec5498a145"
+    },
+    "vllm/model_executor/models/arctic.py": {
+      "git_blob": "d015682aab47fb75965b717d83433944c8dc3bd9",
+      "bytes": 25325,
+      "sha256": "5333ddb955381912651d46c16ac080701c2314a89b74963958249ae542632d0f"
+    },
+    "vllm/model_executor/models/aria.py": {
+      "git_blob": "98df532aa0a8325bb38d6603d363e70474f0dfc3",
+      "bytes": 25496,
+      "sha256": "b9d7ba46da39993868f345ad9d09b3517689c0a82cdd8e62be5f396690a20f96"
+    },
+    "vllm/model_executor/models/baichuan.py": {
+      "git_blob": "5dfaa727b75ae9da494fc92024a22974f49bbf9a",
+      "bytes": 19452,
+      "sha256": "fc7f2af7d77b4f7eac411708f5e804a0b6a925d52fc592e5217b5da65585aaca"
+    },
+    "vllm/model_executor/models/bart.py": {
+      "git_blob": "204c48d0d8969d70468e1418232d7d4f2fbf45d2",
+      "bytes": 36581,
+      "sha256": "17456eae334c9f5ed5111e6aa1b22a18532644289feca1ec077551349919a6ef"
+    },
+    "vllm/model_executor/models/bert.py": {
+      "git_blob": "4d0f5ac8ea5df5b215a490f424ef1652d4c26291",
+      "bytes": 21005,
+      "sha256": "8b91bf054468ae30215daaa63db1494b0fa602015ced6af4f67d2f75538df7a2"
+    },
+    "vllm/model_executor/models/blip.py": {
+      "git_blob": "bedbdceb7721d515da125c8a3db6aa82ae619fb4",
+      "bytes": 12190,
+      "sha256": "134b72e3dcc3ff03a60599822700ae9d7bab09f5c50fb09b44e515b3d7b7ed97"
+    },
+    "vllm/model_executor/models/blip2.py": {
+      "git_blob": "0463a0b97d40aa7242d0675f6c3f1c52b1244192",
+      "bytes": 26212,
+      "sha256": "a4d31ba5ad450455a31a50b4b206a270a6039c9e05b21611922a143afd86fdc1"
+    },
+    "vllm/model_executor/models/bloom.py": {
+      "git_blob": "229677ae7d980b0bf38f99210e405aeb0928335d",
+      "bytes": 14907,
+      "sha256": "7a736c41fe5cea212a311ce6b4dceeab89e1c7cf3789e5a84e11b044d5cfe7eb"
+    },
+    "vllm/model_executor/models/chameleon.py": {
+      "git_blob": "b29dd65a8e3576ac2ed3539c7178d046b449967f",
+      "bytes": 46254,
+      "sha256": "6b993ebb4dda807804ef6dc02ae600f65f5d9b3c1b1d74f324ecb335eb6a05e2"
+    },
+    "vllm/model_executor/models/chatglm.py": {
+      "git_blob": "a316486752590d8df073eac54d143e002d308ca0",
+      "bytes": 29943,
+      "sha256": "a4c915e2fbe3325180715c4b6951b9c224b6d6d3e8de5e415addb821147ae1da"
+    },
+    "vllm/model_executor/models/clip.py": {
+      "git_blob": "1e784f5b41728fa7df6ed21a26f0bbf175a2d821",
+      "bytes": 19805,
+      "sha256": "e98484f7986fb7d4764299d1d43c482ef0c97a6204cce8f189822a2d46eb0a62"
+    },
+    "vllm/model_executor/models/commandr.py": {
+      "git_blob": "e73627da05d40684c08af1ad0c9b91ae344995ba",
+      "bytes": 19966,
+      "sha256": "52549b31e65fb276bca33d90c1911da7a8e8eb98772c0cc1e28c252e3f23c3c3"
+    },
+    "vllm/model_executor/models/dbrx.py": {
+      "git_blob": "bb3f4f40dd21140eb1fa2f24aff9750f965e2cea",
+      "bytes": 19242,
+      "sha256": "549aa5a667916912b67c2096a34570902cc2450f2d7f7339366c9236bb7013bf"
+    },
+    "vllm/model_executor/models/decilm.py": {
+      "git_blob": "b239b642f752b6ab8d2608636da5b5562c71d4ba",
+      "bytes": 5380,
+      "sha256": "78c9883372d495391987d127364b1d049c923bd7233f7f4b13c0004f868633fa"
+    },
+    "vllm/model_executor/models/deepseek.py": {
+      "git_blob": "9599e1df6a3cb4a3ae982d397344b2c8125fb1e8",
+      "bytes": 20583,
+      "sha256": "fd77b75ebe6d6377a4d0a00fad3142e7a645eef78dc2256f3211b92b79d6f32f"
+    },
+    "vllm/model_executor/models/deepseek_v2.py": {
+      "git_blob": "773f5abe71daedf53eae3b81bf02a6b45ffb1788",
+      "bytes": 34275,
+      "sha256": "d4fca31d0f8640ad724d7deeebcb9010e5249547b4048c470bc5cd240e03a5fc"
+    },
+    "vllm/model_executor/models/deepseek_vl2.py": {
+      "git_blob": "0eaf3a6201f6b32504d15f0d93e472c98e9dbf8d",
+      "bytes": 25033,
+      "sha256": "3fbfd9c2fb0d4bf1d90bc6df71dd31a83d8d32139a22cbd541ce983334ee1cb3"
+    },
+    "vllm/model_executor/models/eagle.py": {
+      "git_blob": "373a728be89cb45e6a7c6ae0b49141cfd71b0335",
+      "bytes": 9319,
+      "sha256": "2a3b297cb71821c48c15a86eca8472ce7ffe79b4aba30a236f09a5a9d32f4503"
+    },
+    "vllm/model_executor/models/exaone.py": {
+      "git_blob": "2eb91a682242c04629806719929374ae8beb818f",
+      "bytes": 22018,
+      "sha256": "af07492026e0481d0604cb9506bd37af404a43fcd79ffd1a329af6e4f8c621d5"
+    },
+    "vllm/model_executor/models/fairseq2_llama.py": {
+      "git_blob": "310aca999bc2d382480f92c566eb6609f51292d5",
+      "bytes": 6489,
+      "sha256": "27df378a94e3d5536312dafc00ee73b1eefc929751aa72f65b35080be8116525"
+    },
+    "vllm/model_executor/models/falcon.py": {
+      "git_blob": "01b66a1c2a5fc31a3a10a87ec8a48de947bb3203",
+      "bytes": 22073,
+      "sha256": "e388b586d7d7fe3c8ba80a6edbf8ab8f6efcb301f584ff9ed0f4dfeda0c45eb8"
+    },
+    "vllm/model_executor/models/florence2.py": {
+      "git_blob": "4a1ad5f4ee0cee69e65a5b84c529ea10a13e4ce0",
+      "bytes": 10131,
+      "sha256": "58adb20d0bc54f82db362e5352ee3ccb47f5122accb17ab39679e8ef48917164"
+    },
+    "vllm/model_executor/models/fuyu.py": {
+      "git_blob": "50b5ef35d2cd122c54aac7778bf1344dc8fffe3d",
+      "bytes": 14696,
+      "sha256": "4f31635e6f3fbf3d15164f0907b68722f7baea1e9a03eaf250037ca1f12c2433"
+    },
+    "vllm/model_executor/models/gemma.py": {
+      "git_blob": "cb81aa41e25420f88678b8b411cd16f68b53ac9f",
+      "bytes": 17496,
+      "sha256": "63404ffaccf4c04c49a78b19c01f4f506beb0020bda1bce4c0053811803508cd"
+    },
+    "vllm/model_executor/models/gemma2.py": {
+      "git_blob": "a6dc8f84772b47a6716d907039f63a15a9186901",
+      "bytes": 18886,
+      "sha256": "fa42cdb6774faad3a878e10d721e222bda1544f6766d8310daf4e15ad2c87992"
+    },
+    "vllm/model_executor/models/glm.py": {
+      "git_blob": "5f1903345f0d72ccad2d59b73c7ae2b22300c88d",
+      "bytes": 979,
+      "sha256": "717952cb6f3ff432c5eff9fd406b1748e980e38f699c0eddd137b21d6e39ec33"
+    },
+    "vllm/model_executor/models/glm4_vision_encoder.py": {
+      "git_blob": "2facd1353aef12bbf9215474890ebaa0906debbf",
+      "bytes": 10456,
+      "sha256": "b6a87db80d0fd9fe6cf3b433b15e9d203de12f4d44ac0e7ed53501b0e3b529f5"
+    },
+    "vllm/model_executor/models/gpt2.py": {
+      "git_blob": "7ad9a24dcbbcc79b53d1f52ac31cc8f21b500d2f",
+      "bytes": 13367,
+      "sha256": "15a47f911519c771614e635c543161e3d80a4135e0b26a92b1dde9d20b5b7e88"
+    },
+    "vllm/model_executor/models/gpt_bigcode.py": {
+      "git_blob": "887a444748ae2295aebe78786d0df7c5d56e8dde",
+      "bytes": 13954,
+      "sha256": "559c23586e3186501117e8174fe9422b2b12960808fd5610093c44517216b50c"
+    },
+    "vllm/model_executor/models/gpt_j.py": {
+      "git_blob": "815aba145d30306fd6d61a6a6a5e20adab399dc6",
+      "bytes": 13875,
+      "sha256": "6b398eb961399fab2b8862771596ee0f36e75522da4443a11f52c2fde54621c6"
+    },
+    "vllm/model_executor/models/gpt_neox.py": {
+      "git_blob": "550ca3f7ca9e24bb96712f462dbb0ba63a380c58",
+      "bytes": 14051,
+      "sha256": "7de12e8cf9f6c8f357374c12901b7255f1df73c449afe230d9fff49e09c42319"
+    },
+    "vllm/model_executor/models/granite.py": {
+      "git_blob": "85911a0f41c2f2c40583e60e709fd684e69eb94a",
+      "bytes": 21158,
+      "sha256": "557968cbf147f81d91a380571c30e9af1a3f937b7c3ef57551aa299bdffc9d6d"
+    },
+    "vllm/model_executor/models/granitemoe.py": {
+      "git_blob": "8ae661bf15c49c78420cb81eead121fcd05e888b",
+      "bytes": 18817,
+      "sha256": "44f32af009f8626f97ba267d7c6b82c69dc52a0154bc97edd553b55062ff7785"
+    },
+    "vllm/model_executor/models/gritlm.py": {
+      "git_blob": "7bda54ea7689bb23dac33bbbf5c0495f6c6efe05",
+      "bytes": 9152,
+      "sha256": "6b1987411c41094ea02cba4bbb71acf5cee15aa200c42d54acbf112ccf64cd98"
+    },
+    "vllm/model_executor/models/h2ovl.py": {
+      "git_blob": "cf3e777a2027f5dfe01e136fffa070c7469e8eec",
+      "bytes": 18250,
+      "sha256": "37b70538d7c6abba4bf35db8afa2a128af2529a818bba8ae261260f00790855b"
+    },
+    "vllm/model_executor/models/idefics2_vision_model.py": {
+      "git_blob": "f9c2175b2988146e54cd775f657376b89953dc30",
+      "bytes": 13601,
+      "sha256": "6b22dce4ef218d2c01866651767bf1f1db5353cc777a3821ceeddfb6b39c1a22"
+    },
+    "vllm/model_executor/models/idefics3.py": {
+      "git_blob": "fdfabbaafce3f90d1e03eff9205f48aa13c350d0",
+      "bytes": 27232,
+      "sha256": "4a44a10269b5592aa9604a87205bb62cca4a5b5c4105a1c23a193b77fa299f05"
+    },
+    "vllm/model_executor/models/interfaces.py": {
+      "git_blob": "0fc5c4db179ca0e7de1640d5b47c9a840c7049cb",
+      "bytes": 12651,
+      "sha256": "145e9381c37da9070f29e95173cbe33e3da5af2716116ea4193daf82ea454377"
+    },
+    "vllm/model_executor/models/interfaces_base.py": {
+      "git_blob": "c5f7be135d71ab7a3a7336a41d894fe9a11b92d7",
+      "bytes": 4777,
+      "sha256": "c04ac7b31e36b5b5725f17076a301637ce61a00b25e07c0718f836428ebb2e30"
+    },
+    "vllm/model_executor/models/intern_vit.py": {
+      "git_blob": "0499f339b2465902533d065f7803f8834a326262",
+      "bytes": 17332,
+      "sha256": "8dc52af50eb1a74047756b3b660a3e883a140223b76dc22b06c62bac6afac6c7"
+    },
+    "vllm/model_executor/models/internlm2.py": {
+      "git_blob": "c211ca5f4f8e9b556feda010b5616f7a7579e2c9",
+      "bytes": 18587,
+      "sha256": "dab002210d3636eae1a6e3c060a369db1ea253cd52d760817e14b4ae8ebcb987"
+    },
+    "vllm/model_executor/models/internlm2_ve.py": {
+      "git_blob": "106c3b6b78cc8c87417f9132c76e0f420f489f62",
+      "bytes": 6123,
+      "sha256": "a91753534e89c92200d4306d9804ab9d8dc8197503fe7859b101117e874ab4e0"
+    },
+    "vllm/model_executor/models/internvl.py": {
+      "git_blob": "380eb40d9eb2823e0bdab63cf010fd9838fe7ac7",
+      "bytes": 33616,
+      "sha256": "e64a6856ad8dabb51e7af3f4276b131bab5a3779ba2cfe103e33e19a3138662b"
+    },
+    "vllm/model_executor/models/jais.py": {
+      "git_blob": "72bcef5e2282f9324130c99fc6fb33999699ebd6",
+      "bytes": 15533,
+      "sha256": "967bd9f41170246e69ceffc791f541eda05e1b522b0e8d11b3308b86ed63c685"
+    },
+    "vllm/model_executor/models/jamba.py": {
+      "git_blob": "d82c0815213bcc6cb191595eee1cea4dfc78dfd6",
+      "bytes": 26068,
+      "sha256": "3e8a0eb90468ef0690f0e2783439220f683f720bcf1cbdcc6e2fae46fc431d88"
+    },
+    "vllm/model_executor/models/llama.py": {
+      "git_blob": "d91c8782a121c3f6bc36821255af223ddb1c720b",
+      "bytes": 24225,
+      "sha256": "2ee170e062c797f6ff37b9f5243ffee2435c20b207d379c16adb2b314f90d56e"
+    },
+    "vllm/model_executor/models/llava.py": {
+      "git_blob": "b1fee3eeb542f0f6748b72691377d2e139c49450",
+      "bytes": 31182,
+      "sha256": "8b2e08ec36352d3548338d50e2c09a67771bc623e0b87b755f9823ac0f24cdf0"
+    },
+    "vllm/model_executor/models/llava_next.py": {
+      "git_blob": "719916642f25c5067d0c1bd2b5a727cd5cbd4fa0",
+      "bytes": 24222,
+      "sha256": "2bd3fd4e8301bd99ecbdd2420f666396c5b179cd4d4d86d37ad0869fbac23503"
+    },
+    "vllm/model_executor/models/llava_next_video.py": {
+      "git_blob": "817edcef4ba14af881b7e88c15d5cccfda428a1d",
+      "bytes": 18645,
+      "sha256": "3af3391a4fb4f183af83e580bbc5133e7661388641bfb36feeb79758fd6cf818"
+    },
+    "vllm/model_executor/models/llava_onevision.py": {
+      "git_blob": "2889426283f84a38c9318df1a06c6c4c57806596",
+      "bytes": 37227,
+      "sha256": "1447f07cba12f8e872da1af42663f78ad1d5b148fff3c2bad02247877fc4eb87"
+    },
+    "vllm/model_executor/models/mamba.py": {
+      "git_blob": "5034b334564e820dbc9eaec18374db258381c7af",
+      "bytes": 12925,
+      "sha256": "f879bab25c8ddfcd31b12d6676a2c476f8e5ec7a91ea1951ed77c6d36d9a2073"
+    },
+    "vllm/model_executor/models/mamba_cache.py": {
+      "git_blob": "353177f784b2ed6eef37c2f85566f571295b5f7b",
+      "bytes": 7080,
+      "sha256": "9485eaaefee07b8f0c269d0b4deed059e547be59e21177f1790309ae018ce688"
+    },
+    "vllm/model_executor/models/medusa.py": {
+      "git_blob": "a19d7da5654b6a1ad9b94fb5a61f2f221ef652ec",
+      "bytes": 8558,
+      "sha256": "7348d84c7257a3c15fb9e4f4fb2ff262303b7bdd53205cf83d846eec6e4aaa5a"
+    },
+    "vllm/model_executor/models/minicpm.py": {
+      "git_blob": "29473f5bbaa0adff1b85a29256360930fcaf801b",
+      "bytes": 25057,
+      "sha256": "24e547774604de896775a2b6778857797bc42d08fc5450038fe5df3e219a0fbf"
+    },
+    "vllm/model_executor/models/minicpm3.py": {
+      "git_blob": "878f0c895c34b216741209d72d801dfef56678a3",
+      "bytes": 9853,
+      "sha256": "6e72b81c425b0fe384c94655471b9d4ef7c59933d027842dc99b296b4f448a6f"
+    },
+    "vllm/model_executor/models/minicpmo.py": {
+      "git_blob": "ab697fb8cc64568f906e95d319c93f5a62c6b9f0",
+      "bytes": 33228,
+      "sha256": "8b3b14fb79b0a649716c7a66326178c511af8061f7f7f7382eef88c5f71865ea"
+    },
+    "vllm/model_executor/models/minicpmv.py": {
+      "git_blob": "58a4448d436aa5e5c37963af738bb13f3c41d9fc",
+      "bytes": 60364,
+      "sha256": "c48621af674e1d1bbe014f6b1c3a7530b4b57c4089696d0c72c4f76d9a44a2db"
+    },
+    "vllm/model_executor/models/mixtral.py": {
+      "git_blob": "70880eb7522461074fb27f615595fd312c068616",
+      "bytes": 20749,
+      "sha256": "3e808b0a3af2f6e64166159274e9eb59e6e64646d517ba9bfbce445c0cb37dc0"
+    },
+    "vllm/model_executor/models/mixtral_quant.py": {
+      "git_blob": "fdc438917542384278a701788f1728b5023734c7",
+      "bytes": 18851,
+      "sha256": "7b04ebae2119951d783562c39b31158123cf8d7979ef65c70254501d4940f96d"
+    },
+    "vllm/model_executor/models/mllama.py": {
+      "git_blob": "d1cb04cdb242f43d12448998a505ffdd8513dbec",
+      "bytes": 63312,
+      "sha256": "eb14495548cb136972b5116cc8339dbd50efd13313bcdc2f7be7e0c9956820f5"
+    },
+    "vllm/model_executor/models/mlp_speculator.py": {
+      "git_blob": "2920427f94f7b2d9621f770fa6e7f4f0ccb253fd",
+      "bytes": 7905,
+      "sha256": "86fed7467c44354a38474ecafcec7ff515536722840d2f7a7d83440952a3cf40"
+    },
+    "vllm/model_executor/models/module_mapping.py": {
+      "git_blob": "23814e6322d2e5d0748b7b6ff6ae7f92d73f8ce4",
+      "bytes": 1781,
+      "sha256": "77fef6469790ef054ef4b5e5d9e7900c8472bab1ad10cb0ddf77b2e487431bff"
+    },
+    "vllm/model_executor/models/molmo.py": {
+      "git_blob": "b524a14977b16cae92d72e08d561ad541f794ebe",
+      "bytes": 51182,
+      "sha256": "600f502bf3c1c75e337c3aec53b8d0430d8dfe00d2945a689c533c0a9309cb33"
+    },
+    "vllm/model_executor/models/mpt.py": {
+      "git_blob": "676c960623edf3f3b3419c3b27048fa0ac8310d8",
+      "bytes": 13421,
+      "sha256": "a3eb42832c9175a1823630af853a18536e9d12244b6cba0b7b41e1f0f4aa4b33"
+    },
+    "vllm/model_executor/models/nemotron.py": {
+      "git_blob": "6f0b831ac272732c7ef8df2e0ead1e4d0e3fb602",
+      "bytes": 21787,
+      "sha256": "1d9124aa8416354d1c44b365fc099d723e96a782728ce896b6cd587312ea46bb"
+    },
+    "vllm/model_executor/models/nvlm_d.py": {
+      "git_blob": "9c674ab4644639a6ce21a07a2b1a8377fd72fbfe",
+      "bytes": 8968,
+      "sha256": "4a84ae65bb1add1f9e24c6355e3128f843b41424c2ca77a7a8fadb5f35c508e3"
+    },
+    "vllm/model_executor/models/olmo.py": {
+      "git_blob": "3b470dfdd05be655f9058dcda830780c07d4a581",
+      "bytes": 16063,
+      "sha256": "5e77daa6fe11cadf89c4e26487a72a68c61779b510e0bc69c152a9ead23e1052"
+    },
+    "vllm/model_executor/models/olmo2.py": {
+      "git_blob": "4b0455098eedb4d06223b5dadf0cd3a1632f64a2",
+      "bytes": 16840,
+      "sha256": "27bd6306f0fd5282e1b21f7b76930fb496ed7ce358647d9e2233224dbf969149"
+    },
+    "vllm/model_executor/models/olmoe.py": {
+      "git_blob": "d6e24c6d67f37ddc361cffa8d1415d35a926598e",
+      "bytes": 19161,
+      "sha256": "518d3ca27e4f7a2843c1e6969c483a89e6c8341ba3c90dbee071e47ec9acc234"
+    },
+    "vllm/model_executor/models/opt.py": {
+      "git_blob": "ad1d66902435bbf13eabdc4131235ae79a6436be",
+      "bytes": 17405,
+      "sha256": "bf658560226f8d426e24c7cc216111b7c22819ab725fd7f5423f356d99cb1b9f"
+    },
+    "vllm/model_executor/models/orion.py": {
+      "git_blob": "f4f5cdff64372fada27bdce7cd36662f6ebc4cdf",
+      "bytes": 14901,
+      "sha256": "0b2d9832287c209ab86db856f995dfc4616ed5468b759f35e4ea69780941f0ff"
+    },
+    "vllm/model_executor/models/paligemma.py": {
+      "git_blob": "65d810dc23bc675160efe911d99ae0f1d23e7fce",
+      "bytes": 12870,
+      "sha256": "bb93295d8f83bbd706358a06d74abab2d99a62ac3ff9b7342193c3e66bf39fac"
+    },
+    "vllm/model_executor/models/persimmon.py": {
+      "git_blob": "6a80bea348ea0c1fb112c197507e0517d2389cde",
+      "bytes": 15245,
+      "sha256": "7292b22039669494b001cbeb059c35146da068f92bae15f46e1e61d7d53303b2"
+    },
+    "vllm/model_executor/models/phi.py": {
+      "git_blob": "6b05bfee949222bacd90c5eef9e6919880163cde",
+      "bytes": 15032,
+      "sha256": "f54f93a4397ba5f3efec6c1c88054e33f85168a643d9a2b3023897cf75060480"
+    },
+    "vllm/model_executor/models/phi3.py": {
+      "git_blob": "8f84e0726951d063f96b621d778fb9afeb25fce5",
+      "bytes": 388,
+      "sha256": "75fc7336f399d973e9408cb999d445b3115939b575fe1e6f942f9a936870dc72"
+    },
+    "vllm/model_executor/models/phi3_small.py": {
+      "git_blob": "873e9d37771da0d74c9612341fb477867f4a9a02",
+      "bytes": 18879,
+      "sha256": "7567ff007d27a5037e7c7866504891ef87020a0c5b44d3c97f39cfc36acfdca1"
+    },
+    "vllm/model_executor/models/phi3v.py": {
+      "git_blob": "053390c521fc2e9dbb267b397ee7a217512838c1",
+      "bytes": 28114,
+      "sha256": "73c9869e35d57701e98e08b21328d4507d58f659c7ebcaefb4676038912ae1ab"
+    },
+    "vllm/model_executor/models/phimoe.py": {
+      "git_blob": "aa4bb52c444f765004644c70cdd2819457b57c93",
+      "bytes": 25472,
+      "sha256": "21d0006f48c49dac8b9c363f0fbe904b64f04a1ae6ccce97ff993d8b4e3296ec"
+    },
+    "vllm/model_executor/models/pixtral.py": {
+      "git_blob": "003e9c84c1c0ae3d1e36f8cba962e9f37a719c87",
+      "bytes": 41529,
+      "sha256": "00159d7cba96842af6f07d00f6f0ebec76242c71a0ee2a4f94fa223dcd19e6e0"
+    },
+    "vllm/model_executor/models/qwen.py": {
+      "git_blob": "897066124314806e9d04535d3509b661b734845b",
+      "bytes": 41502,
+      "sha256": "effd55a0b8e248676bda9afd56745f66eb58f471fcd8888873d2bb5985cdc76d"
+    },
+    "vllm/model_executor/models/qwen2.py": {
+      "git_blob": "e3de6b64fbb396443e634635aae175b6f82db39c",
+      "bytes": 23047,
+      "sha256": "6ba45d66633679c6b1337bcff251b43a09b7fcf860f5c411833799c026242dca"
+    },
+    "vllm/model_executor/models/qwen2_5_vl.py": {
+      "git_blob": "e93cf46b900b6facc88cb0f19ae928a17955efec",
+      "bytes": 46131,
+      "sha256": "10315178db6db019e0f3a7547b071661acd7c6d188e5c875e2f89782c2f6e98a"
+    },
+    "vllm/model_executor/models/qwen2_audio.py": {
+      "git_blob": "f09529ca4bd1fb1cb87d6c423234dbc1d5f731b3",
+      "bytes": 17617,
+      "sha256": "b58f5814b87f1f53cd53033288136b8e55a01db376a923e2865cbc24d0d43e38"
+    },
+    "vllm/model_executor/models/qwen2_moe.py": {
+      "git_blob": "35d9854a55d6b25b0c6476f0dfc23e3f6375ec78",
+      "bytes": 23132,
+      "sha256": "7a6d6c6366764cf36a8d3a71a19f877957658e8106321d03d68be1b69019fede"
+    },
+    "vllm/model_executor/models/qwen2_rm.py": {
+      "git_blob": "00e4159e28cf7b9d5995d215a647e249e9a62753",
+      "bytes": 4884,
+      "sha256": "6aa8266df12f43df7dae18ec91743184dc8dbc1913f4afdf6098c9edf03b4182"
+    },
+    "vllm/model_executor/models/qwen2_vl.py": {
+      "git_blob": "34ae7b8c946972c4130f375a90a5c20097e9d532",
+      "bytes": 52595,
+      "sha256": "c8db5be82b105880e83e8f06b622323b67bd09dc698088915a012211d2b1bc4f"
+    },
+    "vllm/model_executor/models/registry.py": {
+      "git_blob": "3b2a7069efc9108b0c4eba9b938f2f85a26ab637",
+      "bytes": 20528,
+      "sha256": "492759477cd3de56bfdd09c66fd75389efd246fddbde4b9d60108327917090fe"
+    },
+    "vllm/model_executor/models/roberta.py": {
+      "git_blob": "742e63a065b18bafa773d36c737e423a3870a9ca",
+      "bytes": 10719,
+      "sha256": "82f6eb3ecde762c06a4666a008fca049800f222c500971d789b944619b9d9208"
+    },
+    "vllm/model_executor/models/siglip.py": {
+      "git_blob": "a81462f6fbf4be27b5d1b81f6e3e406a0a8e57b6",
+      "bytes": 23509,
+      "sha256": "74581bebe000a7823e11b49bdcb6e982fe4dcdf845a38c97e46f706446e7acd8"
+    },
+    "vllm/model_executor/models/solar.py": {
+      "git_blob": "6215ed814bf42f20250f339fae512c29cf8899bf",
+      "bytes": 21015,
+      "sha256": "2caadfd73f904956d45fe26d50c11e87de0c8686909d6b8f33273a34a46c803e"
+    },
+    "vllm/model_executor/models/stablelm.py": {
+      "git_blob": "a5d4432669f4c66f8553278b5b0a7b4c50a2a806",
+      "bytes": 15989,
+      "sha256": "f204d65aa0107986ee90409ae8dcf983bf9fb4caba43568bd013d808d41fe465"
+    },
+    "vllm/model_executor/models/starcoder2.py": {
+      "git_blob": "01ea43666482acef600f320367f8ea5e3c068820",
+      "bytes": 15298,
+      "sha256": "6c6c03801e6cd2cc9a00c9f645cf9d4ab65021c6b754a6373c5822e715591411"
+    },
+    "vllm/model_executor/models/telechat2.py": {
+      "git_blob": "a38035e37ec73469e0bc240322fa99ef07086d88",
+      "bytes": 5829,
+      "sha256": "c2d6e0b22c36736d42dc7e036f92d88bf0c8a91257a5984ef6d84c516a11d73c"
+    },
+    "vllm/model_executor/models/transformers.py": {
+      "git_blob": "43d2c88d3b9ca177b73211eb8cba715569d97c4c",
+      "bytes": 10459,
+      "sha256": "f8de8283a17a3dbc705c2a19d89aa1ffd879fedb8d1703cb103faada266d7b24"
+    },
+    "vllm/model_executor/models/ultravox.py": {
+      "git_blob": "9da0682cfa866c9359ffea2aba40d7da1dad3f57",
+      "bytes": 22630,
+      "sha256": "5caef0ec818b2293ca1ef1de9c7aeb88ce3115d26e7d5824f763457353396a70"
+    },
+    "vllm/model_executor/models/utils.py": {
+      "git_blob": "fff4be34ddbeb0296e7c76ba63a0f70d00b50bc1",
+      "bytes": 21546,
+      "sha256": "cfd4ae4aa7a190ddb00e64d11e4cd8dd2ef53185934c881dc7d11037bc158869"
+    },
+    "vllm/model_executor/models/vision.py": {
+      "git_blob": "0d67ee7bb5ddf914b7fe3c4d6b85b9250bf3ff15",
+      "bytes": 5554,
+      "sha256": "2e4680a3445ed62319238d49c40b14b2155e4d953a38abf9b7605c3c9ac4162d"
+    },
+    "vllm/model_executor/models/whisper.py": {
+      "git_blob": "0a3011d3610136650f14433adbfa3f854c944f05",
+      "bytes": 28179,
+      "sha256": "cdda8bb6b599386b2a2c8d3d821d96a82aab77261163bf633585671b78f025fe"
+    },
+    "vllm/model_executor/parameter.py": {
+      "git_blob": "2b1294bf7baa3f72010fdf552173ef198a7736a0",
+      "bytes": 15753,
+      "sha256": "4803b5f7aad53db43272bd428b1b4044e202d921c55ee922d90d329002f9b8ba"
+    },
+    "vllm/model_executor/pooling_metadata.py": {
+      "git_blob": "dea8b0e9d471dda820755bb171db5500126fbf81",
+      "bytes": 2077,
+      "sha256": "15e0f19c483c5bcf993ad835ec9135cf6e917eb29a536fd9696bf0928721a8a0"
+    },
+    "vllm/model_executor/sampling_metadata.py": {
+      "git_blob": "0a580a4e907deb3ab1a014eabdeaeb6cf8ce98d5",
+      "bytes": 22967,
+      "sha256": "6e734bf80ff80ed1b76a59ea8b7f2402d397cb0943100a9d9bf18f17ceacffb1"
+    },
+    "vllm/model_executor/utils.py": {
+      "git_blob": "04f922dfd77aa88f008f0eb32acb99472cb6cb63",
+      "bytes": 1915,
+      "sha256": "a359ca78f99bcdf0303ea56a5c96ce1b00d45f2fdf2d419a15996c3c46cc8692"
+    },
+    "vllm/multimodal/__init__.py": {
+      "git_blob": "741bd1a6a1c1264b9bb52e1f8ced82fe8578e1b1",
+      "bytes": 967,
+      "sha256": "de2ab86e3a8eaf45382c2ee42efa881fec5d948782ce7f259a630b53f79c7cef"
+    },
+    "vllm/multimodal/audio.py": {
+      "git_blob": "f379ec1682a3c99eeecbda7a08b6f9097882c920",
+      "bytes": 2092,
+      "sha256": "0edeb042100e9c1d038bfe2331353c9f6d06b58abdf4bc0104cd53833f78b6b8"
+    },
+    "vllm/multimodal/base.py": {
+      "git_blob": "c48d07ba365ba62a56c99842726d17a3261cc15c",
+      "bytes": 15964,
+      "sha256": "cae084e090e1efa69656b2a5cfb658fde34092e002aba14067cb5e69bba46323"
+    },
+    "vllm/multimodal/hasher.py": {
+      "git_blob": "7d277fd67deca1425603c857586a5bdd66867248",
+      "bytes": 2838,
+      "sha256": "a94cd3d8ecfee304dc4d6b80f1f1f3e2418393593b1d1ba7059be11c868e6118"
+    },
+    "vllm/multimodal/image.py": {
+      "git_blob": "98ac8057e8f18342f28318c58d8b069f41ce4323",
+      "bytes": 4529,
+      "sha256": "346c52017c109c4e40aa5646ae468816f58878fbf36893d9e18aae55fc69cb37"
+    },
+    "vllm/multimodal/inputs.py": {
+      "git_blob": "5f9593ee8b2052d23000ff6319f0b9813d9e4f6f",
+      "bytes": 23667,
+      "sha256": "e83a5f689f4a4d5e4f8da1d48c7068e2309dc1e3d4b815a8bf052ef1874c2ade"
+    },
+    "vllm/multimodal/parse.py": {
+      "git_blob": "063f458b2c4d958b578e3632c18a9057cb52838f",
+      "bytes": 11359,
+      "sha256": "ffe90912f490b0758e1112d3590e1ee757eb2817e7900d45987df4a41e86e05c"
+    },
+    "vllm/multimodal/processing.py": {
+      "git_blob": "d704fa59b96af1514d478b12de8e6adfa7c333b9",
+      "bytes": 43358,
+      "sha256": "36b3f1f9636315833e0fd3b32b5c713f022e713be8d769f1be9f4ae2952f775f"
+    },
+    "vllm/multimodal/profiling.py": {
+      "git_blob": "5dd7548540448c17d3395c30aeb17d8c0f85fa59",
+      "bytes": 6857,
+      "sha256": "4a4130f0e6cbdc5a5767605cc9b40ea9824cc53309839f0f7164efa3f563e5b6"
+    },
+    "vllm/multimodal/registry.py": {
+      "git_blob": "04141114288c9339b1d636e7741379edd6fe3b15",
+      "bytes": 16266,
+      "sha256": "f36ef37004cc12d4b23d36923243eaef5e763a9c078255e5c5fc3b14e32330e4"
+    },
+    "vllm/multimodal/utils.py": {
+      "git_blob": "583f536551243cc7eeffb20b74dee3d2a9da274d",
+      "bytes": 17118,
+      "sha256": "bc48109a121c479849432f6ed21d22949ff35933328ff4348c06a50b7ebd7111"
+    },
+    "vllm/multimodal/video.py": {
+      "git_blob": "78a2918e3ed3e79a35a7ee2c6406fe2b9a977383",
+      "bytes": 6104,
+      "sha256": "df79a7b70b5474b91f9f9efcd07e68447041035acaddc30fae9059f7da23fd4f"
+    },
+    "vllm/outputs.py": {
+      "git_blob": "786380c37f6cb588f10b7be40871b9311171e3b9",
+      "bytes": 19881,
+      "sha256": "56160e4f2a3bf9950aee4f34f283b272cabcc14ab4e3a851e395376708438131"
+    },
+    "vllm/platforms/__init__.py": {
+      "git_blob": "e4767a378f45f816836e3bcb0cae74db91cecba7",
+      "bytes": 7332,
+      "sha256": "7df3012c86ec27842027d99f8259c3b57a095d6bb563b0aa228d3036652aa099"
+    },
+    "vllm/platforms/cpu.py": {
+      "git_blob": "4e0683b8a2de1bc44c34b452bde5ebb5e310ea8a",
+      "bytes": 5572,
+      "sha256": "df62d8af8fef7c869f5ed9232cb531eb7cbcb37e6176a760cd63e0c0c1b10379"
+    },
+    "vllm/platforms/cuda.py": {
+      "git_blob": "991d55ac861a470807dd24fcb87507373226f6fa",
+      "bytes": 14593,
+      "sha256": "dc3be6f618af5d6f1e3eaed0edbb22a77168d71da158544e7cb3783e7af1c0c0"
+    },
+    "vllm/platforms/hpu.py": {
+      "git_blob": "78ddb67bb3fa31d9c7334bc61eea32a100765258",
+      "bytes": 3351,
+      "sha256": "d52232d25a91f926fbcfa59744cc10c006781f31f3a94d167e4cc052c524e338"
+    },
+    "vllm/platforms/interface.py": {
+      "git_blob": "211e288b125da39c3a9aa9bb155c0622885289d7",
+      "bytes": 9705,
+      "sha256": "73025cbdb28e120a01dab1a3fcee9aee4e39b1d62489e2dcb0250ccacff7835e"
+    },
+    "vllm/platforms/neuron.py": {
+      "git_blob": "5a03f5f7acbc1330453bacc46aab526eabbb5767",
+      "bytes": 1817,
+      "sha256": "00027fd3fc680bfbf9ce8dd8ac7b520c9031832ad3de6ae26e935956eacd0fdd"
+    },
+    "vllm/platforms/openvino.py": {
+      "git_blob": "41221de0afe509556cf8a01b84dcbcb14c137e80",
+      "bytes": 5885,
+      "sha256": "65895249c3087fea440fed80602739fbcc3967ce85dfa0386aee996e970f942a"
+    },
+    "vllm/platforms/rocm.py": {
+      "git_blob": "035766289aebd56a8cbc02416638cf6771b119d0",
+      "bytes": 6617,
+      "sha256": "2588ea2323ee861e5251a803772ae6ebd105be5c48d7b7c880a0fe6290047a55"
+    },
+    "vllm/platforms/tpu.py": {
+      "git_blob": "fffc61bbaaca0365b8f2a6eddfa7a834f4176903",
+      "bytes": 3472,
+      "sha256": "961444f6c62ebd28e994e1f71f55e705d4ff2c7ab14ede366d748af91c04894d"
+    },
+    "vllm/platforms/xpu.py": {
+      "git_blob": "81bc85f9415e83f8b593c61efa74be307ffe0379",
+      "bytes": 5352,
+      "sha256": "736626d275647d9b5d17a7a1cc0ef0ee4fa3571b100597622abd16e5e1c6b13e"
+    },
+    "vllm/plugins/__init__.py": {
+      "git_blob": "389cb8728103189b501f8a936fdeb02b194a12a1",
+      "bytes": 2962,
+      "sha256": "7994f814d0b00c98633000e8e4a80a05a18b77fed847d2f38458272eec210277"
+    },
+    "vllm/pooling_params.py": {
+      "git_blob": "061232eb11830bcef3acfc68281c467dcd4d478a",
+      "bytes": 751,
+      "sha256": "ce8b5c54cccf8e6e3a97183d7c070215fda0a05a9b7fa7324880048357e755da"
+    },
+    "vllm/profiler/__init__.py": {
+      "git_blob": "00af72b1d41fc9800f87f43bd4035aac695401ae",
+      "bytes": 128,
+      "sha256": "19621a3568d8157b881a5e2a0ad672873f99f3ccac647fa6cf81bba5828e7bbf"
+    },
+    "vllm/profiler/layerwise_profile.py": {
+      "git_blob": "6351ef63da2bee8c3b07bcff7253a02d1251600f",
+      "bytes": 13837,
+      "sha256": "58887ea34cfab22e2e6b6b02bea463b3839e9126393ef3fb5cf8012ee77d0d32"
+    },
+    "vllm/profiler/utils.py": {
+      "git_blob": "62b39f510703ea0f24b2cb908e40fa2d1b26accb",
+      "bytes": 4663,
+      "sha256": "8ada4663284b5c2434ee74ff74beec7803c9c8394fbfd7f60e0e86ae1e65a401"
+    },
+    "vllm/prompt_adapter/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/prompt_adapter/layers.py": {
+      "git_blob": "c2f9f16919b7fc7bbb89899b615dc06e415ae6bd",
+      "bytes": 2726,
+      "sha256": "6a87953b92ff69b13007dd86ae88a8ff9941f5a977ece88425a73f1a44ae0a4a"
+    },
+    "vllm/prompt_adapter/models.py": {
+      "git_blob": "3ba7d0896f95ac1c395f9ffecec89cb900dbce49",
+      "bytes": 13721,
+      "sha256": "0f585ac219552c5a1ad1ae85148441b162d856011bb5a4f65829124e00783cb7"
+    },
+    "vllm/prompt_adapter/request.py": {
+      "git_blob": "dfb8e61d786a0f81bf617f33a3a06957cdab02ac",
+      "bytes": 838,
+      "sha256": "dbf89528b29d584de46edee36bfc0f1e109eacca955e583aced0f0df8e1877a2"
+    },
+    "vllm/prompt_adapter/utils.py": {
+      "git_blob": "dd179ab938f8346f2d48881532fa4e7d5b59798a",
+      "bytes": 3668,
+      "sha256": "7cc3302be9b3ba14fd5aef5aada3b4ad276d3640264cdbec0807d05df3a45909"
+    },
+    "vllm/prompt_adapter/worker_manager.py": {
+      "git_blob": "28dcc16871120e03646df779e7bddd2b824d64ff",
+      "bytes": 7536,
+      "sha256": "a8c10f564760dbf2f86d8488060fd73c433902cf1482b3eb82e768886e241001"
+    },
+    "vllm/sampling_params.py": {
+      "git_blob": "97f9e2129573147efc4ed4b7e00a316774e994fe",
+      "bytes": 22364,
+      "sha256": "256cc185d5ba6a7a6e45d95663b0572cb1ec4ca8ded44855188de8bfbe38a9aa"
+    },
+    "vllm/scalar_type.py": {
+      "git_blob": "9f6e85920ac7bcccca9221e508a71af8d56fbde2",
+      "bytes": 11806,
+      "sha256": "856d15076fc5e7f1053bbb432c391d3782eb10d8b29d9b1adc3df34a7769f647"
+    },
+    "vllm/scripts.py": {
+      "git_blob": "467cab28f02ae48a6b0a48d575a7ead2befdb5b9",
+      "bytes": 7249,
+      "sha256": "e842463f49799d80244bd90e1417cdba167c0428c23cf08f8be5af626ca6aaa7"
+    },
+    "vllm/sequence.py": {
+      "git_blob": "534b9e60610a274af35a7f3c23d1ca801e5dd647",
+      "bytes": 57947,
+      "sha256": "0df05f6f241b1988ae41b715e9bf4d4bf5d46bd53c55c296920097d5a0ad9443"
+    },
+    "vllm/spec_decode/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/spec_decode/batch_expansion.py": {
+      "git_blob": "e08ed742a5225186880dc60dc86017bcdc334bd7",
+      "bytes": 22740,
+      "sha256": "fe7da1fc870fb4bd57840115b6fd2938f34fbdff460ea7e88dd6610809de5239"
+    },
+    "vllm/spec_decode/draft_model_runner.py": {
+      "git_blob": "3948298db40c210a6c390ed0ca35f341d80995dc",
+      "bytes": 13973,
+      "sha256": "2c373fb0d1c1924c5392872e14181e0384dd8bada801c899387e2d186d360f1c"
+    },
+    "vllm/spec_decode/interfaces.py": {
+      "git_blob": "dd085ad77638462535cf2c3d9def11e8647de965",
+      "bytes": 3086,
+      "sha256": "fe19de71f141822fbfc0a308c4fa1b3fe0d169e7c3efaf56a9eb61391bdca1f0"
+    },
+    "vllm/spec_decode/medusa_worker.py": {
+      "git_blob": "0b62a988e8b267aed2ecad09cba59eec38808b74",
+      "bytes": 4900,
+      "sha256": "9623e7e2220ca89f28c0be1c5e0ac34d56f76e3a5428196a78d0e5165c04be37"
+    },
+    "vllm/spec_decode/metrics.py": {
+      "git_blob": "bc0e0a121cd55363d8bc902747b5e0f4f3f77f56",
+      "bytes": 8062,
+      "sha256": "cc235eb65e408f09387b5625e9c8a0e3919053e948c30cf715806dcd31a29b0b"
+    },
+    "vllm/spec_decode/mlp_speculator_worker.py": {
+      "git_blob": "bdaf31895e25dee2e8ec47ff6f0a41f2c208f623",
+      "bytes": 3737,
+      "sha256": "36e388010b59c4258fb3b617591256dcac05093e22dc44c2a1bb00d202bea95b"
+    },
+    "vllm/spec_decode/mqa_scorer.py": {
+      "git_blob": "6275c460ecefa0aaca2fe2d6be7e3dc90ccd3aa0",
+      "bytes": 7508,
+      "sha256": "19d85537611fdcbfcb967a1fb6a8af634ad12a03c5ec457cd5752edcfc8ca2ea"
+    },
+    "vllm/spec_decode/multi_step_worker.py": {
+      "git_blob": "5474917a6fab7f436cd2e8905e9777de0abc0727",
+      "bytes": 18013,
+      "sha256": "1ada221e4fd795e0da7d0088784f8995f609385114df6d2b9fb808ed9dfea914"
+    },
+    "vllm/spec_decode/ngram_worker.py": {
+      "git_blob": "86390c99c2fbced6163eac2374cac7afe681b602",
+      "bytes": 7754,
+      "sha256": "ae58f2292c7ea1d54bb06546e94e87e773f84fc53a7db94fc80337c4939a35a2"
+    },
+    "vllm/spec_decode/proposer_worker_base.py": {
+      "git_blob": "2bebf80fadae5e3e637053f95740340bd6a98f7f",
+      "bytes": 2089,
+      "sha256": "22fff183b179a3784209114d8fce0147f9a95b2f4ae310142ab2cb70afadccba"
+    },
+    "vllm/spec_decode/smaller_tp_proposer_worker.py": {
+      "git_blob": "a1466ba5db756d59f9ea4e709d27a343fd0943a7",
+      "bytes": 6175,
+      "sha256": "598dbdc6a821633c97ee6152face33071063a9182ec54a8259910aedf5176d4c"
+    },
+    "vllm/spec_decode/spec_decode_worker.py": {
+      "git_blob": "8653bece8b5a59b616f41cad0bc8f4b201f6ac06",
+      "bytes": 60601,
+      "sha256": "e432f8514c0cba4910f981dd6701f5cb7cbf4078e0a19efed433a3bc6f7187cc"
+    },
+    "vllm/spec_decode/target_model_runner.py": {
+      "git_blob": "08e773c562bf83f7f9fd3928b0aa30881f25e526",
+      "bytes": 2073,
+      "sha256": "b115b5b2a3e111d1302f932f1c245199dfa599cf86f0b8c9806ed1db647a24cd"
+    },
+    "vllm/spec_decode/top1_proposer.py": {
+      "git_blob": "b538923c03e74a95e307302bfb9f2d2fe976d838",
+      "bytes": 12354,
+      "sha256": "b04bd9304a23fecf7e697ce45fa7da519b9f7e83edc404ee31b12646764a79c3"
+    },
+    "vllm/spec_decode/util.py": {
+      "git_blob": "9c04680a6a7ab37196633eddc1a218876164a18b",
+      "bytes": 9684,
+      "sha256": "06db78b725ae65478e74849c2880f00f9c54252793359c236c5890b64179a155"
+    },
+    "vllm/tracing.py": {
+      "git_blob": "bf069ad84fd42b815452b6dd72cb3fedde20e053",
+      "bytes": 4749,
+      "sha256": "7d1d5a0e8ba7dbb63310f06e8666f735a9a6e0336f5ecba7a90f17f6fff660ec"
+    },
+    "vllm/transformers_utils/__init__.py": {
+      "git_blob": "01d5bb4b574895b2cd5ec7f515c4b6d17d85b707",
+      "bytes": 617,
+      "sha256": "45910bf81be5709b9024530f64b33e2e3562c19c52b15da8f139f1eecb6b8035"
+    },
+    "vllm/transformers_utils/config.py": {
+      "git_blob": "1c0f20a6e045b23e52ebdc55705db7e4c79579cb",
+      "bytes": 22470,
+      "sha256": "895a012ffa8a638b32c9f6f45327a5159b0ee8ef5b0f96fa7e6015c4ae5d690e"
+    },
+    "vllm/transformers_utils/configs/__init__.py": {
+      "git_blob": "c484a755ab4ec2c5cc00de5bf4395d79cf55a59f",
+      "bytes": 1993,
+      "sha256": "266af442022b6422ff36d6d46397beb1e4b326ce02a43c296a4d8d1616f63ab2"
+    },
+    "vllm/transformers_utils/configs/arctic.py": {
+      "git_blob": "6625ccf0f2a84eecf3b78a14f401027f1e6064dd",
+      "bytes": 8990,
+      "sha256": "fdceac9eb73aca98339599b2942643f1b34d86a152ba9a4a0e50d37962f374b1"
+    },
+    "vllm/transformers_utils/configs/chatglm.py": {
+      "git_blob": "43e9503ffe03f5e4eae1675b3cc215c393591df6",
+      "bytes": 2870,
+      "sha256": "e87e47bfa67fcb3881646f6ae0dff439b8fa787b062fd0ebc507818642ec67d6"
+    },
+    "vllm/transformers_utils/configs/cohere2.py": {
+      "git_blob": "e30409b3af5f0c97001dca5b03ae3f56ea2a220f",
+      "bytes": 10353,
+      "sha256": "c9e2dd9fbf4d3b6932b981fd22a4403b45866cc2428799ed7758da6ed65a589b"
+    },
+    "vllm/transformers_utils/configs/dbrx.py": {
+      "git_blob": "8f40b2b7df7ab1b68b7efacb8e74b3010c3254a9",
+      "bytes": 10957,
+      "sha256": "774c44e561fdf7d3f1aa9eefd4c5c9ce6935d1cc29d1430e3810030fc6cee6b5"
+    },
+    "vllm/transformers_utils/configs/deepseek_vl2.py": {
+      "git_blob": "24d4052d872116e2978e2c2d757091a7531b2ff7",
+      "bytes": 7252,
+      "sha256": "408093ce56a82e29745145dcd1fc2097e0889843e98ce9d3cb574053078a2c3c"
+    },
+    "vllm/transformers_utils/configs/eagle.py": {
+      "git_blob": "b26aba66699fdbd713fade7b770d379194ff2e05",
+      "bytes": 1593,
+      "sha256": "7abfcc023150994c41877a9e09c18851696a7a5f4fa1141bb0ed55150e1ba0b2"
+    },
+    "vllm/transformers_utils/configs/exaone.py": {
+      "git_blob": "39364367e30316d1f8540825168b5b35aeb0ce32",
+      "bytes": 8883,
+      "sha256": "a3cd8c083302b43f1c1efacfcc9ae8129255e5ee31b952b7cb394706ae088ef1"
+    },
+    "vllm/transformers_utils/configs/falcon.py": {
+      "git_blob": "f161a06f34238204ec034a21a88dbf92c047082a",
+      "bytes": 2917,
+      "sha256": "d70f605c924fcefba9ec7774e4ed71633a7f2035c376dc41cadd3a53ddaecbb7"
+    },
+    "vllm/transformers_utils/configs/h2ovl.py": {
+      "git_blob": "48b5d79ff950ba6f4332bf0cf0c6b4a194a4fca6",
+      "bytes": 489,
+      "sha256": "4ecc9ec7c3e0592fd612ece04d9f6f19c827ecfbf59b4c890eceb843699e4ff4"
+    },
+    "vllm/transformers_utils/configs/internvl.py": {
+      "git_blob": "8ea62546e21336107ac7bb509b857978f700f13e",
+      "bytes": 1867,
+      "sha256": "86a9b520dac4b9cca184f290870462c0467a525c3582f9c5230d442129c4e502"
+    },
+    "vllm/transformers_utils/configs/jais.py": {
+      "git_blob": "0cab2c42e57913da241cd09f9c9365a4d26d18c2",
+      "bytes": 10359,
+      "sha256": "6528b961a3957ab6a63ba0ce6799e3ee7430b04db44b1825e99c610053c0772b"
+    },
+    "vllm/transformers_utils/configs/medusa.py": {
+      "git_blob": "885713c5d6cd06cd3d4a411b370417f94c41cced",
+      "bytes": 1943,
+      "sha256": "da049af8eb4c3478b678bfc024381bb25a9bf67b5c83d7d17e186044f1a8c6bd"
+    },
+    "vllm/transformers_utils/configs/mllama.py": {
+      "git_blob": "eb77e09adca489bf0aecf46ef66d15884d3cdb56",
+      "bytes": 805,
+      "sha256": "94892227cde1b8942aee42c057685f2d601c5315954fd69ad5801c491533cf56"
+    },
+    "vllm/transformers_utils/configs/mlp_speculator.py": {
+      "git_blob": "c761f659e5b2c3f022c016352e19a297c72ef183",
+      "bytes": 2437,
+      "sha256": "320796a4f0115b98f06fc370d619d96aa25b74374139cfdafc4493791cb73bc8"
+    },
+    "vllm/transformers_utils/configs/mpt.py": {
+      "git_blob": "96356135f6b28e6c3043efc6c5b000b37e254e7d",
+      "bytes": 7589,
+      "sha256": "ccbb45a173383ca24aebb990a1e04ec0b42b4f8c11fb374431802c1ab1d5d74f"
+    },
+    "vllm/transformers_utils/configs/nemotron.py": {
+      "git_blob": "fdf4fa2a53e5706eeed69f0ce8a6d1ec81584d74",
+      "bytes": 8974,
+      "sha256": "c70fbef2598ce55ccb33a35fca16b8bda791bd5621e6fddb8eb00ffd9d35d279"
+    },
+    "vllm/transformers_utils/configs/nvlm_d.py": {
+      "git_blob": "300f6e21168e55e7d15a9fc87a41878ccaa82cbb",
+      "bytes": 458,
+      "sha256": "d8cafd64023a546d036cb0f0d019c510881e89977b8a9ddb4a856c7dc11e36a4"
+    },
+    "vllm/transformers_utils/configs/olmo2.py": {
+      "git_blob": "c6e446333b43d0aed0dd133bcea5cb463b1e0c15",
+      "bytes": 8075,
+      "sha256": "77f605b82c0675647af8fee8400d8b4b95d1faf0fa4c4501ca8eea9e7d04cf74"
+    },
+    "vllm/transformers_utils/configs/solar.py": {
+      "git_blob": "0d5db896b93d360c5026ff163da7d0ccd11f183c",
+      "bytes": 10841,
+      "sha256": "cb96fd4789905dd822f9f52fd99a8c205a2e5bb3f9ee54f99e9a67e786823aea"
+    },
+    "vllm/transformers_utils/configs/telechat2.py": {
+      "git_blob": "5da6c5b4427ea1f7ed317467ed535f887c63330c",
+      "bytes": 2200,
+      "sha256": "26c3aecca1cf407aad24164d8b6eddb7073e1567a5b10f4696639137602e6cf1"
+    },
+    "vllm/transformers_utils/configs/ultravox.py": {
+      "git_blob": "99715ba6d0b09e18f8988a46cc7e78549e597f3f",
+      "bytes": 4119,
+      "sha256": "d788250d9f4856818cb7e0cca7f3b635e50384a81eff11c344a6a6beea2a492f"
+    },
+    "vllm/transformers_utils/detokenizer.py": {
+      "git_blob": "9d1d4bb92e4ab5043007f79b69ccd14ef380e51b",
+      "bytes": 7250,
+      "sha256": "b630f59a994c793bd7ac5036e40f2d609af7a437b3112a1a3379bcf0dec3f076"
+    },
+    "vllm/transformers_utils/detokenizer_utils.py": {
+      "git_blob": "8160a35ff2228f1eb503ab9d001bf808ff097c86",
+      "bytes": 6769,
+      "sha256": "aab0e3f6229c6e3b4c60e135db09c591671c166553441f56f16e8192acc122d8"
+    },
+    "vllm/transformers_utils/processor.py": {
+      "git_blob": "3197b07d8a4687a999695f1972755c87e5dfe366",
+      "bytes": 3618,
+      "sha256": "d108789a81804e9c2a943ac61311e2f1cec7a0b0c0209abf313e5b40fb46c08c"
+    },
+    "vllm/transformers_utils/processors/__init__.py": {
+      "git_blob": "4696f0c49df96dfe3969d4a3a8bdb98dd18b216f",
+      "bytes": 165,
+      "sha256": "5a5a09e76e08e6e1b4e339722555a83ed0c6573951bd6a55b2ec1c7338ce337a"
+    },
+    "vllm/transformers_utils/processors/deepseek_vl2.py": {
+      "git_blob": "d37381ea9925fc23d1f926ca8d1f7e42c49eb1e4",
+      "bytes": 14598,
+      "sha256": "048f066c2c539759a4910f9fdcd20dcc46be7c9e28efcfc99481a7e416bdd12a"
+    },
+    "vllm/transformers_utils/s3_utils.py": {
+      "git_blob": "4fe744d285d35a2e117042f26a7c6fe44ef08958",
+      "bytes": 4733,
+      "sha256": "299107c108d0727d6987c93159b7745b36f6967a981b37a242c2ecb05472f7e1"
+    },
+    "vllm/transformers_utils/tokenizer.py": {
+      "git_blob": "520870b563c9e6074bedd1beb51b3ac0eb9ea628",
+      "bytes": 8905,
+      "sha256": "e81c64a10bfd9718ceb2a6e8de92b753490df357058134fda8b74da206fe457e"
+    },
+    "vllm/transformers_utils/tokenizer_group/__init__.py": {
+      "git_blob": "c223768b16d6b73c42c73ce9d74b2a7092917a94",
+      "bytes": 2455,
+      "sha256": "2ca8155349f22718a72b7949a9299cac6495d1646c876d3ccbe0b49e764584b1"
+    },
+    "vllm/transformers_utils/tokenizer_group/base_tokenizer_group.py": {
+      "git_blob": "fbdfa3e57e1721ff1aae54c3127269e3c1c43769",
+      "bytes": 2055,
+      "sha256": "3cc91d7c958fb2e85fea91ee2d9fef3566c85790d913a5b1297535421fd66984"
+    },
+    "vllm/transformers_utils/tokenizer_group/ray_tokenizer_group.py": {
+      "git_blob": "30cab752ccf3c832b6f076b742776b082f503120",
+      "bytes": 9807,
+      "sha256": "2a7170a23933ae258255775ab84621a5eaab6ada65fc9b8b69d87152771e153f"
+    },
+    "vllm/transformers_utils/tokenizer_group/tokenizer_group.py": {
+      "git_blob": "025971cb7e47787a81311f02901874b66a197925",
+      "bytes": 4569,
+      "sha256": "0440d6a3c7e052d4eaaf03c54e12b687bb873f8f5e6bdc1498b65e1c26d54d89"
+    },
+    "vllm/transformers_utils/tokenizers/__init__.py": {
+      "git_blob": "2b64f3fc70569975f9b67e1c58733c55df9c19ab",
+      "bytes": 167,
+      "sha256": "73ddb38681c8812fab4a9bf6fe647d466e40a2d559b836830d43c38d7ad47cd0"
+    },
+    "vllm/transformers_utils/tokenizers/mistral.py": {
+      "git_blob": "1550f978ed2013bf9ba392dade145a7f2e20b4e4",
+      "bytes": 15297,
+      "sha256": "f2c0d1b0c578db59bdd95535e6cbecfcf68adcee65b66a5044cb610705742ba6"
+    },
+    "vllm/transformers_utils/utils.py": {
+      "git_blob": "71fe3ef0b23c5d3b43ac515db2aeaae96cea59f1",
+      "bytes": 529,
+      "sha256": "74d5c41e8a1cd45b3adbe82817966b8babb841ae9f990ac7c2fb649d576570f7"
+    },
+    "vllm/triton_utils/__init__.py": {
+      "git_blob": "c8f7a32ce7a8c5cf75165e1778cf3be04532a921",
+      "bytes": 281,
+      "sha256": "c03358bbcad1bec35fa28b04f855e3704b5b5d1bad7a1e97fe7c5d20c55ee719"
+    },
+    "vllm/triton_utils/custom_cache_manager.py": {
+      "git_blob": "4163969c9a52df5db3216e2cc45f895eb9baa56f",
+      "bytes": 2265,
+      "sha256": "33a11ed2e055a8df475e5a7fa8a759ed6a9ab75e2c4aa9e412b3bcc2b61e52c0"
+    },
+    "vllm/triton_utils/importing.py": {
+      "git_blob": "a20700248c26872202e703b3283289b7e99785a9",
+      "bytes": 450,
+      "sha256": "fc00e56069a630c55a517e8af7b0bde058da28acb018f4e0640806cd20e94cac"
+    },
+    "vllm/usage/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/usage/usage_lib.py": {
+      "git_blob": "fbbb21c89370a1e8f8b7155c5220acad3d870ff8",
+      "bytes": 8421,
+      "sha256": "83e852e63de0e7a94aee5029de1a8416e333c28d582f3b32bba6a84833eea255"
+    },
+    "vllm/utils.py": {
+      "git_blob": "8b926959875732bf5ac2829e46fa6853cdc54687",
+      "bytes": 75830,
+      "sha256": "eabc7c142f0546cf3bf146e5faa9729126a16fb2475871325dce675e264e4230"
+    },
+    "vllm/v1/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/attention/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/attention/backends/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/attention/backends/flash_attn.py": {
+      "git_blob": "837d7faf43708dbc2ece2eaa60c7283293f5f7c1",
+      "bytes": 17304,
+      "sha256": "1944aec0d58917749596f032b0d5dc6bfa8058877e3961e39f6fc224a52c11e8"
+    },
+    "vllm/v1/core/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/core/encoder_cache_manager.py": {
+      "git_blob": "651bc01aa5cf665c46bb0def62694499ae79d793",
+      "bytes": 4624,
+      "sha256": "3854c1c2acdb182505163e80e33a6d78f6a35005b41069c818b97747b3c3eb85"
+    },
+    "vllm/v1/core/kv_cache_manager.py": {
+      "git_blob": "de349ec12099931b81729d45274454e6b6f73c27",
+      "bytes": 21371,
+      "sha256": "a3b73cc20dd2e4594dc772cc5a79e0db87579a267a29962ee38c7fb06c100a40"
+    },
+    "vllm/v1/core/kv_cache_utils.py": {
+      "git_blob": "e0976ba8577b9ac4e02037c79d7e0914a6fc9675",
+      "bytes": 17248,
+      "sha256": "84d4beed4935ddd1631fa53a4f7fea71add3c3114eee8d2840bed2336e6a9cd4"
+    },
+    "vllm/v1/core/scheduler.py": {
+      "git_blob": "fb5e83fe062747ee85abf83243938c3763c1a2eb",
+      "bytes": 27167,
+      "sha256": "f071c818191a9d1ec72eac2eb7bfd57491fbf7a7bc5354922df8876aaa6dcbc5"
+    },
+    "vllm/v1/engine/__init__.py": {
+      "git_blob": "d5933cac50c202e2386b399520ee419450188ac5",
+      "bytes": 3024,
+      "sha256": "788531ebebf0f2824779637de2de416f468014672e26308754362aef984ead21"
+    },
+    "vllm/v1/engine/async_llm.py": {
+      "git_blob": "3c4e35e4aa2749dfbb65eb049d77c68ebcced146",
+      "bytes": 14239,
+      "sha256": "53204ab648d4a267b456bf9bbb89c33d0e73177afb25d3f73a0b2c02d5fdf2c3"
+    },
+    "vllm/v1/engine/core.py": {
+      "git_blob": "29a9ac1868f27869a0c80de847adb875f56197f1",
+      "bytes": 11527,
+      "sha256": "ac5bdf5fbcb33a4c5d8b2d3b888c7c18533c3a3c84c814d3f339f38a4547bd08"
+    },
+    "vllm/v1/engine/core_client.py": {
+      "git_blob": "247380ef7cfedae1986602ef59abd91192ab0226",
+      "bytes": 10829,
+      "sha256": "ba4b1693aba84f4a42d04d90b9c5c77eaee1d1920be43457cc5092d645d34fcb"
+    },
+    "vllm/v1/engine/detokenizer.py": {
+      "git_blob": "861fcb012c34ecb918c7e044dbda3cbb5068ceae",
+      "bytes": 6500,
+      "sha256": "c397778a9cc3760f0ea16c927db3515224f9e94096ef8857ef066bd02348ca55"
+    },
+    "vllm/v1/engine/llm_engine.py": {
+      "git_blob": "e0452bcad7ba7e1afc560230dd183ece5fe47a90",
+      "bytes": 7092,
+      "sha256": "faf033f3d885ba39009e3f3748f8c4d56e14e1e00f5416b30cbaab6c944876d5"
+    },
+    "vllm/v1/engine/mm_input_mapper.py": {
+      "git_blob": "83a0d9db161d2c0e11543fe60d8f5f29d23cb7aa",
+      "bytes": 5128,
+      "sha256": "ece73cf44f6c7065ca96a6bdd9b5d3f2c7fd92a823312cc3090a36cbdecce0e9"
+    },
+    "vllm/v1/engine/output_processor.py": {
+      "git_blob": "947366691471784dd08462190f58767a10276630",
+      "bytes": 7767,
+      "sha256": "5e7e8dc79e78985054af3936104ede16cae249d02862ff3e9d1127285674f7d4"
+    },
+    "vllm/v1/engine/processor.py": {
+      "git_blob": "366287951ed0444d5130d60e63d7e49fb38e6e15",
+      "bytes": 9801,
+      "sha256": "ac67e3d3ecf2fcebdea57f16cc4a678beb502a24751af15a85ab6a8559b925ad"
+    },
+    "vllm/v1/executor/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/executor/abstract.py": {
+      "git_blob": "ac10d43eb0d54d634af49964234cdcdc00c3c8d9",
+      "bytes": 3624,
+      "sha256": "3ccc624e0cfd68548c5e183946f2777492373585f3e0bcab840d6c0a1a0be4bd"
+    },
+    "vllm/v1/executor/multiproc_executor.py": {
+      "git_blob": "e3f07172d8cd9bc280740c1d92caa2e6ca8f0607",
+      "bytes": 14125,
+      "sha256": "b553a8943fc3de2e62f6b83aba866b7aeefae96028a55821bd343f690aae9e5a"
+    },
+    "vllm/v1/kv_cache_interface.py": {
+      "git_blob": "eddfb5949ebe65c3dd5f8ae72a8aad06ee818703",
+      "bytes": 3412,
+      "sha256": "d3e9fed38bee7f23620c1e91487011dd06146c1f14941593d18967d534bd5dca"
+    },
+    "vllm/v1/metrics/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/metrics/loggers.py": {
+      "git_blob": "eb1acf584c6b02e19f9ca6e41c58f5571bc310cc",
+      "bytes": 8451,
+      "sha256": "01d70b1ffd7d4feacc584dcdcf2f60beea2ca32dad26d17b43192f97c71cecf8"
+    },
+    "vllm/v1/metrics/stats.py": {
+      "git_blob": "e3f1efcc9b1a7547405642e87097c450eac86363",
+      "bytes": 2847,
+      "sha256": "385926d5fca96e3a9f8e9ed0acfebac276fcaf1c1fdfa1ea58126cc71a067b11"
+    },
+    "vllm/v1/outputs.py": {
+      "git_blob": "6e82bffd7e5c9dfff0a077ecb9c34a3cad4c9c53",
+      "bytes": 1007,
+      "sha256": "19db19d3a38b25d61e6666b9a23bfcb2e5282226c6283b2a3ca2208d6541b480"
+    },
+    "vllm/v1/request.py": {
+      "git_blob": "89b39ea615d20f6a1cfb3c3b91e2d211008a85ba",
+      "bytes": 6009,
+      "sha256": "c94cf2fc3cce1726c4967a4d75373b18b48977d0dc8769fe6c466d4f1db5b563"
+    },
+    "vllm/v1/sample/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/sample/metadata.py": {
+      "git_blob": "8e54de34548ddfe8a631d78979b91c83dffc2e9f",
+      "bytes": 683,
+      "sha256": "7bbe8ea29e09052127d4fecc43b52b411927dae68dbe3a3a49e1b5891253f19b"
+    },
+    "vllm/v1/sample/ops/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/sample/ops/penalties.py": {
+      "git_blob": "ba368b44ab9cc02c8cb281049f84bfd66705081a",
+      "bytes": 2261,
+      "sha256": "74593bad5e712a8f40ab4be129ae351573a7d04613f1a2e5ab047680c8165b3b"
+    },
+    "vllm/v1/sample/ops/topk_topp_sampler.py": {
+      "git_blob": "27431001e3e7a2f0c78baa9d6c20900bb107fe3a",
+      "bytes": 7692,
+      "sha256": "598b8957844bf8525fa87ccf1b807bb53d9f31946203560779146b6e9227c929"
+    },
+    "vllm/v1/sample/sampler.py": {
+      "git_blob": "3da7498e0dae5d671e81b9fcace11ed992a8478d",
+      "bytes": 5069,
+      "sha256": "9599f34b30883581f406e3fef598c4e540f66f6e898d90a222a3bd0954138236"
+    },
+    "vllm/v1/serial_utils.py": {
+      "git_blob": "1791dfa2b6325f2f41c34cd68fa86152aa9a7c06",
+      "bytes": 200,
+      "sha256": "2b3aedfce6ec7c86cb242fb48f396f8a33ed0f5b0290cbcf7ab2545c6547f090"
+    },
+    "vllm/v1/stats/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/stats/common.py": {
+      "git_blob": "09d382638bffd881c9dbe3ef5ec5a55c6fb17d7d",
+      "bytes": 17243,
+      "sha256": "e0865a00d255659b4d0278289ed78df5eac0e303f85a2ac12e3d03f02298d40c"
+    },
+    "vllm/v1/utils.py": {
+      "git_blob": "5494542c181d7843db9cbdf9051a1ad55229ae9f",
+      "bytes": 5939,
+      "sha256": "8d28bd91519c797b2a3ccc93887856c2648fd0aeaaa22bf30b4ac852f92cfdb0"
+    },
+    "vllm/v1/worker/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/v1/worker/block_table.py": {
+      "git_blob": "f520ee9586c5c909a303d9470c8f16627480e68b",
+      "bytes": 2492,
+      "sha256": "5644f59a10248161fe973b1162aad74771420ccda9db10ed0a7b7e887aa3cd09"
+    },
+    "vllm/v1/worker/gpu_input_batch.py": {
+      "git_blob": "39708f833fd58340a160eef20150c977ce17506f",
+      "bytes": 18285,
+      "sha256": "7d6968bc588755db827e77d46aac8e1c762b9dd266107cccd0bf2f79f12fb044"
+    },
+    "vllm/v1/worker/gpu_model_runner.py": {
+      "git_blob": "ec6d04cd497527776e8e3bcb3b0fb9677b872cb0",
+      "bytes": 52931,
+      "sha256": "c4012757cee21405919fb9ce585501c115cb4696c1e7b5cae190a1437900d83a"
+    },
+    "vllm/v1/worker/gpu_worker.py": {
+      "git_blob": "0adb69073397c9fde95d7d6c88fc6314e9af7b28",
+      "bytes": 12029,
+      "sha256": "41232620036691ced8c0f06982c87a2fff7d7b24fa7e159ab1ba7a1834b63b96"
+    },
+    "vllm/version.py": {
+      "git_blob": "70cd0289b441f8e8dc169e1e269d6fe90f44eb27",
+      "bytes": 335,
+      "sha256": "15eccc0a09fe1dc1012dd9613c778b75ef02a621f360cfa1d2f11135c8e8a388"
+    },
+    "vllm/worker/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vllm/worker/cache_engine.py": {
+      "git_blob": "3960392cf74ef8b90c9efba41520588371415939",
+      "bytes": 7050,
+      "sha256": "701a67668bb2f644e2196ce0fd658b19a6bd28c7210bc530c97926be8994adcf"
+    },
+    "vllm/worker/cpu_enc_dec_model_runner.py": {
+      "git_blob": "71e32c5f7aca8a64941e2c783ffbb24670efe286",
+      "bytes": 13135,
+      "sha256": "d8e62dc29d58dd2668d77299bd23fb57b3e3627e348b60a147db65c7bfa65b9e"
+    },
+    "vllm/worker/cpu_model_runner.py": {
+      "git_blob": "9400893105d73e5cf6683ed57231d556dab8dcf9",
+      "bytes": 28815,
+      "sha256": "a709ea1894206c087c5440d7588e743efbaca5382d4dbb166836e5924a7505f6"
+    },
+    "vllm/worker/cpu_pooling_model_runner.py": {
+      "git_blob": "c0744d63b8d098aa06c8d8dbc811a7f13b9d22d8",
+      "bytes": 5363,
+      "sha256": "c8dc6e9ca0aa088b1b84793e392cf71f188123ce65139bc5144910ec1793ca73"
+    },
+    "vllm/worker/cpu_worker.py": {
+      "git_blob": "27b1a2dd1be8c5295ef7ad4dec5e5c65f89fe026",
+      "bytes": 15547,
+      "sha256": "69c6fe0feb840709f055f513907a2d5c0b3b12176057c49de1bf9d2fa3cef4d3"
+    },
+    "vllm/worker/enc_dec_model_runner.py": {
+      "git_blob": "e2d338f757616b0dc140715f90f9dbb1a183260b",
+      "bytes": 22836,
+      "sha256": "d36a8cd0f25e65f31eb66589cbca2b9525f84cee021591d145914120ff529145"
+    },
+    "vllm/worker/hpu_model_runner.py": {
+      "git_blob": "b846d4387ba58a1ce3adc8c0d24bdf406a68a6a6",
+      "bytes": 89277,
+      "sha256": "792f146092bf278ff247b53c615bb210e7b1bf0546380c5dbd313f8af37d6746"
+    },
+    "vllm/worker/hpu_worker.py": {
+      "git_blob": "a1f31bead72949d1e2e7280d4e9d95e69efa9942",
+      "bytes": 21449,
+      "sha256": "ce2e40be94a1ae5effae71c1c034c5aa990b867e9fb33cdef9b0d4dd270a6b9b"
+    },
+    "vllm/worker/model_runner.py": {
+      "git_blob": "12baecde6e42c9fe671bcdc48abe95cb7040651a",
+      "bytes": 89960,
+      "sha256": "c7d28dc277852c2668ef04abaae3124a71bce569889c92a8257b664733f1ddbe"
+    },
+    "vllm/worker/model_runner_base.py": {
+      "git_blob": "38d2b712eff571cb5bd5224d83626001f237d4d8",
+      "bytes": 8558,
+      "sha256": "15b53fb4c3f13babb600481dba9884daaf7d15cc4ca5561f7c3cae374187c331"
+    },
+    "vllm/worker/multi_step_model_runner.py": {
+      "git_blob": "90771e8ac75d84e17050c7530f39373c44a703c3",
+      "bytes": 39221,
+      "sha256": "1755c8a6fed1703fd9a45d2363456f22913f1d4b25d5d94ca1f122b72f148de0"
+    },
+    "vllm/worker/multi_step_tpu_worker.py": {
+      "git_blob": "3871199987cee1ee8bf2066272edd8688b7f562a",
+      "bytes": 4450,
+      "sha256": "73a03503a01a822b3a572b2460fea33f7e4cb79a5a6700d5da39fbe744a7e4b0"
+    },
+    "vllm/worker/multi_step_worker.py": {
+      "git_blob": "3518ab2f64fed8301d984000d43344c92afaae6c",
+      "bytes": 9416,
+      "sha256": "f746bf3bdc376e61878ece6b195b0d11b63330c84d5594aa2cbc8e5401c2c64d"
+    },
+    "vllm/worker/neuron_model_runner.py": {
+      "git_blob": "f2093fc42ad16d26b3a194a6b39bc463efc9637a",
+      "bytes": 14883,
+      "sha256": "698dc287ff50964746e7ae0c99a85f1abd879508122d60bb5c71909e902c7556"
+    },
+    "vllm/worker/neuron_worker.py": {
+      "git_blob": "5f0eb0019eee25d65698ed73c49512ea9b8391ac",
+      "bytes": 4983,
+      "sha256": "79c58152e52359c77c88b23ecd6fe9a8932a361b1895a45e677cdd9655247c54"
+    },
+    "vllm/worker/openvino_model_runner.py": {
+      "git_blob": "f7a5ab9de9fa68482ae5b9d7e529adca806fa4a6",
+      "bytes": 14612,
+      "sha256": "feb4f21c5599088ca16cc7c16afa2a7e78e1051ff9b22f0908d585a8faf59c4b"
+    },
+    "vllm/worker/openvino_worker.py": {
+      "git_blob": "0690222d91afafc2472e8358bb21aac85b766f88",
+      "bytes": 24760,
+      "sha256": "ab389388c2a189ac0ae3e8621c197dbb7a059e5199856b89763e36a4fc72cd6d"
+    },
+    "vllm/worker/pooling_model_runner.py": {
+      "git_blob": "f43085b0e969a5b751ad2d7bf87bdceec65533fd",
+      "bytes": 8739,
+      "sha256": "1ca2097118d8fa4923bb8090753fe3e1373ffa5e168c6af53b8ccdc04174f90a"
+    },
+    "vllm/worker/tpu_model_runner.py": {
+      "git_blob": "ecdf7aa8889670957c1f369d02c439658f8ea395",
+      "bytes": 40930,
+      "sha256": "7d3f47239b3e54fc53dfacdb51ebf210b6cde18a6a763ebe95bf39fb4704f856"
+    },
+    "vllm/worker/tpu_worker.py": {
+      "git_blob": "12f10169f2db6814675856a7e70bb0eb7de58ba5",
+      "bytes": 13206,
+      "sha256": "c396bcf9d1f074549c0c66313d1f9eb493d5ca16ad4127bf3792c98668d2fa6f"
+    },
+    "vllm/worker/utils.py": {
+      "git_blob": "d925f088357b527d553ebbce1b3670aa179c1cd9",
+      "bytes": 1918,
+      "sha256": "a83245daab4ae8fc9f6ba255fd94e92140d897eaf09f78a6a2c86e4bbc97aff0"
+    },
+    "vllm/worker/worker.py": {
+      "git_blob": "582aa460eb4fadfa0d427efbe1f6f7134ef35b29",
+      "bytes": 24401,
+      "sha256": "4e45992a7c15d4444bde2560bd209816eef9069a61ad3c26c270c8d3a0570b39"
+    },
+    "vllm/worker/worker_base.py": {
+      "git_blob": "819b81fbfdbb2ddba26fd5674e23c85bc24924e2",
+      "bytes": 23399,
+      "sha256": "5d01385ed943e72407ba127afc6ad708903b3aeab54c7cfbe8af4c4685cfff9b"
+    },
+    "vllm/worker/xpu_model_runner.py": {
+      "git_blob": "9c726e1a107e0737d3e30bc2223aca0bbf86e226",
+      "bytes": 25580,
+      "sha256": "ce7baaecdb4f5ec7701cd6e1bb4166334a80b1ecdd2afa7c6a169e6b979144ee"
+    },
+    "vllm/worker/xpu_worker.py": {
+      "git_blob": "047c0bbbc355503621097dbfd8a152b4e17b164b",
+      "bytes": 7929,
+      "sha256": "a1c4a36a77e36a53d0cbdd4b376857fd20db8d02b15714ebf8f1fc989a889fa3"
+    }
+  }
+}

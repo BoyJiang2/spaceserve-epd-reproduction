@@ -1,0 +1,21 @@
+{"argv": ["rev-parse", "HEAD"], "exit": 0, "stdout": "66de079af4234b27f7f82ff91d238ef1351324ba\n", "stderr": ""}
+{"argv": ["branch", "--show-current"], "exit": 0, "stdout": "adapt/qjh003-v1\n", "stderr": ""}
+{"argv": ["status", "--porcelain=v1", "--untracked-files=all"], "exit": 0, "stdout": "", "stderr": ""}
+{"argv": ["remote", "get-url", "--all", "origin"], "exit": 0, "stdout": "https://github.com/BoyJiang2/spaceserve-epd-reproduction.git\n", "stderr": ""}
+{"argv": ["remote", "get-url", "--push", "--all", "origin"], "exit": 0, "stdout": "https://github.com/BoyJiang2/spaceserve-epd-reproduction.git\n", "stderr": ""}
+{"argv": ["remote", "get-url", "--all", "upstream"], "exit": 0, "stdout": "https://github.com/gofreelee/SpaceServe.git\n", "stderr": ""}
+{"argv": ["remote", "get-url", "--push", "--all", "upstream"], "exit": 0, "stdout": "https://github.com/gofreelee/SpaceServe.git\n", "stderr": ""}
+{"argv": ["count-objects", "-v"], "exit": 0, "stdout": "count: 0\nsize: 0\nin-pack: 1968\npacks: 1\nsize-pack: 5789\nprune-packable: 0\ngarbage: 1\nsize-garbage: 12392\n", "stderr": "warning: garbage found: .git/objects/pack/tmp_pack_2VDqzD\n"}
+{"argv": ["show-ref", "--verify", "--quiet", "refs/heads/baseline/vllm-v0.7.2"], "exit": 1, "stdout": "", "stderr": ""}
+{"argv": ["fetch", "--depth=1", "--no-tags", "--no-write-fetch-head", "--no-auto-maintenance", "upstream", "d7ec548300d7950c1305231b2aaf970bab7569c1"], "exit": 0, "stdout": "", "stderr": ""}
+{"argv": ["rev-parse", "d7ec548300d7950c1305231b2aaf970bab7569c1^{commit}"], "exit": 0, "stdout": "d7ec548300d7950c1305231b2aaf970bab7569c1\n", "stderr": ""}
+{"argv": ["rev-parse", "d7ec548300d7950c1305231b2aaf970bab7569c1^{tree}"], "exit": 0, "stdout": "9887287659a56df6f9744e631667f67893512b8c\n", "stderr": ""}
+{"argv": ["branch", "baseline/vllm-v0.7.2", "d7ec548300d7950c1305231b2aaf970bab7569c1"], "exit": 0, "stdout": "", "stderr": ""}
+{"argv": ["rev-parse", "refs/heads/baseline/vllm-v0.7.2"], "exit": 0, "stdout": "d7ec548300d7950c1305231b2aaf970bab7569c1\n", "stderr": ""}
+{"argv": ["rev-parse", "refs/heads/baseline/vllm-v0.7.2^{tree}"], "exit": 0, "stdout": "9887287659a56df6f9744e631667f67893512b8c\n", "stderr": ""}
+{"argv": ["rev-parse", "HEAD"], "exit": 0, "stdout": "66de079af4234b27f7f82ff91d238ef1351324ba\n", "stderr": ""}
+{"argv": ["branch", "--show-current"], "exit": 0, "stdout": "adapt/qjh003-v1\n", "stderr": ""}
+{"argv": ["status", "--porcelain=v1", "--untracked-files=all"], "exit": 0, "stdout": "", "stderr": ""}
+{"argv": ["count-objects", "-v"], "exit": 0, "stdout": "count: 70\nsize: 508\nin-pack: 1968\npacks: 1\nsize-pack: 5789\nprune-packable: 0\ngarbage: 1\nsize-garbage: 12392\n", "stderr": "warning: garbage found: .git/objects/pack/tmp_pack_2VDqzD\n"}
+{"argv": ["rev-parse", "--is-shallow-repository"], "exit": 0, "stdout": "true\n", "stderr": ""}
+{"finished": 1793708404.462463, "root": "/local/boyjiang/SpaceServe-official", "current_branch": "adapt/qjh003-v1", "current_HEAD": "66de079af4234b27f7f82ff91d238ef1351324ba", "current_worktree_unchanged": true, "baseline_branch": "baseline/vllm-v0.7.2", "baseline_commit": "d7ec548300d7950c1305231b2aaf970bab7569c1", "baseline_tree": "9887287659a56df6f9744e631667f67893512b8c", "native_vllm_commit": "0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d", "content_tree_equal_but_commit_different": true, "is_shallow": "true", "object_counts_before": "count: 0\nsize: 0\nin-pack: 1968\npacks: 1\nsize-pack: 5789\nprune-packable: 0\ngarbage: 1\nsize-garbage: 12392", "object_counts_after": "count: 70\nsize: 508\nin-pack: 1968\npacks: 1\nsize-pack: 5789\nprune-packable: 0\ngarbage: 1\nsize-garbage: 12392", "GPU_operations": 0, "target_imports": false, "shared_environment_changes": false, "model_copies": 0, "scope": "metadata baseline prepared only; no checkout/switch or runtime approval"}

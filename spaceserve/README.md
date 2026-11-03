@@ -1,3 +1,5 @@
+[原生baseline源码核查与下一步](comparison/20261103-native-baseline-source-audit.md)（CPU证据，尚未GPU验证）
+
 [官方源码快照、固定版本与模型路径](code/README-official.md)（新官方目录 GPU 验证尚未完成）
 
 [官方源码G2：v0.7.2内容基点与加载路径](comparison/20261103-official-source-g2.md)：作者基点与原生0.7.2整树相同，运行与mask尚未验证。
