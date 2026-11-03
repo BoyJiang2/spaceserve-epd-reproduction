@@ -1,3 +1,5 @@
+[官方checkout阶段G1](20261103-official-checkout-g1.md)：适配分支与静态元数据，尚无本阶段GPU机制结果。
+
 # SpaceServe 复现项目
 
 软件准备：[2026-11-03 CPU源码、旧失败与新36项验证](20261103-cpu-readiness.md)。以下模型预检和历史baseline表图保持独立，不增加CPU性能比值。

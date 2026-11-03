@@ -1,3 +1,5 @@
+[当前官方checkout：G1与步骤1–2](comparison/20261103-official-checkout-g1.md)：adapt/qjh003-v1已建立，固定官方66de079，无源码修改。fork版本关系及实际加载待核，历史旧repo结果独立保留。
+
 # SpaceServe 复现项目
 
 运行准备更新：[2026-11-03 指定源码8536190、103项部署与目标CPU36](comparison/20261103-cpu-readiness.md)已通过独立验收；旧36项/3errors保留。该软件验证不构成新GPU模型或正式性能结果。

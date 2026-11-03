@@ -1,3 +1,5 @@
+[当前官方checkout：G1与步骤1–2](comparison/20261103-official-checkout-g1.md)：adapt/qjh003-v1已建立，固定官方9b111f7，无源码修改。下方旧repo部署结果独立保留，不当作本阶段入口或模型通过。
+
 [官方 EPD/PD/D 入口验证与失败修复（2026-11-03）](comparison/20261103-official-entry-readiness.md)：源码1a5c61e已部署，三API帮助加载通过；真实请求仍待GPU窗口。历史baseline/退化结果见下文，不能用CPU加载代替性能。
 
 # EPD Disaggregation 复现项目

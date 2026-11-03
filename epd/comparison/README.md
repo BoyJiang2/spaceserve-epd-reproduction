@@ -1,3 +1,5 @@
+[官方checkout阶段G1](20261103-official-checkout-g1.md)：源码/解释器/静态依赖记录，尚无本阶段真实模型结果。
+
 [官方入口与三组CPU加载验证](20261103-official-entry-readiness.md)：本批是源码/依赖准备，未新增GPU测量；原PD导入失败和最小补丁证据全部保留。
 
 # EPD Disaggregation 复现项目

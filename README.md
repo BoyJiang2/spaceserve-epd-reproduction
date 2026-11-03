@@ -1,3 +1,5 @@
+当前官方源码阶段：[EPD官方checkout G1](epd/comparison/20261103-official-checkout-g1.md) · [SpaceServe官方checkout G1](spaceserve/comparison/20261103-official-checkout-g1.md)。两个适配分支已建立；仅静态CPU检查，无新模型或GPU结果。旧repo报告保留为历史，不能代替新官方checkout验证。
+
 [EPD 官方基线恢复与目标机入口验证（新）](epd/comparison/20261103-official-entry-readiness.md)：官方PD/D已补回并部署，三组API CPU加载通过；保留原失败，尚无新模型或GPU性能结果。
 
 # SpaceServe 与 EPD：两个独立复现项目
