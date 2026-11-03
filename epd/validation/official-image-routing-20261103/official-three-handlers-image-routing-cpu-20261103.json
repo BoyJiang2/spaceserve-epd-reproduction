@@ -1,0 +1,83 @@
+{
+  "official_commit": "9b111f710dfb4724072b603d626a1e4dad93ef1f",
+  "handlers": [
+    {
+      "path": "baselines/d/distserve/api_server.py",
+      "source_sha256": "1dbb9b2096b568603cef8def73cf2ec62caf4886b078c069115b889d9be4eedc",
+      "patched_sha256": "a93cc02438376a57c492a15e4a2ca39d200a297eb07e06104de6c8cc5ab0459c",
+      "original": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg"
+      ],
+      "expected": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:B.jpg",
+        "CPU_FIXTURE:C.jpg",
+        "CPU_FIXTURE:D.jpg"
+      ],
+      "patched": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:B.jpg",
+        "CPU_FIXTURE:C.jpg",
+        "CPU_FIXTURE:D.jpg"
+      ],
+      "single_image_unchanged": true,
+      "concurrent_fixture_passed": true
+    },
+    {
+      "path": "baselines/pd/distserve/api_server.py",
+      "source_sha256": "da7191623dd7237fef5ea3bdcac989c713e00322b36b2c6110d88618eecb7559",
+      "patched_sha256": "20764bdb54c278b1b194d099ed71b80f0c0a556212355171c1f5d6fa0025a640",
+      "original": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg"
+      ],
+      "expected": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:B.jpg",
+        "CPU_FIXTURE:C.jpg",
+        "CPU_FIXTURE:D.jpg"
+      ],
+      "patched": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:B.jpg",
+        "CPU_FIXTURE:C.jpg",
+        "CPU_FIXTURE:D.jpg"
+      ],
+      "single_image_unchanged": true,
+      "concurrent_fixture_passed": true
+    },
+    {
+      "path": "epdserve/api_server.py",
+      "source_sha256": "ccd14776b117bb4680a136c2060f506176a7ffc8250be4bdf3dd7258ae6ee0f2",
+      "patched_sha256": "224bfb9f8b1b697ae0cac3f1671e452b6a0f4051d6a00adccbf53fe58961a576",
+      "original": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:A.jpg"
+      ],
+      "expected": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:B.jpg",
+        "CPU_FIXTURE:C.jpg",
+        "CPU_FIXTURE:D.jpg"
+      ],
+      "patched": [
+        "CPU_FIXTURE:A.jpg",
+        "CPU_FIXTURE:B.jpg",
+        "CPU_FIXTURE:C.jpg",
+        "CPU_FIXTURE:D.jpg"
+      ],
+      "single_image_unchanged": true,
+      "concurrent_fixture_passed": true
+    }
+  ],
+  "scope": "Actual AST handler prefixes; synthetic loader/request only. No imports, HTTP, image decoding or GPU.",
+  "applied_to_server": false,
+  "gpu_operations": 0
+}

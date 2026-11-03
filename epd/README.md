@@ -1,3 +1,5 @@
+[官方多图修复候选及完整模型/PD调用链](comparison/20261103-official-image-routing-preparation.md)（仅CPU证据，未部署、未运行GPU；历史性能保持原批次）
+
 [官方首请求脚本与CPU验证状态](comparison/20261103-official-first-request-preparation.md)（尚未执行GPU请求）
 
 [官方源码快照、固定版本与模型路径](code/README-official.md)（新官方目录 GPU 验证尚未完成）
