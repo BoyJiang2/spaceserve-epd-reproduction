@@ -1,3 +1,5 @@
+[单请求固定工具与CPU检查](comparison/20261103-official-first-request-preparation.md)（尚未部署/运行GPU）
+
 [原生baseline源码核查与下一步](comparison/20261103-native-baseline-source-audit.md)（CPU证据，尚未GPU验证）
 
 [官方源码快照、固定版本与模型路径](code/README-official.md)（新官方目录 GPU 验证尚未完成）
