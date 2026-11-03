@@ -1,3 +1,5 @@
+[EPD 官方基线恢复与目标机入口验证（新）](epd/comparison/20261103-official-entry-readiness.md)：官方PD/D已补回并部署，三组API CPU加载通过；保留原失败，尚无新模型或GPU性能结果。
+
 # SpaceServe 与 EPD：两个独立复现项目
 
 运行准备更新：[SpaceServe 8536190源码部署与目标CPU36验证](spaceserve/comparison/20261103-cpu-readiness.md)已通过独立验收，原版本36项/3errors及修复记录保留。CPU证据与下方历史GPU性能分开；新正式仍0/54。

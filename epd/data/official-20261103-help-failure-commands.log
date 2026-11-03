@@ -1,0 +1,92 @@
+{"argv": ["git", "--no-optional-locks", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "rev-parse", "HEAD"], "started_ms": 1793683037021}
+75e77fb254746444d4db5fd25866f9db816e9eb0
+
+{"exit_code": 0, "elapsed_seconds": 0.1471747780451551, "failure": null, "output_bytes": 41, "output_sha256": "02df67ed8dc2f3492160339529e3f96c5922ab62e80836d2dcdad056e55cccaa", "cleanup": []}
+{"argv": ["git", "--no-optional-locks", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "status", "--porcelain"], "started_ms": 1793683037169}
+
+{"exit_code": 0, "elapsed_seconds": 0.14209178800228983, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}
+{"argv": ["/local/boyjiang/epd/assets/envs/epd/bin/python", "-B", "-c", "import os,sys,runpy;os.chdir('/local/boyjiang/epd/repo/epd/runtime');sys.path.insert(0,os.getcwd());sys.argv=['epdserve.api_server',\"--help\"];runpy.run_module('epdserve.api_server',run_name=\"__main__\")"], "started_ms": 1793683037351}
+usage: epdserve.api_server [-h] [--host HOST] [--port PORT] [--pd-fused]
+                           [--runtime-max-num-seqs {4,8}] [--model MODEL]
+                           [--tokenizer TOKENIZER] [--trust-remote-code]
+                           [--seed SEED] [--use-dummy-weights]
+                           [--encoding-data-parallel-size ENCODING_DATA_PARALLEL_SIZE]
+                           [--encoding-pipeline-parallel-size ENCODING_PIPELINE_PARALLEL_SIZE]
+                           [--encoding-tensor-parallel-size ENCODING_TENSOR_PARALLEL_SIZE]
+                           [--context-data-parallel-size CONTEXT_DATA_PARALLEL_SIZE]
+                           [--context-pipeline-parallel-size CONTEXT_PIPELINE_PARALLEL_SIZE]
+                           [--context-tensor-parallel-size CONTEXT_TENSOR_PARALLEL_SIZE]
+                           [--decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE]
+                           [--decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE]
+                           [--decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE]
+                           [--block-size BLOCK_SIZE]
+                           [--max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ]
+                           [--gpu-memory-utilization GPU_MEMORY_UTILIZATION]
+                           [--swap-space SWAP_SPACE]
+                           [--encoding-sched-policy ENCODING_SCHED_POLICY]
+                           [--encoding-max-batch-size ENCODING_MAX_BATCH_SIZE]
+                           [--context-sched-policy CONTEXT_SCHED_POLICY]
+                           [--context-max-batch-size CONTEXT_MAX_BATCH_SIZE]
+                           [--context-max-tokens-per-batch CONTEXT_MAX_TOKENS_PER_BATCH]
+                           [--decoding-sched-policy DECODING_SCHED_POLICY]
+                           [--decoding-max-batch-size DECODING_MAX_BATCH_SIZE]
+                           [--decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH]
+                           [--simulator-mode]
+                           [--profiler-data-path PROFILER_DATA_PATH]
+                           [--gpu-mem-size-gb GPU_MEM_SIZE_GB]
+                           [--intra-request-dp INTRA_REQUEST_DP]
+                           [--limit-mm-per-prompt LIMIT_MM_PER_PROMPT]
+
+options:
+  -h, --help            show this help message and exit
+  --host HOST
+  --port PORT
+  --pd-fused
+  --runtime-max-num-seqs {4,8}
+  --model MODEL
+  --tokenizer TOKENIZER
+  --trust-remote-code
+  --seed SEED
+  --use-dummy-weights
+  --encoding-data-parallel-size ENCODING_DATA_PARALLEL_SIZE
+  --encoding-pipeline-parallel-size ENCODING_PIPELINE_PARALLEL_SIZE
+  --encoding-tensor-parallel-size ENCODING_TENSOR_PARALLEL_SIZE
+  --context-data-parallel-size CONTEXT_DATA_PARALLEL_SIZE
+  --context-pipeline-parallel-size CONTEXT_PIPELINE_PARALLEL_SIZE
+  --context-tensor-parallel-size CONTEXT_TENSOR_PARALLEL_SIZE
+  --decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE
+  --decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE
+  --decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE
+  --block-size BLOCK_SIZE
+  --max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ
+  --gpu-memory-utilization GPU_MEMORY_UTILIZATION
+  --swap-space SWAP_SPACE
+  --encoding-sched-policy ENCODING_SCHED_POLICY
+  --encoding-max-batch-size ENCODING_MAX_BATCH_SIZE
+  --context-sched-policy CONTEXT_SCHED_POLICY
+  --context-max-batch-size CONTEXT_MAX_BATCH_SIZE
+  --context-max-tokens-per-batch CONTEXT_MAX_TOKENS_PER_BATCH
+  --decoding-sched-policy DECODING_SCHED_POLICY
+  --decoding-max-batch-size DECODING_MAX_BATCH_SIZE
+  --decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH
+  --simulator-mode
+  --profiler-data-path PROFILER_DATA_PATH
+  --gpu-mem-size-gb GPU_MEM_SIZE_GB
+  --intra-request-dp INTRA_REQUEST_DP
+  --limit-mm-per-prompt LIMIT_MM_PER_PROMPT
+
+{"exit_code": 0, "elapsed_seconds": 10.027677349047735, "failure": null, "output_bytes": 3867, "output_sha256": "d35102b849849ea1b6ef89be3a088f3409af02a3136a89f74ac563612cbf6670", "cleanup": []}
+{"argv": ["/local/boyjiang/epd/assets/envs/epd/bin/python", "-B", "-c", "import os,sys,runpy;os.chdir('/local/boyjiang/epd/repo/epd/runtime/baselines/pd');sys.path.insert(0,os.getcwd());sys.argv=['distserve.api_server',\"--help\"];runpy.run_module('distserve.api_server',run_name=\"__main__\")"], "started_ms": 1793683047379}
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/usr/lib/python3.10/runpy.py", line 227, in run_module
+    return _run_code(code, {}, init_globals, run_name, mod_spec)
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/local/boyjiang/epd/repo/epd/runtime/baselines/pd/distserve/api_server.py", line 76, in <module>
+    image_cache[image_name] = Image.open(image_path).convert("RGB")
+  File "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/PIL/Image.py", line 3639, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/local/boyjiang/epd/repo/epd/runtime/baselines/pd/distserve/../../../assets/images/image2_4032_3024.jpg'
+
+{"exit_code": 1, "elapsed_seconds": 8.16144649591297, "failure": "CalledProcessError(1, ['/local/boyjiang/epd/assets/envs/epd/bin/python', '-B', '-c', 'import os,sys,runpy;os.chdir(\\'/local/boyjiang/epd/repo/epd/runtime/baselines/pd\\');sys.path.insert(0,os.getcwd());sys.argv=[\\'distserve.api_server\\',\"--help\"];runpy.run_module(\\'distserve.api_server\\',run_name=\"__main__\")'])", "output_bytes": 772, "output_sha256": "79619e7875b067e7317005a9a4d3a71178cce219e36cebfc0db9247b69dcd242", "cleanup": []}

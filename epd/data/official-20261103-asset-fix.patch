@@ -1,0 +1,85 @@
+--- before/epd/runtime/baselines/pd/distserve/api_server.py
++++ after/epd/runtime/baselines/pd/distserve/api_server.py
+@@ -73,7 +73,8 @@
+ ASSETS_DIR = os.path.join(os.path.dirname(__file__), '../../../assets')
+ image_path = os.path.join(ASSETS_DIR, 'images/image2_4032_3024.jpg')
+ image_name = os.path.basename(image_path)
+-image_cache[image_name] = Image.open(image_path).convert("RGB")
++if os.path.isfile(image_path):
++    image_cache[image_name] = Image.open(image_path).convert("RGB")
+ 
+ def load_image_cache(image_path):
+     image_name = os.path.basename(image_path)
+--- before/epd/runtime/baselines/d/distserve/api_server.py
++++ after/epd/runtime/baselines/d/distserve/api_server.py
+@@ -70,7 +70,8 @@
+ ASSETS_DIR = os.path.join(os.path.dirname(__file__), '../../../assets')
+ image_path = os.path.join(ASSETS_DIR, 'images/image2_4032_3024.jpg')
+ image_name = os.path.basename(image_path)
+-image_cache[image_name] = Image.open(image_path).convert("RGB")
++if os.path.isfile(image_path):
++    image_cache[image_name] = Image.open(image_path).convert("RGB")
+ 
+ def load_image_cache(image_path):
+     image_name = os.path.basename(image_path)
+--- before/epd/runtime/tests/test_official_baseline_asset_import_cpu.py
++++ after/epd/runtime/tests/test_official_baseline_asset_import_cpu.py
+@@ -0,0 +1,58 @@
++"""Import-time sample loading regression; no torch/Ray/model imports."""
++import ast
++import os
++from pathlib import Path
++import tempfile
++import types
++import unittest
++
++
++class BaselineSampleTests(unittest.TestCase):
++    def run_source(self, kind, root):
++        source = Path(__file__).resolve().parents[1] / "baselines" / kind / "distserve/api_server.py"
++        nodes = ast.parse(source.read_bytes()).body
++        start = next(i for i, n in enumerate(nodes) if isinstance(n, ast.Assign)
++                     and any(isinstance(t, ast.Name) and t.id == "image_cache" for t in n.targets))
++        stop = next(i for i, n in enumerate(nodes) if isinstance(n, ast.FunctionDef) and n.name == "load_image_cache")
++        class Image:
++            @staticmethod
++            def open(path):
++                data = Path(path).read_bytes()
++                return types.SimpleNamespace(convert=lambda mode: data)
++        fake_file = root / "baselines" / kind / "distserve/api_server.py"
++        fake_file.parent.mkdir(parents=True, exist_ok=True)
++        values = {"os": os, "Image": Image,
++                  "__file__": str(fake_file),
++                  "utils": types.SimpleNamespace(load_images_parallel=lambda paths: [Path(p).read_bytes() for p in paths])}
++        exec(compile(ast.Module(nodes[start:stop + 1], type_ignores=[]), str(source), "exec"), values)
++        return values
++
++    def test_missing_optional_sample(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            for kind in ("pd", "d"):
++                with self.subTest(kind=kind):
++                    values = self.run_source(kind, Path(tmp))
++                    self.assertEqual(values["image_cache"], {})
++
++    def test_existing_optional_sample(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            sample = root / "assets/images/image2_4032_3024.jpg"
++            sample.parent.mkdir(parents=True)
++            sample.write_bytes(b"sample RGB fixture")
++            for kind in ("pd", "d"):
++                with self.subTest(kind=kind):
++                    values = self.run_source(kind, root)
++                    self.assertEqual(values["load_image_cache"](str(sample)), b"sample RGB fixture")
++
++    def test_missing_request_image_still_fails(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            for kind in ("pd", "d"):
++                with self.subTest(kind=kind):
++                    values = self.run_source(kind, Path(tmp))
++                    with self.assertRaises(FileNotFoundError):
++                        values["load_image_cache"](str(Path(tmp) / "missing-request.jpg"))
++
++
++if __name__ == "__main__":
++    unittest.main()

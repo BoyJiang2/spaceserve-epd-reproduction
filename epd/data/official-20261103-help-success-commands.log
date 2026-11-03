@@ -1,0 +1,220 @@
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "rev-parse", "HEAD"], "started_ms": 1793684575074}
+75e77fb254746444d4db5fd25866f9db816e9eb0
+
+{"exit_code": 0, "elapsed_seconds": 0.1471335170790553, "failure": null, "output_bytes": 41, "output_sha256": "02df67ed8dc2f3492160339529e3f96c5922ab62e80836d2dcdad056e55cccaa", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793684575221}
+
+{"exit_code": 0, "elapsed_seconds": 0.14567757491022348, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "unpack-objects", "-r"], "started_ms": 1793684575408}
+
+{"exit_code": 0, "elapsed_seconds": 0.13031739101279527, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "rev-parse", "1a5c61e448aab9fe54c4ec7a7626ef6267efa4ed^{tree}"], "started_ms": 1793684575539}
+f873e2bbb3f0367d168c38cba24dc5d037aa6793
+
+{"exit_code": 0, "elapsed_seconds": 0.12789862498175353, "failure": null, "output_bytes": 41, "output_sha256": "f9aa0d87a47b6054cb28235d86fadd60c1282014b02823bdf7c5c98ce8792be2", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "show", "-s", "--format=%P", "1a5c61e448aab9fe54c4ec7a7626ef6267efa4ed"], "started_ms": 1793684575667}
+75e77fb254746444d4db5fd25866f9db816e9eb0
+
+{"exit_code": 0, "elapsed_seconds": 0.136053899070248, "failure": null, "output_bytes": 41, "output_sha256": "02df67ed8dc2f3492160339529e3f96c5922ab62e80836d2dcdad056e55cccaa", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "checkout", "--detach", "1a5c61e448aab9fe54c4ec7a7626ef6267efa4ed"], "started_ms": 1793684575803}
+Previous HEAD position was 75e77fb Restore official EPDServe PD and aggregated baseline sources
+HEAD is now at 1a5c61e Allow official baseline API imports without an optional sample image
+
+{"exit_code": 0, "elapsed_seconds": 0.1485696699237451, "failure": null, "output_bytes": 188, "output_sha256": "2b3de5d034f50cc45f6f5db57fe72c13fc4a6f5e356dac08f571d18abadb7100", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "rev-parse", "HEAD"], "started_ms": 1793684575952}
+1a5c61e448aab9fe54c4ec7a7626ef6267efa4ed
+
+{"exit_code": 0, "elapsed_seconds": 0.1290073620621115, "failure": null, "output_bytes": 41, "output_sha256": "6e9fc95d2fd6e01665e90b98550252e5e22267b3e7bcdf4c8d54a39c58b05000", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793684576081}
+
+{"exit_code": 0, "elapsed_seconds": 0.14016246399842203, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}
+{"argv": ["/local/boyjiang/epd/assets/envs/epd/bin/python", "-B", "/local/boyjiang/epd/repo/epd/runtime/tests/test_official_baseline_asset_import_cpu.py"], "started_ms": 1793684576244}
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.016s
+
+OK
+
+{"exit_code": 0, "elapsed_seconds": 0.17999831994529814, "failure": null, "output_bytes": 101, "output_sha256": "239573c1665ba0d20880d981ec7058ee3d44a42932e841724fdcee3ca672055d", "cleanup": []}
+{"argv": ["/local/boyjiang/epd/assets/envs/epd/bin/python", "-B", "-c", "import os,sys,runpy;os.chdir('/local/boyjiang/epd/repo/epd/runtime');sys.path.insert(0,os.getcwd());sys.argv=['epdserve.api_server',\"--help\"];runpy.run_module('epdserve.api_server',run_name=\"__main__\")"], "started_ms": 1793684576424}
+usage: epdserve.api_server [-h] [--host HOST] [--port PORT] [--pd-fused]
+                           [--runtime-max-num-seqs {4,8}] [--model MODEL]
+                           [--tokenizer TOKENIZER] [--trust-remote-code]
+                           [--seed SEED] [--use-dummy-weights]
+                           [--encoding-data-parallel-size ENCODING_DATA_PARALLEL_SIZE]
+                           [--encoding-pipeline-parallel-size ENCODING_PIPELINE_PARALLEL_SIZE]
+                           [--encoding-tensor-parallel-size ENCODING_TENSOR_PARALLEL_SIZE]
+                           [--context-data-parallel-size CONTEXT_DATA_PARALLEL_SIZE]
+                           [--context-pipeline-parallel-size CONTEXT_PIPELINE_PARALLEL_SIZE]
+                           [--context-tensor-parallel-size CONTEXT_TENSOR_PARALLEL_SIZE]
+                           [--decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE]
+                           [--decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE]
+                           [--decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE]
+                           [--block-size BLOCK_SIZE]
+                           [--max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ]
+                           [--gpu-memory-utilization GPU_MEMORY_UTILIZATION]
+                           [--swap-space SWAP_SPACE]
+                           [--encoding-sched-policy ENCODING_SCHED_POLICY]
+                           [--encoding-max-batch-size ENCODING_MAX_BATCH_SIZE]
+                           [--context-sched-policy CONTEXT_SCHED_POLICY]
+                           [--context-max-batch-size CONTEXT_MAX_BATCH_SIZE]
+                           [--context-max-tokens-per-batch CONTEXT_MAX_TOKENS_PER_BATCH]
+                           [--decoding-sched-policy DECODING_SCHED_POLICY]
+                           [--decoding-max-batch-size DECODING_MAX_BATCH_SIZE]
+                           [--decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH]
+                           [--simulator-mode]
+                           [--profiler-data-path PROFILER_DATA_PATH]
+                           [--gpu-mem-size-gb GPU_MEM_SIZE_GB]
+                           [--intra-request-dp INTRA_REQUEST_DP]
+                           [--limit-mm-per-prompt LIMIT_MM_PER_PROMPT]
+
+options:
+  -h, --help            show this help message and exit
+  --host HOST
+  --port PORT
+  --pd-fused
+  --runtime-max-num-seqs {4,8}
+  --model MODEL
+  --tokenizer TOKENIZER
+  --trust-remote-code
+  --seed SEED
+  --use-dummy-weights
+  --encoding-data-parallel-size ENCODING_DATA_PARALLEL_SIZE
+  --encoding-pipeline-parallel-size ENCODING_PIPELINE_PARALLEL_SIZE
+  --encoding-tensor-parallel-size ENCODING_TENSOR_PARALLEL_SIZE
+  --context-data-parallel-size CONTEXT_DATA_PARALLEL_SIZE
+  --context-pipeline-parallel-size CONTEXT_PIPELINE_PARALLEL_SIZE
+  --context-tensor-parallel-size CONTEXT_TENSOR_PARALLEL_SIZE
+  --decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE
+  --decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE
+  --decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE
+  --block-size BLOCK_SIZE
+  --max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ
+  --gpu-memory-utilization GPU_MEMORY_UTILIZATION
+  --swap-space SWAP_SPACE
+  --encoding-sched-policy ENCODING_SCHED_POLICY
+  --encoding-max-batch-size ENCODING_MAX_BATCH_SIZE
+  --context-sched-policy CONTEXT_SCHED_POLICY
+  --context-max-batch-size CONTEXT_MAX_BATCH_SIZE
+  --context-max-tokens-per-batch CONTEXT_MAX_TOKENS_PER_BATCH
+  --decoding-sched-policy DECODING_SCHED_POLICY
+  --decoding-max-batch-size DECODING_MAX_BATCH_SIZE
+  --decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH
+  --simulator-mode
+  --profiler-data-path PROFILER_DATA_PATH
+  --gpu-mem-size-gb GPU_MEM_SIZE_GB
+  --intra-request-dp INTRA_REQUEST_DP
+  --limit-mm-per-prompt LIMIT_MM_PER_PROMPT
+
+{"exit_code": 0, "elapsed_seconds": 8.491654895013198, "failure": null, "output_bytes": 3867, "output_sha256": "d35102b849849ea1b6ef89be3a088f3409af02a3136a89f74ac563612cbf6670", "cleanup": []}
+{"argv": ["/local/boyjiang/epd/assets/envs/epd/bin/python", "-B", "-c", "import os,sys,runpy;os.chdir('/local/boyjiang/epd/repo/epd/runtime/baselines/pd');sys.path.insert(0,os.getcwd());sys.argv=['distserve.api_server',\"--help\"];runpy.run_module('distserve.api_server',run_name=\"__main__\")"], "started_ms": 1793684584916}
+usage: distserve.api_server [-h] [--host HOST] [--port PORT] [--model MODEL]
+                            [--tokenizer TOKENIZER] [--trust-remote-code]
+                            [--seed SEED] [--use-dummy-weights]
+                            [--context-data-parallel-size CONTEXT_DATA_PARALLEL_SIZE]
+                            [--context-pipeline-parallel-size CONTEXT_PIPELINE_PARALLEL_SIZE]
+                            [--context-tensor-parallel-size CONTEXT_TENSOR_PARALLEL_SIZE]
+                            [--decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE]
+                            [--decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE]
+                            [--decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE]
+                            [--block-size BLOCK_SIZE]
+                            [--max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ]
+                            [--gpu-memory-utilization GPU_MEMORY_UTILIZATION]
+                            [--swap-space SWAP_SPACE]
+                            [--encoding-sched-policy ENCODING_SCHED_POLICY]
+                            [--encoding-max-batch-size ENCODING_MAX_BATCH_SIZE]
+                            [--context-sched-policy CONTEXT_SCHED_POLICY]
+                            [--context-max-batch-size CONTEXT_MAX_BATCH_SIZE]
+                            [--context-max-tokens-per-batch CONTEXT_MAX_TOKENS_PER_BATCH]
+                            [--decoding-sched-policy DECODING_SCHED_POLICY]
+                            [--decoding-max-batch-size DECODING_MAX_BATCH_SIZE]
+                            [--decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH]
+                            [--simulator-mode]
+                            [--profiler-data-path PROFILER_DATA_PATH]
+                            [--gpu-mem-size-gb GPU_MEM_SIZE_GB]
+                            [--limit-mm-per-prompt LIMIT_MM_PER_PROMPT]
+
+options:
+  -h, --help            show this help message and exit
+  --host HOST
+  --port PORT
+  --model MODEL
+  --tokenizer TOKENIZER
+  --trust-remote-code
+  --seed SEED
+  --use-dummy-weights
+  --context-data-parallel-size CONTEXT_DATA_PARALLEL_SIZE
+  --context-pipeline-parallel-size CONTEXT_PIPELINE_PARALLEL_SIZE
+  --context-tensor-parallel-size CONTEXT_TENSOR_PARALLEL_SIZE
+  --decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE
+  --decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE
+  --decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE
+  --block-size BLOCK_SIZE
+  --max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ
+  --gpu-memory-utilization GPU_MEMORY_UTILIZATION
+  --swap-space SWAP_SPACE
+  --encoding-sched-policy ENCODING_SCHED_POLICY
+  --encoding-max-batch-size ENCODING_MAX_BATCH_SIZE
+  --context-sched-policy CONTEXT_SCHED_POLICY
+  --context-max-batch-size CONTEXT_MAX_BATCH_SIZE
+  --context-max-tokens-per-batch CONTEXT_MAX_TOKENS_PER_BATCH
+  --decoding-sched-policy DECODING_SCHED_POLICY
+  --decoding-max-batch-size DECODING_MAX_BATCH_SIZE
+  --decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH
+  --simulator-mode
+  --profiler-data-path PROFILER_DATA_PATH
+  --gpu-mem-size-gb GPU_MEM_SIZE_GB
+  --limit-mm-per-prompt LIMIT_MM_PER_PROMPT
+
+{"exit_code": 0, "elapsed_seconds": 8.115178889012896, "failure": null, "output_bytes": 3209, "output_sha256": "ec63769d26b475240b5bb350b03416a60581c64e34e2b5d8f20e6b805e427594", "cleanup": []}
+{"argv": ["/local/boyjiang/epd/assets/envs/epd/bin/python", "-B", "-c", "import os,sys,runpy;os.chdir('/local/boyjiang/epd/repo/epd/runtime/baselines/d');sys.path.insert(0,os.getcwd());sys.argv=['distserve.api_server',\"--help\"];runpy.run_module('distserve.api_server',run_name=\"__main__\")"], "started_ms": 1793684593032}
+usage: distserve.api_server [-h] [--host HOST] [--port PORT] [--model MODEL]
+                            [--tokenizer TOKENIZER] [--trust-remote-code]
+                            [--seed SEED] [--use-dummy-weights]
+                            [--decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE]
+                            [--decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE]
+                            [--decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE]
+                            [--block-size BLOCK_SIZE]
+                            [--max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ]
+                            [--gpu-memory-utilization GPU_MEMORY_UTILIZATION]
+                            [--swap-space SWAP_SPACE]
+                            [--decoding-sched-policy DECODING_SCHED_POLICY]
+                            [--decoding-max-batch-size DECODING_MAX_BATCH_SIZE]
+                            [--decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH]
+                            [--simulator-mode]
+                            [--profiler-data-path PROFILER_DATA_PATH]
+                            [--gpu-mem-size-gb GPU_MEM_SIZE_GB]
+                            [--limit-mm-per-prompt LIMIT_MM_PER_PROMPT]
+
+options:
+  -h, --help            show this help message and exit
+  --host HOST
+  --port PORT
+  --model MODEL
+  --tokenizer TOKENIZER
+  --trust-remote-code
+  --seed SEED
+  --use-dummy-weights
+  --decoding-data-parallel-size DECODING_DATA_PARALLEL_SIZE
+  --decoding-pipeline-parallel-size DECODING_PIPELINE_PARALLEL_SIZE
+  --decoding-tensor-parallel-size DECODING_TENSOR_PARALLEL_SIZE
+  --block-size BLOCK_SIZE
+  --max-num-blocks-per-req MAX_NUM_BLOCKS_PER_REQ
+  --gpu-memory-utilization GPU_MEMORY_UTILIZATION
+  --swap-space SWAP_SPACE
+  --decoding-sched-policy DECODING_SCHED_POLICY
+  --decoding-max-batch-size DECODING_MAX_BATCH_SIZE
+  --decoding-max-tokens-per-batch DECODING_MAX_TOKENS_PER_BATCH
+  --simulator-mode
+  --profiler-data-path PROFILER_DATA_PATH
+  --gpu-mem-size-gb GPU_MEM_SIZE_GB
+  --limit-mm-per-prompt LIMIT_MM_PER_PROMPT
+
+{"exit_code": 0, "elapsed_seconds": 8.13165440200828, "failure": null, "output_bytes": 2097, "output_sha256": "49f2b1023846adbe1ecbd0bf4bedc34a70785ee5db3e942398a48e8ae84202d0", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "rev-parse", "HEAD"], "started_ms": 1793684601164}
+1a5c61e448aab9fe54c4ec7a7626ef6267efa4ed
+
+{"exit_code": 0, "elapsed_seconds": 0.13081756606698036, "failure": null, "output_bytes": 41, "output_sha256": "6e9fc95d2fd6e01665e90b98550252e5e22267b3e7bcdf4c8d54a39c58b05000", "cleanup": []}
+{"argv": ["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", "-C", "/local/boyjiang/epd/repo", "status", "--porcelain", "--untracked-files=all"], "started_ms": 1793684601295}
+
+{"exit_code": 0, "elapsed_seconds": 0.13954577303957194, "failure": null, "output_bytes": 0, "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "cleanup": []}

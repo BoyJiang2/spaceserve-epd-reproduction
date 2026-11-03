@@ -1,0 +1,93 @@
+.EEEE
+======================================================================
+ERROR: test_missing_optional_sample (__main__.BaselineSampleTests.test_missing_optional_sample) (kind='pd')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 34, in test_missing_optional_sample
+    values = self.run_source(kind, Path(tmp))
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 27, in run_source
+    exec(compile(ast.Module(nodes[start:stop + 1], type_ignores=[]), str(source), "exec"), values)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\baselines\pd\distserve\api_server.py", line 76, in <module>
+    image_cache[image_name] = Image.open(image_path).convert("RGB")
+                              ~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 20, in open
+    data = Path(path).read_bytes()
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\23520\\AppData\\Local\\Temp\\tmp0o8mqrag\\baselines\\pd\\distserve\\..\\..\\..\\assets\\images\\image2_4032_3024.jpg'
+
+======================================================================
+ERROR: test_missing_optional_sample (__main__.BaselineSampleTests.test_missing_optional_sample) (kind='d')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 34, in test_missing_optional_sample
+    values = self.run_source(kind, Path(tmp))
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 27, in run_source
+    exec(compile(ast.Module(nodes[start:stop + 1], type_ignores=[]), str(source), "exec"), values)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\baselines\d\distserve\api_server.py", line 73, in <module>
+    image_cache[image_name] = Image.open(image_path).convert("RGB")
+                              ~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 20, in open
+    data = Path(path).read_bytes()
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\23520\\AppData\\Local\\Temp\\tmp0o8mqrag\\baselines\\d\\distserve\\..\\..\\..\\assets\\images\\image2_4032_3024.jpg'
+
+======================================================================
+ERROR: test_missing_request_image_still_fails (__main__.BaselineSampleTests.test_missing_request_image_still_fails) (kind='pd')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 52, in test_missing_request_image_still_fails
+    values = self.run_source(kind, Path(tmp))
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 27, in run_source
+    exec(compile(ast.Module(nodes[start:stop + 1], type_ignores=[]), str(source), "exec"), values)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\baselines\pd\distserve\api_server.py", line 76, in <module>
+    image_cache[image_name] = Image.open(image_path).convert("RGB")
+                              ~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 20, in open
+    data = Path(path).read_bytes()
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\23520\\AppData\\Local\\Temp\\tmptvplaolh\\baselines\\pd\\distserve\\..\\..\\..\\assets\\images\\image2_4032_3024.jpg'
+
+======================================================================
+ERROR: test_missing_request_image_still_fails (__main__.BaselineSampleTests.test_missing_request_image_still_fails) (kind='d')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 52, in test_missing_request_image_still_fails
+    values = self.run_source(kind, Path(tmp))
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 27, in run_source
+    exec(compile(ast.Module(nodes[start:stop + 1], type_ignores=[]), str(source), "exec"), values)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\baselines\d\distserve\api_server.py", line 73, in <module>
+    image_cache[image_name] = Image.open(image_path).convert("RGB")
+                              ~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\Documents\codex\2026-10-23\new-chat-2\work\repository-upload\checkout\epd\runtime\tests\test_official_baseline_asset_import_cpu.py", line 20, in open
+    data = Path(path).read_bytes()
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\23520\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\23520\\AppData\\Local\\Temp\\tmptvplaolh\\baselines\\d\\distserve\\..\\..\\..\\assets\\images\\image2_4032_3024.jpg'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.030s
+
+FAILED (errors=4)

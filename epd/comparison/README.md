@@ -1,3 +1,5 @@
+[官方入口与三组CPU加载验证](20261103-official-entry-readiness.md)：本批是源码/依赖准备，未新增GPU测量；原PD导入失败和最小补丁证据全部保留。
+
 # EPD Disaggregation 复现项目
 
 最新：[2026-11-03 源码部署与CPU验证](20261103-source-readiness.md)，不含新GPU性能；以下历史三卡完整三副本 baseline、req/s、tokens/s与EPD/baseline比值保持原批次，不是公平PD三组新结果。

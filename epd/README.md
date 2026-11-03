@@ -1,3 +1,5 @@
+[官方 EPD/PD/D 入口验证与失败修复（2026-11-03）](comparison/20261103-official-entry-readiness.md)：源码1a5c61e已部署，三API帮助加载通过；真实请求仍待GPU窗口。历史baseline/退化结果见下文，不能用CPU加载代替性能。
+
 # EPD Disaggregation 复现项目
 
 最新阶段：[2026-11-03 qjh003 指定源码部署与77项CPU软件验证](comparison/20261103-source-readiness.md)已通过独立 G3。**本批没有 GPU/模型或新增性能结果**。
