@@ -1,6 +1,6 @@
 # SpaceServe 官方单请求：固定执行文件
 
-状态：本地CPU检查及独立G1/G2通过；尚未部署、未GPU执行。本文件覆盖此前准备草案中的散落启动要求。
+状态：本地CPU检查及独立G1/G2通过；四工具已部署到既有Space资产目录并通过13项目标CPU检查，未GPU执行。本文件覆盖此前准备草案中的散落启动要求。
 
 [源码与baseline审计](../comparison/20261103-native-baseline-source-audit.md) · [工具检查结果](../comparison/20261103-official-first-request-preparation.md) · [脚本](../tools/official_space_first_request.sh) · [收尾助手](../tools/official_space_processes.py)
 
@@ -13,7 +13,7 @@
 
 ## 可复制调用
 
-先把本页对应commit的脚本和助手按SHA部署到本项目已有位置，只有实际执行才建立/local/boyjiang/spaceserve/runs/下一个必要小run。HELPER为已审文件实际绝对路径，RUN为唯一新run；身份文件存在则拒绝重用。source_ROLE与所有资源参数必须来自当前真实G1/G2，不能由JSON或此命令自批。
+本页工具源commit为bf9f8207a88fe199efca562f2bacd51fb0011b6c，四文件已按SHA部署至/local/boyjiang/spaceserve/assets；实际运行前仍核SHA，只有实际执行才建立/local/boyjiang/spaceserve/runs/下一个必要小run。HELPER为已审文件实际绝对路径，RUN为唯一新run；身份文件存在则拒绝重用。source_ROLE与所有资源参数必须来自当前真实G1/G2，不能由JSON或此命令自批。
 
 ```bash
 # 现场绑定并审核：SOURCE_ROLE BOOK_START_EPOCH BOOK_END_EPOCH GPU_IDS PORT RUN HELPER

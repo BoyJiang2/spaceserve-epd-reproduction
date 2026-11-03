@@ -1,4 +1,4 @@
-[单请求固定工具与CPU检查](comparison/20261103-official-first-request-preparation.md)（尚未部署/运行GPU）
+[单请求固定工具与CPU检查](comparison/20261103-official-first-request-preparation.md)（已部署且CPU通过，GPU未运行）
 
 [原生baseline源码核查与下一步](comparison/20261103-native-baseline-source-audit.md)（CPU证据，尚未GPU验证）
 
