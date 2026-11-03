@@ -1,3 +1,5 @@
+[官方源码G2：原生v0.7.2内容关系](20261103-official-source-g2.md)，不当作实际并发或SM实效通过。
+
 [官方checkout阶段G1](20261103-official-checkout-g1.md)：适配分支与静态元数据，尚无本阶段GPU机制结果。
 
 # SpaceServe 复现项目

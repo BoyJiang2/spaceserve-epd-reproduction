@@ -1,0 +1,704 @@
+{
+  "source_summary": {
+    "state": {
+      "head": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/epdserve-official",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit": 0,
+        "stdout": "9b111f710dfb4724072b603d626a1e4dad93ef1f\n",
+        "stderr": ""
+      },
+      "branch": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/epdserve-official",
+          "branch",
+          "--show-current"
+        ],
+        "exit": 0,
+        "stdout": "adapt/qjh003-v1\n",
+        "stderr": ""
+      },
+      "status": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/epdserve-official",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "origin": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/epdserve-official",
+          "remote",
+          "get-url",
+          "origin"
+        ],
+        "exit": 0,
+        "stdout": "https://github.com/vbdi/epdserve.git\n",
+        "stderr": ""
+      }
+    },
+    "files": [
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/worker.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/worker.py",
+        "exists": true,
+        "bytes": 32066,
+        "uid": 2147,
+        "magic_hex": "696d706f",
+        "sha256": "115e1927f6205e7ae0739dbf8af87ac53f804b2ecac07ca046f3abe602305702",
+        "signatures": [
+          {
+            "class": "Worker",
+            "function": "__init__",
+            "args": "self, worker_id: int, stage: EngineStage, model_config: ModelConfig, cache_config: CacheConfig, parallel_config: ParallelConfig=ParallelConfig(), tensor_parallel_id: List[int]=None, pipeline_parallel_id: List[int]=None",
+            "line": 38
+          },
+          {
+            "class": "Worker",
+            "function": "init_model",
+            "args": "self",
+            "line": 95
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/config.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/config.py",
+        "exists": true,
+        "bytes": 13096,
+        "uid": 2147,
+        "magic_hex": "66726f6d",
+        "sha256": "b01c3bb3c2bf08cf768286d3e0bdd2124a7f66795ec9b9b7ebf04afdf7dae49a",
+        "signatures": [
+          {
+            "class": "CacheConfig",
+            "function": "__init__",
+            "args": "self, block_size: int, max_num_blocks_per_req: int, gpu_memory_utilization: int=0.9, cpu_swap_space: int=0",
+            "line": 19
+          },
+          {
+            "class": "ParallelConfig",
+            "function": "__init__",
+            "args": "self, tensor_parallel_size: int=1, tensor_parallel_rank: int=0, pipeline_parallel_size: int=1, pipeline_parallel_rank: int=0",
+            "line": 41
+          },
+          {
+            "class": "ClusterParallelConfig",
+            "function": "__init__",
+            "args": "self, data_parallel_size: int=1, data_parallel_rank: int=0, tensor_parallel_size: int=1, tensor_parallel_rank: int=0, pipeline_parallel_size: int=1, pipeline_parallel_rank: int=0",
+            "line": 69
+          },
+          {
+            "class": "DisaggParallelConfig",
+            "function": "__init__",
+            "args": "self, encoding: ParallelConfig, context: ParallelConfig, decoding: ParallelConfig",
+            "line": 105
+          },
+          {
+            "class": "EncodingStageSchedConfig",
+            "function": "__init__",
+            "args": "self, policy: str, max_batch_size: int, parallel_config: ParallelConfig=None",
+            "line": 124
+          },
+          {
+            "class": "ContextStageSchedConfig",
+            "function": "__init__",
+            "args": "self, policy: str, max_batch_size: int, max_tokens_per_batch: int, parallel_config: ParallelConfig=None, waiting_block_prop_threshold: float=0.05",
+            "line": 146
+          },
+          {
+            "class": "DecodingStageSchedConfig",
+            "function": "__init__",
+            "args": "self, policy: str, max_batch_size: int, max_tokens_per_batch: int, model_name: str=None, waiting_block_prop_threshold: float=0.05",
+            "line": 172
+          },
+          {
+            "class": "ModelConfig",
+            "function": "__init__",
+            "args": "self, model: str, tokenizer: Optional[str], tokenizer_mode: str='auto', trust_remote_code: bool=True, dtype: str='fp16', seed: int=1, use_dummy_weights: bool=False, vllm_config=None, run_name=None",
+            "line": 210
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/orchestrator.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/orchestrator.py",
+        "exists": true,
+        "bytes": 24861,
+        "uid": 2147,
+        "magic_hex": "66726f6d",
+        "sha256": "6048f799c5e7c9a6838963e2e9ee3025f479793389375aaae8de815af5bced8e",
+        "signatures": [
+          {
+            "class": "EPDOrchestrator",
+            "function": "__init__",
+            "args": "self, model_config: ModelConfig, disagg_parallel_config: DisaggParallelConfig, cache_config: CacheConfig, encoding_sched_config: EncodingStageScheduler, context_sched_config: ContextStageSchedConfig, decoding_sched_config: DecodingStageSchedConfig",
+            "line": 49
+          },
+          {
+            "class": "DynamicEPDOrchestrator",
+            "function": "__init__",
+            "args": "self, model_config: ModelConfig, disagg_parallel_config: DisaggParallelConfig, cache_config: CacheConfig, encoding_sched_config: EncodingStageScheduler, context_sched_config: ContextStageSchedConfig, decoding_sched_config: DecodingStageSchedConfig",
+            "line": 290
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/engine_common.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/engine_common.py",
+        "exists": true,
+        "bytes": 16837,
+        "uid": 2147,
+        "magic_hex": "696d706f",
+        "sha256": "b9d2a6eea54231d80ca1ecde983f9bffbcd3a9fe1c0056a51a7b33171ad0a51a",
+        "signatures": [
+          {
+            "class": "StepOutput",
+            "function": "__init__",
+            "args": "self, request: Request, new_token: str, new_token_id: int",
+            "line": 61
+          },
+          {
+            "class": "StageCluster",
+            "function": "__init__",
+            "args": "self, stage: EngineStage",
+            "line": 93
+          },
+          {
+            "class": "StageEngine",
+            "function": "__init__",
+            "args": "self, stage: EngineStage, model_config: ModelConfig, parallel_config: ParallelConfig, cache_config: CacheConfig, sched_config: ContextStageSchedConfig | DecodingStageSchedConfig, placement_groups: List[PlacementGroup], engine_on_new_step_output_callback: Callable[[int, StepOutput], None], engine_on_new_lifetime_event_callback: Optional[Callable[[int, LifetimeEvent, bool], None]]=None",
+            "line": 188
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/engine_context.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/engine_context.py",
+        "exists": true,
+        "bytes": 18062,
+        "uid": 2147,
+        "magic_hex": "66726f6d",
+        "sha256": "f6d40aa24f3fe3d17761524f2e2fe7ee1c7d6612c14fb1a48227fb10006ed343",
+        "signatures": [
+          {
+            "class": "ContextStageCluster",
+            "function": "__init__",
+            "args": "self, encode_context_bridge_queue: asyncio.Queue[MigratingRequest], context_decode_bridge_queue: asyncio.Queue[MigratingRequest], model_config: ModelConfig, parallel_config: ClusterParallelConfig, cache_config: CacheConfig, sched_config: ContextStageSchedConfig, placement_groups: List[PlacementGroup], clear_migrated_blocks_callback_encoding: Callable[[Request], None], engine_on_new_step_output_callback: Callable[[int, StepOutput], None], engine_on_new_lifetime_event_callback: Callable[[int, LifetimeEvent, bool], None]",
+            "line": 6
+          },
+          {
+            "class": "ContextStageEngine",
+            "function": "__init__",
+            "args": "self, encode_context_bridge_queue: asyncio.Queue[MigratingRequest], context_decode_bridge_queue: asyncio.Queue[MigratingRequest], model_config: ModelConfig, parallel_config: ParallelConfig, cache_config: CacheConfig, sched_config: ContextStageSchedConfig, placement_groups: List[PlacementGroup], clear_migrated_blocks_callback_encoding: Callable[[Request], None], engine_on_new_step_output_callback: Callable[[int, StepOutput], None], engine_on_new_lifetime_event_callback: Callable[[int, LifetimeEvent, bool], None]",
+            "line": 71
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/engine_encoding.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/engine_encoding.py",
+        "exists": true,
+        "bytes": 17402,
+        "uid": 2147,
+        "magic_hex": "0a696d70",
+        "sha256": "fcdc6809e79e4b567f02fe7f6724ccc105ef2c8af5eba5ba3055ff9d1e126644",
+        "signatures": [
+          {
+            "class": "EncodingStageCluster",
+            "function": "__init__",
+            "args": "self, encode_context_bridge_queue: asyncio.Queue[MigratingRequest], model_config: ModelConfig, parallel_config: ClusterParallelConfig, cache_config: CacheConfig, sched_config: ContextStageSchedConfig, placement_groups: List[PlacementGroup], engine_on_new_step_output_callback: Callable[[int, StepOutput], None], engine_on_new_lifetime_event_callback: Callable[[int, LifetimeEvent, bool], None]",
+            "line": 43
+          },
+          {
+            "class": "EncodingStageEngine",
+            "function": "__init__",
+            "args": "self, encode_context_bridge_queue: asyncio.Queue[MigratingRequest], model_config: ModelConfig, parallel_config: ClusterParallelConfig, cache_config: CacheConfig, sched_config: ContextStageSchedConfig, placement_groups: List[PlacementGroup], engine_on_new_step_output_callback: Callable[[int, StepOutput], None], engine_on_new_lifetime_event_callback: Callable[[int, LifetimeEvent, bool], None]",
+            "line": 127
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/engine_decoding.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/engine_decoding.py",
+        "exists": true,
+        "bytes": 17902,
+        "uid": 2147,
+        "magic_hex": "66726f6d",
+        "sha256": "65d8f1d045af8608ea368232d67841572a037f064651b2708b7772cdf64214af",
+        "signatures": [
+          {
+            "class": "DecodingStageCluster",
+            "function": "__init__",
+            "args": "self, context_decode_bridge_queue: asyncio.Queue[MigratingRequest], model_config: ModelConfig, parallel_config: ParallelConfig, cache_config: CacheConfig, sched_config: DecodingStageSchedConfig, placement_groups: List[PlacementGroup], clear_migrated_blocks_callback_context: Callable[[Request], None], engine_on_new_step_output_callback: Callable[[int, StepOutput], None], engine_on_new_lifetime_event_callback: Callable[[int, LifetimeEvent, bool], None]",
+            "line": 5
+          },
+          {
+            "class": "DecodingStageEngine",
+            "function": "__init__",
+            "args": "self, context_decode_bridge_queue: asyncio.Queue[MigratingRequest], model_config: ModelConfig, parallel_config: ParallelConfig, cache_config: CacheConfig, sched_config: DecodingStageSchedConfig, placement_groups: List[PlacementGroup], clear_migrated_blocks_callback_context: Callable[[Request], None], engine_on_new_step_output_callback: Callable[[int, StepOutput], None], engine_on_new_lifetime_event_callback: Callable[[int, LifetimeEvent, bool], None]",
+            "line": 67
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epdserve-official/epdserve/request.py",
+        "realpath": "/local/boyjiang/epdserve-official/epdserve/request.py",
+        "exists": true,
+        "bytes": 18788,
+        "uid": 2147,
+        "magic_hex": "22222253",
+        "sha256": "dff96b29ad02e773a0d3772e0ba0182b13ac5fdeba6b16fecbabfee49e202924",
+        "signatures": [
+          {
+            "class": "SamplingParams",
+            "function": "__init__",
+            "args": "self, n: int=1, best_of: Optional[int]=None, presence_penalty: float=0.0, frequency_penalty: float=0.0, temperature: float=1.0, top_p: float=1.0, top_k: int=-1, use_beam_search: bool=False, stop: Union[None, str, List[str]]=None, ignore_eos: bool=False, max_tokens: int=16, logprobs: Optional[int]=None",
+            "line": 53
+          },
+          {
+            "class": "Request",
+            "function": "__init__",
+            "args": "self, arrival_time: float, request_id: int, prompt: str, prompt_token_ids: List[int], multi_modal_data: dict, sampling_params: SamplingParams=SamplingParams(), priority: int=0, enable_irp: bool=True",
+            "line": 176
+          },
+          {
+            "class": "BatchedRequests",
+            "function": "__init__",
+            "args": "self, requests: Optional[List[Request]]=None",
+            "line": 358
+          },
+          {
+            "class": "MigratingRequest",
+            "function": "__init__",
+            "args": "self, req: Request, block_indexes: List[int], source_parallel_config: ParallelConfig",
+            "line": 476
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/worker/model_runner.py",
+        "realpath": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/worker/model_runner.py",
+        "exists": true,
+        "bytes": 79742,
+        "uid": 2147,
+        "magic_hex": "696d706f",
+        "sha256": "37e35fc2e02752a865d6b4b9c7bac4a3230cf442529d820bb7ab043e50e8410b",
+        "signatures": [
+          {
+            "class": "ModelInputForGPUBuilder",
+            "function": "__init__",
+            "args": "self, runner: 'GPUModelRunnerBase', finished_requests_ids: Optional[List[str]]=None",
+            "line": 408
+          },
+          {
+            "class": "GPUModelRunnerBase",
+            "function": "__init__",
+            "args": "self, model_config: ModelConfig, parallel_config: ParallelConfig, scheduler_config: SchedulerConfig, device_config: DeviceConfig, cache_config: CacheConfig, load_config: LoadConfig, lora_config: Optional[LoRAConfig], kv_cache_dtype: Optional[str]='auto', is_driver_worker: bool=False, prompt_adapter_config: Optional[PromptAdapterConfig]=None, return_hidden_states: bool=False, observability_config: Optional[ObservabilityConfig]=None, input_registry: InputRegistry=INPUT_REGISTRY, mm_registry: MultiModalRegistry=MULTIMODAL_REGISTRY",
+            "line": 901
+          },
+          {
+            "class": "GPUModelRunnerBase",
+            "function": "load_model",
+            "args": "self",
+            "line": 996
+          },
+          {
+            "class": "ModelRunner",
+            "function": "prepare_model_input",
+            "args": "self, seq_group_metadata_list: List[SequenceGroupMetadata], virtual_engine: int=0, finished_requests_ids: Optional[List[str]]=None",
+            "line": 1456
+          },
+          {
+            "class": "ModelRunner",
+            "function": "execute_model",
+            "args": "self, model_input: ModelInputForGPUWithSamplingMetadata, kv_caches: List[torch.Tensor], intermediate_tensors: Optional[IntermediateTensors]=None, num_steps: int=1",
+            "line": 1495
+          },
+          {
+            "class": "CUDAGraphRunner",
+            "function": "__init__",
+            "args": "self, model: nn.Module, backend_name: str, attn_state: AttentionState",
+            "line": 1630
+          },
+          {
+            "class": "InterDataForSeqGroup",
+            "function": "__init__",
+            "args": "self, *, request_id: str, seq_ids: List[int], is_prompt: bool, block_tables: Optional[Dict[int, List[int]]], computed_block_nums: List[int], n_seqs: int=0, input_tokens: Optional[List[List[int]]]=None, input_positions: Optional[List[List[int]]]=None, mrope_input_positions: Optional[List[List[List[int]]]]=None, seq_lens: Optional[List[int]]=None, orig_seq_lens: Optional[List[int]]=None, query_lens: Optional[List[int]]=None, context_lens: Optional[List[int]]=None, curr_sliding_window_blocks: Optional[List[int]]=None, lora_index_mapping: Optional[List[List[int]]]=None, lora_prompt_mapping: Optional[List[List[int]]]=None, lora_requests: Optional[Set[LoRARequest]]=None, prompt_adapter_index_mapping: Optional[List[int]]=None, prompt_adapter_prompt_mapping: Optional[List[int]]=None, prompt_adapter_request: Optional[PromptAdapterRequest]=None, multi_modal_inputs: Optional[MultiModalInputs]=None, prefix_cache_hit: bool=False, reinit: bool=False, reinit_use_defaults: bool=False",
+            "line": 201
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/worker/worker.py",
+        "realpath": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/worker/worker.py",
+        "exists": true,
+        "bytes": 21097,
+        "uid": 2147,
+        "magic_hex": "22222241",
+        "sha256": "16473974c488a2e8a08d3fe8f3e46907735dc89ae7ce4d4c0a2128f50f2af8a2",
+        "signatures": [
+          {
+            "class": null,
+            "function": "init_worker_distributed_environment",
+            "args": "parallel_config: ParallelConfig, rank: int, distributed_init_method: Optional[str]=None, local_rank: int=-1",
+            "line": 439
+          },
+          {
+            "class": "Worker",
+            "function": "__init__",
+            "args": "self, model_config: ModelConfig, parallel_config: ParallelConfig, scheduler_config: SchedulerConfig, device_config: DeviceConfig, cache_config: CacheConfig, load_config: LoadConfig, local_rank: int, rank: int, distributed_init_method: str, lora_config: Optional[LoRAConfig]=None, speculative_config: Optional[SpeculativeConfig]=None, prompt_adapter_config: Optional[PromptAdapterConfig]=None, is_driver_worker: bool=False, model_runner_cls: Optional[Type[GPUModelRunnerBase]]=None, observability_config: Optional[ObservabilityConfig]=None",
+            "line": 43
+          },
+          {
+            "class": "Worker",
+            "function": "load_model",
+            "args": "self",
+            "line": 182
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/engine/arg_utils.py",
+        "realpath": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/engine/arg_utils.py",
+        "exists": true,
+        "bytes": 50613,
+        "uid": 2147,
+        "magic_hex": "696d706f",
+        "sha256": "044df44f8e094919a80417307070e85c42300d28baa00b69c3ae978a69164c5d",
+        "signatures": [
+          {
+            "class": "EngineArgs",
+            "function": "create_engine_config",
+            "args": "self",
+            "line": 818
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/model_executor/models/minicpmv.py",
+        "realpath": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/model_executor/models/minicpmv.py",
+        "exists": true,
+        "bytes": 33824,
+        "uid": 2147,
+        "magic_hex": "2320636f",
+        "sha256": "c437f472945bff668f8bbba130d3d6230c49d75284f338112c12a95a59532aac",
+        "signatures": [
+          {
+            "class": "BaseResampler",
+            "function": "__init__",
+            "args": "self, num_queries: int, embed_dim: int, num_heads: int, kv_dim: Optional[int]=None, norm_layer: Callable[[int], nn.LayerNorm]=DEFAULT_LN",
+            "line": 109
+          },
+          {
+            "class": "Resampler2_5",
+            "function": "__init__",
+            "args": "self, num_queries: int, embed_dim: int, num_heads: int, kv_dim: Optional[int]=None, norm_layer: Callable[[int], nn.LayerNorm]=DEFAULT_LN, max_size: Tuple[int, int]=(70, 70)",
+            "line": 155
+          },
+          {
+            "class": "MiniCPMVBaseModel",
+            "function": "__init__",
+            "args": "self, config: PretrainedConfig, multimodal_config: MultiModalConfig, cache_config: Optional[CacheConfig]=None, quant_config: Optional[QuantizationConfig]=None",
+            "line": 340
+          },
+          {
+            "class": "MiniCPMVBaseModel",
+            "function": "get_vision_embedding",
+            "args": "self, pixel_values: List[torch.Tensor], patch_attn_mask: Optional[torch.Tensor]=None, tgt_sizes: Optional[torch.Tensor]=None",
+            "line": 565
+          },
+          {
+            "class": "MiniCPMVBaseModel",
+            "function": "get_vision_hidden_states",
+            "args": "self, data: MiniCPMVImageInputs",
+            "line": 573
+          },
+          {
+            "class": "MiniCPMV2_0",
+            "function": "__init__",
+            "args": "self, config: PretrainedConfig, multimodal_config: MultiModalConfig, cache_config: Optional[CacheConfig]=None, quant_config: Optional[QuantizationConfig]=None",
+            "line": 583
+          },
+          {
+            "class": "MiniCPMV2_0",
+            "function": "get_vision_embedding",
+            "args": "self, pixel_values: List[torch.Tensor], patch_attn_mask: Optional[torch.Tensor]=None, tgt_sizes: Optional[torch.Tensor]=None",
+            "line": 640
+          },
+          {
+            "class": "MiniCPMV2_0",
+            "function": "get_vision_hidden_states",
+            "args": "self, data: MiniCPMVImageInputs",
+            "line": 663
+          },
+          {
+            "class": "MiniCPMV2_5",
+            "function": "__init__",
+            "args": "self, config: PretrainedConfig, multimodal_config: MultiModalConfig, cache_config: Optional[CacheConfig]=None, quant_config: Optional[QuantizationConfig]=None",
+            "line": 675
+          },
+          {
+            "class": "MiniCPMV2_5",
+            "function": "get_vision_embedding",
+            "args": "self, pixel_values: List[torch.Tensor], patch_attn_mask: Optional[torch.Tensor]=None, tgt_sizes: Optional[torch.Tensor]=None",
+            "line": 711
+          },
+          {
+            "class": "MiniCPMV2_5",
+            "function": "get_vision_hidden_states",
+            "args": "self, data: MiniCPMVImageInputs",
+            "line": 722
+          },
+          {
+            "class": "MiniCPMV2_6",
+            "function": "__init__",
+            "args": "self, config: PretrainedConfig, multimodal_config: MultiModalConfig, cache_config: Optional[CacheConfig]=None, quant_config: Optional[QuantizationConfig]=None",
+            "line": 757
+          },
+          {
+            "class": "MiniCPMV2_6",
+            "function": "get_vision_embedding",
+            "args": "self, pixel_values: List[torch.Tensor], patch_attn_mask: Optional[torch.Tensor]=None, tgt_sizes: Optional[torch.Tensor]=None",
+            "line": 803
+          },
+          {
+            "class": "MiniCPMV2_6",
+            "function": "get_vision_hidden_states",
+            "args": "self, data: MiniCPMVImageInputs",
+            "line": 816
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/transformers_utils/image_processor.py",
+        "realpath": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/transformers_utils/image_processor.py",
+        "exists": true,
+        "bytes": 2257,
+        "uid": 2147,
+        "magic_hex": "66726f6d",
+        "sha256": "b51bee97f8848340d735e2aebd6efbcca8d708c399c3072fa18bc0da305dc25d",
+        "signatures": [
+          {
+            "class": null,
+            "function": "get_image_processor",
+            "args": "processor_name: str, *args, trust_remote_code: bool=True, **kwargs",
+            "line": 31
+          }
+        ]
+      }
+    ],
+    "compiled_modules": [
+      {
+        "path": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so",
+        "realpath": "/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so",
+        "exists": true,
+        "bytes": 260143568,
+        "uid": 2147,
+        "magic_hex": "7f454c46"
+      }
+    ],
+    "sample_image": {
+      "path": "/local/boyjiang/epdserve-official/assets/images/image2_4032_3024.jpg",
+      "realpath": "/local/boyjiang/epdserve-official/assets/images/image2_4032_3024.jpg",
+      "exists": true,
+      "bytes": 1194516,
+      "uid": 2147,
+      "magic_hex": "ffd8ffe0"
+    }
+  },
+  "scope": "static file/AST evidence only; target modules not loaded; no source modifications",
+  "observed_epoch": 1793698864.9684453,
+  "API_call_binding": {
+    "official_commit": "9b111f710dfb4724072b603d626a1e4dad93ef1f",
+    "scope": "stdlib inspect.Signature binding of six literal call shapes from actual source snapshots; no package import, CUDA or model; tensor/value/async behavior not tested",
+    "checks": [
+      {
+        "call": "init_worker_distributed_environment",
+        "source_line": 101,
+        "positional_count": 1,
+        "keywords": [
+          "rank",
+          "distributed_init_method",
+          "local_rank"
+        ],
+        "installed_definition_line": 439,
+        "static_bind": "passed"
+      },
+      {
+        "call": "ModelRunner",
+        "source_line": 106,
+        "positional_count": 0,
+        "keywords": [
+          "model_config",
+          "parallel_config",
+          "scheduler_config",
+          "device_config",
+          "cache_config",
+          "load_config",
+          "lora_config",
+          "kv_cache_dtype",
+          "is_driver_worker",
+          "prompt_adapter_config",
+          "observability_config"
+        ],
+        "installed_definition_line": 901,
+        "static_bind": "passed"
+      },
+      {
+        "call": "model_runner.load_model",
+        "source_line": 117,
+        "positional_count": 0,
+        "keywords": [],
+        "installed_definition_line": 996,
+        "static_bind": "passed"
+      },
+      {
+        "call": "self.model_runner.prepare_model_input",
+        "source_line": 301,
+        "positional_count": 1,
+        "keywords": [
+          "finished_requests_ids"
+        ],
+        "installed_definition_line": 1456,
+        "static_bind": "passed"
+      },
+      {
+        "call": "self.model_runner.execute_model",
+        "source_line": 307,
+        "positional_count": 3,
+        "keywords": [],
+        "installed_definition_line": 1495,
+        "static_bind": "passed"
+      },
+      {
+        "call": "self.model_runner.execute_model",
+        "source_line": 318,
+        "positional_count": 3,
+        "keywords": [],
+        "installed_definition_line": 1495,
+        "static_bind": "passed"
+      }
+    ],
+    "passed": true,
+    "source_snapshot_sha256": "65aae3bc9beb2dab1d057c94bd675fa85fbf92f75d4fc2397d154c5c4e5acedf",
+    "MiniCPM_target_checks": [
+      {
+        "call": "self.model_runner.model.llm",
+        "source_line": 343,
+        "definition_line": 256,
+        "positional_count": 0,
+        "keywords": [
+          "input_ids",
+          "positions",
+          "kv_caches",
+          "attn_metadata",
+          "intermediate_tensors",
+          "inputs_embeds"
+        ],
+        "static_bind": "passed",
+        "dynamic_kwargs_unvalidated": false
+      },
+      {
+        "call": "self.model_runner.model.compute_logits",
+        "source_line": 352,
+        "definition_line": 494,
+        "positional_count": 2,
+        "keywords": [],
+        "static_bind": "passed",
+        "dynamic_kwargs_unvalidated": false
+      },
+      {
+        "call": "self.model_runner.model.sample",
+        "source_line": 358,
+        "definition_line": 503,
+        "positional_count": 0,
+        "keywords": [
+          "logits",
+          "sampling_metadata"
+        ],
+        "static_bind": "passed",
+        "dynamic_kwargs_unvalidated": false
+      },
+      {
+        "call": "self.model_runner.model._parse_and_validate_inputs",
+        "source_line": 524,
+        "definition_line": 424,
+        "positional_count": 1,
+        "keywords": [
+          null
+        ],
+        "static_bind": "passed",
+        "dynamic_kwargs_unvalidated": true
+      },
+      {
+        "call": "self.model_runner.model.get_vision_hidden_states",
+        "source_line": 525,
+        "definition_line": 816,
+        "positional_count": 1,
+        "keywords": [],
+        "static_bind": "passed",
+        "dynamic_kwargs_unvalidated": false
+      },
+      {
+        "call": "self.model_runner.model._get_image_bounds",
+        "source_line": 332,
+        "definition_line": 402,
+        "positional_count": 1,
+        "keywords": [],
+        "static_bind": "passed",
+        "dynamic_kwargs_unvalidated": false
+      }
+    ],
+    "model_config_metadata": {
+      "path": "/local/boyjiang/epd/assets/models/MiniCPM-V-2_6/config.json",
+      "sha256": "6ca8152bcc0655f23002e12e9b910e4ced9793310014eea18c5b291e1b887ed2",
+      "model_type": "minicpmv",
+      "architectures": [
+        "MiniCPMV"
+      ],
+      "scale_emb_present": false,
+      "auto_map": {
+        "AutoConfig": "configuration_minicpm.MiniCPMVConfig",
+        "AutoModel": "modeling_minicpmv.MiniCPMV",
+        "AutoModelForCausalLM": "modeling_minicpmv.MiniCPMV"
+      }
+    },
+    "limitation": "No tensors/values/modules executed; kwargs contents, config object defaults, CUDA/IPC, sampling and inference unvalidated."
+  },
+  "IPC_library": {
+    "path": "/local/boyjiang/epd/assets/build/libcuda_ipc_utils.so",
+    "realpath": "/local/boyjiang/epd/assets/build/libcuda_ipc_utils.so",
+    "exists": true,
+    "bytes": 398920,
+    "uid": 2147,
+    "magic_hex": "7f454c46"
+  }
+}

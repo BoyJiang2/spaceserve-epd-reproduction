@@ -1,0 +1,605 @@
+{
+  "source_summary": {
+    "state": {
+      "head": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/SpaceServe-official",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit": 0,
+        "stdout": "66de079af4234b27f7f82ff91d238ef1351324ba\n",
+        "stderr": ""
+      },
+      "branch": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/SpaceServe-official",
+          "branch",
+          "--show-current"
+        ],
+        "exit": 0,
+        "stdout": "adapt/qjh003-v1\n",
+        "stderr": ""
+      },
+      "status": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/SpaceServe-official",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "origin": {
+        "argv": [
+          "git",
+          "--no-optional-locks",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/local/boyjiang/SpaceServe-official",
+          "remote",
+          "get-url",
+          "origin"
+        ],
+        "exit": 0,
+        "stdout": "https://github.com/gofreelee/SpaceServe.git\n",
+        "stderr": ""
+      }
+    },
+    "files": [
+      {
+        "path": "/local/boyjiang/SpaceServe-official/setup.py",
+        "realpath": "/local/boyjiang/SpaceServe-official/setup.py",
+        "exists": true,
+        "bytes": 24106,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "588d58771e098bc821d46c34535a2497bc651565c4593bb004d01401c9a24569",
+        "signatures": [
+          {
+            "class": "CMakeExtension",
+            "function": "__init__",
+            "args": "self, name: str, cmake_lists_dir: str='.', **kwa",
+            "line": 68
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/SpaceServe-official/requirements-cuda.txt",
+        "realpath": "/local/boyjiang/SpaceServe-official/requirements-cuda.txt",
+        "exists": true,
+        "bytes": 483,
+        "uid": 2147,
+        "magic_hex": "2320436f",
+        "sha256": "0c5ff74289b70ff517ab7dfa942b2bb7aa8ab7bd1ac6fb38df04ef271eace4ad"
+      },
+      {
+        "path": "/local/boyjiang/SpaceServe-official/requirements-common.txt",
+        "realpath": "/local/boyjiang/SpaceServe-official/requirements-common.txt",
+        "exists": true,
+        "bytes": 1706,
+        "uid": 2147,
+        "magic_hex": "70737574",
+        "sha256": "bc66f414ada3059510f607b855fcb9c1222b2fc937b1bd2ec28f2c77bce4bab5"
+      },
+      {
+        "path": "/local/boyjiang/SpaceServe-official/vllm/_custom_ops.py",
+        "realpath": "/local/boyjiang/SpaceServe-official/vllm/_custom_ops.py",
+        "exists": true,
+        "bytes": 44100,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "89d66e8bcb1fa65ca44287c9903831a899329bebf17db6bbeb7c4d726b9f1d45",
+        "signatures": []
+      },
+      {
+        "path": "/local/boyjiang/SpaceServe-official/vllm/platforms/__init__.py",
+        "realpath": "/local/boyjiang/SpaceServe-official/vllm/platforms/__init__.py",
+        "exists": true,
+        "bytes": 7332,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "7df3012c86ec27842027d99f8259c3b57a095d6bb563b0aa228d3036652aa099",
+        "signatures": []
+      },
+      {
+        "path": "/local/boyjiang/SpaceServe-official/vllm/model_executor/models/qwen2_vl.py",
+        "realpath": "/local/boyjiang/SpaceServe-official/vllm/model_executor/models/qwen2_vl.py",
+        "exists": true,
+        "bytes": 52802,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "a589a173f7851dffe6d49c1759eb2eb8c87902c7bc6f00580d2da04db52f44b1",
+        "signatures": [
+          {
+            "class": "Qwen2VisionMLP",
+            "function": "__init__",
+            "args": "self, in_features: int, hidden_features: int, act_layer: Type[nn.Module]=QuickGELU, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 166
+          },
+          {
+            "class": "Qwen2VisionAttention",
+            "function": "__init__",
+            "args": "self, embed_dim: int, num_heads: int, projection_size: int, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 239
+          },
+          {
+            "class": "Qwen2VisionBlock",
+            "function": "__init__",
+            "args": "self, dim: int, num_heads: int, mlp_ratio: float, act_layer: Type[nn.Module]=QuickGELU, norm_layer: Optional[Callable[[int], nn.Module]]=None, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 372
+          },
+          {
+            "class": "Qwen2VisionPatchEmbed",
+            "function": "__init__",
+            "args": "self, patch_size: int=14, temporal_patch_size: int=2, in_channels: int=3, embed_dim: int=1152",
+            "line": 411
+          },
+          {
+            "class": "Qwen2VisionPatchMerger",
+            "function": "__init__",
+            "args": "self, d_model: int, context_dim: int, norm_layer: Optional[Callable[[int], nn.Module]]=None, spatial_merge_size: int=2, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 440
+          },
+          {
+            "class": "Qwen2VisionRotaryEmbedding",
+            "function": "__init__",
+            "args": "self, dim: int, theta: float=10000.0",
+            "line": 481
+          },
+          {
+            "class": "Qwen2VisionTransformer",
+            "function": "__init__",
+            "args": "self, vision_config: Qwen2VLVisionConfig, norm_eps: float=1e-06, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 511
+          },
+          {
+            "class": "Qwen2VLEmbeddingItems",
+            "function": "__init__",
+            "args": "self, data: dict, modality: str",
+            "line": 656
+          },
+          {
+            "class": "Qwen2VLImageEmbeddingItems",
+            "function": "__init__",
+            "args": "self, data: dict",
+            "line": 688
+          },
+          {
+            "class": "Qwen2VLVideoEmbeddingItems",
+            "function": "__init__",
+            "args": "self, data: dict",
+            "line": 694
+          },
+          {
+            "class": "Qwen2VLProcessingInfo",
+            "function": "get_image_processor",
+            "args": "self, *, min_pixels: Optional[int]=None, max_pixels: Optional[int]=None",
+            "line": 746
+          },
+          {
+            "class": "Qwen2VLForConditionalGeneration",
+            "function": "__init__",
+            "args": "self, *, vllm_config: VllmConfig, prefix: str=''",
+            "line": 1056
+          },
+          {
+            "class": "Qwen2VLForConditionalGeneration",
+            "function": "get_multimodal_embeddings",
+            "args": "self, **kwargs",
+            "line": 1239
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/SpaceServe-official/vllm/v1/worker/gpu_encoder_worker.py",
+        "realpath": "/local/boyjiang/SpaceServe-official/vllm/v1/worker/gpu_encoder_worker.py",
+        "exists": true,
+        "bytes": 1075,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "d62d778f3d3910ccfecc3e627a26e5c184bee1ddeef0c45af447e478fdfd9899",
+        "signatures": [
+          {
+            "class": "EncoderProcess",
+            "function": "__init__",
+            "args": "self",
+            "line": 29
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/SpaceServe-official/vllm/v1/worker/gpu_worker.py",
+        "realpath": "/local/boyjiang/SpaceServe-official/vllm/v1/worker/gpu_worker.py",
+        "exists": true,
+        "bytes": 13588,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "44e1d1d39951ad5a96b82ed47271644f25549b12aad0f1a22ad9eba0c0092662",
+        "signatures": [
+          {
+            "class": null,
+            "function": "init_worker_distributed_environment",
+            "args": "parallel_config: ParallelConfig, rank: int, distributed_init_method: Optional[str]=None, local_rank: int=-1",
+            "line": 287
+          },
+          {
+            "class": "Worker",
+            "function": "__init__",
+            "args": "self, vllm_config: VllmConfig, local_rank: int, rank: int, distributed_init_method: str, is_driver_worker: bool=False, encoder_cache=None",
+            "line": 34
+          },
+          {
+            "class": "Worker",
+            "function": "load_model",
+            "args": "self",
+            "line": 135
+          },
+          {
+            "class": "Worker",
+            "function": "execute_model",
+            "args": "self, scheduler_output: 'SchedulerOutput'",
+            "line": 242
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/__init__.py",
+        "realpath": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/__init__.py",
+        "exists": true,
+        "bytes": 2052,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "e339c98b9ad897ef93218692ec84caf639befdcb55c204755433cac235ac9a46",
+        "signatures": []
+      },
+      {
+        "path": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/version.py",
+        "realpath": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/version.py",
+        "exists": true,
+        "bytes": 335,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "15eccc0a09fe1dc1012dd9613c778b75ef02a621f360cfa1d2f11135c8e8a388",
+        "signatures": []
+      },
+      {
+        "path": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/_version.py",
+        "realpath": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/_version.py",
+        "exists": true,
+        "bytes": 411,
+        "uid": 2147,
+        "magic_hex": "23206669",
+        "sha256": "4b0be43e5ec62e11b15852be1837adc6ceaa92af134ea09f9f1254349aa65ad5",
+        "signatures": []
+      },
+      {
+        "path": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/model_executor/models/qwen2_vl.py",
+        "realpath": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/model_executor/models/qwen2_vl.py",
+        "exists": true,
+        "bytes": 52595,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "c8db5be82b105880e83e8f06b622323b67bd09dc698088915a012211d2b1bc4f",
+        "signatures": [
+          {
+            "class": "Qwen2VisionMLP",
+            "function": "__init__",
+            "args": "self, in_features: int, hidden_features: int, act_layer: Type[nn.Module]=QuickGELU, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 166
+          },
+          {
+            "class": "Qwen2VisionAttention",
+            "function": "__init__",
+            "args": "self, embed_dim: int, num_heads: int, projection_size: int, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 239
+          },
+          {
+            "class": "Qwen2VisionBlock",
+            "function": "__init__",
+            "args": "self, dim: int, num_heads: int, mlp_ratio: float, act_layer: Type[nn.Module]=QuickGELU, norm_layer: Optional[Callable[[int], nn.Module]]=None, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 372
+          },
+          {
+            "class": "Qwen2VisionPatchEmbed",
+            "function": "__init__",
+            "args": "self, patch_size: int=14, temporal_patch_size: int=2, in_channels: int=3, embed_dim: int=1152",
+            "line": 411
+          },
+          {
+            "class": "Qwen2VisionPatchMerger",
+            "function": "__init__",
+            "args": "self, d_model: int, context_dim: int, norm_layer: Optional[Callable[[int], nn.Module]]=None, spatial_merge_size: int=2, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 440
+          },
+          {
+            "class": "Qwen2VisionRotaryEmbedding",
+            "function": "__init__",
+            "args": "self, dim: int, theta: float=10000.0",
+            "line": 481
+          },
+          {
+            "class": "Qwen2VisionTransformer",
+            "function": "__init__",
+            "args": "self, vision_config: Qwen2VLVisionConfig, norm_eps: float=1e-06, quant_config: Optional[QuantizationConfig]=None, prefix: str=''",
+            "line": 511
+          },
+          {
+            "class": "Qwen2VLEmbeddingItems",
+            "function": "__init__",
+            "args": "self, data: dict, modality: str",
+            "line": 656
+          },
+          {
+            "class": "Qwen2VLImageEmbeddingItems",
+            "function": "__init__",
+            "args": "self, data: dict",
+            "line": 688
+          },
+          {
+            "class": "Qwen2VLVideoEmbeddingItems",
+            "function": "__init__",
+            "args": "self, data: dict",
+            "line": 694
+          },
+          {
+            "class": "Qwen2VLProcessingInfo",
+            "function": "get_image_processor",
+            "args": "self, *, min_pixels: Optional[int]=None, max_pixels: Optional[int]=None",
+            "line": 746
+          },
+          {
+            "class": "Qwen2VLForConditionalGeneration",
+            "function": "__init__",
+            "args": "self, *, vllm_config: VllmConfig, prefix: str=''",
+            "line": 1056
+          },
+          {
+            "class": "Qwen2VLForConditionalGeneration",
+            "function": "get_multimodal_embeddings",
+            "args": "self, **kwargs",
+            "line": 1236
+          }
+        ]
+      },
+      {
+        "path": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/_custom_ops.py",
+        "realpath": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/_custom_ops.py",
+        "exists": true,
+        "bytes": 44100,
+        "uid": 2147,
+        "magic_hex": "23205350",
+        "sha256": "89d66e8bcb1fa65ca44287c9903831a899329bebf17db6bbeb7c4d726b9f1d45",
+        "signatures": []
+      }
+    ],
+    "compiled_modules": [
+      {
+        "path": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/_C.abi3.so",
+        "realpath": "/local/boyjiang/spaceserve/assets/envs/space/lib/python3.10/site-packages/vllm/_C.abi3.so",
+        "exists": true,
+        "bytes": 217472040,
+        "uid": 2147,
+        "magic_hex": "7f454c46"
+      }
+    ],
+    "sample_image": {
+      "path": "/local/boyjiang/SpaceServe-official/assets/images/image2_4032_3024.jpg",
+      "exists": false
+    }
+  },
+  "scope": "static file/AST evidence only; target modules not loaded; no source modifications",
+  "observed_epoch": 1793698864.9684453,
+  "native_content_proof": {
+    "scope": "source content identity and author-delta metadata; not runtime/binary compatibility",
+    "SpaceServe_commit": "66de079af4234b27f7f82ff91d238ef1351324ba",
+    "SpaceServe_tree": "a21bbb151c79769bee5685707f36e56da86aa5de",
+    "SpaceServe_content_base_commit": "d7ec548300d7950c1305231b2aaf970bab7569c1",
+    "native_version": "v0.7.2",
+    "native_commit": "0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d",
+    "same_base_tree": "9887287659a56df6f9744e631667f67893512b8c",
+    "base_tree_equal": true,
+    "author_commits": 23,
+    "ahead_by": 23,
+    "behind_by": 0,
+    "changed_files": [
+      ".gitignore",
+      "AGENTS.md",
+      "README.md",
+      "benchmarks/benchmark_serving_6_6.py",
+      "client_Molmo7b.sh",
+      "client_deepseek_small.sh",
+      "client_glm4b9b.sh",
+      "client_idefics.sh",
+      "client_internvl2_26b.sh",
+      "client_internvl2_4b.sh",
+      "client_internvl2_5_4b.sh",
+      "client_internvl2_8b.sh",
+      "client_llava_1_6.sh",
+      "client_llava_onevision.sh",
+      "client_mantis.sh",
+      "client_minicpm_o_2_6.sh",
+      "client_mistral12b.sh",
+      "client_phi3.sh",
+      "client_phi3_5.sh",
+      "client_qwen2dot5vl_3b.sh",
+      "client_qwen2dot5vl_7b.sh",
+      "client_qwen2vl_2b.sh",
+      "client_qwen2vl_7b.sh",
+      "enbale_mps.sh",
+      "overview.png",
+      "vllm/attention/backends/abstract.py",
+      "vllm/attention/backends/flashmla.py",
+      "vllm/attention/backends/mla/common.py",
+      "vllm/attention/backends/utils.py",
+      "vllm/attention/layer.py",
+      "vllm/attention/ops/merge_attn_states.py",
+      "vllm/attention/utils/fa_utils.py",
+      "vllm/compilation/backends.py",
+      "vllm/config.py",
+      "vllm/engine/arg_utils.py",
+      "vllm/engine/llm_engine.py",
+      "vllm/entrypoints/logger.py",
+      "vllm/executor/executor_base.py",
+      "vllm/executor/uniproc_executor.py",
+      "vllm/jsontree.py",
+      "vllm/model_executor/layers/rotary_embedding.py",
+      "vllm/model_executor/model_loader/__init__.py",
+      "vllm/model_executor/model_loader/loader.py",
+      "vllm/model_executor/model_loader/utils.py",
+      "vllm/model_executor/models/interfaces_base.py",
+      "vllm/model_executor/models/kimi_vl.py",
+      "vllm/model_executor/models/llava_next_encoder.py",
+      "vllm/model_executor/models/moonvit.py",
+      "vllm/model_executor/models/qwen2_5_vl_encoder.py",
+      "vllm/model_executor/models/qwen2_vl.py",
+      "vllm/model_executor/models/qwen2_vl_encoder.py",
+      "vllm/model_executor/models/registry.py",
+      "vllm/model_executor/models/utils.py",
+      "vllm/multimodal/inputs.py",
+      "vllm/multimodal/parse.py",
+      "vllm/multimodal/processing.py",
+      "vllm/multimodal/processing_8dot5.py",
+      "vllm/multimodal/profiling.py",
+      "vllm/multimodal/registry.py",
+      "vllm/multimodal/utils.py",
+      "vllm/platforms/cuda.py",
+      "vllm/transformers_utils/config.py",
+      "vllm/transformers_utils/configs/__init__.py",
+      "vllm/transformers_utils/configs/kimi_vl.py",
+      "vllm/transformers_utils/configs/moonvit.py",
+      "vllm/utils.py",
+      "vllm/v1/attention/backends/mla/__init__.py",
+      "vllm/v1/attention/backends/mla/common.py",
+      "vllm/v1/attention/backends/mla/flashmla.py",
+      "vllm/v1/attention/backends/mla/triton_mla.py",
+      "vllm/v1/attention/backends/triton_attn.py",
+      "vllm/v1/core/encoder_cache_manager.py",
+      "vllm/v1/core/encoder_scheduler.py",
+      "vllm/v1/core/kv_cache_utils.py",
+      "vllm/v1/core/scheduler.py",
+      "vllm/v1/engine/async_llm.py",
+      "vllm/v1/engine/core.py",
+      "vllm/v1/engine/core_client.py",
+      "vllm/v1/executor/abstract.py",
+      "vllm/v1/executor/multiproc_executor.py",
+      "vllm/v1/smcontroller/__init__.py",
+      "vllm/v1/smcontroller/test_load.py",
+      "vllm/v1/utils.py",
+      "vllm/v1/worker/gpu_encoder_worker.py",
+      "vllm/v1/worker/gpu_model_runner.py",
+      "vllm/v1/worker/gpu_worker.py",
+      "vllm/worker/worker_base.py"
+    ],
+    "compiled_source_changes": [],
+    "limitations": [
+      "Commit identity/ancestry is not asserted equal: source content tree identity is proven.",
+      "Installed binary loading and CUDA inference unvalidated.",
+      "Only selected Python call shapes checked; no tensor/value behavior."
+    ],
+    "raw_evidence": {
+      "official-public-source-space-history100-20261103.json": "608ea4ec18da2b5258c916bd7c7a7647ea022ec1dd4514b152958a3b4b5b942c",
+      "official-public-source-vllm-forkpoint-commit-20261103.json": "15801fece5b86b35825dbd3948bbd03c56e66246a45980f56984fea54ebdd9bb",
+      "official-public-source-vllm072-commit-20261103.json": "2514690618d7b9f87195f916e784abefb30bd64f0f5a3f042120aaa1b4da521a",
+      "official-public-source-space-author-delta-20261103.json": "b6c7acc671d24c5a16e765c688d361cda4a95c7db4616a53ffb4e16a8d57cd6d"
+    }
+  },
+  "raw_native_commit": {
+    "sha": "0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d",
+    "node_id": "C_kwDOI7xeftoAKDA0MDhlZmM2ZDBjMTdmYmExN2IyYmUzOGQwZDBmMDJlOTZkMmJmOWQ",
+    "url": "https://api.github.com/repos/vllm-project/vllm/git/commits/0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d",
+    "html_url": "https://github.com/vllm-project/vllm/commit/0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d",
+    "author": {
+      "name": "youkaichao",
+      "email": "youkaichao@gmail.com",
+      "date": "2025-02-06T07:23:50Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2025-02-06T07:23:50Z"
+    },
+    "tree": {
+      "sha": "9887287659a56df6f9744e631667f67893512b8c",
+      "url": "https://api.github.com/repos/vllm-project/vllm/git/trees/9887287659a56df6f9744e631667f67893512b8c"
+    },
+    "message": "[Misc] Improve error message for incorrect pynvml (#12809)\n\nSigned-off-by: youkaichao <youkaichao@gmail.com>",
+    "parents": [
+      {
+        "sha": "449d1bce029f87e0d1cf3f30483687ff659268f2",
+        "url": "https://api.github.com/repos/vllm-project/vllm/git/commits/449d1bce029f87e0d1cf3f30483687ff659268f2",
+        "html_url": "https://github.com/vllm-project/vllm/commit/449d1bce029f87e0d1cf3f30483687ff659268f2"
+      }
+    ],
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJnpGOGCRC1aQ7uu5UhlAAAWvwQAFOuPwOYjdiFSlIYE16Z8MeO\nKrnUKZO9qILaX1DSTXEoG+KRaq45suY5Ga5J9VwP0sMimKIzABJ3Ezmo/nC4QYdp\nqCze7alH0F0QdMILaQsOJiwugaTyWQQHVZQOD+47qwZQ/Ez5CWlMT36J8Z+Oo/qR\nlj5MrPKjUldhdtwE16cdZI20nW4m41DrIZFDMfnxrNA5K4f04NBjq5t2BCtt2SEZ\nFhQXACr1VmL4lG6w20IFzYaSv9aQNtRViRjWU8Le7TFMaZbe/18b9jbxlC6cdhM6\n8Tlg96hQyl2ngBZxODu6djevU6T/cRMrDqm4FhigzDBaAfnP7ORJV+htfGtfbInc\ncnJYfQ6yvvNDnKO1aBFrcaegda1cwrBGr2nVbDV2aOXi/Nuyipm8v19ZAle2j+q7\n9bJtbI7fDue82zbDiyoC8XsuC8zU70JVuVLkByG+aNxQ17A3OdDlJe135nQo5qlW\nSs1H/WQqCZNpejgRL13NWqCscSl15AP/21yE3KW3Vto/OD3hnzLaOmhfud0eVefn\n7vkGZJUaXYVl0KvfTw+Q6y6fjCRJCyLOrov37YPT65PRlHGtJSJ6DmeMEJKdMjNc\ny1AhsJ/L2wlgR7HqTdqg0LXK9CoSmzoIcI18Bzo7bEwKMztarFOckZdwpKVjtfE6\naS6kAKvtCoXvmy+ty1n3\n=Ewpc\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 9887287659a56df6f9744e631667f67893512b8c\nparent 449d1bce029f87e0d1cf3f30483687ff659268f2\nauthor youkaichao <youkaichao@gmail.com> 1738826630 +0800\ncommitter GitHub <noreply@github.com> 1738826630 +0800\n\n[Misc] Improve error message for incorrect pynvml (#12809)\n\nSigned-off-by: youkaichao <youkaichao@gmail.com>",
+      "verified_at": "2025-02-06T07:23:54Z"
+    }
+  },
+  "raw_source_base_commit": {
+    "sha": "d7ec548300d7950c1305231b2aaf970bab7569c1",
+    "node_id": "C_kwDOI7xeftoAKGQ3ZWM1NDgzMDBkNzk1MGMxMzA1MjMxYjJhYWY5NzBiYWI3NTY5YzE",
+    "url": "https://api.github.com/repos/vllm-project/vllm/git/commits/d7ec548300d7950c1305231b2aaf970bab7569c1",
+    "html_url": "https://github.com/vllm-project/vllm/commit/d7ec548300d7950c1305231b2aaf970bab7569c1",
+    "author": {
+      "name": "youkaichao",
+      "email": "youkaichao@gmail.com",
+      "date": "2025-02-06T07:23:50Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2025-02-06T07:23:50Z"
+    },
+    "tree": {
+      "sha": "9887287659a56df6f9744e631667f67893512b8c",
+      "url": "https://api.github.com/repos/vllm-project/vllm/git/trees/9887287659a56df6f9744e631667f67893512b8c"
+    },
+    "message": "[Misc] Improve error message for incorrect pynvml (#12809)\n\nSigned-off-by: youkaichao <youkaichao@gmail.com>",
+    "parents": [
+      {
+        "sha": "cc49ec44d56638955fe3a1f18eda14b77590ef33",
+        "url": "https://api.github.com/repos/vllm-project/vllm/git/commits/cc49ec44d56638955fe3a1f18eda14b77590ef33",
+        "html_url": "https://github.com/vllm-project/vllm/commit/cc49ec44d56638955fe3a1f18eda14b77590ef33"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  },
+  "raw_tag_reference": {
+    "ref": "refs/tags/v0.7.2",
+    "node_id": "REF_kwDOI7xefrByZWZzL3RhZ3MvdjAuNy4y",
+    "url": "https://api.github.com/repos/vllm-project/vllm/git/refs/tags/v0.7.2",
+    "object": {
+      "sha": "0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d",
+      "type": "commit",
+      "url": "https://api.github.com/repos/vllm-project/vllm/git/commits/0408efc6d0c17fba17b2be38d0d0f02e96d2bf9d"
+    }
+  }
+}
