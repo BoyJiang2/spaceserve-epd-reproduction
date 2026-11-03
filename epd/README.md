@@ -1,3 +1,5 @@
+[官方首请求脚本与CPU验证状态](comparison/20261103-official-first-request-preparation.md)（尚未执行GPU请求）
+
 [官方源码快照、固定版本与模型路径](code/README-official.md)（新官方目录 GPU 验证尚未完成）
 
 [官方源码G2：实际vLLM API核查](comparison/20261103-official-source-g2.md)：参数形状与实际安装源码匹配，Tensor/CUDA/推理仍待合法窗口；本轮未改源码。

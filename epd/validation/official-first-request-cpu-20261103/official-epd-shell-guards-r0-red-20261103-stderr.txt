@@ -1,0 +1,33 @@
+test_observe_failure_cannot_reach_request (test_official_epd_shell_guards.ShellGuardTests) ... FAIL
+test_socket_inspection_failure_cannot_reach_request (test_official_epd_shell_guards.ShellGuardTests) ... FAIL
+
+======================================================================
+FAIL: test_observe_failure_cannot_reach_request (test_official_epd_shell_guards.ShellGuardTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Documents/codex/2026-10-23/new-chat-2/outputs/migration-qjh003/test_official_epd_shell_guards.py", line 28, in test_observe_failure_cannot_reach_request
+    self.run_guard('check_server', 'CPU_PY=/bin/false')
+  File "/mnt/d/Documents/codex/2026-10-23/new-chat-2/outputs/migration-qjh003/test_official_epd_shell_guards.py", line 25, in run_guard
+    self.assertEqual(result.stdout.strip(), 'CLEANUP_ONLY')
+AssertionError: 'POST_SENTINEL' != 'CLEANUP_ONLY'
+- POST_SENTINEL
++ CLEANUP_ONLY
+
+
+======================================================================
+FAIL: test_socket_inspection_failure_cannot_reach_request (test_official_epd_shell_guards.ShellGuardTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Documents/codex/2026-10-23/new-chat-2/outputs/migration-qjh003/test_official_epd_shell_guards.py", line 31, in test_socket_inspection_failure_cannot_reach_request
+    self.run_guard('check_listener', 'CPU_PY=/bin/true; ss() { return 1; }')
+  File "/mnt/d/Documents/codex/2026-10-23/new-chat-2/outputs/migration-qjh003/test_official_epd_shell_guards.py", line 25, in run_guard
+    self.assertEqual(result.stdout.strip(), 'CLEANUP_ONLY')
+AssertionError: 'POST_SENTINEL' != 'CLEANUP_ONLY'
+- POST_SENTINEL
++ CLEANUP_ONLY
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.032s
+
+FAILED (failures=2)
