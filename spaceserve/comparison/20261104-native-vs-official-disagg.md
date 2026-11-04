@@ -29,3 +29,17 @@ f1原日志server.stdout第536行明确“libsmctrl is unavailable; skipping enc
 已找到现有libsmctrl，设置正确库路径后，smload2实际加载并查询到H20、capability9.0及78个SM；39只是库按架构计算的TPC估计，源码Hopper警告完整保留。[退出及GPU释放](../validation/official-entry-20261104/smload2-result.json)、[身份与起止](../validation/official-entry-20261104/smload2-identity.json)、[入场顺序审计](../validation/official-entry-20261104/smload-admission-audit.json)、[窄G3/G4](../validation/official-entry-20261104/loader-comparison-review.md)。
 
 首次smload1在预约刷新回执返回前约7.4秒派发，不满足既定顺序，原件保留且不当作通过；smload2在已确认回执之后重新独立执行，事前顺序已核。该查询没有调用mask设置、模型、MPS或NVDEBUG，不能称mask生效。实际有效encoder mask与计算重叠仍需新机制诊断。
+
+
+## 18:01：实际 encoder stream mask 兼容性失败
+
+在新确认的18–23点窗口内，使用同一GPU3和当前库运行独立无模型数值测试 `smnumeric1`。代码已在 `236ac7b3757e84c2ce53edf34fbd0a84db1c3533` 发布并逐文件核同。
+
+- 未设置mask时，5轮均观察到SM ID 0–77；这是本次设备采样结果，不是硬编码验收值。
+- 首次调用官方wrapper的encoder默认mask `[0,0,0,4095]` 时，库直接报错退出1：`Stream masking unsupported on this CUDA version (13000)`。masked采样轮数为0，complement未执行。
+- 这里的13000是库查询到的CUDA Driver API版本，不能与PyTorch的cu124构建版本混为一谈。当前依赖源码的stream-mask分支最高列到12060；未使用MASK_OFF覆盖或伪造版本。
+- 退出后GPU显存0、compute-apps为空。完整原始采样、stdout/stderr和身份/终态留在服务器 `spaceserve/runs/smnumeric1/`；[小证据及完整原件SHA256](../validation/official-entry-20261104/smnumeric1-small-evidence.json)可直接浏览。
+
+因此当前状态为：native单请求通过；明确跳过encoder mask的官方解耦单请求通过；**有效encoder mask尚未通过**。失败定位在当前固定库与Driver API版本的兼容路径，不能推断H20硬件不支持。未验证模型stream、计算重叠、decoder互斥或任何正式性能收益。
+
+[作者依赖源码](https://github.com/gofreelee/mysmctrl/blob/6ff57356968a3f04158b9273aa881ee6bdf04229/libsmctrl.c)保留版本分支依据。后续只按有来源的兼容更新做最小适配；不靠猜测结构偏移获得“通过”。
