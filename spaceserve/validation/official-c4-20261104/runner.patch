@@ -1,0 +1,58 @@
+--- official_space_first_request_bounded.sh
++++ official_space_c4.sh
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env bash
+-# One diagnostic request, after independent runtime approval and fresh booking checks.
++# Four distinct single-image diagnostic requests, after independent runtime approval and fresh booking checks.
+ set -euo pipefail
+ : "${BOOK_START_EPOCH:?}" "${BOOK_END_EPOCH:?}" "${UNIT_START_EPOCH:?}"
+ : "${GPU_IDS:?}" "${PORT:?}" "${RUN:?}" "${HELPER:?}"
+@@ -9,6 +9,10 @@
+   fork) EXPECTED_HEAD=66de079af4234b27f7f82ff91d238ef1351324ba ;;
+   *) exit 1 ;;
+ esac
++CLIENT=/local/boyjiang/spaceserve/assets/official_space_c4_client.py
++FINALIZER=/local/boyjiang/spaceserve/assets/official_space_c4_finalize.py
++test "$(sha256sum "$CLIENT" | cut -d' ' -f1)" = 66c00971313dd62dd99b530a5cc7c9e5c7c31a9fc0cbbbebf6dcd5301fd8953e
++test "$(sha256sum "$FINALIZER" | cut -d' ' -f1)" = 5b646e564e6bebc13a876305b38d30e49033f01a0d4fe47c9c947746f137f5cd
+ START=$UNIT_START_EPOCH
+ now=$(date +%s)
+ test "$now" -ge "$BOOK_START_EPOCH" && test "$now" -ge "$START"
+@@ -118,30 +122,15 @@
+ check_listener || exit 1
+ remaining=$((WORK_END - $(date +%s))); test "$remaining" -ge 120
+ limit=$remaining; test "$limit" -le 120 || limit=120
+-if curl --silent --show-error --connect-timeout 5 --max-time "$limit" --retry 0 \
+-  -D "$RUN/response.headers" -o "$RUN/response.json" -w '%{http_code}\n' \
+-  -H 'Content-Type: application/json' --data-binary "@$RUN/request.json" \
+-  "http://127.0.0.1:$PORT/v1/chat/completions" >"$RUN/http-code.txt" 2>"$RUN/curl.stderr"; then
+-  curl_rc=0
++if timeout --signal=TERM --kill-after=2s "$limit" "$CPU_PY" -I -S -B "$CLIENT" \
++  "http://127.0.0.1:$PORT/v1/chat/completions" "$RUN" >"$RUN/client.stdout" 2>"$RUN/client.stderr"; then
++  client_rc=0
+ else
+-  curl_rc=$?
++  client_rc=$?
+ fi
+-printf '%s\n' "$curl_rc" >"$RUN/curl.exit"
+-test "$curl_rc" = 0
++printf '%s\n' "$client_rc" >"$RUN/client.exit"
++"$CPU_PY" -I -S -B "$FINALIZER" "$RUN" "$client_rc" >"$RUN/finalizer.stdout" 2>"$RUN/finalizer.stderr"
++test "$client_rc" = 0
+ check_server || exit 1
+ check_listener || exit 1
+-"$CPU_PY" -I -S -B - "$RUN" <<'PY'
+-import json, pathlib, sys
+-run = pathlib.Path(sys.argv[1])
+-assert (run/'http-code.txt').read_text().strip() == '200'
+-data = json.loads((run/'response.json').read_text())
+-assert len(data['choices']) == 1
+-content = data['choices'][0]['message']['content']
+-assert isinstance(content, str) and content.strip()
+-usage = data['usage']
+-assert isinstance(usage['completion_tokens'], int)
+-summary = {'output': content, 'usage': usage, 'actual_output_tokens': usage['completion_tokens'], 'target_output_tokens': 128, 'finish_reason': data['choices'][0]['finish_reason'], 'semantic_correctness': 'PENDING_IMAGE_AND_OUTPUT_REVIEW', 'client_TTFT': None, 'actual_visual_tokens': None, 'mechanisms_verified': False}
+-(run/'response-summary.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2))
+-assert usage['completion_tokens'] == 128, 'retain short/extra output as failure'
+-PY
+ exit 0
