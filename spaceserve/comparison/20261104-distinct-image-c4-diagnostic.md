@@ -31,7 +31,13 @@
 
 两组之间的c4f在CPU端口bind检查报Errno98、outer exit1，尚未导入模型或进入请求；没有identity/terminal，不伪造其模型或清理结论。此前ss无LISTEN不是端口预约，不据后续无占用猜定TIME_WAIT原因。原失败保留，使用已审PORT参数改为19262后独立运行c4f2，不修改或覆盖失败目录。
 
-c4f2实际原日志为：libsmctrl is unavailable; skipping encoder SM partitioning。只能称“跳过encoder mask的解耦路径”；不是有效mask组，也未证明decoder互斥分区、完整stream配置、具体角色设备放置或实际计算重叠。[此前mask数值失败及版本限制](20261104-native-vs-official-disagg.md)独立保留。
+c4f2实际原日志为：libsmctrl is unavailable; skipping encoder SM partitioning。只能称“跳过encoder mask的解耦路径”；不是有效mask组，也未证明decoder互斥分区、完整stream配置或实际计算重叠。[此前mask数值失败及版本限制](20261104-native-vs-official-disagg.md)独立保留。
+
+## 角色设备放置补证
+
+随后离线核对原日志与原NVML记录：EngineCore PID2645128和EncoderProcess PID2646390分别有14和4个采样点，均对应物理UUID GPU-6186aa04-e2e2-84c4-0c50-a8d1bb260e32。同一采样时刻两者分别驻留74824MiB与2538MiB。它们的设备放置已有直接证据；有限采样不证明连续峰值，更不证明同时执行计算。
+
+[角色日志与NVML匹配选样](../validation/official-c4-20261104/c4f2/role-placement-samples.json)是事后派生证据，原manifest作为采集当时快照保持不变；新文件发布SHA单列。[独立补审](../validation/official-c4-20261104/placement-and-delivery-review.md)认可此有限范围。
 
 ## 数据与复跑
 
