@@ -1,3 +1,5 @@
+[最新：embedding/KV 小张量数值诊断](comparison/20261104-numerical-transfer-diagnostic.md)（两路径差异0；显式同步、禁缓存；非正式性能）
+
 [最新：不同图片 C4 正确性诊断](comparison/20261104-distinct-image-c4-diagnostic.md)（4/4 输出与完整模型一致；非公平性能实验）
 
 [11月4日官方EPD真实单请求及恢复释放](comparison/20261104-official-single-request.md)（HTTP200/128事件；原收尾失败保留，恢复后三卡释放；不是正式性能）
