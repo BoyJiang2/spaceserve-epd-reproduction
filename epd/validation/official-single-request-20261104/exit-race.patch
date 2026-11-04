@@ -1,0 +1,85 @@
+--- /local/boyjiang/epd/assets/build/official_epd_processes.py
++++ /local/boyjiang/epd/assets/build/official_epd_processes_candidate.py
+@@ -34,9 +34,15 @@
+         uid = int(next(line for line in (path / 'status').read_text().splitlines()
+                        if line.startswith('Uid:')).split()[1])
+         # Exited zombies have no executable workload and may deny environ reads.
+-        env = {} if stat[0] == 'Z' else dict(
+-            part.split(b'=', 1) for part in
+-            (path / 'environ').read_bytes().split(b'\0') if b'=' in part)
++        try:
++            env = {} if stat[0] == 'Z' else dict(
++                part.split(b'=', 1) for part in
++                (path / 'environ').read_bytes().split(b'\0') if b'=' in part)
++        except PermissionError:
++            exited = (path / 'stat').read_text().rsplit(')', 1)[1].split()
++            if exited[0] != 'Z' or exited[19] != stat[19]:
++                raise
++            env = {}
+         again = (path / 'stat').read_text().rsplit(')', 1)[1].split()
+         if stat[19] != again[19]:
+             raise RuntimeError('PID changed during observation')
+@@ -104,6 +110,8 @@
+         if item is None:
+             return
+         assert item['start_ticks'] == saved['start_ticks'], 'PID was reused; refusing signal'
++        if item['status'] == 'Z':
++            return
+         assert matches(item, state), 'Run identity differs; refusing signal'
+         signal.pidfd_send_signal(descriptor, sig)
+     except ProcessLookupError:
+
+--- /local/boyjiang/epd/assets/build/official_epd_first_request.sh
++++ /local/boyjiang/epd/assets/build/official_epd_first_request_candidate.sh
+@@ -15,7 +15,7 @@
+ test "$(id -u)" = 2147
+ case "$RUN" in /local/boyjiang/epd/runs/*) ;; *) exit 1 ;; esac
+ test -d "$RUN" && test ! -e "$RUN/identity.json"
+-test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = affcff3a79627fb246caa4020db1960eee79cb1b65f7297b8d46c082bd678dc5
++test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = a1310356eb9502960766f2151861070fe173b47e8c783cb2494c3a1a1aaa39ff
+ command -v ss; command -v timeout; command -v curl
+ test "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" rev-parse HEAD)" = 9b111f710dfb4724072b603d626a1e4dad93ef1f
+ test -z "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" status --porcelain=v1 --untracked-files=all)"
+
+--- /local/boyjiang/spaceserve/assets/official_space_processes.py
++++ /local/boyjiang/spaceserve/assets/official_space_processes_candidate.py
+@@ -34,9 +34,15 @@
+         uid = int(next(line for line in (path / 'status').read_text().splitlines()
+                        if line.startswith('Uid:')).split()[1])
+         # Exited zombies have no executable workload and may deny environ reads.
+-        env = {} if stat[0] == 'Z' else dict(
+-            part.split(b'=', 1) for part in
+-            (path / 'environ').read_bytes().split(b'\0') if b'=' in part)
++        try:
++            env = {} if stat[0] == 'Z' else dict(
++                part.split(b'=', 1) for part in
++                (path / 'environ').read_bytes().split(b'\0') if b'=' in part)
++        except PermissionError:
++            exited = (path / 'stat').read_text().rsplit(')', 1)[1].split()
++            if exited[0] != 'Z' or exited[19] != stat[19]:
++                raise
++            env = {}
+         again = (path / 'stat').read_text().rsplit(')', 1)[1].split()
+         if stat[19] != again[19]:
+             raise RuntimeError('PID changed during observation')
+@@ -104,6 +110,8 @@
+         if item is None:
+             return
+         assert item['start_ticks'] == saved['start_ticks'], 'PID was reused; refusing signal'
++        if item['status'] == 'Z':
++            return
+         assert matches(item, state), 'Run identity differs; refusing signal'
+         signal.pidfd_send_signal(descriptor, sig)
+     except ProcessLookupError:
+
+--- /local/boyjiang/spaceserve/assets/official_space_first_request.sh
++++ /local/boyjiang/spaceserve/assets/official_space_first_request_candidate.sh
+@@ -21,7 +21,7 @@
+ test "$(id -u)" = 2147
+ case "$RUN" in /local/boyjiang/spaceserve/runs/*) ;; *) exit 1 ;; esac
+ test -d "$RUN" && test ! -e "$RUN/identity.json"
+-test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = 7b6ae95a889470bc8e5ac0b0618da2ae63f1db0a0b2534613a55a16ef3146136
++test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = 10de11192373efdcb6ae677787231acb89d56320230f352d0653f6b854c02b84
+ command -v ss; command -v timeout; command -v curl
+ test "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" rev-parse HEAD)" = "$EXPECTED_HEAD"
+ test -z "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" status --porcelain=v1 --untracked-files=all)"

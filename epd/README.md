@@ -1,3 +1,5 @@
+[11月4日官方EPD真实单请求及恢复释放](comparison/20261104-official-single-request.md)（HTTP200/128事件；原收尾失败保留，恢复后三卡释放；不是正式性能）
+
 [官方多图修复候选及完整模型/PD调用链](comparison/20261103-official-image-routing-preparation.md)（仅CPU证据，未部署、未运行GPU；历史性能保持原批次）
 
 [官方首请求脚本与CPU验证状态](comparison/20261103-official-first-request-preparation.md)（尚未执行GPU请求）

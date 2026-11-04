@@ -15,7 +15,7 @@ LOAD_END=$((START + 600)); WORK_END=$((START + 720))
 test "$(id -u)" = 2147
 case "$RUN" in /local/boyjiang/epd/runs/*) ;; *) exit 1 ;; esac
 test -d "$RUN" && test ! -e "$RUN/identity.json"
-test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = affcff3a79627fb246caa4020db1960eee79cb1b65f7297b8d46c082bd678dc5
+test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = a1310356eb9502960766f2151861070fe173b47e8c783cb2494c3a1a1aaa39ff
 command -v ss; command -v timeout; command -v curl
 test "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" rev-parse HEAD)" = 9b111f710dfb4724072b603d626a1e4dad93ef1f
 test -z "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" status --porcelain=v1 --untracked-files=all)"

@@ -34,9 +34,15 @@ def process(pid):
         uid = int(next(line for line in (path / 'status').read_text().splitlines()
                        if line.startswith('Uid:')).split()[1])
         # Exited zombies have no executable workload and may deny environ reads.
-        env = {} if stat[0] == 'Z' else dict(
-            part.split(b'=', 1) for part in
-            (path / 'environ').read_bytes().split(b'\0') if b'=' in part)
+        try:
+            env = {} if stat[0] == 'Z' else dict(
+                part.split(b'=', 1) for part in
+                (path / 'environ').read_bytes().split(b'\0') if b'=' in part)
+        except PermissionError:
+            exited = (path / 'stat').read_text().rsplit(')', 1)[1].split()
+            if exited[0] != 'Z' or exited[19] != stat[19]:
+                raise
+            env = {}
         again = (path / 'stat').read_text().rsplit(')', 1)[1].split()
         if stat[19] != again[19]:
             raise RuntimeError('PID changed during observation')
@@ -104,6 +110,8 @@ def send(saved, state, sig):
         if item is None:
             return
         assert item['start_ticks'] == saved['start_ticks'], 'PID was reused; refusing signal'
+        if item['status'] == 'Z':
+            return
         assert matches(item, state), 'Run identity differs; refusing signal'
         signal.pidfd_send_signal(descriptor, sig)
     except ProcessLookupError:

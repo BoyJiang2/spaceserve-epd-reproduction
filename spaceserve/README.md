@@ -1,3 +1,5 @@
+[11月4日收尾修复及下一步实际请求](comparison/20261104-cleanup-readiness.md)（仅CPU工具修复，Space模型仍待运行）
+
 [单请求固定工具与CPU检查](comparison/20261103-official-first-request-preparation.md)（已部署且CPU通过，GPU未运行）
 
 [原生baseline源码核查与下一步](comparison/20261103-native-baseline-source-audit.md)（CPU证据，尚未GPU验证）

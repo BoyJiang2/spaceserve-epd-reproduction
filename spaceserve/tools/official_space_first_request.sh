@@ -21,7 +21,7 @@ LOAD_END=$((START + 600)); WORK_END=$((START + 720))
 test "$(id -u)" = 2147
 case "$RUN" in /local/boyjiang/spaceserve/runs/*) ;; *) exit 1 ;; esac
 test -d "$RUN" && test ! -e "$RUN/identity.json"
-test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = 7b6ae95a889470bc8e5ac0b0618da2ae63f1db0a0b2534613a55a16ef3146136
+test "$(sha256sum "$HELPER" | cut -d' ' -f1)" = 10de11192373efdcb6ae677787231acb89d56320230f352d0653f6b854c02b84
 command -v ss; command -v timeout; command -v curl
 test "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" rev-parse HEAD)" = "$EXPECTED_HEAD"
 test -z "$(git --no-optional-locks -c core.fsmonitor=false -C "$ROOT" status --porcelain=v1 --untracked-files=all)"
