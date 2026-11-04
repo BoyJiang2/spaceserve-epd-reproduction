@@ -1,3 +1,5 @@
+[11月4日原生vLLM真实单图请求结果](comparison/20261104-native-single-request.md)（HTTP200/128 tokens；原收尾失败保留，恢复后释放；未有正式性能或SM结论）
+
 [11月4日收尾修复及下一步实际请求](comparison/20261104-cleanup-readiness.md)（仅CPU工具修复，Space模型仍待运行）
 
 [单请求固定工具与CPU检查](comparison/20261103-official-first-request-preparation.md)（已部署且CPU通过，GPU未运行）
