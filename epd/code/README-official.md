@@ -10,4 +10,4 @@
 
 [CPU回归测试](../tools/test_official_online_irp_wiring.py)及[原执行/发布版独立执行记录](../validation/official-entry-20261104/online-irp-cpu.json)仅检验真实方法和工厂的传参，模型/GPU配置以stub替代，不是推理证明。新测试结果以独立文件保存，旧原件保留。
 
-[四图配对诊断](../comparison/20261104-four-image-diagnostic.md)保留原语义失败、原清理失败及同步反事实无改善。**当前参数修正版本只有CPU验证，尚未取得GPU四图通过**，旧G3不能继承。basename缓存碰撞仍未修，测试数据需唯一basename；87项官方缓存/构建产物排除不变，权重及环境不入Git。
+[四图配对诊断](../comparison/20261104-four-image-diagnostic.md)保留原语义失败、原清理失败及同步反事实无改善。**当前版本e4c实际Request为False，固定四图请求输出与完整模型参考逐字相同，自动清理通过**；128截断只覆盖前两图，完整四图语义/并发/数值传输/正式性能仍未通过，不能继承或扩大旧G3。basename缓存碰撞仍未修，测试数据需唯一basename；87项官方缓存/构建产物排除不变，权重及环境不入Git。

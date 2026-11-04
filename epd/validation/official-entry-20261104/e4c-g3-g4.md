@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：e4c窄G3 APPROVE/BLOCKING0，仅真实False、固定输入与D4同输出及本次释放；G4 APPROVE/BLOCKING0。输出仅前两图对应/128截断，不证明完整4图、TrueIRP、并发、数值传输或正式性能；不称唯一根因穷尽，保留旧失败及同步无改善。仅主执行者转送，未独立读/hash/远端。

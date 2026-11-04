@@ -35,4 +35,13 @@ e4a原清理报已登记worker2082803的environ不可读，原cleanup/outer为1�
 
 新适配 `06fbcb6f3f3b931950077077c9a040e9c238deee` 贯通在线CLI0，并记录真实创建后的request flag；直接构造者原默认True及显式覆盖保持。True分片缺陷未修，本阶段关闭。原E同步撤回，三API图片修复保留。[最小补丁](../patches/20261104-online-irp-wiring.patch)、[CPU复现和回归](../validation/official-entry-20261104/online-irp-cpu.json)、[独立G2](../validation/official-entry-20261104/online-irp-g2.md)。
 
-**新版本仍只有CPU验证，e4c尚未运行。** 下一次必须核真实request.enable_irp=False、与既有参考请求字节相同及完整输出/释放；不能把参数修正或源码缺陷复现替代GPU正确性、embedding/KV数值、并发或正式性能。
+该修正发布时为CPU-only；后续e4c的实际结果如下。
+
+
+## e4c：有效关闭后，与完整模型固定请求匹配
+
+适配commit `06fbcb6f3f3b931950077077c9a040e9c238deee` 的真实日志记录 `Request 0: enable_irp=False`，取自已创建的Request字段。e4c与e4a、e4b、d4a的请求逐字节相同，输出与d4a逐字相同：顺序描述第一图军装人物与第二图船/狗，随后128处截断。HTTP200/curl0、128事件，work/cleanup/outer均0，已登记本run live为空，三卡显存0；旧不可读sd-pam未处理。
+
+[e4c逐请求输出、有效flag、请求配对及释放原件索引](../validation/official-entry-20261104/e4c-small-evidence.json) · [独立G3/G4范围](../validation/official-entry-20261104/e4c-g3-g4.md)。
+
+可以确认本请求有效关闭IRP后，输出恢复为与完整模型参考匹配。仍不能证明完整四图语义（后两图未生成）、True分片功能、不同图片并发或embedding/KV逐元素传输一致性；没有正式性能结论，也未声称唯一根因穷尽。e4a失败、e4b无改善及全部截断输出继续保留。

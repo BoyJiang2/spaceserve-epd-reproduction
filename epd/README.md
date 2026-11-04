@@ -152,4 +152,4 @@ CPU维护准备：[资产重定位恢复候选](validation/asset-relocation-resu
 
 [四不同图片配对排错：EPD与完整模型输出不一致](comparison/20261104-four-image-diagnostic.md)（保留语义失败与原清理失败，非性能结果）。
 
-当前官方在线CLI关闭IRP曾未有效传递，已CPU复现并修正；新版本GPU尚待验证。[四图配对与完整边界](comparison/20261104-four-image-diagnostic.md)。
+当前官方在线CLI关闭IRP曾未有效传递，已CPU复现并修正；e4c实际Request为False，固定输入输出与完整模型参考相同，自动清理通过，验证范围仍限该单请求。[四图配对与完整边界](comparison/20261104-four-image-diagnostic.md)。
