@@ -1,0 +1,25 @@
+{
+  "official_baseline": "9b111f710dfb4724072b603d626a1e4dad93ef1f",
+  "mode": "PD single request diagnostic P1:D2 not formal performance",
+  "model": "MiniCPM-V-2_6",
+  "dtype": "FP16",
+  "TP": 1,
+  "gpu_budget": 3,
+  "input": "same single COCO000328 and greedy128 as EPD r1",
+  "budget_seconds": 900,
+  "target_cpus": "0-89",
+  "OMP_NUM_THREADS": 4,
+  "files": [
+    {
+      "path": "/local/boyjiang/epd/assets/build/official_pd_first_request.sh",
+      "sha256": "bc5385486fdc46f80c6dd3315088ef712209ae8ca9d93536d9266ff4f993f390",
+      "bytes": 8847
+    },
+    {
+      "path": "/local/boyjiang/epd/assets/build/official_pd_processes_bounded.py",
+      "sha256": "eee078afa9aebdd7d0838331d2e85d298a769bfae5322c2432fb73e40efe1ee3",
+      "bytes": 6677
+    }
+  ],
+  "GPU_run": false
+}

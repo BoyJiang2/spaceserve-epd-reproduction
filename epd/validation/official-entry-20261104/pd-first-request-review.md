@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G1/G2 APPROVE/BLOCKING0，限官方PD单请求诊断。P1D2同三卡、MiniCPM-V-2_6FP16TP1，不是最优分配/正式公平性能/独立DistServe。精确发布后fresh票/CPU/UUID/空闲/SHA/端口/无live，23点前足900秒。实际worker/dtype/迁移/输出待G3。仅依据转送diff未独立读文件/hash。script正确SHA bc5385486fdc46f80c6dd3315088ef712209ae8ca9d93536d9266ff4f993f390；先前口头65位SHA为笔误，发布前重新计算捕获，未运行。
