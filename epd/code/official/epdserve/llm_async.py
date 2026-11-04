@@ -38,9 +38,11 @@ class AsyncLLM:
         cache_config: CacheConfig,
         encoding_sched_config: EncodingStageSchedConfig,
         context_sched_config: ContextStageSchedConfig,
-        decoding_sched_config: DecodingStageSchedConfig
+        decoding_sched_config: DecodingStageSchedConfig,
+        enable_irp: bool = True
     ):
         self.request_counter = Counter()
+        self.enable_irp = enable_irp
         orchestrator_class = EPDOrchestrator
         # orchestrator_class = DynamicEPDOrchestrator        
         self.orchestrator = orchestrator_class(
@@ -65,11 +67,13 @@ class AsyncLLM:
         if input_dict is None:
             raise ValueError("input_dict must be provided")
 
+        kwargs.setdefault("enable_irp", self.enable_irp)
         async for step_output in  self.orchestrator.generate(
                             input=input_dict,
                             sampling_params=sampling_params,
                             request_id=next(self.request_counter) if  request_id is None else request_id,
                             arrival_time=arrival_time if arrival_time is not None else time.perf_counter(),
+                            **kwargs,
         ):
             yield step_output
             
@@ -94,6 +98,7 @@ class AsyncLLM:
         vllm_engine_config = vllm_engine_args.create_engine_config()
 
         return AsyncLLM(
+            enable_irp=bool(args.intra_request_dp),
             model_config=ModelConfig(
                 model=args.model,
                 dtype="fp16",

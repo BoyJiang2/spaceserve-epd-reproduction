@@ -1,17 +1,13 @@
-# EPD 官方源码与最小适配快照
+# EPD官方源码与最小适配快照
 
-[浏览源码](official/README.md) · [逐文件来源与排除清单](official/PROVENANCE.json)
+[源码](official/README.md) · [来源/逐文件SHA/排除清单](official/PROVENANCE.json)
 
-固定官方基线：`9b111f710dfb4724072b603d626a1e4dad93ef1f`。
-当前服务器适配commit：`d63cc3e8f15920c2e83653a5dca5b68bfa75346f`，tree `f37860be1149c90913737f51174ef1fc21880931`，分支adapt/qjh003-v1，提交后clean。
+固定官方基线 `9b111f710dfb4724072b603d626a1e4dad93ef1f`；服务器适配commit `06fbcb6f3f3b931950077077c9a040e9c238deee`，tree `892de3169db28d0b866f50aeb727c0d823267aa7`。服务器唯一开发目录 `/local/boyjiang/epdserve-official`，origin为自有复现仓库，upstream保留官方。
 
-输入适配为三个API入口各一行：按每个输入路径顺序加载图片，修复把第一张图片重复成整组的问题；EPD、PD、完整模型入口一致修改。其余保留文件仍来自固定官方基线，原87项缓存/构建产物排除清单保留，不发布完整官方历史、权重或环境。
+最终仅五个源码文件有变化：三个API入口逐路径加载图片；AsyncLLM将在线CLI请求内并行设置传给实际请求；Orchestrator记录创建后的有效flag。直接构造默认行为True保留，工厂显式采用CLI0。True分片路径的浅拷贝污染已复现但未修，本阶段保持关闭。
 
-[最小补丁](../patches/20261104-multiimage-routing.patch) · [CPU错误复现与修复检查](../validation/official-entry-20261104/multiimage-routing-cpu.json) · [独立G2](../validation/official-entry-20261104/multiimage-routing-g2.md)。CPU检查只是路径语义验证，不是真实图片、并发模型或KV正确性证明；basename缓存碰撞仍未修改，诊断输入需使用唯一basename。
+复跑源码从官方9b依次应用[三API图片补丁](../patches/20261104-multiimage-routing.patch)及[在线参数传递补丁](../patches/20261104-online-irp-wiring.patch)。已撤回无改善的E同步诊断，相关反事实补丁仅历史证据，不进入该复跑串。结果仓库不包含适配commit历史对象，不能在此直接checkout服务器运行SHA；发布SHA与运行SHA分别记录。
 
-官方基线9b上的EPD、PD和三个完整副本单请求已有[真实结果](../comparison/20261104-official-pd-single-request.md)。**本适配commit尚未GPU验证**，不能继承旧单请求G3或正式性能通过。既有单请求启动器仍绑定旧9b，运行新HEAD前必须更新并审查对应入口，不能绕过版本检查。
+[CPU回归测试](../tools/test_official_online_irp_wiring.py)及[原执行/发布版独立执行记录](../validation/official-entry-20261104/online-irp-cpu.json)仅检验真实方法和工厂的传参，模型/GPU配置以stub替代，不是推理证明。新测试结果以独立文件保存，旧原件保留。
 
-服务器唯一适配目录 `/local/boyjiang/epdserve-official`；origin保持自有复现仓库，upstream保留官方。结果仓库源码快照的发布commit与服务器适配commit分别记录。模型入口复用已有权重软链接，未复制或移动权重。
-
-
-当前另有一行E缓存写后CUDA同步，作为[四图差异](../comparison/20261104-four-image-diagnostic.md)的正确性反事实诊断，尚非已确立修复。P路径未改，不自动纳入正式性能。[单行补丁](../patches/20261104-encoder-completion-counterfactual.patch)及[范围审查](../validation/official-entry-20261104/encoder-completion-g2.md)。结果仓库不包含适配commit历史对象，不能在此直接checkout服务器运行SHA；可按官方基线与已列补丁恢复源码。
+[四图配对诊断](../comparison/20261104-four-image-diagnostic.md)保留原语义失败、原清理失败及同步反事实无改善。**当前参数修正版本只有CPU验证，尚未取得GPU四图通过**，旧G3不能继承。basename缓存碰撞仍未修，测试数据需唯一basename；87项官方缓存/构建产物排除不变，权重及环境不入Git。

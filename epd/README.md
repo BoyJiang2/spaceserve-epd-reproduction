@@ -151,3 +151,5 @@ CPU维护准备：[资产重定位恢复候选](validation/asset-relocation-resu
 2026-11-04新增：[官方EPD／PD／三个完整副本链路预检](comparison/20261104-official-pd-single-request.md)（相同请求与输出；仅正确性诊断，非正式性能）。
 
 [四不同图片配对排错：EPD与完整模型输出不一致](comparison/20261104-four-image-diagnostic.md)（保留语义失败与原清理失败，非性能结果）。
+
+当前官方在线CLI关闭IRP曾未有效传递，已CPU复现并修正；新版本GPU尚待验证。[四图配对与完整边界](comparison/20261104-four-image-diagnostic.md)。

@@ -25,4 +25,14 @@ e4a原清理报已登记worker2082803的environ不可读，原cleanup/outer为1�
 
 完整原件保存在服务器 `epd/runs/e4a`、`epd/runs/d4a`；可浏览[EPD逐请求输出与失败/恢复](../validation/official-entry-20261104/e4a-small-evidence.json)、[完整模型逐请求输出及请求配对](../validation/official-entry-20261104/d4a-small-evidence.json)、[G3/G4范围审查](../validation/official-entry-20261104/four-image-pair-g3-g4.md)。两个run不拼接成正式批次。
 
-下一步单变量诊断是在E视觉缓存写入后、返回前增加CUDA完成同步；这是时序假设检验，尚未实际运行。即使输出改善，也不等于唯一根因、传输数值正确或正式性能修复。数值传输、不同图片并发、重启和公平性能仍未完成。
+## E生产端同步反事实：未改善
+
+在单独诊断commit `d63cc3e8f15920c2e83653a5dca5b68bfa75346f`，仅在E写入视觉缓存后、返回前增加CUDA完成同步，P不改。e4b与e4a、d4a的请求实际字节相同；HTTP200、128事件、work/cleanup/outer均0、三卡释放，但输出与e4a逐字相同，仍不等于D4。[e4b原始输出/终态与SHA索引](../validation/official-entry-20261104/e4b-small-evidence.json)。此结果只说明仅加E同步未解决该固定案例；不外推所有同步问题无关。该诊断行已撤回。
+
+## 配置传递与分片别名：CPU已复现
+
+上述官方在线版本虽然传入 `--intra-request-dp 0`，调用链没有将其传到请求；请求工厂默认True，AsyncLLM同时丢弃generate的kwargs。CPU用真实方法/请求工厂复现CLI0最终请求仍True。已启用的分片方法使用浅拷贝，共享嵌套图片容器；四图A/B/C/D的四个分片最终都变成D。原源码及CPU结果保留，不能继续把历史CLI0写成有效关闭。这个纠正只适用于所列官方在线代码，不外推其他历史fork批次。
+
+新适配 `06fbcb6f3f3b931950077077c9a040e9c238deee` 贯通在线CLI0，并记录真实创建后的request flag；直接构造者原默认True及显式覆盖保持。True分片缺陷未修，本阶段关闭。原E同步撤回，三API图片修复保留。[最小补丁](../patches/20261104-online-irp-wiring.patch)、[CPU复现和回归](../validation/official-entry-20261104/online-irp-cpu.json)、[独立G2](../validation/official-entry-20261104/online-irp-g2.md)。
+
+**新版本仍只有CPU验证，e4c尚未运行。** 下一次必须核真实request.enable_irp=False、与既有参考请求字节相同及完整输出/释放；不能把参数修正或源码缺陷复现替代GPU正确性、embedding/KV数值、并发或正式性能。

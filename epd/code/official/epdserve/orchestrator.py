@@ -218,6 +218,7 @@ class EPDOrchestrator:
             **kwargs              
         )
 
+        logger.info(f"Request {req.request_id}: enable_irp={req.enable_irp}")
         self.request_outputs[req.request_id] = asyncio.Queue()
         self._on_new_lifetime_event_callback(req.request_id, LifetimeEvent(LifetimeEventType.Preprocessed))
         self.encoding_cluster.add_request(req)

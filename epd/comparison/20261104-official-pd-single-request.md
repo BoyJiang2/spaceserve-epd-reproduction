@@ -54,3 +54,8 @@ pd1清理记录为known192、known_live为空；另有一个不可读同UID进�
 [三副本逐请求结果、实际设备映射及原件SHA256](../validation/official-entry-20261104/d-replicas-small-evidence.json)、[独立G3/G4范围](../validation/official-entry-20261104/d-replicas-g3-g4.md)、[复跑脚本](../tools/official_d_first_request.sh)和[冻结输入](../validation/official-entry-20261104/d-first-request-inputs.json)。完整原件仍在服务器 `epd/runs/d1a`、`d1b`、`d1c`。
 
 至此三个官方候选的单请求链路均有真实记录；公平性能、多图、不同图片并发、重启及传输数值验证仍未完成，不拼接这些冷诊断为正式实验。
+
+
+## 2026-11-04官方在线IRP配置更正
+
+本页EPD官方在线批次传入CLI `--intra-request-dp 0`，但源码/真实方法CPU复现表明该参数未接通，请求工厂默认True；不能称有效关闭。单请求完成/输出/释放原件不变，不将这些诊断解释为关闭IRP机制已通过。仅适用于所列官方在线版本，不外推其他历史fork。详见[四图诊断与参数修正边界](20261104-four-image-diagnostic.md)。

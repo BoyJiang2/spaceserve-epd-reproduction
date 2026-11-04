@@ -528,7 +528,6 @@ class Worker:
                 
                 flattened_blocks = [item for row in block_tables for item in row]
                 self.ve_cache[flattened_blocks] = vision_embeddings
-                torch.cuda.synchronize(self.device)
         except Exception as e:
             raise e
         self.execution_time += time.perf_counter() - start

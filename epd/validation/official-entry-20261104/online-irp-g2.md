@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G2 APPROVE/BLOCKING0，仅06fb在线IRP传递、撤回E同步及e4c启动绑定。直接构造默认True保留；工厂CLI0、显式override传递，日志取真实request字段。CPU不是模型证明；精确离机核同/fresh资源900秒后e4c，实际False及相同请求/输出/释放另G3。True浅拷贝路径未修，非整体IRP正确/正式批准。仅转送材料未独立读/hash。
