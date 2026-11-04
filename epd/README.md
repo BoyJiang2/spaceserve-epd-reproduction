@@ -1,3 +1,5 @@
+[最新：不同图片 C4 正确性诊断](comparison/20261104-distinct-image-c4-diagnostic.md)（4/4 输出与完整模型一致；非公平性能实验）
+
 [11月4日官方EPD真实单请求及恢复释放](comparison/20261104-official-single-request.md)（HTTP200/128事件；原收尾失败保留，恢复后三卡释放；不是正式性能）
 
 [官方多图修复候选及完整模型/PD调用链](comparison/20261103-official-image-routing-preparation.md)（仅CPU证据，未部署、未运行GPU；历史性能保持原批次）
