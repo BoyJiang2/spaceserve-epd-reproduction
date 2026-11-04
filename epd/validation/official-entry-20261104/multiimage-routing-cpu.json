@@ -1,0 +1,126 @@
+{
+  "official_baseline": "9b111f710dfb4724072b603d626a1e4dad93ef1f",
+  "CPU_only": true,
+  "target_package_imported": false,
+  "GPU_executed": false,
+  "cases": [
+    {
+      "path": "epdserve/api_server.py",
+      "old_failure": [
+        "loaded:A",
+        "loaded:A",
+        "loaded:A",
+        "loaded:A"
+      ],
+      "expected": [
+        "loaded:A",
+        "loaded:B",
+        "loaded:C",
+        "loaded:D"
+      ],
+      "new_cases_passed": [
+        [
+          "A"
+        ],
+        [
+          "A",
+          "A",
+          "A",
+          "A"
+        ],
+        [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        [
+          "D",
+          "C",
+          "B",
+          "A"
+        ]
+      ],
+      "sha256": "fa0352ea42c4e441779a574a34b4b1abe2e161313d7f4507bed7f6f22ac097f6"
+    },
+    {
+      "path": "baselines/pd/distserve/api_server.py",
+      "old_failure": [
+        "loaded:A",
+        "loaded:A",
+        "loaded:A",
+        "loaded:A"
+      ],
+      "expected": [
+        "loaded:A",
+        "loaded:B",
+        "loaded:C",
+        "loaded:D"
+      ],
+      "new_cases_passed": [
+        [
+          "A"
+        ],
+        [
+          "A",
+          "A",
+          "A",
+          "A"
+        ],
+        [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        [
+          "D",
+          "C",
+          "B",
+          "A"
+        ]
+      ],
+      "sha256": "9cb309f2c63637ba556ccffa49227bf9cff3363c0d680430691fff508eb150fa"
+    },
+    {
+      "path": "baselines/d/distserve/api_server.py",
+      "old_failure": [
+        "loaded:A",
+        "loaded:A",
+        "loaded:A",
+        "loaded:A"
+      ],
+      "expected": [
+        "loaded:A",
+        "loaded:B",
+        "loaded:C",
+        "loaded:D"
+      ],
+      "new_cases_passed": [
+        [
+          "A"
+        ],
+        [
+          "A",
+          "A",
+          "A",
+          "A"
+        ],
+        [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        [
+          "D",
+          "C",
+          "B",
+          "A"
+        ]
+      ],
+      "sha256": "9eec7dc63f020e4b172b1c86947b2429b276c062dd62386368309fc7cef57eaf"
+    }
+  ],
+  "patch": "diff --git a/baselines/d/distserve/api_server.py b/baselines/d/distserve/api_server.py\nindex c06ee30..1bb36c2 100644\n--- a/baselines/d/distserve/api_server.py\n+++ b/baselines/d/distserve/api_server.py\n@@ -104,7 +104,7 @@ async def generate(request: Request) -> Response:\n     # mm_data[\"image\"]= [Image.open(p).convert(\"RGB\") for p in ps ]\n     # mm_data[\"image\"] = [Image.open(ps[0]).convert(\"RGB\")] * len(ps)\n     # mm_data[\"image\"] = [load_image_cache(p) for p in ps ]\n-    mm_data[\"image\"] = [load_image_cache(ps[0])] * len(ps)\n+    mm_data[\"image\"] = [load_image_cache(p) for p in ps]\n \n     # import pdb; pdb.set_trace()\n     # images = [utils.base64_to_image(image) for image in mm_data['images']]\ndiff --git a/baselines/pd/distserve/api_server.py b/baselines/pd/distserve/api_server.py\nindex d1f86ce..18469a4 100644\n--- a/baselines/pd/distserve/api_server.py\n+++ b/baselines/pd/distserve/api_server.py\n@@ -108,7 +108,7 @@ async def generate(request: Request) -> Response:\n     # mm_data[\"image\"]= [Image.open(p).convert(\"RGB\") for p in ps ]\n     # mm_data[\"image\"] = [Image.open(ps[0]).convert(\"RGB\")] * len(ps)\n     # mm_data[\"image\"] = [load_image_cache(p) for p in ps ]\n-    mm_data[\"image\"] = [load_image_cache(ps[0])] * len(ps)\n+    mm_data[\"image\"] = [load_image_cache(p) for p in ps]\n \n     # import pdb; pdb.set_trace()\n     # images = [utils.base64_to_image(image) for image in mm_data['images']]\ndiff --git a/epdserve/api_server.py b/epdserve/api_server.py\nindex a3b9b6b..27294cd 100644\n--- a/epdserve/api_server.py\n+++ b/epdserve/api_server.py\n@@ -108,7 +108,7 @@ async def generate(request: Request) -> Response:\n     # mm_data[\"image\"]= [Image.open(p).convert(\"RGB\") for p in ps ]\n     # mm_data[\"image\"] = [Image.open(ps[0]).convert(\"RGB\")] * len(ps)\n     # mm_data[\"image\"] = [load_image_cache(p) for p in ps ]\n-    mm_data[\"image\"] = [load_image_cache(ps[0])] * len(ps)\n+    mm_data[\"image\"] = [load_image_cache(p) for p in ps]\n     # images = [utils.base64_to_image(image) for image in mm_data['images']]\n     # mm_data[\"image\"] = images\n     # print(f'Time taken in reading images {time.perf_counter() - start_time}')\n"
+}

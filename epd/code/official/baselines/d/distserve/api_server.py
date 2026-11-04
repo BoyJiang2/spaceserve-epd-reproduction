@@ -104,7 +104,7 @@ async def generate(request: Request) -> Response:
     # mm_data["image"]= [Image.open(p).convert("RGB") for p in ps ]
     # mm_data["image"] = [Image.open(ps[0]).convert("RGB")] * len(ps)
     # mm_data["image"] = [load_image_cache(p) for p in ps ]
-    mm_data["image"] = [load_image_cache(ps[0])] * len(ps)
+    mm_data["image"] = [load_image_cache(p) for p in ps]
 
     # import pdb; pdb.set_trace()
     # images = [utils.base64_to_image(image) for image in mm_data['images']]
