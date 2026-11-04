@@ -1,3 +1,5 @@
+[最新：隔离MPS两client数值预检](comparison/20261104-isolated-mps-precheck.md)（可用性与释放通过；尚非模型并发）
+
 [最新：原生与解耦不同图片C4对照](comparison/20261104-distinct-image-c4-diagnostic.md)（4/4输出一致；本次跳过mask；非正式性能）
 
 [11月4日原生／官方解耦首请求对照](comparison/20261104-native-vs-official-disagg.md)（相同请求、输出一致；仅正确性，mask实效与正式性能待验证）
