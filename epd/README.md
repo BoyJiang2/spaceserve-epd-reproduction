@@ -148,4 +148,4 @@ python restore/outputs/epd-followup/scripts/analyze.py restore/outputs/reproduct
 CPU维护准备：[资产重定位恢复候选](validation/asset-relocation-resume-20261029/README.md)（16点前禁止执行，未产生新GPU结果）。
 
 
-2026-11-04新增：[官方EPD／PD单请求链路对照](comparison/20261104-official-pd-single-request.md)（相同请求与输出；仅正确性诊断，非正式性能）。
+2026-11-04新增：[官方EPD／PD／三个完整副本链路预检](comparison/20261104-official-pd-single-request.md)（相同请求与输出；仅正确性诊断，非正式性能）。

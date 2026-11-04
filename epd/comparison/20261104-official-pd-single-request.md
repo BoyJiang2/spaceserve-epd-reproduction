@@ -1,6 +1,6 @@
-# 官方 EPD 与 PD：单请求链路对照（2026-11-04）
+# 官方三卡基线链路预检：EPD、PD与三个完整副本（2026-11-04）
 
-这是两种官方入口的正确性与运行状态检查，**不是正式性能结果**。
+这是官方入口的正确性与运行状态检查，**不是正式性能结果**。
 
 ## 来源与复跑入口
 
@@ -35,3 +35,22 @@ pd1清理记录为known192、known_live为空；另有一个不可读同UID进�
 [逐请求输出、终态及完整原件SHA256索引](../validation/official-entry-20261104/pd1-small-evidence.json)和[独立G3/G4范围审查](../validation/official-entry-20261104/pd1-g3-g4.md)可浏览。完整stdout/stderr、Ray日志、请求及输出仍保存在服务器 `/local/boyjiang/epd/runs/pd1`，不复制环境或权重。
 
 仍未完成：并发与多图路由、重启、embedding/KV数值一致性、三个完整模型副本、正式PD分配与公平性能矩阵。此页不替代旧方案A或其他批次的结果，也不宣称总复现完成。
+
+
+## 三个独立完整模型副本：实际预检补充
+
+使用同一官方基线的 `baselines/d/distserve`，分别启动三个完整模型服务端点，各D1/FP16/TP1、各一张GPU、合计三卡。复用现有模型与环境，不复制权重；各有独立Ray目录、端口和RUNID。这里的D入口执行完整模型，不是EPD中只处理解码阶段的worker。
+
+| run / 端口 | 实际模型worker / 物理卡 | HTTP / 生成事件 | work / cleanup / outer | 与EPD固定请求及输出 |
+|---|---|---|---|---|
+| d1a / 19264 | PID2002572 / GPU0 | 200 / 128 | 0 / 0 / 0 | 逐字节/逐字相同 |
+| d1b / 19265 | PID2002382 / GPU1 | 200 / 128 | 0 / 0 / 0 | 逐字节/逐字相同 |
+| d1c / 19266 | PID2002389 / GPU2 | 200 / 128 | 0 / 0 / 0 | 逐字节/逐字相同 |
+
+模块来源均实际解析到官方checkout的 `baselines/d/distserve`。父进程以nvidia-smi分别记录worker PID到完整物理GPU UUID的6/8/8轮映射；有限采样中各卡最高观测69356MiB，**不是绝对峰值显存**。每个端点仅处理一个固定图片请求；相同输出不证明图像因果或一般正确性，也未验证正式客户端均衡、并发路由或吞吐。
+
+各run已登记live为空、对应GPU显存0，三个端点结束后再次查询全部GPU显存0、compute-apps为空。每个清理记录均保留不可读的旧sd-pam进程1851953，未处理该进程。
+
+[三副本逐请求结果、实际设备映射及原件SHA256](../validation/official-entry-20261104/d-replicas-small-evidence.json)、[独立G3/G4范围](../validation/official-entry-20261104/d-replicas-g3-g4.md)、[复跑脚本](../tools/official_d_first_request.sh)和[冻结输入](../validation/official-entry-20261104/d-first-request-inputs.json)。完整原件仍在服务器 `epd/runs/d1a`、`d1b`、`d1c`。
+
+至此三个官方候选的单请求链路均有真实记录；公平性能、多图、不同图片并发、重启及传输数值验证仍未完成，不拼接这些冷诊断为正式实验。

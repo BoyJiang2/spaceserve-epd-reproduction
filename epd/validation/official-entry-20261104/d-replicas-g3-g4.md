@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G3 APPROVE/BLOCKING0，仅三个官方完整模型入口实际请求、设备映射及释放。G4 APPROVE/BLOCKING0，仅正确性及链路预检增补。69356MiB为有限最高观测非绝对峰值；每端点一请求及同输出不能证明图像因果、一般正确性、正式均衡/吞吐或公平性能。仅依据主执行者转送证据，未独立读取/hash/GPU监测，总goal未完成。

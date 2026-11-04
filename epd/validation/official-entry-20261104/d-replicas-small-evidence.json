@@ -1,0 +1,710 @@
+{
+  "replicas": [
+    {
+      "server_run": "/local/boyjiang/epd/runs/d1a",
+      "files": {
+        "dispatch.json": "{\n  \"created\": 1793787821.1964362,\n  \"pid\": 1971655,\n  \"uid\": 2147,\n  \"supervisor_pid\": 1971644,\n  \"child_stat\": \"1971655 (bash) S 1971644 1971644 1851994 34817 1971644 4194304 145 0 0 0 0 0 0 0 30 10 1 0 72297322 7548928 910 18446744073709551615 94716821504000 94716822417261 140730503573088 0 0 0 2 4 65536 1 0 0 17 50 0 0 0 0 0 94716822661776 94716822709840 94716825264128 140730503576367 140730503576433 140730503576433 140730503577578 0\\n\",\n  \"gpu_id\": 0,\n  \"gpu_before\": \"0, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0, 0\\n1, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0, 0\\n2, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0, 0\\n\",\n  \"run\": \"/local/boyjiang/epd/runs/d1a\",\n  \"booking_receipt_epoch\": 1793787760.8975468,\n  \"ticket\": \"bk-20261103T1510-ce17c5a8\",\n  \"deadline\": 1793804400,\n  \"code_publication\": \"0489b2c01bcb17a62b671790197044af10500981\",\n  \"mode\": \"full-model D1 single-request diagnostic\"\n}",
+        "module-sources.json": "{\n  \"executable\": \"/local/boyjiang/epd/assets/envs/epd/bin/python\",\n  \"python\": \"3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]\",\n  \"modules\": {\n    \"distserve\": {\n      \"file\": \"/local/boyjiang/epdserve-official/baselines/d/distserve/__init__.py\",\n      \"version\": null\n    },\n    \"torch\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/__init__.py\",\n      \"version\": \"2.4.0+cu121\"\n    },\n    \"vllm\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/__init__.py\",\n      \"version\": \"0.6.1.post2\"\n    },\n    \"vllm._C_already_loaded\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so\"\n  }\n}\n",
+        "terminal.json": "{\"work_exit\":0,\"cleanup_exit\":0,\"gpu_query_exit\":0,\"memory_query_exit\":0,\"ended_epoch\":1793787875}\n",
+        "outer-exit.json": "{\"exit\": 0, \"ended_epoch\": 1793787878.4050426}",
+        "http-code.txt": "200\n",
+        "curl.exit": "0\n",
+        "response-summary.json": "{\n  \"output\": \"The image depicts three individuals dressed in military uniforms, seated on a bench. They appear to be in a relaxed setting, possibly a park or a public area. The person on the left is holding a hat, the middle person is reading a book, and the person on the right is looking off to the side with a contemplative expression. The uniforms are adorned with various badges and medals, suggesting they might be officers or have achieved certain recognitions. The overall atmosphere of the image is calm and reflective.<|im_end|><|im_end|> taking into account the details of the image, I can provide a comprehensive description.<|im_end|><|im_end|>\\nDivya<|im_end|><|im_end|><|im_end|><|im_end|>\",\n  \"actual_generation_events\": 128,\n  \"target_generation_events\": 128,\n  \"timestamps\": [\n    723018.745264819,\n    723018.780501851,\n    723018.796363164,\n    723018.812210045,\n    723018.827539001,\n    723018.842880632,\n    723018.858058113,\n    723018.873072327,\n    723018.888358365,\n    723018.903558669,\n    723018.918711517,\n    723018.933808919,\n    723018.949214522,\n    723018.964331649,\n    723018.979558334,\n    723018.994834912,\n    723019.01010889,\n    723019.025395947,\n    723019.040712804,\n    723019.056374004,\n    723019.071837361,\n    723019.087363233,\n    723019.102773354,\n    723019.118270499,\n    723019.133651175,\n    723019.148772766,\n    723019.163829732,\n    723019.178944186,\n    723019.194195379,\n    723019.209371317,\n    723019.224466119,\n    723019.239597244,\n    723019.25461446,\n    723019.269683121,\n    723019.284726053,\n    723019.300063133,\n    723019.315420488,\n    723019.330627719,\n    723019.345755183,\n    723019.360945025,\n    723019.376299619,\n    723019.391483251,\n    723019.406771252,\n    723019.422022626,\n    723019.437196048,\n    723019.45240129,\n    723019.467708173,\n    723019.482833238,\n    723019.498021519,\n    723019.513202023,\n    723019.528334396,\n    723019.543808716,\n    723019.558918282,\n    723019.574074614,\n    723019.589303724,\n    723019.604484985,\n    723019.619712987,\n    723019.635003721,\n    723019.650344207,\n    723019.665583238,\n    723019.680742642,\n    723019.696188257,\n    723019.711321272,\n    723019.726465201,\n    723019.741621334,\n    723019.756712988,\n    723019.771810432,\n    723019.78723381,\n    723019.80232385,\n    723019.817419833,\n    723019.833904318,\n    723019.849195315,\n    723019.864910491,\n    723019.880318001,\n    723019.895570531,\n    723019.910790121,\n    723019.925996652,\n    723019.941274266,\n    723019.956434681,\n    723019.97161345,\n    723019.987093771,\n    723020.002394828,\n    723020.017735727,\n    723020.033260984,\n    723020.048386022,\n    723020.063482937,\n    723020.07863597,\n    723020.09385523,\n    723020.109047492,\n    723020.12422128,\n    723020.139442618,\n    723020.15456322,\n    723020.169670709,\n    723020.184872131,\n    723020.200185909,\n    723020.21573302,\n    723020.231095442,\n    723020.246278301,\n    723020.261472207,\n    723020.276931573,\n    723020.29208212,\n    723020.307152438,\n    723020.322304055,\n    723020.33752814,\n    723020.352780117,\n    723020.368036116,\n    723020.383434141,\n    723020.398496799,\n    723020.413544989,\n    723020.428641732,\n    723020.443709751,\n    723020.458850206,\n    723020.473975371,\n    723020.489108392,\n    723020.504445371,\n    723020.519963589,\n    723020.53507596,\n    723020.550383234,\n    723020.565516766,\n    723020.580881419,\n    723020.59606018,\n    723020.611128424,\n    723020.626263655,\n    723020.641412613,\n    723020.656530009,\n    723020.671738648,\n    723020.68687392,\n    723020.701767655\n  ],\n  \"prompt_token_len\": 28,\n  \"processed_prompt_token_len\": 93,\n  \"lifetime_events\": [\n    {\n      \"timestamp\": 723016.777421436,\n      \"event_type\": \"issued\"\n    },\n    {\n      \"timestamp\": 723017.987204303,\n      \"event_type\": \"preprocessed\"\n    },\n    {\n      \"timestamp\": 723017.995090643,\n      \"event_type\": \"context_begin\"\n    },\n    {\n      \"timestamp\": 723018.714037697,\n      \"event_type\": \"context_end\"\n    },\n    {\n      \"timestamp\": 723020.686525623,\n      \"event_type\": \"decoding_begin\"\n    },\n    {\n      \"timestamp\": 723020.701611624,\n      \"event_type\": \"decoding_end\"\n    },\n    {\n      \"timestamp\": 723020.701770813,\n      \"event_type\": \"finished\"\n    }\n  ],\n  \"semantic_correctness\": \"PENDING_IMAGE_AND_OUTPUT_REVIEW\",\n  \"client_TTFT\": null\n}",
+        "cleanup.stdout": "{\"known\": 190, \"known_live\": [], \"unreadable_same_uid\": [1851953]}\n",
+        "cleanup.stderr": "",
+        "gpu-memory-after.csv": "uuid, memory.used [MiB], utilization.gpu [%]\nGPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0 MiB, 0 %\n",
+        "gpu-apps-after.csv": "pid, gpu_uuid, process_name, used_gpu_memory [MiB]\n",
+        "request.sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97  request.json\n"
+      },
+      "manifest": [
+        {
+          "name": "outer.stdout",
+          "bytes": 43,
+          "sha256": "3400c80769d4ca9ce822b82e97d324685907a205c710faf2888bd5703d47bae9"
+        },
+        {
+          "name": "outer.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "dispatch.json",
+          "bytes": 908,
+          "sha256": "722bd1a42642c9f33573f469f50e491d942b125b89388e38fa9d7c977771b4be"
+        },
+        {
+          "name": "identity.json",
+          "bytes": 23749,
+          "sha256": "7f934a6fd286dc2955169372e196499bd3ea26267aaee5fe85edb3379b3af570"
+        },
+        {
+          "name": "initial-processes.json",
+          "bytes": 65,
+          "sha256": "ef6cf0b85a2ad2c9d1d6409831e41813ed3cc12132c5e4e927ef5b35ca864be1"
+        },
+        {
+          "name": "replica-gpu-observations.jsonl",
+          "bytes": 2448,
+          "sha256": "5644773ddce75bcb276d6e40a6d5f64e3cc68f015745939637ff6b61f7705e2f"
+        },
+        {
+          "name": "identity.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "module-sources.json",
+          "bytes": 705,
+          "sha256": "976d560a920b2f787da9a167ed0aba2417758697f4cb850340a2397a261c43f9"
+        },
+        {
+          "name": "module-sources.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "input.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "input.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "request.json",
+          "bytes": 485,
+          "sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97"
+        },
+        {
+          "name": "request.sha256",
+          "bytes": 79,
+          "sha256": "043d1fbe482b9e75bd2ac6c9eddf73c145999a983284dfa2ad10421af62ee4fe"
+        },
+        {
+          "name": "tokenizer-source.json",
+          "bytes": 464,
+          "sha256": "b370367a958fa2e25fd0716c8b841d79be56d6dc68d194b026a64e52830b5eee"
+        },
+        {
+          "name": "server-timeout.pid",
+          "bytes": 8,
+          "sha256": "5c6a436384e256b0e54dc7f8606be51bafc98f20f165f6ee722365602184f9d7"
+        },
+        {
+          "name": "server.stdout",
+          "bytes": 4546,
+          "sha256": "a09d2d2664c20af0ada36012596e709adfe4e1121c5f53ff9a4a43b768db756e"
+        },
+        {
+          "name": "server.stderr",
+          "bytes": 935,
+          "sha256": "8a24ed5b49f0b6d1d29ccbf2537301a052b290ef11faf31c43726f89a56ec8c8"
+        },
+        {
+          "name": "process-observations.jsonl",
+          "bytes": 164214,
+          "sha256": "39bacbbcb72001d6ed5c71a62cd5f72201e804866356a8799ce8ebce1892a9ba"
+        },
+        {
+          "name": "listener.txt",
+          "bytes": 92,
+          "sha256": "70709627a4ef68c6dabe21b184c6ec137b5846cf4d82f7b3d03675c176640376"
+        },
+        {
+          "name": "http-code.txt",
+          "bytes": 4,
+          "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+        },
+        {
+          "name": "curl.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "response.headers",
+          "bytes": 127,
+          "sha256": "a5d63c848631e317c0ebc3b6ad1d8f622c8b927ecac32293032f5fb20c195a0b"
+        },
+        {
+          "name": "response.json",
+          "bytes": 3522,
+          "sha256": "ec577e2c346a5c4b4b138cc6064b6b0680065f9a7f5ad13d4a563caca1adcc64"
+        },
+        {
+          "name": "curl.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "name": "response-summary.json",
+          "bytes": 4360,
+          "sha256": "748157a209875605ad257ebc66d9b1dfc0e1618251020012ea2fb86460f14ae6"
+        },
+        {
+          "name": "cleanup.stdout",
+          "bytes": 67,
+          "sha256": "ee66fcb4462003eb3cdb699a3d06d8e713775efea7a15b33593009df1752b333"
+        },
+        {
+          "name": "cleanup.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gpu-apps-after.csv",
+          "bytes": 51,
+          "sha256": "59256ce249b7c6656f282d7e4509551811130705747a344acfbc0e97651831b2"
+        },
+        {
+          "name": "gpu-apps-after.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gpu-memory-after.csv",
+          "bytes": 98,
+          "sha256": "ec968a5a5c0dc39b4c08fe4672980211478c80a703eafbf42d0cb6a46914eeb8"
+        },
+        {
+          "name": "gpu-memory-after.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "terminal.json",
+          "bytes": 99,
+          "sha256": "ca668d6e3cba061557a5992284154fb847ce5bd715ae32d74ce10bb9beff95f4"
+        },
+        {
+          "name": "outer-exit.json",
+          "bytes": 46,
+          "sha256": "58180ba9c3e265370076bdcc38ffae13052f2e781d3756c1767ac2d9c5f5eab3"
+        }
+      ],
+      "worker_log_lines": [
+        "WARNING 11-04 18:24:07 config.py:1657] Casting torch.bfloat16 to torch.float16.",
+        "INFO 18:24:07 Initializing placement group for total engines 1",
+        "\u001b[36m(ParaWorker pid=2002572)\u001b[0m INFO 18:24:16 Worker decoding.#0 created on host qjh003 and gpu #0"
+      ],
+      "physical_GPU_observations": [
+        {
+          "epoch": 1793787858.5503104,
+          "rows": [
+            "2002572, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 16128 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787860.6535316,
+          "rows": [
+            "2002572, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 16128 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787862.7535605,
+          "rows": [
+            "2002572, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 69112 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787865.042788,
+          "rows": [
+            "2002572, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 69112 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787867.1426969,
+          "rows": [
+            "2002572, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 69356 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787869.4657075,
+          "rows": [
+            "2002572, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 69356 MiB"
+          ]
+        }
+      ],
+      "output_exact_equal_to_EPD_r1": true,
+      "request_bytes_equal_to_EPD_r1": true
+    },
+    {
+      "server_run": "/local/boyjiang/epd/runs/d1b",
+      "files": {
+        "dispatch.json": "{\n  \"created\": 1793787821.1977742,\n  \"pid\": 1971657,\n  \"uid\": 2147,\n  \"supervisor_pid\": 1971644,\n  \"child_stat\": \"1971657 (bash) S 1971644 1971644 1851994 34817 1971644 4194304 147 0 0 0 0 0 0 0 30 10 1 0 72297322 7548928 907 18446744073709551615 94836670382080 94836671295341 140726016342192 0 0 0 2 4 65536 1 0 0 17 50 0 0 0 0 0 94836671539856 94836671587920 94836686123008 140726016346927 140726016346993 140726016346993 140726016348138 0\\n\",\n  \"gpu_id\": 1,\n  \"gpu_before\": \"0, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0, 0\\n1, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0, 0\\n2, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0, 0\\n\",\n  \"run\": \"/local/boyjiang/epd/runs/d1b\",\n  \"booking_receipt_epoch\": 1793787760.8975468,\n  \"ticket\": \"bk-20261103T1510-ce17c5a8\",\n  \"deadline\": 1793804400,\n  \"code_publication\": \"0489b2c01bcb17a62b671790197044af10500981\",\n  \"mode\": \"full-model D1 single-request diagnostic\"\n}",
+        "module-sources.json": "{\n  \"executable\": \"/local/boyjiang/epd/assets/envs/epd/bin/python\",\n  \"python\": \"3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]\",\n  \"modules\": {\n    \"distserve\": {\n      \"file\": \"/local/boyjiang/epdserve-official/baselines/d/distserve/__init__.py\",\n      \"version\": null\n    },\n    \"torch\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/__init__.py\",\n      \"version\": \"2.4.0+cu121\"\n    },\n    \"vllm\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/__init__.py\",\n      \"version\": \"0.6.1.post2\"\n    },\n    \"vllm._C_already_loaded\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so\"\n  }\n}\n",
+        "terminal.json": "{\"work_exit\":0,\"cleanup_exit\":0,\"gpu_query_exit\":0,\"memory_query_exit\":0,\"ended_epoch\":1793787876}\n",
+        "outer-exit.json": "{\"exit\": 0, \"ended_epoch\": 1793787878.4053204}",
+        "http-code.txt": "200\n",
+        "curl.exit": "0\n",
+        "response-summary.json": "{\n  \"output\": \"The image depicts three individuals dressed in military uniforms, seated on a bench. They appear to be in a relaxed setting, possibly a park or a public area. The person on the left is holding a hat, the middle person is reading a book, and the person on the right is looking off to the side with a contemplative expression. The uniforms are adorned with various badges and medals, suggesting they might be officers or have achieved certain recognitions. The overall atmosphere of the image is calm and reflective.<|im_end|><|im_end|> taking into account the details of the image, I can provide a comprehensive description.<|im_end|><|im_end|>\\nDivya<|im_end|><|im_end|><|im_end|><|im_end|>\",\n  \"actual_generation_events\": 128,\n  \"target_generation_events\": 128,\n  \"timestamps\": [\n    723019.289622713,\n    723019.32411525,\n    723019.340386742,\n    723019.35580356,\n    723019.370911368,\n    723019.388107217,\n    723019.403288195,\n    723019.41880079,\n    723019.433854616,\n    723019.448869819,\n    723019.463847953,\n    723019.478924572,\n    723019.494369353,\n    723019.509341657,\n    723019.524249146,\n    723019.543141386,\n    723019.558261536,\n    723019.573302963,\n    723019.588211527,\n    723019.603441386,\n    723019.618348779,\n    723019.633362067,\n    723019.648275444,\n    723019.663377188,\n    723019.678396507,\n    723019.693424329,\n    723019.70838198,\n    723019.723358772,\n    723019.738404369,\n    723019.753627512,\n    723019.768511938,\n    723019.783432679,\n    723019.798356689,\n    723019.813523189,\n    723019.828422142,\n    723019.843664096,\n    723019.85899567,\n    723019.874258223,\n    723019.889364323,\n    723019.904500892,\n    723019.919618499,\n    723019.934759158,\n    723019.949963317,\n    723019.965060799,\n    723019.980198762,\n    723019.995442873,\n    723020.01083476,\n    723020.025947789,\n    723020.04105612,\n    723020.05606793,\n    723020.071035095,\n    723020.086452073,\n    723020.101500417,\n    723020.116536511,\n    723020.131523286,\n    723020.146543808,\n    723020.161581889,\n    723020.176694502,\n    723020.19168363,\n    723020.206819409,\n    723020.222580608,\n    723020.237768307,\n    723020.252768072,\n    723020.267825515,\n    723020.282881165,\n    723020.297969259,\n    723020.312979352,\n    723020.328513298,\n    723020.343575443,\n    723020.358663357,\n    723020.373761727,\n    723020.388871717,\n    723020.403867596,\n    723020.418982181,\n    723020.434000881,\n    723020.449096718,\n    723020.464264438,\n    723020.47934925,\n    723020.494473446,\n    723020.509599695,\n    723020.524882269,\n    723020.539979056,\n    723020.555094727,\n    723020.570515563,\n    723020.585630392,\n    723020.600676877,\n    723020.615799602,\n    723020.630846954,\n    723020.645958071,\n    723020.661021402,\n    723020.67602187,\n    723020.691077684,\n    723020.706139005,\n    723020.721194051,\n    723020.736233015,\n    723020.751269672,\n    723020.76630705,\n    723020.781432516,\n    723020.796523228,\n    723020.812285736,\n    723020.827518062,\n    723020.842614663,\n    723020.857771257,\n    723020.872856263,\n    723020.888132887,\n    723020.90322632,\n    723020.918468278,\n    723020.93354525,\n    723020.94866871,\n    723020.96381333,\n    723020.979852672,\n    723020.997360677,\n    723021.012736127,\n    723021.027936609,\n    723021.043337542,\n    723021.05876703,\n    723021.074125718,\n    723021.089310425,\n    723021.104532679,\n    723021.119669098,\n    723021.13484358,\n    723021.149926592,\n    723021.165027876,\n    723021.180312952,\n    723021.195577478,\n    723021.210847778,\n    723021.226031485,\n    723021.240861074\n  ],\n  \"prompt_token_len\": 28,\n  \"processed_prompt_token_len\": 93,\n  \"lifetime_events\": [\n    {\n      \"timestamp\": 723017.270619955,\n      \"event_type\": \"issued\"\n    },\n    {\n      \"timestamp\": 723018.525897361,\n      \"event_type\": \"preprocessed\"\n    },\n    {\n      \"timestamp\": 723018.533453364,\n      \"event_type\": \"context_begin\"\n    },\n    {\n      \"timestamp\": 723019.25800448,\n      \"event_type\": \"context_end\"\n    },\n    {\n      \"timestamp\": 723021.225656402,\n      \"event_type\": \"decoding_begin\"\n    },\n    {\n      \"timestamp\": 723021.240697932,\n      \"event_type\": \"decoding_end\"\n    },\n    {\n      \"timestamp\": 723021.240864495,\n      \"event_type\": \"finished\"\n    }\n  ],\n  \"semantic_correctness\": \"PENDING_IMAGE_AND_OUTPUT_REVIEW\",\n  \"client_TTFT\": null\n}",
+        "cleanup.stdout": "{\"known\": 190, \"known_live\": [], \"unreadable_same_uid\": [1851953]}\n",
+        "cleanup.stderr": "",
+        "gpu-memory-after.csv": "uuid, memory.used [MiB], utilization.gpu [%]\nGPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0 MiB, 0 %\n",
+        "gpu-apps-after.csv": "pid, gpu_uuid, process_name, used_gpu_memory [MiB]\n",
+        "request.sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97  request.json\n"
+      },
+      "manifest": [
+        {
+          "name": "outer.stdout",
+          "bytes": 43,
+          "sha256": "3400c80769d4ca9ce822b82e97d324685907a205c710faf2888bd5703d47bae9"
+        },
+        {
+          "name": "outer.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "dispatch.json",
+          "bytes": 908,
+          "sha256": "82eb3a719652f2e3a7f9a0b5af84317a4fe8feb507c9336e0233122bf41d7e03"
+        },
+        {
+          "name": "identity.json",
+          "bytes": 23749,
+          "sha256": "e9beb69d3b43808799cac9cd08b57fafdef4f7b866f757dd76c4c23f843e0356"
+        },
+        {
+          "name": "initial-processes.json",
+          "bytes": 65,
+          "sha256": "ef6cf0b85a2ad2c9d1d6409831e41813ed3cc12132c5e4e927ef5b35ca864be1"
+        },
+        {
+          "name": "identity.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "module-sources.json",
+          "bytes": 705,
+          "sha256": "976d560a920b2f787da9a167ed0aba2417758697f4cb850340a2397a261c43f9"
+        },
+        {
+          "name": "module-sources.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "input.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "input.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "request.json",
+          "bytes": 485,
+          "sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97"
+        },
+        {
+          "name": "request.sha256",
+          "bytes": 79,
+          "sha256": "043d1fbe482b9e75bd2ac6c9eddf73c145999a983284dfa2ad10421af62ee4fe"
+        },
+        {
+          "name": "tokenizer-source.json",
+          "bytes": 464,
+          "sha256": "b370367a958fa2e25fd0716c8b841d79be56d6dc68d194b026a64e52830b5eee"
+        },
+        {
+          "name": "server-timeout.pid",
+          "bytes": 8,
+          "sha256": "caac97d7d29288ffc182ac44ccd0873fe1b8f9e34654c2ec341d837a385ceded"
+        },
+        {
+          "name": "server.stdout",
+          "bytes": 5024,
+          "sha256": "ed340f852fd0c53ddbc29f8dd5e29398157133e4321ed0e95f1439db74c8c2df"
+        },
+        {
+          "name": "server.stderr",
+          "bytes": 935,
+          "sha256": "7eb9c8a7072a699c3de60148af887e6e4426ce195a8022c3627bd8f30777deea"
+        },
+        {
+          "name": "process-observations.jsonl",
+          "bytes": 189999,
+          "sha256": "ef3f34196dcf94bb88e81b8fbf1c5c158ac545bea47f354a130985e5af4d3fb3"
+        },
+        {
+          "name": "listener.txt",
+          "bytes": 92,
+          "sha256": "a98d5333e63f7740c60d8dc1c4762af8daa392592e2b81046a2a55816e974fd1"
+        },
+        {
+          "name": "http-code.txt",
+          "bytes": 4,
+          "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+        },
+        {
+          "name": "curl.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "response.headers",
+          "bytes": 127,
+          "sha256": "f7e18b32193a98ab31b397f83d87ada58d98f5afcfe23331a621f1c5ba37fd19"
+        },
+        {
+          "name": "response.json",
+          "bytes": 3519,
+          "sha256": "6c75bc66e66895e46df8db98a0678da8912b680d56a4bdfb9a6678fe57948769"
+        },
+        {
+          "name": "curl.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "name": "response-summary.json",
+          "bytes": 4357,
+          "sha256": "b68414ae39edc34c1e550a83a50196a40328614ae25969afb36bc17698ca49c4"
+        },
+        {
+          "name": "cleanup.stdout",
+          "bytes": 67,
+          "sha256": "ee66fcb4462003eb3cdb699a3d06d8e713775efea7a15b33593009df1752b333"
+        },
+        {
+          "name": "cleanup.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gpu-apps-after.csv",
+          "bytes": 51,
+          "sha256": "59256ce249b7c6656f282d7e4509551811130705747a344acfbc0e97651831b2"
+        },
+        {
+          "name": "gpu-apps-after.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gpu-memory-after.csv",
+          "bytes": 98,
+          "sha256": "1f6668143f9ab728b49fa48ecaf0e7276234e797fa0f72f9e135ebd52fc0f25d"
+        },
+        {
+          "name": "gpu-memory-after.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "terminal.json",
+          "bytes": 99,
+          "sha256": "7e6c7826d0ccde17c9430f32c3cceecf357df8d19dd9369b2f468fbfebaa1ad1"
+        },
+        {
+          "name": "outer-exit.json",
+          "bytes": 46,
+          "sha256": "bf50e23a9ffd79c6bd2c6833de604ab9b987f94e7a889d3b37105ef9b62b1a8f"
+        }
+      ],
+      "worker_log_lines": [
+        "WARNING 11-04 18:24:06 config.py:1657] Casting torch.bfloat16 to torch.float16.",
+        "INFO 18:24:07 Initializing placement group for total engines 1",
+        "\u001b[36m(ParaWorker pid=2002382)\u001b[0m INFO 18:24:16 Worker decoding.#0 created on host qjh003 and gpu #1"
+      ],
+      "physical_GPU_observations": [
+        {
+          "epoch": 1793787856.4465044,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 388 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787858.5503104,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 16128 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787860.6535316,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 16128 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787862.7535605,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 69112 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787865.042788,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 69112 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787867.1426969,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 69222 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787869.4657075,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 69356 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787872.0919943,
+          "rows": [
+            "2002382, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 69356 MiB"
+          ]
+        }
+      ],
+      "output_exact_equal_to_EPD_r1": true,
+      "request_bytes_equal_to_EPD_r1": true
+    },
+    {
+      "server_run": "/local/boyjiang/epd/runs/d1c",
+      "files": {
+        "dispatch.json": "{\n  \"created\": 1793787821.1997492,\n  \"pid\": 1971660,\n  \"uid\": 2147,\n  \"supervisor_pid\": 1971644,\n  \"child_stat\": \"1971660 (bash) S 1971644 1971644 1851994 34817 1971644 4194304 146 0 0 0 0 0 0 0 30 10 1 0 72297322 7548928 918 18446744073709551615 94152954937344 94152955850605 140723253620864 0 0 0 2 4 65536 1 0 0 17 50 0 0 0 0 0 94152956095120 94152956143184 94152970563584 140723253623599 140723253623665 140723253623665 140723253624810 0\\n\",\n  \"gpu_id\": 2,\n  \"gpu_before\": \"0, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0, 0\\n1, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0, 0\\n2, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0, 0\\n\",\n  \"run\": \"/local/boyjiang/epd/runs/d1c\",\n  \"booking_receipt_epoch\": 1793787760.8975468,\n  \"ticket\": \"bk-20261103T1510-ce17c5a8\",\n  \"deadline\": 1793804400,\n  \"code_publication\": \"0489b2c01bcb17a62b671790197044af10500981\",\n  \"mode\": \"full-model D1 single-request diagnostic\"\n}",
+        "module-sources.json": "{\n  \"executable\": \"/local/boyjiang/epd/assets/envs/epd/bin/python\",\n  \"python\": \"3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]\",\n  \"modules\": {\n    \"distserve\": {\n      \"file\": \"/local/boyjiang/epdserve-official/baselines/d/distserve/__init__.py\",\n      \"version\": null\n    },\n    \"torch\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/__init__.py\",\n      \"version\": \"2.4.0+cu121\"\n    },\n    \"vllm\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/__init__.py\",\n      \"version\": \"0.6.1.post2\"\n    },\n    \"vllm._C_already_loaded\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so\"\n  }\n}\n",
+        "terminal.json": "{\"work_exit\":0,\"cleanup_exit\":0,\"gpu_query_exit\":0,\"memory_query_exit\":0,\"ended_epoch\":1793787876}\n",
+        "outer-exit.json": "{\"exit\": 0, \"ended_epoch\": 1793787878.4054077}",
+        "http-code.txt": "200\n",
+        "curl.exit": "0\n",
+        "response-summary.json": "{\n  \"output\": \"The image depicts three individuals dressed in military uniforms, seated on a bench. They appear to be in a relaxed setting, possibly a park or a public area. The person on the left is holding a hat, the middle person is reading a book, and the person on the right is looking off to the side with a contemplative expression. The uniforms are adorned with various badges and medals, suggesting they might be officers or have achieved certain recognitions. The overall atmosphere of the image is calm and reflective.<|im_end|><|im_end|> taking into account the details of the image, I can provide a comprehensive description.<|im_end|><|im_end|>\\nDivya<|im_end|><|im_end|><|im_end|><|im_end|>\",\n  \"actual_generation_events\": 128,\n  \"target_generation_events\": 128,\n  \"timestamps\": [\n    723019.258294919,\n    723019.293629373,\n    723019.308979216,\n    723019.32460501,\n    723019.33969902,\n    723019.354698621,\n    723019.369757481,\n    723019.384701622,\n    723019.399768381,\n    723019.414809646,\n    723019.430145315,\n    723019.445238985,\n    723019.46050037,\n    723019.475472877,\n    723019.490515532,\n    723019.512460122,\n    723019.527502619,\n    723019.542569544,\n    723019.557532299,\n    723019.572723606,\n    723019.587701344,\n    723019.602629962,\n    723019.617641626,\n    723019.632580961,\n    723019.647536169,\n    723019.66444801,\n    723019.679457491,\n    723019.694484443,\n    723019.710414773,\n    723019.725443449,\n    723019.740470236,\n    723019.755378323,\n    723019.770323904,\n    723019.785274532,\n    723019.800287525,\n    723019.815629829,\n    723019.830945327,\n    723019.846098808,\n    723019.861348821,\n    723019.877322682,\n    723019.892787726,\n    723019.907903448,\n    723019.923043278,\n    723019.938264339,\n    723019.953425521,\n    723019.968547614,\n    723019.983958915,\n    723019.999403334,\n    723020.01465357,\n    723020.030105311,\n    723020.045285064,\n    723020.060696339,\n    723020.075781232,\n    723020.090925666,\n    723020.105997846,\n    723020.121025116,\n    723020.13598213,\n    723020.151017217,\n    723020.166080186,\n    723020.181187811,\n    723020.196287295,\n    723020.211406519,\n    723020.228995905,\n    723020.24421349,\n    723020.259294594,\n    723020.274402438,\n    723020.289593074,\n    723020.30488116,\n    723020.319804159,\n    723020.334872661,\n    723020.349949705,\n    723020.365476798,\n    723020.380560295,\n    723020.395543812,\n    723020.410483038,\n    723020.425551228,\n    723020.440590247,\n    723020.455565375,\n    723020.470561871,\n    723020.485648507,\n    723020.500839635,\n    723020.519277293,\n    723020.534642675,\n    723020.550418787,\n    723020.565510142,\n    723020.580701821,\n    723020.595824739,\n    723020.6109549,\n    723020.626091587,\n    723020.641295186,\n    723020.656403723,\n    723020.67146426,\n    723020.686625326,\n    723020.701867657,\n    723020.716930558,\n    723020.731953117,\n    723020.747075287,\n    723020.76225533,\n    723020.777355043,\n    723020.792822458,\n    723020.807875275,\n    723020.823040722,\n    723020.838118124,\n    723020.85335944,\n    723020.868648015,\n    723020.883834657,\n    723020.89903091,\n    723020.914209101,\n    723020.929406204,\n    723020.944613134,\n    723020.959673504,\n    723020.97488541,\n    723020.991708452,\n    723021.006936843,\n    723021.022311943,\n    723021.037743489,\n    723021.052898524,\n    723021.067888878,\n    723021.083368796,\n    723021.098501801,\n    723021.113725703,\n    723021.128882936,\n    723021.143964965,\n    723021.159052491,\n    723021.174225388,\n    723021.189374989,\n    723021.204569539,\n    723021.219412029\n  ],\n  \"prompt_token_len\": 28,\n  \"processed_prompt_token_len\": 93,\n  \"lifetime_events\": [\n    {\n      \"timestamp\": 723017.270187252,\n      \"event_type\": \"issued\"\n    },\n    {\n      \"timestamp\": 723018.494751559,\n      \"event_type\": \"preprocessed\"\n    },\n    {\n      \"timestamp\": 723018.503714822,\n      \"event_type\": \"context_begin\"\n    },\n    {\n      \"timestamp\": 723019.226556186,\n      \"event_type\": \"context_end\"\n    },\n    {\n      \"timestamp\": 723021.204181439,\n      \"event_type\": \"decoding_begin\"\n    },\n    {\n      \"timestamp\": 723021.219248212,\n      \"event_type\": \"decoding_end\"\n    },\n    {\n      \"timestamp\": 723021.219415641,\n      \"event_type\": \"finished\"\n    }\n  ],\n  \"semantic_correctness\": \"PENDING_IMAGE_AND_OUTPUT_REVIEW\",\n  \"client_TTFT\": null\n}",
+        "cleanup.stdout": "{\"known\": 190, \"known_live\": [], \"unreadable_same_uid\": [1851953]}\n",
+        "cleanup.stderr": "",
+        "gpu-memory-after.csv": "uuid, memory.used [MiB], utilization.gpu [%]\nGPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0 MiB, 0 %\n",
+        "gpu-apps-after.csv": "pid, gpu_uuid, process_name, used_gpu_memory [MiB]\n",
+        "request.sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97  request.json\n"
+      },
+      "manifest": [
+        {
+          "name": "outer.stdout",
+          "bytes": 43,
+          "sha256": "3400c80769d4ca9ce822b82e97d324685907a205c710faf2888bd5703d47bae9"
+        },
+        {
+          "name": "outer.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "dispatch.json",
+          "bytes": 908,
+          "sha256": "2149ee4189471fd25ff02688d27aa1a13d8f6439e3c3f325bf41a5640437a42b"
+        },
+        {
+          "name": "identity.json",
+          "bytes": 23749,
+          "sha256": "f471a24f7326412fcf2990a718342786a676c0c5400d1dc19c7858f0323aaab0"
+        },
+        {
+          "name": "initial-processes.json",
+          "bytes": 65,
+          "sha256": "ef6cf0b85a2ad2c9d1d6409831e41813ed3cc12132c5e4e927ef5b35ca864be1"
+        },
+        {
+          "name": "identity.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "module-sources.json",
+          "bytes": 705,
+          "sha256": "976d560a920b2f787da9a167ed0aba2417758697f4cb850340a2397a261c43f9"
+        },
+        {
+          "name": "module-sources.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "input.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "input.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "request.json",
+          "bytes": 485,
+          "sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97"
+        },
+        {
+          "name": "request.sha256",
+          "bytes": 79,
+          "sha256": "043d1fbe482b9e75bd2ac6c9eddf73c145999a983284dfa2ad10421af62ee4fe"
+        },
+        {
+          "name": "tokenizer-source.json",
+          "bytes": 464,
+          "sha256": "b370367a958fa2e25fd0716c8b841d79be56d6dc68d194b026a64e52830b5eee"
+        },
+        {
+          "name": "server-timeout.pid",
+          "bytes": 8,
+          "sha256": "1c5117ba7e96a9b99929fc74c66374867a007d61c75a93dc358f6b3bf54277da"
+        },
+        {
+          "name": "server.stdout",
+          "bytes": 5024,
+          "sha256": "a9da621598308db6e3440d5954ee4a8df6546ed222be5352cf608e672a51a5c2"
+        },
+        {
+          "name": "server.stderr",
+          "bytes": 935,
+          "sha256": "190dad6d8af98ab3bbbcf3a4279dbb831fb94aed9aff50d5716ed9a808465721"
+        },
+        {
+          "name": "process-observations.jsonl",
+          "bytes": 171377,
+          "sha256": "3ccefa672af1818a01536ef1f628edc7ebac3e23d9040369591d2d1f0952a652"
+        },
+        {
+          "name": "listener.txt",
+          "bytes": 92,
+          "sha256": "237f6fc46f1bbff9809093a5fc137a384512235597764f58ff796e42880b940b"
+        },
+        {
+          "name": "http-code.txt",
+          "bytes": 4,
+          "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+        },
+        {
+          "name": "curl.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "response.headers",
+          "bytes": 127,
+          "sha256": "5cac03e39f65a387668593955d02fe7f4a6a990ca5fa89eb0ab19412e28e32e5"
+        },
+        {
+          "name": "response.json",
+          "bytes": 3523,
+          "sha256": "a821018730427d2c53721874644c2fcc968b3259563e5c17c79d9d2dd2fb9d57"
+        },
+        {
+          "name": "curl.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "name": "response-summary.json",
+          "bytes": 4361,
+          "sha256": "81de0947de1680fc1862db2aa29e0eb1f65c76a597739a65143b4eb0f850ffd8"
+        },
+        {
+          "name": "cleanup.stdout",
+          "bytes": 67,
+          "sha256": "ee66fcb4462003eb3cdb699a3d06d8e713775efea7a15b33593009df1752b333"
+        },
+        {
+          "name": "cleanup.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gpu-apps-after.csv",
+          "bytes": 51,
+          "sha256": "59256ce249b7c6656f282d7e4509551811130705747a344acfbc0e97651831b2"
+        },
+        {
+          "name": "gpu-apps-after.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "gpu-memory-after.csv",
+          "bytes": 98,
+          "sha256": "fd5e84378ea90377ff0f49b3be46f5bbaf7b1c15047eee0d11157e04d3a3d21d"
+        },
+        {
+          "name": "gpu-memory-after.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "terminal.json",
+          "bytes": 99,
+          "sha256": "7e6c7826d0ccde17c9430f32c3cceecf357df8d19dd9369b2f468fbfebaa1ad1"
+        },
+        {
+          "name": "outer-exit.json",
+          "bytes": 46,
+          "sha256": "40cbbeac97eeac494066dad7bcea836358db0ffccf91a043cbc580e837e1eaca"
+        }
+      ],
+      "worker_log_lines": [
+        "WARNING 11-04 18:24:07 config.py:1657] Casting torch.bfloat16 to torch.float16.",
+        "INFO 18:24:07 Initializing placement group for total engines 1",
+        "\u001b[36m(ParaWorker pid=2002389)\u001b[0m INFO 18:24:16 Worker decoding.#0 created on host qjh003 and gpu #2"
+      ],
+      "physical_GPU_observations": [
+        {
+          "epoch": 1793787856.4465044,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 388 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787858.5503104,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 16128 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787860.6535316,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 16128 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787862.7535605,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 69112 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787865.042788,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 69112 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787867.1426969,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 69350 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787869.4657075,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 69356 MiB"
+          ]
+        },
+        {
+          "epoch": 1793787872.0919943,
+          "rows": [
+            "2002389, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 69356 MiB"
+          ]
+        }
+      ],
+      "output_exact_equal_to_EPD_r1": true,
+      "request_bytes_equal_to_EPD_r1": true
+    }
+  ],
+  "GPU_observation_manifest": {
+    "path": "/local/boyjiang/epd/runs/d1a/replica-gpu-observations.jsonl",
+    "sha256": "5644773ddce75bcb276d6e40a6d5f64e3cc68f015745939637ff6b61f7705e2f",
+    "bytes": 2448
+  }
+}
