@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G3 APPROVE/BLOCKING0，仅官方PD单请求、worker放置和本次自动释放；不能由两个D worker创建推断它们都处理该请求，不将迁移事件视为KV数值一致性。G4 APPROVE/BLOCKING0，仅运行状态及正确性对照；保留CPU不同、冷请求、强制128尾部异常，不计算吞吐/延迟/加速比，不称独立DistServe。仅主执行者转送原件/机器比较，未独立读取或重算。cleanup实际known192/live[]，不可读同UID1851953保留，现场ps为17:44:07已存在的sd-pam，未终止；不声称所有同UID进程消失。正式公平性能和总目标未完成。

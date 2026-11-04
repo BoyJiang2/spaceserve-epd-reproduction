@@ -1,0 +1,202 @@
+{
+  "server_run": "/local/boyjiang/epd/runs/pd1",
+  "files": {
+    "dispatch.json": "{\n  \"created\": 1793787189.9510572,\n  \"uid\": 2147,\n  \"supervisor_pid\": 1926288,\n  \"supervisor_stat\": \"1926288 (python3) R 1851994 1926288 1851994 34817 1926288 4194304 2011 2856 0 0 2 0 0 8 30 10 1 0 72234175 24621056 3780 18446744073709551615 94726676283392 94726679119181 140721745946576 0 0 0 0 16781312 2 0 0 0 17 50 0 0 0 0 0 94726681491536 94726681775512 94726709161984 140721745951631 140721745955903 140721745955903 140721745956839 0\\n\",\n  \"boot\": \"65f52a67-afe4-4919-8646-4694255b48ee\",\n  \"root\": \"/local/boyjiang/epdserve-official\",\n  \"run\": \"/local/boyjiang/epd/runs/pd1\",\n  \"booking_receipt_epoch\": 1793787148.4035702,\n  \"ticket\": \"bk-20261103T1510-ce17c5a8\",\n  \"gpu\": \"0, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0, 0\\n1, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0, 0\\n2, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0, 0\\n\",\n  \"apps\": \"\",\n  \"code_publication\": \"7e448cc66bba2230a7a77e0d12af00e5602adff9\",\n  \"deadline\": 1793804400,\n  \"mode\": \"PD P1 D2 single request diagnostic\",\n  \"child_pid\": 1926297\n}",
+    "terminal.json": "{\"work_exit\":0,\"cleanup_exit\":0,\"gpu_query_exit\":0,\"memory_query_exit\":0,\"ended_epoch\":1793787240}\n",
+    "outer-exit.json": "{\n  \"exit\": 0,\n  \"ended_epoch\": 1793787240.441833\n}",
+    "module-sources.json": "{\n  \"executable\": \"/local/boyjiang/epd/assets/envs/epd/bin/python\",\n  \"python\": \"3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]\",\n  \"modules\": {\n    \"distserve\": {\n      \"file\": \"/local/boyjiang/epdserve-official/baselines/pd/distserve/__init__.py\",\n      \"version\": null\n    },\n    \"torch\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/__init__.py\",\n      \"version\": \"2.4.0+cu121\"\n    },\n    \"vllm\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/__init__.py\",\n      \"version\": \"0.6.1.post2\"\n    },\n    \"vllm._C_already_loaded\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so\"\n  }\n}\n",
+    "request.sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97  request.json\n",
+    "tokenizer-source.json": "{\"class\": \"MiniCPMVTokenizerFast\", \"module\": \"transformers_modules.MiniCPM-V-2_6.tokenization_minicpmv_fast\", \"prompt\": \"<|im_start|>system\\nYou are a helpful assistant.<|im_end|>\\n<|im_start|>user\\n(<image>./</image>)\\nDescribe the image.<|im_end|>\\n<|im_start|>assistant\\n\", \"prompt_tokens\": [151644, 8948, 198, 2610, 525, 264, 10950, 17847, 13, 151645, 198, 151644, 872, 198, 7, 151646, 1725, 151647, 340, 74785, 279, 2168, 13, 151645, 198, 151644, 77091, 198]}",
+    "http-code.txt": "200\n",
+    "curl.exit": "0\n",
+    "response-summary.json": "{\n  \"output\": \"The image depicts three individuals dressed in military uniforms, seated on a bench. They appear to be in a relaxed setting, possibly a park or a public area. The person on the left is holding a hat, the middle person is reading a book, and the person on the right is looking off to the side with a contemplative expression. The uniforms are adorned with various badges and medals, suggesting they might be officers or have achieved certain recognitions. The overall atmosphere of the image is calm and reflective.<|im_end|><|im_end|> taking into account the details of the image, I can provide a comprehensive description.<|im_end|><|im_end|>\\nDivya<|im_end|><|im_end|><|im_end|><|im_end|>\",\n  \"actual_generation_events\": 128,\n  \"target_generation_events\": 128,\n  \"timestamps\": [\n    722384.372292414,\n    722384.594337048,\n    722384.609848254,\n    722384.625293998,\n    722384.640075427,\n    722384.654834227,\n    722384.669581953,\n    722384.684233898,\n    722384.698904029,\n    722384.713828609,\n    722384.728687494,\n    722384.743434417,\n    722384.758202267,\n    722384.773049099,\n    722384.787975548,\n    722384.803563053,\n    722384.82029691,\n    722384.83657762,\n    722384.851485631,\n    722384.866695751,\n    722384.881660868,\n    722384.896503894,\n    722384.911332805,\n    722384.926210803,\n    722384.941109776,\n    722384.955846977,\n    722384.97070352,\n    722384.985700195,\n    722385.000575567,\n    722385.015230082,\n    722385.030088792,\n    722385.044787301,\n    722385.059510524,\n    722385.074243891,\n    722385.088935707,\n    722385.103981417,\n    722385.119004041,\n    722385.133862039,\n    722385.148580302,\n    722385.163350707,\n    722385.178317333,\n    722385.193073535,\n    722385.207895611,\n    722385.222745872,\n    722385.237607432,\n    722385.252426616,\n    722385.267199609,\n    722385.282062108,\n    722385.296793496,\n    722385.311618872,\n    722385.326442928,\n    722385.341545162,\n    722385.356333249,\n    722385.37118847,\n    722385.386074005,\n    722385.40101337,\n    722385.415896278,\n    722385.430687926,\n    722385.445553644,\n    722385.460357779,\n    722385.475175857,\n    722385.490128389,\n    722385.504930139,\n    722385.519673782,\n    722385.535852797,\n    722385.550870735,\n    722385.565846096,\n    722385.581225656,\n    722385.596245529,\n    722385.611248003,\n    722385.626530388,\n    722385.64335941,\n    722385.658482499,\n    722385.673514309,\n    722385.688447188,\n    722385.703433744,\n    722385.718409785,\n    722385.733412266,\n    722385.748294829,\n    722385.763190909,\n    722385.778120774,\n    722385.792959888,\n    722385.807882083,\n    722385.823212852,\n    722385.838091995,\n    722385.852954449,\n    722385.867829501,\n    722385.882737015,\n    722385.897623877,\n    722385.912616031,\n    722385.927570565,\n    722385.942463338,\n    722385.957388973,\n    722385.972249929,\n    722385.987168741,\n    722386.002388871,\n    722386.017245367,\n    722386.032112652,\n    722386.047199749,\n    722386.062376115,\n    722386.077206075,\n    722386.09215839,\n    722386.106998569,\n    722386.121899318,\n    722386.136686725,\n    722386.151446672,\n    722386.166217648,\n    722386.181014296,\n    722386.195776362,\n    722386.210659131,\n    722386.225580233,\n    722386.240345003,\n    722386.255105655,\n    722386.269951919,\n    722386.284756668,\n    722386.299919752,\n    722386.314750581,\n    722386.329644843,\n    722386.344597707,\n    722386.359422195,\n    722386.374302489,\n    722386.389991077,\n    722386.405042333,\n    722386.420016092,\n    722386.435013376,\n    722386.450127234,\n    722386.46510825,\n    722386.47978414\n  ],\n  \"prompt_token_len\": 28,\n  \"processed_prompt_token_len\": 93,\n  \"lifetime_events\": [\n    {\n      \"timestamp\": 722382.349411381,\n      \"event_type\": \"issued\"\n    },\n    {\n      \"timestamp\": 722383.512273403,\n      \"event_type\": \"preprocessed\"\n    },\n    {\n      \"timestamp\": 722383.520261535,\n      \"event_type\": \"context_begin\"\n    },\n    {\n      \"timestamp\": 722384.339995768,\n      \"event_type\": \"context_end\"\n    },\n    {\n      \"timestamp\": 722384.375690241,\n      \"event_type\": \"migration_begin\"\n    },\n    {\n      \"timestamp\": 722384.378189941,\n      \"event_type\": \"migration_end\"\n    },\n    {\n      \"timestamp\": 722386.464746574,\n      \"event_type\": \"decoding_begin\"\n    },\n    {\n      \"timestamp\": 722386.479579891,\n      \"event_type\": \"decoding_end\"\n    },\n    {\n      \"timestamp\": 722386.479787705,\n      \"event_type\": \"finished\"\n    }\n  ],\n  \"semantic_correctness\": \"PENDING_IMAGE_AND_OUTPUT_REVIEW\",\n  \"client_TTFT\": null\n}",
+    "cleanup.stdout": "{\"known\": 192, \"known_live\": [], \"unreadable_same_uid\": [1851953]}\n",
+    "cleanup.stderr": "",
+    "gpu-memory-after.csv": "uuid, memory.used [MiB], utilization.gpu [%]\nGPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0 MiB, 0 %\nGPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0 MiB, 0 %\nGPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0 MiB, 0 %\n",
+    "gpu-apps-after.csv": "pid, gpu_uuid, process_name, used_gpu_memory [MiB]\n"
+  },
+  "manifest": [
+    {
+      "name": "dispatch.json",
+      "bytes": 1015,
+      "sha256": "8858b96d8dbd4441021aef52ed81e9d9949008bd98679a01d77cc3548e3726a2"
+    },
+    {
+      "name": "outer.stdout",
+      "bytes": 43,
+      "sha256": "3400c80769d4ca9ce822b82e97d324685907a205c710faf2888bd5703d47bae9"
+    },
+    {
+      "name": "outer.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "identity.json",
+      "bytes": 23992,
+      "sha256": "9cf9ed0bf27ca9438cb6177ead38e6062d83f1e0142ea859fd3e5ff0324d1350"
+    },
+    {
+      "name": "initial-processes.json",
+      "bytes": 65,
+      "sha256": "ef6cf0b85a2ad2c9d1d6409831e41813ed3cc12132c5e4e927ef5b35ca864be1"
+    },
+    {
+      "name": "identity.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "module-sources.json",
+      "bytes": 706,
+      "sha256": "e22d03c36de88abc78a3fedd66888fad03720487f15308e99458dd77a21b21a5"
+    },
+    {
+      "name": "module-sources.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "request.json",
+      "bytes": 485,
+      "sha256": "d46f82f45c7471ed219d7609ab3c664e9c07cd58d28688ceaf9b92a1ebcf2d97"
+    },
+    {
+      "name": "request.sha256",
+      "bytes": 79,
+      "sha256": "043d1fbe482b9e75bd2ac6c9eddf73c145999a983284dfa2ad10421af62ee4fe"
+    },
+    {
+      "name": "tokenizer-source.json",
+      "bytes": 464,
+      "sha256": "b370367a958fa2e25fd0716c8b841d79be56d6dc68d194b026a64e52830b5eee"
+    },
+    {
+      "name": "server-timeout.pid",
+      "bytes": 8,
+      "sha256": "63c30f950c6f716ff97cffeea850f1da49b058f25add8891ebac2cad798fe265"
+    },
+    {
+      "name": "server.stdout",
+      "bytes": 7414,
+      "sha256": "539188870d5ea97eb31f13165313163ec30aeff9a4ab4a3bd3d74e833db3c417"
+    },
+    {
+      "name": "server.stderr",
+      "bytes": 2429,
+      "sha256": "85f8bfbc1d373934391ab665c086fc7afedb80c3f4c6e462b0c46b4514a91218"
+    },
+    {
+      "name": "process-observations.jsonl",
+      "bytes": 220005,
+      "sha256": "a93eb4e617b8c30172027824300837e54fed387f59c3e0f7a6e4cfc7dc71a42d"
+    },
+    {
+      "name": "listener.txt",
+      "bytes": 92,
+      "sha256": "f5a3a19dab856130463226c60c638c320812e71add7a952a5258744ac27b4adf"
+    },
+    {
+      "name": "http-code.txt",
+      "bytes": 4,
+      "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+    },
+    {
+      "name": "curl.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "response.headers",
+      "bytes": 127,
+      "sha256": "a5e60caa247e3ffa3b5c20ae9e2c14fe30fe346e9ae0a08fc54b4b988b899b89"
+    },
+    {
+      "name": "response.json",
+      "bytes": 3651,
+      "sha256": "039171ea3414523645c4292abaf63e3ee805fe2bc00b633038e8916ed752083d"
+    },
+    {
+      "name": "curl.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "name": "response-summary.json",
+      "bytes": 4541,
+      "sha256": "17a5ae071bde48743b5ddf4b20711e29d1bcae60763c967903e5e8398fba0fc4"
+    },
+    {
+      "name": "cleanup.stdout",
+      "bytes": 67,
+      "sha256": "77b19d74d3e8a91dcbaef48d585ae902720d3a814948d7dee3e61d505b4e7a05"
+    },
+    {
+      "name": "cleanup.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu-apps-after.csv",
+      "bytes": 51,
+      "sha256": "59256ce249b7c6656f282d7e4509551811130705747a344acfbc0e97651831b2"
+    },
+    {
+      "name": "gpu-apps-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu-memory-after.csv",
+      "bytes": 204,
+      "sha256": "33e1182555d09a9ca45996432317b90b233d6c3382b9f45c259dd7db16698650"
+    },
+    {
+      "name": "gpu-memory-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "terminal.json",
+      "bytes": 99,
+      "sha256": "6fc6002244b07eae61f55cf42156f506e3cd7d9d06ce12a62e7d2565c112a58b"
+    },
+    {
+      "name": "outer-exit.json",
+      "bytes": 51,
+      "sha256": "b882710f4f2fc4d62028a5a1e1e94fb9653cb29ef937dc6db217617652120913"
+    }
+  ],
+  "worker_log_lines": [
+    "WARNING 11-04 18:13:33 config.py:1657] Casting torch.bfloat16 to torch.float16.",
+    "\u001b[36m(ParaWorker pid=1937062)\u001b[0m INFO 18:13:42 Worker decoding.#0 created on host qjh003 and gpu #1",
+    "\u001b[36m(ParaWorker pid=1937061)\u001b[0m INFO 18:13:42 Worker context.#0 created on host qjh003 and gpu #0",
+    "\u001b[36m(ParaWorker pid=1937063)\u001b[0m INFO 18:13:42 Worker decoding.#0 created on host qjh003 and gpu #2"
+  ],
+  "identity_summary": {
+    "uid": 2147,
+    "root": "/local/boyjiang/epdserve-official",
+    "runid": "/local/boyjiang/epd/runs/pd1:a3ca3ab0553d4f6b88bc781f67207609",
+    "boot": "65f52a67-afe4-4919-8646-4694255b48ee",
+    "min_start_ticks": 72234200,
+    "created_epoch": 1793787189.9818287,
+    "unreadable_same_uid": [
+      1851953
+    ],
+    "last_observed_epoch": 1793787240.233675,
+    "known_run_processes_absent": true,
+    "scope_note": "Known workloads exclude supervisor/ancestors. Unknown identities are never signalled; GPU release requires separate evidence."
+  },
+  "epd_pd_output_exact_equal": true,
+  "epd_pd_request_bytes_equal": true
+}
