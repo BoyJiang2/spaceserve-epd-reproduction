@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G1/G2 APPROVE/BLOCKING0，仅单卡无模型有限SMID探索诊断，依据转送probe/封装正文未独立读完整文件/hash。TorchStream转void*和4uint32 ABI/128位顺序匹配，同步后读样本。SMID连续和按库估计划分lower/upper只是待检假设，超集合保留失败不过滤或改断言。PASS仅有限采样与假设约束一致，不证明真实完整允许集合/模型stream/并发/decoder互斥，不要求全覆盖。精确版本离机及fresh资源/SHA后再跑，18点前须180秒余量否则新票新准入；raw每轮/失败/退出/释放保留，超时不碰别人或driver。
