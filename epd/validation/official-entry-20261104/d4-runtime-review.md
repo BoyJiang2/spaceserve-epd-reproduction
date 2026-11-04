@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G1/G2 APPROVE/BLOCKING0，仅适配23694上单卡完整模型同四图参考诊断。精确SHA813850fa97c45431b4bdbb3ad61861828229608c85a22dcf4f3ac5b7cd67424b/9880B。输入生成与e4一致，实际生成后仍须逐字节比较；不一致不称配对。精确离机核同/fresh资源/900秒余量后运行；语义及释放待实测，非三卡正式性能基线。仅转送材料审查未独立读图或hash。
