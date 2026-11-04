@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104，G2 APPROVE/BLOCKING0，限四个setup.py指定构建依赖链接。两PY与固定官方pin字节同，二进制完整编译来源/ABI未证明；依据转送原件未独立hash。预检位置缺失与目标SHA、不覆盖、保留.gitkeep，exclude只两PY精确路径且未tracked；保存链接/指纹/来源/exclude变更并离机同步，d7不变；s4前fresh预约/单卡/工具/端口/无live，不改s3失败和释放证据。
