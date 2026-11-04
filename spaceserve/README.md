@@ -1,3 +1,5 @@
+[11月4日原生／官方解耦首请求对照](comparison/20261104-native-vs-official-disagg.md)（相同请求、输出一致；仅正确性，mask实效与正式性能待验证）
+
 [11月4日原生vLLM真实单图请求结果](comparison/20261104-native-single-request.md)（HTTP200/128 tokens；原收尾失败保留，恢复后释放；未有正式性能或SM结论）
 
 [11月4日收尾修复及下一步实际请求](comparison/20261104-cleanup-readiness.md)（仅CPU工具修复，Space模型仍待运行）

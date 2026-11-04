@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104，G3 APPROVE/BLOCKING0，限f1官方fork单请求和受控释放，依据转送原件未自行读文件/重算。66编码器/queue路径及HTTP200/128输出有实际记录，work/cleanup/outer/GPUquery均0，knownlive空卡3显存0。不能外推所有退出竞态解决。libsmctrl unavailable且encoder partition skipped，明确无有效mask；栈/计时不证明GPU重叠、完整placement或IPC数值。主体语义相符；逐字同待主执行者机器比对，不称审查者已比较。下一步查实际lib依赖和加载原因，不调整断言迁就结果。
