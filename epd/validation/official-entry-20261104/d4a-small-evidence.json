@@ -1,0 +1,193 @@
+{
+  "server_run": "/local/boyjiang/epd/runs/d4a",
+  "files": {
+    "dispatch.json": "{\n  \"created\": 1793789504.4864838,\n  \"uid\": 2147,\n  \"supervisor_pid\": 2117372,\n  \"boot\": \"65f52a67-afe4-4919-8646-4694255b48ee\",\n  \"root\": \"/local/boyjiang/epdserve-official\",\n  \"run\": \"/local/boyjiang/epd/runs/d4a\",\n  \"booking_receipt_epoch\": 1793789468.1030114,\n  \"ticket\": \"bk-20261103T1510-ce17c5a8\",\n  \"gpu\": \"GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0, 0\\n\",\n  \"code_publication\": \"1ed7df28bfc163e69df12ed50b646df6d4f7fa5a\",\n  \"adapt_commit\": \"23694dbc522b68cf404728333967867be6430c44\",\n  \"deadline\": 1793804400,\n  \"mode\": \"single complete model, four-image correctness reference\",\n  \"child_pid\": 2117385,\n  \"child_stat\": \"2117385 (bash) S 2117372 2117372 1851994 34817 2117372 4194304 147 0 0 0 0 0 0 0 30 10 1 0 72465651 7548928 906 18446744073709551615 93836456153088 93836457066349 140723177065312 0 0 0 2 4 65536 1 0 0 17 50 0 0 0 0 0 93836457310864 93836457358928 93836477161472 140723177073457 140723177073521 140723177073521 140723177074666 0\\n\"\n}",
+    "module-sources.json": "{\n  \"executable\": \"/local/boyjiang/epd/assets/envs/epd/bin/python\",\n  \"python\": \"3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]\",\n  \"modules\": {\n    \"distserve\": {\n      \"file\": \"/local/boyjiang/epdserve-official/baselines/d/distserve/__init__.py\",\n      \"version\": null\n    },\n    \"torch\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/__init__.py\",\n      \"version\": \"2.4.0+cu121\"\n    },\n    \"vllm\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/__init__.py\",\n      \"version\": \"0.6.1.post2\"\n    },\n    \"vllm._C_already_loaded\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so\"\n  }\n}\n",
+    "image-fingerprints.json": "[\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000000328.jpg\",\n    \"bytes\": 94868,\n    \"sha256\": \"cc5ceef6348a3d73d5742fc2fe8b3ad3636de1cdaa8b7ca18e5fee83335e93d6\"\n  },\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000000400.jpg\",\n    \"bytes\": 85129,\n    \"sha256\": \"ce04b38a2be66569e8b632197188bada2b38be12bb010ae4f8f2b523b8c50510\"\n  },\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000000623.jpg\",\n    \"bytes\": 82972,\n    \"sha256\": \"802fb23e9766bc23ef9325afc05790b6d41a59f5055aad248b331ed7f8eb3b9a\"\n  },\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000001146.jpg\",\n    \"bytes\": 49860,\n    \"sha256\": \"a05cd4f6d877f70c23da81d554d6435f18b179b6efe1553d37387d82e9c27059\"\n  }\n]",
+    "tokenizer-source.json": "{\"class\": \"MiniCPMVTokenizerFast\", \"module\": \"transformers_modules.MiniCPM-V-2_6.tokenization_minicpmv_fast\", \"prompt\": \"<|im_start|>system\\nYou are a helpful assistant.<|im_end|>\\n<|im_start|>user\\n(<image>./</image>)\\n(<image>./</image>)\\n(<image>./</image>)\\n(<image>./</image>)\\nBriefly describe each image in order.<|im_end|>\\n<|im_start|>assistant\\n\", \"prompt_tokens\": [151644, 8948, 198, 2610, 525, 264, 10950, 17847, 13, 151645, 198, 151644, 872, 198, 7, 151646, 1725, 151647, 340, 7, 151646, 1725, 151647, 340, 7, 151646, 1725, 151647, 340, 7, 151646, 1725, 151647, 340, 85984, 398, 7512, 1817, 2168, 304, 1973, 13, 151645, 198, 151644, 77091, 198]}",
+    "request.sha256": "b149f9ac6a430ae55ab54b718fb960edce529188966c04126f1601fd9bb9a8ee  request.json\n",
+    "terminal.json": "{\"work_exit\":0,\"cleanup_exit\":0,\"gpu_query_exit\":0,\"memory_query_exit\":0,\"ended_epoch\":1793789552}\n",
+    "outer-exit.json": "{\"exit\": 0, \"ended_epoch\": 1793789552.468642}",
+    "http-code.txt": "200\n",
+    "curl.exit": "0\n",
+    "response-summary.json": "{\n  \"output\": \"The first image shows three individuals dressed in formal military or ceremonial uniforms, seated on a bench. They are adorned with medals and insignia, suggesting a formal or commemorative occasion. The setting appears to be outdoors, possibly in a public space or near a building, with a blurred background that does not provide specific details.\\n\\nThe second image features a boat on water, with the registration number \\\"E-820 CR MS 815 AJ\\\" visible on its side. A dog is peeking out from the boat, adding a playful element to the scene. The boat is a pontoon type, commonly used for leisure activities on\",\n  \"actual_generation_events\": 128,\n  \"target_generation_events\": 128,\n  \"timestamps\": [\n    724697.11861041,\n    724697.160427656,\n    724697.175774908,\n    724697.190845413,\n    724697.205924957,\n    724697.220983076,\n    724697.235976129,\n    724697.250935517,\n    724697.265845535,\n    724697.280757633,\n    724697.295776558,\n    724697.310734605,\n    724697.332051733,\n    724697.347530159,\n    724697.362468343,\n    724697.377629307,\n    724697.392710732,\n    724697.407674801,\n    724697.422574075,\n    724697.437573102,\n    724697.452496306,\n    724697.467499751,\n    724697.482469184,\n    724697.497434711,\n    724697.51235488,\n    724697.527372354,\n    724697.542320399,\n    724697.557287675,\n    724697.572268884,\n    724697.587481957,\n    724697.602384794,\n    724697.617307611,\n    724697.6321963,\n    724697.647126831,\n    724697.662083544,\n    724697.677022898,\n    724697.691869524,\n    724697.706763463,\n    724697.721654311,\n    724697.736589282,\n    724697.751538973,\n    724697.766458397,\n    724697.781429997,\n    724697.796645503,\n    724697.811682672,\n    724697.827180628,\n    724697.842345104,\n    724697.859090631,\n    724697.874265165,\n    724697.889461604,\n    724697.904506508,\n    724697.919572137,\n    724697.934776091,\n    724697.949922314,\n    724697.965048277,\n    724697.980146005,\n    724697.995228671,\n    724698.010254414,\n    724698.02537141,\n    724698.040447788,\n    724698.055482382,\n    724698.070802784,\n    724698.08579458,\n    724698.100674986,\n    724698.115630017,\n    724698.130602605,\n    724698.145565524,\n    724698.160559098,\n    724698.175525977,\n    724698.19052326,\n    724698.205659429,\n    724698.221256099,\n    724698.236490481,\n    724698.251438077,\n    724698.266368596,\n    724698.2813059,\n    724698.296616456,\n    724698.31190881,\n    724698.326860952,\n    724698.341907241,\n    724698.356841302,\n    724698.371938637,\n    724698.386890925,\n    724698.402015062,\n    724698.417067674,\n    724698.432096226,\n    724698.446995749,\n    724698.46202653,\n    724698.477022928,\n    724698.492125387,\n    724698.507108203,\n    724698.522079525,\n    724698.536985429,\n    724698.552299275,\n    724698.567308423,\n    724698.582408986,\n    724698.59743638,\n    724698.612615998,\n    724698.632786895,\n    724698.647960568,\n    724698.663114678,\n    724698.678261414,\n    724698.693325442,\n    724698.708940336,\n    724698.724197245,\n    724698.73939713,\n    724698.754587989,\n    724698.76979694,\n    724698.785975133,\n    724698.804187419,\n    724698.819455598,\n    724698.835631753,\n    724698.852692263,\n    724698.868442552,\n    724698.883809938,\n    724698.899219781,\n    724698.915176028,\n    724698.931244889,\n    724698.946508804,\n    724698.961720179,\n    724698.976857471,\n    724698.991961736,\n    724699.008693686,\n    724699.023909348,\n    724699.039083853,\n    724699.054486176,\n    724699.06961766,\n    724699.084292045\n  ],\n  \"prompt_token_len\": 47,\n  \"processed_prompt_token_len\": 307,\n  \"lifetime_events\": [\n    {\n      \"timestamp\": 724695.144773675,\n      \"event_type\": \"issued\"\n    },\n    {\n      \"timestamp\": 724696.318060086,\n      \"event_type\": \"preprocessed\"\n    },\n    {\n      \"timestamp\": 724696.325461911,\n      \"event_type\": \"context_begin\"\n    },\n    {\n      \"timestamp\": 724697.087697138,\n      \"event_type\": \"context_end\"\n    },\n    {\n      \"timestamp\": 724699.069215404,\n      \"event_type\": \"decoding_begin\"\n    },\n    {\n      \"timestamp\": 724699.084130556,\n      \"event_type\": \"decoding_end\"\n    },\n    {\n      \"timestamp\": 724699.084294644,\n      \"event_type\": \"finished\"\n    }\n  ],\n  \"semantic_correctness\": \"PENDING_IMAGE_AND_OUTPUT_REVIEW\",\n  \"client_TTFT\": null\n}",
+    "cleanup.stdout": "{\"known\": 190, \"known_live\": [], \"unreadable_same_uid\": [1851953]}\n",
+    "cleanup.stderr": "",
+    "gpu-memory-after.csv": "uuid, memory.used [MiB], utilization.gpu [%]\nGPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0 MiB, 0 %\n",
+    "gpu-apps-after.csv": "pid, gpu_uuid, process_name, used_gpu_memory [MiB]\n",
+    "epd-pairing.json": "{\n  \"request_bytes_equal\": true,\n  \"actual_sha256\": \"b149f9ac6a430ae55ab54b718fb960edce529188966c04126f1601fd9bb9a8ee\",\n  \"expected_sha256\": \"b149f9ac6a430ae55ab54b718fb960edce529188966c04126f1601fd9bb9a8ee\"\n}"
+  },
+  "manifest": [
+    {
+      "name": "outer.stdout",
+      "bytes": 43,
+      "sha256": "3400c80769d4ca9ce822b82e97d324685907a205c710faf2888bd5703d47bae9"
+    },
+    {
+      "name": "outer.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "dispatch.json",
+      "bytes": 962,
+      "sha256": "de583b4c161b68baae642e829562870d80cbee0e2050cb1b2644770dab4ff7e8"
+    },
+    {
+      "name": "identity.json",
+      "bytes": 23748,
+      "sha256": "80e7f7eba7bb0b9e8e2cc72d724f5829c80cd0bf50b1e92467185bab42c2b1ad"
+    },
+    {
+      "name": "initial-processes.json",
+      "bytes": 65,
+      "sha256": "ef6cf0b85a2ad2c9d1d6409831e41813ed3cc12132c5e4e927ef5b35ca864be1"
+    },
+    {
+      "name": "identity.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "module-sources.json",
+      "bytes": 705,
+      "sha256": "976d560a920b2f787da9a167ed0aba2417758697f4cb850340a2397a261c43f9"
+    },
+    {
+      "name": "module-sources.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "image-fingerprints.json",
+      "bytes": 762,
+      "sha256": "f7667d10a212055e52e1b4a1cd2130b9721f1cc86c84fcc47d018d00cb234015"
+    },
+    {
+      "name": "request.json",
+      "bytes": 794,
+      "sha256": "b149f9ac6a430ae55ab54b718fb960edce529188966c04126f1601fd9bb9a8ee"
+    },
+    {
+      "name": "request.sha256",
+      "bytes": 79,
+      "sha256": "97a699cfa987d628d739c13c2d931e65b9a4939826836145578c3c64bf872d23"
+    },
+    {
+      "name": "tokenizer-source.json",
+      "bytes": 658,
+      "sha256": "f12f926f7b3bccb1908895c9e3db1231da51d3bab57964429da6a937b1253d88"
+    },
+    {
+      "name": "server-timeout.pid",
+      "bytes": 8,
+      "sha256": "af42344bfe415b13cdc1ba6e9929c03a3482af9ec79b844b11edc7796b05334d"
+    },
+    {
+      "name": "server.stdout",
+      "bytes": 3831,
+      "sha256": "a55fd36172726ab0aa10c2ba07d3e0da82a19005193135abbc8908d610e722cb"
+    },
+    {
+      "name": "server.stderr",
+      "bytes": 935,
+      "sha256": "6877bee202ce68ea9fbde390fb66bf1fcf65f3b9a380ff6e5ff029637fab5a7d"
+    },
+    {
+      "name": "process-observations.jsonl",
+      "bytes": 193604,
+      "sha256": "f8106c7b084e06feed5a686b9282874c95058f03ad2d0ec81280685a6d4eec1a"
+    },
+    {
+      "name": "listener.txt",
+      "bytes": 92,
+      "sha256": "8f891e814f17a7df27930f5695e01d79cdc06f9828c0b77ec958539fa906b7ca"
+    },
+    {
+      "name": "http-code.txt",
+      "bytes": 4,
+      "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+    },
+    {
+      "name": "curl.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "response.headers",
+      "bytes": 127,
+      "sha256": "f56021adbb63a03315e43c75b125cb4e3969b0799f26d5bb1fade61022203128"
+    },
+    {
+      "name": "response.json",
+      "bytes": 3525,
+      "sha256": "08cc122ac412d4c62c28ef890dafbc41730b99352223cb9820a6667c43a939f8"
+    },
+    {
+      "name": "curl.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "name": "response-summary.json",
+      "bytes": 4282,
+      "sha256": "8ae4e94de5328cd5886023f2b41d6d68b9b8d72d7d57e4ad4b20e80cf2f28458"
+    },
+    {
+      "name": "cleanup.stdout",
+      "bytes": 67,
+      "sha256": "ee66fcb4462003eb3cdb699a3d06d8e713775efea7a15b33593009df1752b333"
+    },
+    {
+      "name": "cleanup.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu-apps-after.csv",
+      "bytes": 51,
+      "sha256": "59256ce249b7c6656f282d7e4509551811130705747a344acfbc0e97651831b2"
+    },
+    {
+      "name": "gpu-apps-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu-memory-after.csv",
+      "bytes": 98,
+      "sha256": "ec968a5a5c0dc39b4c08fe4672980211478c80a703eafbf42d0cb6a46914eeb8"
+    },
+    {
+      "name": "gpu-memory-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "terminal.json",
+      "bytes": 99,
+      "sha256": "31260615bb49e05ee4805be92d2a91f28eb2d60e6c690860a7d2871f9455dc00"
+    },
+    {
+      "name": "outer-exit.json",
+      "bytes": 45,
+      "sha256": "5f34d4066fe5b282e6271663e01ed4e3dfda388ed919f4ee666f9b28ccc18dcf"
+    },
+    {
+      "name": "epd-pairing.json",
+      "bytes": 209,
+      "sha256": "c9c4cca1a335de714a812c8352ae409943385b7a82abe0b154f2e7e6ee11ad65"
+    }
+  ],
+  "output_exact_equal_to_EPD_e4a": false
+}

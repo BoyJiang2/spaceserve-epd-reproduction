@@ -1,0 +1,12 @@
+diff --git a/epdserve/worker.py b/epdserve/worker.py
+index 1a71ca3..5ca3549 100644
+--- a/epdserve/worker.py
++++ b/epdserve/worker.py
+@@ -528,6 +528,7 @@ class Worker:
+                 
+                 flattened_blocks = [item for row in block_tables for item in row]
+                 self.ve_cache[flattened_blocks] = vision_embeddings
++                torch.cuda.synchronize(self.device)
+         except Exception as e:
+             raise e
+         self.execution_time += time.perf_counter() - start

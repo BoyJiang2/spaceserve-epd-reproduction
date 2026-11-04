@@ -1,0 +1,21 @@
+{
+  "parent_adapt_commit": "23694dbc522b68cf404728333967867be6430c44",
+  "purpose": "single-variable encoder producer completion counterfactual, not established fix",
+  "path": "epdserve/worker.py",
+  "parent_sha256": "115e1927f6205e7ae0739dbf8af87ac53f804b2ecac07ca046f3abe602305702",
+  "sha256": "7605220ee581aa61231cac5173890398ebd536bd05cb16f983d6a1d301409444",
+  "bytes": 32118,
+  "CPU_AST_pass": true,
+  "GPU_executed": false,
+  "device_source_context": [
+    "self.device = torch.device(\"cuda:0\")",
+    "torch.cuda.set_device(self.device)",
+    "self.ve_cache = torch.empty(ve_cache_shape, dtype=self.model_config.get_torch_dtype(), device=\"cuda\")"
+  ],
+  "adapt_commit": "d63cc3e8f15920c2e83653a5dca5b68bfa75346f",
+  "adapt_tree": "89f1f53c9b52c143eb2e4c1c936a694dae011bcd",
+  "script_path": "/local/boyjiang/epd/assets/build/official_epd_encoder_sync_four_images.sh",
+  "script_sha256": "a1a8c340d80a8356aca618695a3aa3b359570e220f825a35700b0a73b93f98b0",
+  "script_bytes": 9992,
+  "actual_GPU_validation": "NOT_RUN_FOR_CURRENT_COUNTERFACTUAL_COMMIT"
+}

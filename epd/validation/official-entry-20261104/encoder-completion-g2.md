@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G2 APPROVE/BLOCKING0，仅E生产端同步正确性反事实。缓存写后/返回前同步同worker单可见GPU，唯一一行；P不改。精确源/脚本离机核同及fresh资源900秒余量后运行e4b，实际请求与e4a/D4字节比较，保留所有结果。输出改善不证唯一根因、数值正确或正式修复，不自动纳入正式性能。仅依据转送diff/设备关系/检查，未独立读/hash，不代表e4b实测通过。

@@ -1130,9 +1130,11 @@
     {
       "path": "epdserve/worker.py",
       "mode": "100644",
-      "blob": "1a71ca3f84a6317ffe003bb775dab4b129986951",
-      "bytes": 32066,
-      "sha256": "115e1927f6205e7ae0739dbf8af87ac53f804b2ecac07ca046f3abe602305702"
+      "blob": "5ca3549ee44be7efb8c4f775cde8d2f065911b44",
+      "bytes": 32118,
+      "sha256": "7605220ee581aa61231cac5173890398ebd536bd05cb16f983d6a1d301409444",
+      "baseline_sha256": "115e1927f6205e7ae0739dbf8af87ac53f804b2ecac07ca046f3abe602305702",
+      "changed_by_adaptation": true
     },
     {
       "path": "launch_server.sh",
@@ -1157,15 +1159,16 @@
     }
   ],
   "model_weights_in_git": false,
-  "runtime_validation": "OFFICIAL_BASELINE_SINGLE_REQUESTS_PASSED; CURRENT_ADAPTATION_MULTIMAGE_CPU_ONLY_NOT_GPU_VALIDATED",
+  "runtime_validation": "CURRENT_ENCODER_SYNC_COUNTERFACTUAL_CPU_ONLY; PREVIOUS_23694_EPD_FOUR_IMAGE_OUTPUT_DIFFERED_FROM_FULL_MODEL_REFERENCE",
   "remote_configuration": "origin is user reproduction repo; upstream is official URL; publication snapshot commit differs from runtime SHA",
   "warning": "Do not use unreviewed default HEAD push mapping: official history has not passed publication checks; publish reviewed source snapshots until history policy is resolved.",
   "official_baseline_commit": "9b111f710dfb4724072b603d626a1e4dad93ef1f",
-  "adaptation_checkout_commit": "23694dbc522b68cf404728333967867be6430c44",
-  "adaptation_checkout_tree": "f37860be1149c90913737f51174ef1fc21880931",
+  "adaptation_checkout_commit": "d63cc3e8f15920c2e83653a5dca5b68bfa75346f",
+  "adaptation_checkout_tree": "89f1f53c9b52c143eb2e4c1c936a694dae011bcd",
   "adaptation_changed_paths": [
     "epdserve/api_server.py",
     "baselines/pd/distserve/api_server.py",
-    "baselines/d/distserve/api_server.py"
+    "baselines/d/distserve/api_server.py",
+    "epdserve/worker.py"
   ]
 }

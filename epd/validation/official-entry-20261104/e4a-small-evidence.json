@@ -1,0 +1,210 @@
+{
+  "server_run": "/local/boyjiang/epd/runs/e4a",
+  "files": {
+    "dispatch.json": "{\n  \"created\": 1793788851.8129725,\n  \"uid\": 2147,\n  \"supervisor_pid\": 2071212,\n  \"supervisor_stat\": \"2071212 (python3) R 1851994 2071212 1851994 34817 2071212 4194304 2017 2560 0 0 2 0 3 12 30 10 1 0 72400356 24629248 3811 18446744073709551615 94332260253696 94332263089485 140729227763696 0 0 0 0 16781312 2 0 0 0 17 50 0 0 0 0 0 94332265461840 94332265745816 94332277657600 140729227770475 140729227775039 140729227775039 140729227775975 0\\n\",\n  \"boot\": \"65f52a67-afe4-4919-8646-4694255b48ee\",\n  \"root\": \"/local/boyjiang/epdserve-official\",\n  \"run\": \"/local/boyjiang/epd/runs/e4a\",\n  \"booking_receipt_epoch\": 1793788811.6577551,\n  \"ticket\": \"bk-20261103T1510-ce17c5a8\",\n  \"gpu\": \"0, GPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0, 0\\n1, GPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0, 0\\n2, GPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0, 0\\n\",\n  \"code_publication\": \"5072be044ed1f33f4f0642f42f1af338d0617014\",\n  \"adapt_commit\": \"23694dbc522b68cf404728333967867be6430c44\",\n  \"deadline\": 1793804400,\n  \"mode\": \"EPD four distinct image single-request diagnostic\",\n  \"child_pid\": 2071220\n}",
+    "module-sources.json": "{\n  \"executable\": \"/local/boyjiang/epd/assets/envs/epd/bin/python\",\n  \"python\": \"3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]\",\n  \"modules\": {\n    \"epdserve\": {\n      \"file\": \"/local/boyjiang/epdserve-official/epdserve/__init__.py\",\n      \"version\": null\n    },\n    \"torch\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/torch/__init__.py\",\n      \"version\": \"2.4.0+cu121\"\n    },\n    \"vllm\": {\n      \"file\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/__init__.py\",\n      \"version\": \"0.6.1.post2\"\n    },\n    \"vllm._C_already_loaded\": \"/local/boyjiang/epd/assets/envs/epd/lib/python3.10/site-packages/vllm/_C.abi3.so\"\n  }\n}\n",
+    "image-fingerprints.json": "[\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000000328.jpg\",\n    \"bytes\": 94868,\n    \"sha256\": \"cc5ceef6348a3d73d5742fc2fe8b3ad3636de1cdaa8b7ca18e5fee83335e93d6\"\n  },\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000000400.jpg\",\n    \"bytes\": 85129,\n    \"sha256\": \"ce04b38a2be66569e8b632197188bada2b38be12bb010ae4f8f2b523b8c50510\"\n  },\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000000623.jpg\",\n    \"bytes\": 82972,\n    \"sha256\": \"802fb23e9766bc23ef9325afc05790b6d41a59f5055aad248b331ed7f8eb3b9a\"\n  },\n  {\n    \"path\": \"/local/boyjiang/epd/assets/dataset/COCO_val2014_000000001146.jpg\",\n    \"bytes\": 49860,\n    \"sha256\": \"a05cd4f6d877f70c23da81d554d6435f18b179b6efe1553d37387d82e9c27059\"\n  }\n]",
+    "tokenizer-source.json": "{\"class\": \"MiniCPMVTokenizerFast\", \"module\": \"transformers_modules.MiniCPM-V-2_6.tokenization_minicpmv_fast\", \"prompt\": \"<|im_start|>system\\nYou are a helpful assistant.<|im_end|>\\n<|im_start|>user\\n(<image>./</image>)\\n(<image>./</image>)\\n(<image>./</image>)\\n(<image>./</image>)\\nBriefly describe each image in order.<|im_end|>\\n<|im_start|>assistant\\n\", \"prompt_tokens\": [151644, 8948, 198, 2610, 525, 264, 10950, 17847, 13, 151645, 198, 151644, 872, 198, 7, 151646, 1725, 151647, 340, 7, 151646, 1725, 151647, 340, 7, 151646, 1725, 151647, 340, 7, 151646, 1725, 151647, 340, 85984, 398, 7512, 1817, 2168, 304, 1973, 13, 151645, 198, 151644, 77091, 198]}",
+    "request.sha256": "b149f9ac6a430ae55ab54b718fb960edce529188966c04126f1601fd9bb9a8ee  request.json\n",
+    "terminal.json": "{\"work_exit\":0,\"cleanup_exit\":1,\"gpu_query_exit\":0,\"memory_query_exit\":0,\"ended_epoch\":1793788899}\n",
+    "outer-exit.json": "{\"exit\": 1, \"ended_epoch\": 1793788899.1643155}",
+    "http-code.txt": "200\n",
+    "curl.exit": "0\n",
+    "response-summary.json": "{\n  \"output\": \"The images depict a man wearing a black shirt and a green tie with a floral pattern. He is wearing glasses and has a slight smile on his face. The background appears to be a plain, light-colored wall. The man's posture and expression remain consistent across the images.<|im_end|><|im_end|><|im_end|> there is a man wearing a black shirt and a green tie with a floral pattern. He is wearing glasses and has a slight smile on his face. The background appears to be a plain, light-colored wall. The man's posture and expression remain consistent across the images.<|im_end|><|im_end|> there is a man wearing a black shirt and a green tie with a\",\n  \"actual_generation_events\": 128,\n  \"target_generation_events\": 128,\n  \"timestamps\": [\n    724046.85840448,\n    724047.069564735,\n    724047.084963881,\n    724047.100107054,\n    724047.115194941,\n    724047.130329997,\n    724047.14533735,\n    724047.160315065,\n    724047.175386767,\n    724047.190436993,\n    724047.205542854,\n    724047.220440012,\n    724047.235254984,\n    724047.250363113,\n    724047.265132849,\n    724047.280064052,\n    724047.294935949,\n    724047.309789603,\n    724047.324821096,\n    724047.33958583,\n    724047.354376073,\n    724047.369210206,\n    724047.38404239,\n    724047.398864341,\n    724047.41368993,\n    724047.428480532,\n    724047.443261437,\n    724047.458328934,\n    724047.47308923,\n    724047.488273087,\n    724047.503211879,\n    724047.517957227,\n    724047.532784155,\n    724047.54790406,\n    724047.562871755,\n    724047.577792688,\n    724047.59271352,\n    724047.607654322,\n    724047.62258463,\n    724047.637388235,\n    724047.652243093,\n    724047.666964612,\n    724047.681745633,\n    724047.696536079,\n    724047.711250796,\n    724047.726285623,\n    724047.741041051,\n    724047.755724279,\n    724047.77037962,\n    724047.785125539,\n    724047.79985947,\n    724047.814699719,\n    724047.829509211,\n    724047.84429191,\n    724047.858986894,\n    724047.873779014,\n    724047.888512922,\n    724047.90324506,\n    724047.917976995,\n    724047.932727807,\n    724047.947442366,\n    724047.962543735,\n    724047.97732644,\n    724047.992273667,\n    724048.007346134,\n    724048.022552404,\n    724048.037434125,\n    724048.052208974,\n    724048.066967733,\n    724048.081720189,\n    724048.096524586,\n    724048.111533352,\n    724048.126500103,\n    724048.141378373,\n    724048.156319232,\n    724048.171148212,\n    724048.186008417,\n    724048.201780737,\n    724048.216622951,\n    724048.231365835,\n    724048.246121487,\n    724048.26089916,\n    724048.275639566,\n    724048.290485793,\n    724048.30537155,\n    724048.320179297,\n    724048.334973775,\n    724048.349759829,\n    724048.364579977,\n    724048.379544802,\n    724048.394519126,\n    724048.40955447,\n    724048.424600898,\n    724048.440163279,\n    724048.454962436,\n    724048.469862625,\n    724048.484705699,\n    724048.499512059,\n    724048.514473568,\n    724048.529327536,\n    724048.544125885,\n    724048.559274293,\n    724048.574048208,\n    724048.58873133,\n    724048.603429681,\n    724048.618236806,\n    724048.633140174,\n    724048.648115707,\n    724048.662962891,\n    724048.678251738,\n    724048.693203481,\n    724048.708213079,\n    724048.723657653,\n    724048.738581646,\n    724048.753365117,\n    724048.768136931,\n    724048.782918256,\n    724048.797684857,\n    724048.812481026,\n    724048.827164542,\n    724048.841835131,\n    724048.856681114,\n    724048.871501825,\n    724048.886366269,\n    724048.901297092,\n    724048.916575967,\n    724048.93131813,\n    724048.945916203\n  ],\n  \"prompt_token_len\": 47,\n  \"processed_prompt_token_len\": 307,\n  \"lifetime_events\": [\n    {\n      \"timestamp\": 724044.693714216,\n      \"event_type\": \"issued\"\n    },\n    {\n      \"timestamp\": 724045.52845425,\n      \"event_type\": \"preprocessed\"\n    },\n    {\n      \"timestamp\": 724046.22411019,\n      \"event_type\": \"encoding_begin\"\n    },\n    {\n      \"timestamp\": 724046.250125852,\n      \"event_type\": \"encoding_end\"\n    },\n    {\n      \"timestamp\": 724046.252345058,\n      \"event_type\": \"encoding_migration_begin\"\n    },\n    {\n      \"timestamp\": 724046.253462974,\n      \"event_type\": \"encoding_migration_end\"\n    },\n    {\n      \"timestamp\": 724046.253788641,\n      \"event_type\": \"context_begin\"\n    },\n    {\n      \"timestamp\": 724046.826923173,\n      \"event_type\": \"context_end\"\n    },\n    {\n      \"timestamp\": 724046.857933698,\n      \"event_type\": \"migration_begin\"\n    },\n    {\n      \"timestamp\": 724046.861838761,\n      \"event_type\": \"migration_end\"\n    },\n    {\n      \"timestamp\": 724048.93099971,\n      \"event_type\": \"decoding_begin\"\n    },\n    {\n      \"timestamp\": 724048.945709677,\n      \"event_type\": \"decoding_end\"\n    },\n    {\n      \"timestamp\": 724048.945919218,\n      \"event_type\": \"finished\"\n    }\n  ],\n  \"semantic_correctness\": \"PENDING_IMAGE_AND_OUTPUT_REVIEW\",\n  \"client_TTFT\": null\n}",
+    "cleanup.stdout": "",
+    "cleanup.stderr": "Traceback (most recent call last):\n  File \"/local/boyjiang/epd/assets/build/official_pd_processes_bounded.py\", line 83, in observe\n    item = process(pid)\n  File \"/local/boyjiang/epd/assets/build/official_pd_processes_bounded.py\", line 42, in process\n    (path / 'environ').read_bytes().split(b'\\0') if b'=' in part)\n  File \"/usr/lib/python3.10/pathlib.py\", line 1126, in read_bytes\n    with self.open(mode='rb') as f:\n  File \"/usr/lib/python3.10/pathlib.py\", line 1119, in open\n    return self._accessor.open(self, mode, buffering, encoding, errors,\nPermissionError: [Errno 13] Permission denied: '/proc/2082803/environ'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/local/boyjiang/epd/assets/build/official_pd_processes_bounded.py\", line 158, in <module>\n    alive = stop(state) if mode == 'stop' else observe(state)\n  File \"/local/boyjiang/epd/assets/build/official_pd_processes_bounded.py\", line 136, in stop\n    while observe(state) and time.monotonic() < until:\n  File \"/local/boyjiang/epd/assets/build/official_pd_processes_bounded.py\", line 87, in observe\n    raise RuntimeError('Known process identity unreadable: ' + str(pid))\nRuntimeError: Known process identity unreadable: 2082803\n",
+    "gpu-memory-after.csv": "uuid, memory.used [MiB], utilization.gpu [%]\nGPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 4 MiB, 0 %\nGPU-c717f7e6-dc4f-3796-2994-e28b60448538, 4 MiB, 100 %\nGPU-c005197e-747d-2dc8-b77b-b123b41efd75, 4 MiB, 96 %\n",
+    "gpu-apps-after.csv": "pid, gpu_uuid, process_name, used_gpu_memory [MiB]\n",
+    "cleanup-recovery1.stdout": "{\"known\": 192, \"known_live\": [], \"unreadable_same_uid\": [1851953]}\n",
+    "cleanup-recovery1.stderr": "",
+    "cleanup-recovery1.exit.json": "{\"exit\": 0, \"ended_epoch\": 1793788936.1670222}",
+    "gpu-memory-recovery1.csv": "uuid, memory.used [MiB], utilization.gpu [%]\nGPU-dd8ab4ed-e34e-4141-ced9-271897da8282, 0 MiB, 0 %\nGPU-c717f7e6-dc4f-3796-2994-e28b60448538, 0 MiB, 0 %\nGPU-c005197e-747d-2dc8-b77b-b123b41efd75, 0 MiB, 0 %\n"
+  },
+  "manifest": [
+    {
+      "name": "outer.stdout",
+      "bytes": 43,
+      "sha256": "3400c80769d4ca9ce822b82e97d324685907a205c710faf2888bd5703d47bae9"
+    },
+    {
+      "name": "outer.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "dispatch.json",
+      "bytes": 1079,
+      "sha256": "4d3ac1586bd29cf63f22717011ba77b977e48ba9aec9f664b39ffdc2d9049e51"
+    },
+    {
+      "name": "identity.json",
+      "bytes": 23993,
+      "sha256": "3ffe97361a147810a7de639c0d33416efdf4da774d5b3bb6607de9eeb80de992"
+    },
+    {
+      "name": "initial-processes.json",
+      "bytes": 65,
+      "sha256": "ef6cf0b85a2ad2c9d1d6409831e41813ed3cc12132c5e4e927ef5b35ca864be1"
+    },
+    {
+      "name": "identity.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "module-sources.json",
+      "bytes": 691,
+      "sha256": "d9e3dd9d11792e60da55b92169e7e3f18e3e375ae55656061cf2f7e168d277fb"
+    },
+    {
+      "name": "module-sources.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "image-fingerprints.json",
+      "bytes": 762,
+      "sha256": "f7667d10a212055e52e1b4a1cd2130b9721f1cc86c84fcc47d018d00cb234015"
+    },
+    {
+      "name": "request.json",
+      "bytes": 794,
+      "sha256": "b149f9ac6a430ae55ab54b718fb960edce529188966c04126f1601fd9bb9a8ee"
+    },
+    {
+      "name": "request.sha256",
+      "bytes": 79,
+      "sha256": "97a699cfa987d628d739c13c2d931e65b9a4939826836145578c3c64bf872d23"
+    },
+    {
+      "name": "tokenizer-source.json",
+      "bytes": 658,
+      "sha256": "f12f926f7b3bccb1908895c9e3db1231da51d3bab57964429da6a937b1253d88"
+    },
+    {
+      "name": "server-timeout.pid",
+      "bytes": 8,
+      "sha256": "38f8fed760f3c7a809cd2417b25701003fd9461c5a1781f90a831e8843a22b8a"
+    },
+    {
+      "name": "server.stdout",
+      "bytes": 7989,
+      "sha256": "ea4c430e88b0769d1ce108150fdca5e101730e38fc5cbb868f4565e366f2c2e3"
+    },
+    {
+      "name": "server.stderr",
+      "bytes": 2345,
+      "sha256": "0354978989a521e9c1045de8384e310eb84d36e3f02048ded2348a88736b74ca"
+    },
+    {
+      "name": "process-observations.jsonl",
+      "bytes": 215538,
+      "sha256": "51a5a2a13096bf3926e2d971900492aee4f2e090b7702cf4fe611f22dd5796a8"
+    },
+    {
+      "name": "listener.txt",
+      "bytes": 92,
+      "sha256": "eb27115503e7ba1d0a37e016e98a4e0b108d032c282ad000b80303107d031141"
+    },
+    {
+      "name": "http-code.txt",
+      "bytes": 4,
+      "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+    },
+    {
+      "name": "curl.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "response.headers",
+      "bytes": 127,
+      "sha256": "a8fd91bad6d770f329838a466f57b1717fa4d7332a91f5c075674c5e459d83b0"
+    },
+    {
+      "name": "response.json",
+      "bytes": 3932,
+      "sha256": "c63c3af59a38adaf4f52d6cca9af8f49a5df298797e233a5233da04345e032e8"
+    },
+    {
+      "name": "curl.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "name": "response-summary.json",
+      "bytes": 4845,
+      "sha256": "36b84f2628928d225168589645dab60938343fb080b3ecb9f054940b28f36236"
+    },
+    {
+      "name": "cleanup.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cleanup.stderr",
+      "bytes": 1262,
+      "sha256": "b1890bb6d0e144b9ac8a6f9a66c73a1fe48413809be72d3d02c9ba99f3c45a79"
+    },
+    {
+      "name": "gpu-apps-after.csv",
+      "bytes": 51,
+      "sha256": "59256ce249b7c6656f282d7e4509551811130705747a344acfbc0e97651831b2"
+    },
+    {
+      "name": "gpu-apps-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu-memory-after.csv",
+      "bytes": 207,
+      "sha256": "6169ec3d5a10a86d84c613ba6b26b3e0f2fb5cac7fd9b18d1a9a60a2e2575fbf"
+    },
+    {
+      "name": "gpu-memory-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "terminal.json",
+      "bytes": 99,
+      "sha256": "e6750e575d5c6e7a5926b609ca77d252d59edcf68839d383f69980a26023b2ce"
+    },
+    {
+      "name": "outer-exit.json",
+      "bytes": 46,
+      "sha256": "0d26cff72f4abf25a4e1abb77745e1b41fe6ce1c1e815f1155a8ed564b236954"
+    },
+    {
+      "name": "cleanup-recovery1.stdout",
+      "bytes": 67,
+      "sha256": "77b19d74d3e8a91dcbaef48d585ae902720d3a814948d7dee3e61d505b4e7a05"
+    },
+    {
+      "name": "cleanup-recovery1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cleanup-recovery1.exit.json",
+      "bytes": 46,
+      "sha256": "9e78fa4877694b92ab622e42656ff4b82d8388cf5b8de4a72fdda14afd9ae125"
+    },
+    {
+      "name": "gpu-memory-recovery1.csv",
+      "bytes": 204,
+      "sha256": "33e1182555d09a9ca45996432317b90b233d6c3382b9f45c259dd7db16698650"
+    }
+  ]
+}
