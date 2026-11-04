@@ -1,0 +1,113 @@
+{
+  "G2_v1": "REQUEST_CHANGES BLOCKING1 missing terminal reconciliation after external timeout",
+  "CPU_only": true,
+  "GPU_executed": false,
+  "source_adapt_commit": "06fbcb6f3f3b931950077077c9a040e9c238deee",
+  "CPU_test": {
+    "CPU_only": true,
+    "synthetic_HTTP_not_model": true,
+    "target_packages_imported": false,
+    "GPU_executed": false,
+    "test_root": "/local/boyjiang/epd/runs/cpu-c4-client-1793793019073335625",
+    "cases": [
+      {
+        "mode": "ok",
+        "client_exit": 0,
+        "successes": 4,
+        "peak_inflight": 4,
+        "all_four_intents_terminals_and_raw_responses_preserved": true
+      },
+      {
+        "mode": "http500",
+        "client_exit": 1,
+        "successes": 3,
+        "peak_inflight": 4,
+        "all_four_intents_terminals_and_raw_responses_preserved": true
+      },
+      {
+        "mode": "missing-issued",
+        "client_exit": 1,
+        "successes": 4,
+        "peak_inflight": 4,
+        "all_four_intents_terminals_and_raw_responses_preserved": true
+      }
+    ],
+    "client_sha256": "a5460cc1787c41daa06a17c8a0b52c20440888b46b96d59a27b39976d0009cdb"
+  },
+  "timeout_CPU_test": {
+    "CPU_only": true,
+    "GPU_executed": false,
+    "actual_POSIX_timeout_client_exit": 124,
+    "wrapper_exit_after_finalization": 1,
+    "set_e_did_not_skip_finalization": true,
+    "existing_success_and_truncated_terminal_bytes_preserved": true,
+    "synthetic_partial_terminal_injected_after_timeout": true,
+    "four_intents_and_four_reconciled_outcomes": true,
+    "unknown_metrics_are_null": true,
+    "test_root": "/local/boyjiang/epd/runs/cpu-c4-timeout-1793793754302864192",
+    "finalizer_sha256": "5b646e564e6bebc13a876305b38d30e49033f01a0d4fe47c9c947746f137f5cd"
+  },
+  "healthy_finalization": {
+    "client_process_exit": 0,
+    "reconciled_epoch": 1793793885.577158,
+    "record_references": [
+      {
+        "index": 0,
+        "path": "client-0.record.json",
+        "derived": false
+      },
+      {
+        "index": 1,
+        "path": "client-1.record.json",
+        "derived": false
+      },
+      {
+        "index": 2,
+        "path": "client-2.record.json",
+        "derived": false
+      },
+      {
+        "index": 3,
+        "path": "client-3.record.json",
+        "derived": false
+      }
+    ],
+    "incomplete_indices": [],
+    "original_batch_present": true,
+    "original_batch_valid": true,
+    "measurement_accepted": true
+  },
+  "healthy_original_terminal_sha256_unchanged": true,
+  "file_manifest": [
+    {
+      "path": "/local/boyjiang/epd/assets/build/official_c4_client.py",
+      "bytes": 7662,
+      "sha256": "a5460cc1787c41daa06a17c8a0b52c20440888b46b96d59a27b39976d0009cdb"
+    },
+    {
+      "path": "/local/boyjiang/epd/assets/build/official_c4_finalize.py",
+      "bytes": 3251,
+      "sha256": "5b646e564e6bebc13a876305b38d30e49033f01a0d4fe47c9c947746f137f5cd"
+    },
+    {
+      "path": "/local/boyjiang/epd/assets/build/official_epd_concurrent_four.sh",
+      "bytes": 9231,
+      "sha256": "be16695a1690dd03b19edf934b818bd81757190e99363380a93fba179bb1d134"
+    },
+    {
+      "path": "/local/boyjiang/epd/assets/build/official_d_concurrent_four.sh",
+      "bytes": 9119,
+      "sha256": "d423985b8d8035894767ac10c003e13e7083e3070d1498d12c5468c9452ddf8d"
+    },
+    {
+      "path": "/local/boyjiang/epd/assets/build/test_official_c4_client_cpu.py",
+      "bytes": 5341,
+      "sha256": "360a541e9bf5052578e038417e5e21e7b5a2994facb515b034a06c9d3683e5dc"
+    },
+    {
+      "path": "/local/boyjiang/epd/assets/build/test_official_c4_timeout_cpu.py",
+      "bytes": 5858,
+      "sha256": "238e9d5e75145084512bc660a29b200db965532a7ac954fa6b6d186da312e1c4"
+    }
+  ]
+}

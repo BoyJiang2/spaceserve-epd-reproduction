@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：C4 G2 v2 APPROVE/BLOCKING0，原v1终态收口BLOCKING已闭合。真实client.exit先保存，独立finalize在test失败之前；未知HTTP/完成时标及metrics为null，原terminal/response不覆盖、不补造batch。实际POSIX超时CPU测试及正常batch不覆盖检查通过。仅所列v2 client/finalizer/runner，精确发布/fresh资源/900秒余量后先三卡EPD再单卡D正确性参考。finalizer0仅收口成功，模型/采集/释放仍G3。只依据转送内容未独立读/hash，CPU不证明模型。
