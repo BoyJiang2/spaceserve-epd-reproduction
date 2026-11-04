@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G1/G2 APPROVE/BLOCKING0，仅适配23694的EPD四不同图片单请求诊断。独立诊断prompt不替正式协议，不继承9b模型G3。精确发布核同及fresh预约/CPU/UUID/空闲/端口/无live/源码工具库SHA、900秒余量后执行；保留输入指纹/实际prompt/完整输出/事件/释放。HTTP200/128事件不证明四图都正确使用/顺序语义/KV数值；截断也原样保存。仅转送内容审查，未独立读图/脚本/hash。
