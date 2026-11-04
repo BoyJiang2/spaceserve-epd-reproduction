@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104，G2 APPROVE/BLOCKING0，仅native参数从JSON形式改为image=1；直接对应真实argparse错误，数量仍1、模型/单GPU/协议不变。依据主执行者转送原件与bash-n0，未独立重算新SHA。s3前精确版本离机同步核验、SOURCE_ROLE=native、fresh资源/端口/无live，不外推fork。s2 work1/cleanup1及恢复保留，对非Z不可读进程继续拒绝，import成功非模型/完整ABI运行通过。
