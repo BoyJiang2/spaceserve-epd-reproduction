@@ -1,0 +1,1 @@
+独立subagent /root/official_epd_runtime_review_1104：G1/G2 APPROVE/BLOCKING0，仅三个完整模型副本正确性诊断。三个独立官方D入口各可见单GPU/D1/TP1，独立Ray目录/端口/RUNID，复用PD身份清理不扫全UID。每副本独立满足900秒余量；精确离机同步及fresh资源/SHA后运行。分别核实际模块/模型/设备/输出/释放，非正式均衡分发或吞吐证明。仅依据转送材料，未独立读文件/hash。

@@ -1,0 +1,28 @@
+{
+  "source_baseline": "9b111f710dfb4724072b603d626a1e4dad93ef1f",
+  "mode": "three independent full-model replicas, single-request correctness per endpoint",
+  "model": "MiniCPM-V-2_6",
+  "dtype": "FP16",
+  "TP_per_replica": 1,
+  "total_gpu_budget": 3,
+  "gpu_ids": [
+    0,
+    1,
+    2
+  ],
+  "ports": [
+    19264,
+    19265,
+    19266
+  ],
+  "runs": [
+    "d1a",
+    "d1b",
+    "d1c"
+  ],
+  "budget_seconds_per_replica": 900,
+  "input": "same single COCO000328 greedy128 as EPD/PD",
+  "script_sha256": "3a8cc7042af4e0184bad87a9242c5790d080b33df3c308cb72af96310539d603",
+  "helper_sha256": "eee078afa9aebdd7d0838331d2e85d298a769bfae5322c2432fb73e40efe1ee3",
+  "GPU_run": false
+}
